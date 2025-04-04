@@ -206,18 +206,11 @@ public class WallEditor : MonoBehaviour {
         }
 
         MeshRenderer renderer = wall.GetComponent<MeshRenderer>();
-        Collider collider = wall.GetComponent<Collider>();
 
-        // renderer.enabled = newState; // Enable/disable the visual part of the wall
-        
-        // collider.enabled = true;
         renderer.material = newState ? normalMaterial : ghostMaterial;
 
         _previousStatus = newState;
 
         // NOTICE - Missing wall is not completely inactive!
-
-        // wall.SetActive(newState);
-        // wall.GetComponent<MeshRenderer>().material = newState ? normalMaterial : ghostMaterial;
     }
 }
