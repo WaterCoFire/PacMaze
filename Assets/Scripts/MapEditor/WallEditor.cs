@@ -39,6 +39,8 @@ public class WallEditor : MonoBehaviour {
     public GameObject[] verticalWalls10;
     public GameObject[] verticalWalls11;
 
+    public bool wallMode;
+
     private Dictionary<GameObject, (bool isHorizontal, int row, int column)> _wallLookup = new();
 
     // Start is called before the first frame update
@@ -152,6 +154,7 @@ public class WallEditor : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (!wallMode) return;
         HandleMouseInput();
     }
 
@@ -183,11 +186,11 @@ public class WallEditor : MonoBehaviour {
         bool wallExists = isHorizontal ? _horizontalWallStatus[row, column] : _verticalWallStatus[row, column];
 
         if (wallExists) {
-            Debug.Log("EXIST");
+            // Debug.Log("EXIST");
             renderer.material = highlightMaterial; // Existing wall - highlight
             _previousStatus = true;
         } else {
-            Debug.Log("NOT EXIST");
+            // Debug.Log("NOT EXIST");
             renderer.material = ghostMaterial; // Missing wall - highlight (ghost)
             _previousStatus = false;
         }
@@ -213,6 +216,17 @@ public class WallEditor : MonoBehaviour {
         // NOTICE - Missing wall is not completely inactive!
     }
     
+    /**
+     * Obtains the data about the wall.
+     * Called in MapEditor.
+     */
+    public WallData GetWallData() {
+        return new WallData(_horizontalWallStatus, _verticalWallStatus);
+    }
+    
+    /**
+     * Data structure for wall data.
+     */
     public struct WallData {
         public bool[,] HorizontalWallStatus;
         public bool[,] VerticalWallStatus;
@@ -221,9 +235,5 @@ public class WallEditor : MonoBehaviour {
             HorizontalWallStatus = horizontal;
             VerticalWallStatus = vertical;
         }
-    }
-
-    public WallData GetWallData() {
-        return new WallData(_horizontalWallStatus, _verticalWallStatus);
     }
 }
