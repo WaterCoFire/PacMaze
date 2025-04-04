@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -212,5 +211,19 @@ public class WallEditor : MonoBehaviour {
         _previousStatus = newState;
 
         // NOTICE - Missing wall is not completely inactive!
+    }
+    
+    public struct WallData {
+        public bool[,] HorizontalWallStatus;
+        public bool[,] VerticalWallStatus;
+
+        public WallData(bool[,] horizontal, bool[,] vertical) {
+            HorizontalWallStatus = horizontal;
+            VerticalWallStatus = vertical;
+        }
+    }
+
+    public WallData GetWallData() {
+        return new WallData(_horizontalWallStatus, _verticalWallStatus);
     }
 }
