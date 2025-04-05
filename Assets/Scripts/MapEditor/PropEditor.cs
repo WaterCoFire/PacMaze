@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MapEditor {
     /**
@@ -34,11 +35,11 @@ namespace MapEditor {
         public GameObject ghostSpawnPrefab;
         public GameObject pacmanSpawnPrefab;
         public GameObject powerPelletPrefab;
-        public GameObject speedPrefab;
-        public GameObject killPrefab;
-        public GameObject slowPrefab;
-        public GameObject reinforcementPrefab;
-        public GameObject luckyBeanPrefab;
+        public GameObject fastWheelPrefab;
+        public GameObject niceBombPrefab;
+        public GameObject slowWheelPrefab;
+        public GameObject badCherryPrefab;
+        public GameObject luckyDicePrefab;
 
         public bool tileMode;
 
@@ -49,11 +50,11 @@ namespace MapEditor {
             { "PacmanSpawn", 0 },
             { "GhostSpawn", 0 },
             { "PowerPellet", 0 },
-            { "Speed", 0 },
-            { "Kill", 0 },
-            { "Slow", 0 },
-            { "Reinforcement", 0 },
-            { "LuckyBean", 0 }
+            { "FastWheel", 0 },
+            { "NiceBomb", 0 },
+            { "SlowWheel", 0 },
+            { "BadCherry", 0 },
+            { "LuckyDice", 0 }
         };
 
         private readonly int _maxPropCount = 5; // Max prop count (EXCEPT PACMAN SPAWN POINT)
@@ -145,11 +146,11 @@ namespace MapEditor {
                 "GhostSpawn" => ghostSpawnPrefab,
                 "PacmanSpawn" => pacmanSpawnPrefab,
                 "PowerPellet" => powerPelletPrefab,
-                "Speed" => speedPrefab,
-                "Kill" => killPrefab,
-                "Slow" => slowPrefab,
-                "Reinforcement" => reinforcementPrefab,
-                "LuckyBean" => luckyBeanPrefab,
+                "FastWheel" => fastWheelPrefab,
+                "NiceBomb" => niceBombPrefab,
+                "SlowWheel" => slowWheelPrefab,
+                "BadCherry" => badCherryPrefab,
+                "LuckyDice" => luckyDicePrefab,
                 _ => null
             };
         }
