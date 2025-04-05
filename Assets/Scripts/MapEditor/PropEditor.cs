@@ -11,16 +11,16 @@ namespace MapEditor {
      * - Pacman Spawn Point
      *
      * GOOD ONES
-     * - Power Pellet: Like the classical Pacman
-     * - Speed： Player becomes faster for 5 sec
-     * - Kill: Press K to kill the nearest ghost
+     * - Power Pellet: Like the classical Pacman Power Pellet
+     * - Fast Wheel： Player becomes faster for 5 sec
+     * - Nice Bomb: Press K to kill the nearest ghost
      *
      * BAD ONES
-     * - Slow: Player slows down for 5 sec
-     * - Reinforcement: One more ghost (spawns randomly)
+     * - Slow Wheel: Player slows down for 5 sec
+     * - Bad Cherry: One more ghost (spawns randomly)
      *
      * RANDOM
-     * - Lucky Bean: One of the five props
+     * - Lucky Dice: One of the five props
      */
     public class PropEditor : MonoBehaviour {
         private Vector3 _selectedTile; // the selected tile
