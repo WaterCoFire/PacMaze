@@ -11,7 +11,7 @@ namespace MapEditor {
         // Normal color 8C79FF
         // Highlight color E4FF49
         public Button wallModeButton; // Editing wall mode
-        public Button propModeButton; // Eduting prop mode
+        public Button propModeButton; // Editing prop mode
 
         public TMP_Text mapNameText;
         public TMP_Text modePromptText;
