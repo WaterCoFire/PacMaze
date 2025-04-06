@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace MapEditor {
     /**
@@ -40,8 +41,19 @@ namespace MapEditor {
         public GameObject slowWheelPrefab;
         public GameObject badCherryPrefab;
         public GameObject luckyDicePrefab;
+        
+        // Buttons
+        public Button ghostSpawnButton;
+        public Button pacmanSpawnButton;
+        public Button powerPelletButton;
+        public Button fastWheelButton;
+        public Button niceBombButton;
+        public Button slowWheelButton;
+        public Button badCherryButton;
+        public Button luckyDiceButton;
+        public Button clearButton;
 
-        public bool tileMode;
+        public bool propMode;
 
         private Dictionary<Vector3, GameObject> _propOnTiles = new(); // Prop on every tile
 
@@ -63,12 +75,12 @@ namespace MapEditor {
         private readonly int _gridSize = 11; // Map grid size
 
         private void Start() {
-            tileMode = false;
+            propMode = false;
         }
 
         // Handle mouse press
         void Update() {
-            if (!tileMode) return;
+            if (!propMode) return;
             if (Input.GetMouseButtonDown(0)) {
                 SelectTile();
             }

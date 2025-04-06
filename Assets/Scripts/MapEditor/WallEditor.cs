@@ -45,6 +45,8 @@ public class WallEditor : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        wallMode = true;
+        
         // TODO 默认地图优化
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[0, column] = true;
