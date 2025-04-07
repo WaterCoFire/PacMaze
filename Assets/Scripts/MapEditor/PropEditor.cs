@@ -82,13 +82,16 @@ namespace MapEditor {
         public TMP_Text badCherryCountText;
         public TMP_Text luckyDiceCountText;
 
+        public Button quitButton;
+        public Button saveAndQuitButton;
+
         public bool propMode;
 
         private Dictionary<Vector3, GameObject> _propOnTiles = new(); // Prop on every tile
 
         // FIXED counts of all the props
         private Dictionary<string, int> _fixedPropCounts = new() {
-            { "PacmanSpawn", 1 },
+            { "PacmanSpawn", 0 },
             { "GhostSpawn", 0 },
             { "PowerPellet", 0 },
             { "FastWheel", 0 },
@@ -100,7 +103,7 @@ namespace MapEditor {
 
         // TOTAL counts of all the props - including FIXED and RANDOM ones
         private Dictionary<string, int> _totalPropCounts = new() {
-            { "GhostSpawn", 0 },
+            { "GhostSpawn", 2 },
             { "PowerPellet", 0 },
             { "FastWheel", 0 },
             { "NiceBomb", 0 },
@@ -116,7 +119,12 @@ namespace MapEditor {
         private void Start() {
             propMode = false;
 
-            // Button functions bonding
+            SetButtonActionListener();
+            LoadPropTotalCount();
+        }
+        
+        // Button action listener setting
+        private void SetButtonActionListener() {
             ghostSpawnButton.onClick.AddListener(OnGhostSpawnButtonClick);
             pacmanSpawnButton.onClick.AddListener(OnPacmanSpawnButtonClick);
             powerPelletButton.onClick.AddListener(OnPowerPelletButtonClick);
@@ -125,6 +133,7 @@ namespace MapEditor {
             slowWheelButton.onClick.AddListener(OnSlowWheelButtonClick);
             badCherryButton.onClick.AddListener(OnBadCherryButtonClick);
             luckyDiceButton.onClick.AddListener(OnLuckyDiceButtonClick);
+            
             removeButton.onClick.AddListener(OnRemoveButtonClick);
 
             ghostSpawnAdd.onClick.AddListener(OnGhostSpawnAddClick);
@@ -141,6 +150,17 @@ namespace MapEditor {
             badCherryMinus.onClick.AddListener(OnBadCherryMinusClick);
             luckyDiceAdd.onClick.AddListener(OnLuckyDiceAddClick);
             luckyDiceMinus.onClick.AddListener(OnLuckyDiceMinusClick);
+        }
+
+        // Load the total count information UI text for all props
+        private void LoadPropTotalCount() {
+            ghostCountText.text = "Total:" + _totalPropCounts["GhostSpawn"];
+            powerPelletCountText.text = "Total:" + _totalPropCounts["PowerPellet"];
+            fastWheelCountText.text = "Total:" + _totalPropCounts["FastWheel"];
+            niceBombCountText.text = "Total:" + _totalPropCounts["NiceBomb"];
+            slowWheelCountText.text = "Total:" + _totalPropCounts["SlowWheel"];
+            badCherryCountText.text = "Total:" + _totalPropCounts["BadCherry"];
+            luckyDiceCountText.text = "Total:" + _totalPropCounts["LuckyDice"];
         }
 
         // Handle mouse press
@@ -182,6 +202,13 @@ namespace MapEditor {
 
                     Debug.Log($"Tile Selected: {_selectedTile}");
                 }
+
+                // UI update
+                if (!_propOnTiles.ContainsKey(_selectedTile) || _propOnTiles[_selectedTile] == null) {
+                    PropMissingButtonUpdate();
+                } else {
+                    PropPlacedButtonUpdate();
+                }
             }
         }
 
@@ -209,7 +236,7 @@ namespace MapEditor {
                 return;
             }
 
-            if (_fixedPropCounts[propType] > _totalPropCounts[propType]) {
+            if (propType != "PacmanSpawn" && _fixedPropCounts[propType] > _totalPropCounts[propType]) {
                 Debug.Log($"WARNING Maximum of: {propType} reached (defined by the total number).");
                 return;
             }
@@ -230,8 +257,17 @@ namespace MapEditor {
 
         // Handle removals
         public void RemoveProp() {
-            if (!_tileSelected) return;
-            if (!_propOnTiles.ContainsKey(_selectedTile) || _propOnTiles[_selectedTile] == null) return;
+            Debug.Log("Removing");
+            
+            if (!_tileSelected) {
+                Debug.LogError("NO TILE SELECTED");
+                return;
+            }
+
+            if (!_propOnTiles.ContainsKey(_selectedTile) || _propOnTiles[_selectedTile] == null) {
+                Debug.LogError("TILE CONTAINS NO PROPS OR NULL");
+                return;
+            }
 
             GameObject propToRemove = _propOnTiles[_selectedTile];
             if (propToRemove != null) {
@@ -239,7 +275,11 @@ namespace MapEditor {
                 _propOnTiles[_selectedTile] = null;
 
                 Debug.Log("Prop to be removed: " + propToRemove.name);
+                
+                // TODO (Clone) issue
                 _fixedPropCounts[propToRemove.name]--;
+            } else {
+                Debug.LogError("PROP TO REMOVE IS NULL");
             }
 
             // UI update
@@ -346,7 +386,7 @@ namespace MapEditor {
             }
 
             // If already less than five ghosts, enable the add button
-            if (_totalPropCounts["GhostSpawn"] == 5) {
+            if (_totalPropCounts["GhostSpawn"] == 4) {
                 ghostSpawnAdd.gameObject.SetActive(true);
             }
         }
@@ -388,7 +428,7 @@ namespace MapEditor {
             }
 
             // If already less than five power pellets, enable the add button
-            if (_totalPropCounts["PowerPellet"] == 5) {
+            if (_totalPropCounts["PowerPellet"] == 4) {
                 powerPelletAdd.gameObject.SetActive(true);
             }
         }
@@ -430,7 +470,7 @@ namespace MapEditor {
             }
 
             // If already less than five fast wheels, enable the add button
-            if (_totalPropCounts["FastWheel"] == 5) {
+            if (_totalPropCounts["FastWheel"] == 4) {
                 fastWheelAdd.gameObject.SetActive(true);
             }
         }
@@ -472,7 +512,7 @@ namespace MapEditor {
             }
 
             // If already less than five nice bombs, enable the add button
-            if (_totalPropCounts["NiceBomb"] == 5) {
+            if (_totalPropCounts["NiceBomb"] == 4) {
                 niceBombAdd.gameObject.SetActive(true);
             }
         }
@@ -514,7 +554,7 @@ namespace MapEditor {
             }
 
             // If already less than five slow wheels, enable the add button
-            if (_totalPropCounts["SlowWheel"] == 5) {
+            if (_totalPropCounts["SlowWheel"] == 4) {
                 slowWheelAdd.gameObject.SetActive(true);
             }
         }
@@ -556,7 +596,7 @@ namespace MapEditor {
             }
 
             // If already less than five bad cherries, enable the add button
-            if (_totalPropCounts["BadCherry"] == 5) {
+            if (_totalPropCounts["BadCherry"] == 4) {
                 badCherryAdd.gameObject.SetActive(true);
             }
         }
@@ -598,7 +638,7 @@ namespace MapEditor {
             }
 
             // If already less than five lucky dices, enable the add button
-            if (_totalPropCounts["LuckyDice"] == 5) {
+            if (_totalPropCounts["LuckyDice"] == 4) {
                 luckyDiceAdd.gameObject.SetActive(true);
             }
         }
@@ -616,21 +656,31 @@ namespace MapEditor {
             luckyDiceButton.enabled = false;
 
             removeButton.enabled = true;
+            
+            Debug.Log("UI updated: Only remove button available");
         }
 
         // When a prop is removed/missing on a block:
         // Disable the remove button, enable all props button
         private void PropMissingButtonUpdate() {
+            // TODO Disable props that are all occupied by fixed ones
+            
             removeButton.enabled = false;
 
             ghostSpawnButton.enabled = true;
-            pacmanSpawnButton.enabled = true;
             powerPelletButton.enabled = true;
             fastWheelButton.enabled = true;
             niceBombButton.enabled = true;
             slowWheelButton.enabled = true;
             badCherryButton.enabled = true;
             luckyDiceButton.enabled = true;
+            
+            // Pacman spawn button logic
+            if (_fixedPropCounts["PacmanSpawn"] == 0) {
+                pacmanSpawnButton.enabled = true;
+            }
+            
+            Debug.Log("UI updated: Only prop buttons available");
         }
     }
 }

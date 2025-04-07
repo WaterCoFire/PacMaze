@@ -30,15 +30,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1707.4147
+      value: 2.2558916
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1012.94214
+      value: 0.08840513
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -71.760155
+      value: 4.25
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -112,41 +112,5 @@ PrefabInstance:
     - {fileID: 9500000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 100000, guid: 07b805cc50f7b21469eb77045e84e87c,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7433619460415397012}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
---- !u!1 &4887355432709199903 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: 07b805cc50f7b21469eb77045e84e87c,
-    type: 3}
-  m_PrefabInstance: {fileID: 4887355432709168831}
-  m_PrefabAsset: {fileID: 0}
---- !u!143 &7433619460415397012
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4887355432709199903}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.5, z: 0}

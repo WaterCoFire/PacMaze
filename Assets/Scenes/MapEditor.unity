@@ -647,7 +647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &13021861
 Transform:
   m_ObjectHideFlags: 0
@@ -43968,6 +43968,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestGround
       objectReference: {fileID: 0}
+    - target: {fileID: 4651827728719459063, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -50044,7 +50049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1969533870074210, guid: 807a583b1382b7543ad9555f56ddc2af, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1969533870074210, guid: 807a583b1382b7543ad9555f56ddc2af, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -50575,7 +50580,7 @@ MonoBehaviour:
   slowWheelButton: {fileID: 121250278}
   badCherryButton: {fileID: 1100223294}
   luckyDiceButton: {fileID: 1329974617}
-  removeButton: {fileID: 1450119741}
+  removeButton: {fileID: 971843526}
   ghostSpawnAdd: {fileID: 478039116}
   ghostSpawnMinus: {fileID: 1922291938}
   powerPelletAdd: {fileID: 118786554}
@@ -50597,6 +50602,8 @@ MonoBehaviour:
   slowWheelCountText: {fileID: 1218296966}
   badCherryCountText: {fileID: 160795461}
   luckyDiceCountText: {fileID: 242448466}
+  quitButton: {fileID: 0}
+  saveAndQuitButton: {fileID: 0}
   propMode: 0
 --- !u!1001 &1755040639
 PrefabInstance:
