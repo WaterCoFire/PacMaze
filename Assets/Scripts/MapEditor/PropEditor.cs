@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -41,8 +42,8 @@ namespace MapEditor {
         public GameObject slowWheelPrefab;
         public GameObject badCherryPrefab;
         public GameObject luckyDicePrefab;
-        
-        // Buttons
+
+        // Props buttons
         public Button ghostSpawnButton;
         public Button pacmanSpawnButton;
         public Button powerPelletButton;
@@ -53,12 +54,49 @@ namespace MapEditor {
         public Button luckyDiceButton;
         public Button clearButton;
 
+        // Add/Minus buttons
+        public Button ghostSpawnAdd;
+        public Button ghostSpawnMinus;
+        public Button powerPelletAdd;
+        public Button powerPelletMinus;
+        public Button fastWheelAdd;
+        public Button fastWheelMinus;
+        public Button niceBombAdd;
+        public Button niceBombMinus;
+        public Button slowWheelAdd;
+        public Button slowWheelMinus;
+        public Button badCherryAdd;
+        public Button badCherryMinus;
+        public Button luckyDiceAdd;
+        public Button luckyDiceMinus;
+
+        // Count texts
+        public TMP_Text ghostCountText;
+        public TMP_Text powerPelletCountText;
+        public TMP_Text fastWheelCountText;
+        public TMP_Text niceBombCountText;
+        public TMP_Text slowWheelCountText;
+        public TMP_Text badCherryCountText;
+        public TMP_Text luckyDiceCountText;
+
         public bool propMode;
 
         private Dictionary<Vector3, GameObject> _propOnTiles = new(); // Prop on every tile
 
-        // Manages the counts of all the props
-        private Dictionary<string, int> _propCounts = new() {
+        // FIXED counts of all the props
+        private Dictionary<string, int> _fixedPropCounts = new() {
+            { "PacmanSpawn", 0 },
+            { "GhostSpawn", 0 },
+            { "PowerPellet", 0 },
+            { "FastWheel", 0 },
+            { "NiceBomb", 0 },
+            { "SlowWheel", 0 },
+            { "BadCherry", 0 },
+            { "LuckyDice", 0 }
+        };
+
+        // TOTAL counts of all the props - including FIXED and RANDOM ones
+        private Dictionary<string, int> _totalPropCounts = new() {
             { "PacmanSpawn", 0 },
             { "GhostSpawn", 0 },
             { "PowerPellet", 0 },
@@ -76,6 +114,32 @@ namespace MapEditor {
 
         private void Start() {
             propMode = false;
+
+            // Button functions bonding
+            ghostSpawnButton.onClick.AddListener(OnGhostSpawnButtonClick);
+            pacmanSpawnButton.onClick.AddListener(OnPacmanSpawnButtonClick);
+            powerPelletButton.onClick.AddListener(OnPowerPelletButtonClick);
+            fastWheelButton.onClick.AddListener(OnFastWheelButtonClick);
+            niceBombButton.onClick.AddListener(OnNiceBombButtonClick);
+            slowWheelButton.onClick.AddListener(OnSlowWheelButtonClick);
+            badCherryButton.onClick.AddListener(OnBadCherryButtonClick);
+            luckyDiceButton.onClick.AddListener(OnLuckyDiceButtonClick);
+            clearButton.onClick.AddListener(OnClearButtonClick);
+
+            ghostSpawnAdd.onClick.AddListener(OnGhostSpawnAddClick);
+            ghostSpawnMinus.onClick.AddListener(OnGhostSpawnMinusClick);
+            powerPelletAdd.onClick.AddListener(OnPowerPelletAddClick);
+            powerPelletMinus.onClick.AddListener(OnPowerPelletMinusClick);
+            fastWheelAdd.onClick.AddListener(OnFastWheelAddClick);
+            fastWheelMinus.onClick.AddListener(OnFastWheelMinusClick);
+            niceBombAdd.onClick.AddListener(OnNiceBombAddClick);
+            niceBombMinus.onClick.AddListener(OnNiceBombMinusClick);
+            slowWheelAdd.onClick.AddListener(OnSlowWheelAddClick);
+            slowWheelMinus.onClick.AddListener(OnSlowWheelMinusClick);
+            badCherryAdd.onClick.AddListener(OnBadCherryAddClick);
+            badCherryMinus.onClick.AddListener(OnBadCherryMinusClick);
+            luckyDiceAdd.onClick.AddListener(OnLuckyDiceAddClick);
+            luckyDiceMinus.onClick.AddListener(OnLuckyDiceMinusClick);
         }
 
         // Handle mouse press
@@ -118,12 +182,12 @@ namespace MapEditor {
                 _propOnTiles[_selectedTile] = new GameObject();
             }
 
-            if (propType == "PacmanSpawn" && _propCounts["PacmanSpawn"] >= 1) {
+            if (propType == "PacmanSpawn" && _fixedPropCounts["PacmanSpawn"] >= 1) {
                 Debug.Log("WARNING Only one Pacman Spawn Point is allowed.");
                 return;
             }
 
-            if (_propCounts[propType] >= _maxPropCount) {
+            if (_fixedPropCounts[propType] >= _maxPropCount) {
                 Debug.Log($"WARNING Maximum of {_maxPropCount} {propType}s reached.");
                 return;
             }
@@ -136,7 +200,7 @@ namespace MapEditor {
 
             GameObject newProp = Instantiate(prefab, _selectedTile, Quaternion.identity);
             _propOnTiles[_selectedTile] = newProp;
-            _propCounts[propType]++;
+            _fixedPropCounts[propType]++;
         }
 
         // Handle removals
@@ -148,7 +212,7 @@ namespace MapEditor {
             if (propToRemove != null) {
                 Destroy(propToRemove);
                 _propOnTiles[_selectedTile] = null;
-                _propCounts[propType]--;
+                _fixedPropCounts[propType]--;
             }
         }
 
@@ -166,5 +230,56 @@ namespace MapEditor {
                 _ => null
             };
         }
+
+
+        /* On click operations */
+        // Props buttons
+        private void OnPacmanSpawnButtonClick() { }
+
+        private void OnGhostSpawnButtonClick() { }
+
+        private void OnPowerPelletButtonClick() { }
+
+        private void OnFastWheelButtonClick() { }
+
+        private void OnNiceBombButtonClick() { }
+
+        private void OnSlowWheelButtonClick() { }
+
+        private void OnBadCherryButtonClick() { }
+
+        private void OnLuckyDiceButtonClick() { }
+
+        // Clear
+        private void OnClearButtonClick() { }
+
+        // Add/minus buttons
+        private void OnGhostSpawnAddClick() { }
+
+        private void OnGhostSpawnMinusClick() { }
+
+        private void OnPowerPelletAddClick() { }
+
+        private void OnPowerPelletMinusClick() { }
+
+        private void OnFastWheelAddClick() { }
+
+        private void OnFastWheelMinusClick() { }
+
+        private void OnNiceBombAddClick() { }
+
+        private void OnNiceBombMinusClick() { }
+
+        private void OnSlowWheelAddClick() { }
+
+        private void OnSlowWheelMinusClick() { }
+
+        private void OnBadCherryAddClick() { }
+
+        private void OnBadCherryMinusClick() { }
+
+        private void OnLuckyDiceAddClick() { }
+
+        private void OnLuckyDiceMinusClick() { }
     }
 }
