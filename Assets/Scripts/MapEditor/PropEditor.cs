@@ -664,7 +664,6 @@ namespace MapEditor {
         // Disable the remove button, enable all props button
         private void PropMissingButtonUpdate() {
             // TODO Disable props that are all occupied by fixed ones
-            
             removeButton.enabled = false;
 
             ghostSpawnButton.enabled = true;
