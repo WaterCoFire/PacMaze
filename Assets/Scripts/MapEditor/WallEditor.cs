@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Data;
 using UnityEngine;
 
 /**
@@ -224,18 +225,5 @@ public class WallEditor : MonoBehaviour {
      */
     public WallData GetWallData() {
         return new WallData(_horizontalWallStatus, _verticalWallStatus);
-    }
-    
-    /**
-     * Data structure for wall data.
-     */
-    public struct WallData {
-        public bool[,] HorizontalWallStatus;
-        public bool[,] VerticalWallStatus;
-
-        public WallData(bool[,] horizontal, bool[,] vertical) {
-            HorizontalWallStatus = horizontal;
-            VerticalWallStatus = vertical;
-        }
     }
 }

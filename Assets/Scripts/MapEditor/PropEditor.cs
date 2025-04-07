@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -33,6 +34,8 @@ namespace MapEditor {
         public Material tileNormalMaterial;
         public Material tileHighlightMaterial;
 
+        private GameObject _lastSelectedTile; // Last selected tile (to change that to normal material)
+
         // All prop models
         public GameObject ghostSpawnPrefab;
         public GameObject pacmanSpawnPrefab;
@@ -52,7 +55,7 @@ namespace MapEditor {
         public Button slowWheelButton;
         public Button badCherryButton;
         public Button luckyDiceButton;
-        public Button clearButton;
+        public Button removeButton;
 
         // Add/Minus buttons
         public Button ghostSpawnAdd;
@@ -85,7 +88,7 @@ namespace MapEditor {
 
         // FIXED counts of all the props
         private Dictionary<string, int> _fixedPropCounts = new() {
-            { "PacmanSpawn", 0 },
+            { "PacmanSpawn", 1 },
             { "GhostSpawn", 0 },
             { "PowerPellet", 0 },
             { "FastWheel", 0 },
@@ -97,7 +100,6 @@ namespace MapEditor {
 
         // TOTAL counts of all the props - including FIXED and RANDOM ones
         private Dictionary<string, int> _totalPropCounts = new() {
-            { "PacmanSpawn", 0 },
             { "GhostSpawn", 0 },
             { "PowerPellet", 0 },
             { "FastWheel", 0 },
@@ -107,7 +109,6 @@ namespace MapEditor {
             { "LuckyDice", 0 }
         };
 
-        private readonly int _maxPropCount = 5; // Max prop count (EXCEPT PACMAN SPAWN POINT)
         private readonly Vector3 _gridStart = new(-15, 0, 15); // The top left corner
         private readonly float _gridSpacing = 3.0f; // The length of each tile
         private readonly int _gridSize = 11; // Map grid size
@@ -124,7 +125,7 @@ namespace MapEditor {
             slowWheelButton.onClick.AddListener(OnSlowWheelButtonClick);
             badCherryButton.onClick.AddListener(OnBadCherryButtonClick);
             luckyDiceButton.onClick.AddListener(OnLuckyDiceButtonClick);
-            clearButton.onClick.AddListener(OnClearButtonClick);
+            removeButton.onClick.AddListener(OnRemoveButtonClick);
 
             ghostSpawnAdd.onClick.AddListener(OnGhostSpawnAddClick);
             ghostSpawnMinus.onClick.AddListener(OnGhostSpawnMinusClick);
@@ -158,6 +159,21 @@ namespace MapEditor {
                 if (tilePosition != _selectedTile) {
                     _selectedTile = tilePosition;
                     _tileSelected = true;
+
+                    // Change the material of the last tile back to the normal one
+                    if (_lastSelectedTile != null) {
+                        var renderer = _lastSelectedTile.GetComponent<Renderer>();
+                        if (renderer != null) renderer.material = tileNormalMaterial;
+                    }
+
+                    // Set the material of the currently selected tile
+                    GameObject currentTile = hit.collider.gameObject;
+                    var currentRenderer = currentTile.GetComponent<Renderer>();
+                    if (currentRenderer != null) currentRenderer.material = tileHighlightMaterial;
+
+                    // Update
+                    _lastSelectedTile = currentTile;
+
                     Debug.Log($"Tile Selected: {_selectedTile}");
                 }
             }
@@ -187,8 +203,8 @@ namespace MapEditor {
                 return;
             }
 
-            if (_fixedPropCounts[propType] >= _maxPropCount) {
-                Debug.Log($"WARNING Maximum of {_maxPropCount} {propType}s reached.");
+            if (_fixedPropCounts[propType] > _totalPropCounts[propType]) {
+                Debug.Log($"WARNING Maximum of: {propType} reached (defined by the total number).");
                 return;
             }
 
@@ -201,10 +217,13 @@ namespace MapEditor {
             GameObject newProp = Instantiate(prefab, _selectedTile, Quaternion.identity);
             _propOnTiles[_selectedTile] = newProp;
             _fixedPropCounts[propType]++;
+
+            // UI update
+            PropPlacedButtonUpdate();
         }
 
         // Handle removals
-        public void RemoveProp(string propType) {
+        public void RemoveProp() {
             if (!_tileSelected) return;
             if (!_propOnTiles.ContainsKey(_selectedTile) || _propOnTiles[_selectedTile] == null) return;
 
@@ -212,8 +231,13 @@ namespace MapEditor {
             if (propToRemove != null) {
                 Destroy(propToRemove);
                 _propOnTiles[_selectedTile] = null;
-                _fixedPropCounts[propType]--;
+
+                Debug.Log("Prop to be removed: " + propToRemove.name);
+                _fixedPropCounts[propToRemove.name]--;
             }
+
+            // UI update
+            PropMissingButtonUpdate();
         }
 
         // Obtain the prefab of different types of prop
@@ -231,55 +255,362 @@ namespace MapEditor {
             };
         }
 
+        // Checks if the condition is satisfied for save & quit, returns:
+        // true if all set
+        // false if the pacman spawn point is not set
+        private bool CheckCondition() {
+            if (_fixedPropCounts["PacmanSpawn"] == 0) return false;
+            return true;
+        }
 
         /* On click operations */
         // Props buttons
-        private void OnPacmanSpawnButtonClick() { }
+        private void OnPacmanSpawnButtonClick() {
+            PlaceProp("PacmanSpawn");
+        }
 
-        private void OnGhostSpawnButtonClick() { }
+        private void OnGhostSpawnButtonClick() {
+            PlaceProp("GhostSpawn");
+        }
 
-        private void OnPowerPelletButtonClick() { }
+        private void OnPowerPelletButtonClick() {
+            PlaceProp("PowerPellet");
+        }
 
-        private void OnFastWheelButtonClick() { }
+        private void OnFastWheelButtonClick() {
+            PlaceProp("FastWheel");
+        }
 
-        private void OnNiceBombButtonClick() { }
+        private void OnNiceBombButtonClick() {
+            PlaceProp("NiceBomb");
+        }
 
-        private void OnSlowWheelButtonClick() { }
+        private void OnSlowWheelButtonClick() {
+            PlaceProp("SlowWheel");
+        }
 
-        private void OnBadCherryButtonClick() { }
+        private void OnBadCherryButtonClick() {
+            PlaceProp("BadCherry");
+        }
 
-        private void OnLuckyDiceButtonClick() { }
+        private void OnLuckyDiceButtonClick() {
+            PlaceProp("LuckyDice");
+        }
 
-        // Clear
-        private void OnClearButtonClick() { }
+        // Remove operation
+        private void OnRemoveButtonClick() {
+            RemoveProp();
+        }
 
         // Add/minus buttons
-        private void OnGhostSpawnAddClick() { }
+        private void OnGhostSpawnAddClick() {
+            if (_totalPropCounts["GhostSpawn"] >= 5) {
+                Debug.LogError("Ghost add error!");
+                return;
+            }
 
-        private void OnGhostSpawnMinusClick() { }
+            // Update count
+            _totalPropCounts["GhostSpawn"]++;
 
-        private void OnPowerPelletAddClick() { }
+            // If reaches the maximum number 5, disable the add button
+            if (_totalPropCounts["GhostSpawn"] == 5) {
+                ghostSpawnAdd.gameObject.SetActive(false);
+            }
 
-        private void OnPowerPelletMinusClick() { }
+            // If already more than one ghost, enable the minus button
+            if (_totalPropCounts["GhostSpawn"] == 2) {
+                ghostSpawnMinus.gameObject.SetActive(true);
+            }
+        }
 
-        private void OnFastWheelAddClick() { }
+        private void OnGhostSpawnMinusClick() {
+            if (_totalPropCounts["GhostSpawn"] <= 1) {
+                Debug.LogError("Ghost minus minus error!");
+                return;
+            }
 
-        private void OnFastWheelMinusClick() { }
+            // Update count
+            _totalPropCounts["GhostSpawn"]--;
 
-        private void OnNiceBombAddClick() { }
+            // If reaches the minimum number 1, disable the minus button
+            if (_totalPropCounts["GhostSpawn"] == 1) {
+                ghostSpawnMinus.gameObject.SetActive(false);
+            }
 
-        private void OnNiceBombMinusClick() { }
+            // If already less than five ghosts, enable the add button
+            if (_totalPropCounts["GhostSpawn"] == 5) {
+                ghostSpawnAdd.gameObject.SetActive(true);
+            }
+        }
 
-        private void OnSlowWheelAddClick() { }
+        private void OnPowerPelletAddClick() {
+            if (_totalPropCounts["PowerPellet"] >= 5) {
+                Debug.LogError("Power pellet add error!");
+                return;
+            }
 
-        private void OnSlowWheelMinusClick() { }
+            // Update count
+            _totalPropCounts["PowerPellet"]++;
 
-        private void OnBadCherryAddClick() { }
+            // If reaches the maximum number 5, disable the add button
+            if (_totalPropCounts["PowerPellet"] == 5) {
+                powerPelletAdd.gameObject.SetActive(false);
+            }
 
-        private void OnBadCherryMinusClick() { }
+            // If already more than zero power pellet, enable the minus button
+            if (_totalPropCounts["PowerPellet"] == 1) {
+                powerPelletMinus.gameObject.SetActive(true);
+            }
+        }
 
-        private void OnLuckyDiceAddClick() { }
+        private void OnPowerPelletMinusClick() {
+            if (_totalPropCounts["PowerPellet"] <= 0) {
+                Debug.LogError("Power pellet minus error!");
+                return;
+            }
 
-        private void OnLuckyDiceMinusClick() { }
+            // Update count
+            _totalPropCounts["PowerPellet"]--;
+
+            // If reaches the minimum number 1, disable the minus button
+            if (_totalPropCounts["PowerPellet"] == 1) {
+                powerPelletMinus.gameObject.SetActive(false);
+            }
+
+            // If already less than five power pellets, enable the add button
+            if (_totalPropCounts["PowerPellet"] == 5) {
+                powerPelletAdd.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnFastWheelAddClick() {
+            if (_totalPropCounts["FastWheel"] >= 5) {
+                Debug.LogError("Fast wheel add error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["FastWheel"]++;
+
+            // If reaches the maximum number 5, disable the add button
+            if (_totalPropCounts["FastWheel"] == 5) {
+                fastWheelAdd.gameObject.SetActive(false);
+            }
+
+            // If already more than zero fast wheel, enable the minus button
+            if (_totalPropCounts["FastWheel"] == 1) {
+                fastWheelMinus.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnFastWheelMinusClick() {
+            if (_totalPropCounts["FastWheel"] <= 0) {
+                Debug.LogError("Fast wheel minus error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["FastWheel"]--;
+
+            // If reaches the minimum number 1, disable the minus button
+            if (_totalPropCounts["FastWheel"] == 1) {
+                fastWheelMinus.gameObject.SetActive(false);
+            }
+
+            // If already less than five fast wheels, enable the add button
+            if (_totalPropCounts["FastWheel"] == 5) {
+                fastWheelAdd.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnNiceBombAddClick() {
+            if (_totalPropCounts["NiceBomb"] >= 5) {
+                Debug.LogError("Nice bomb add error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["NiceBomb"]++;
+
+            // If reaches the maximum number 5, disable the add button
+            if (_totalPropCounts["NiceBomb"] == 5) {
+                niceBombAdd.gameObject.SetActive(false);
+            }
+
+            // If already more than zero nice bomb, enable the minus button
+            if (_totalPropCounts["NiceBomb"] == 1) {
+                niceBombMinus.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnNiceBombMinusClick() {
+            if (_totalPropCounts["NiceBomb"] <= 0) {
+                Debug.LogError("Nice bomb minus error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["NiceBomb"]--;
+
+            // If reaches the minimum number 1, disable the minus button
+            if (_totalPropCounts["NiceBomb"] == 1) {
+                niceBombMinus.gameObject.SetActive(false);
+            }
+
+            // If already less than five nice bombs, enable the add button
+            if (_totalPropCounts["NiceBomb"] == 5) {
+                niceBombAdd.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnSlowWheelAddClick() {
+            if (_totalPropCounts["SlowWheel"] >= 5) {
+                Debug.LogError("Slow wheel add error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["SlowWheel"]++;
+
+            // If reaches the maximum number 5, disable the add button
+            if (_totalPropCounts["SlowWheel"] == 5) {
+                slowWheelAdd.gameObject.SetActive(false);
+            }
+
+            // If already more than zero slow wheel, enable the minus button
+            if (_totalPropCounts["SlowWheel"] == 1) {
+                slowWheelMinus.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnSlowWheelMinusClick() {
+            if (_totalPropCounts["SlowWheel"] <= 0) {
+                Debug.LogError("Slow wheel minus error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["SlowWheel"]--;
+
+            // If reaches the minimum number 1, disable the minus button
+            if (_totalPropCounts["SlowWheel"] == 1) {
+                slowWheelMinus.gameObject.SetActive(false);
+            }
+
+            // If already less than five slow wheels, enable the add button
+            if (_totalPropCounts["SlowWheel"] == 5) {
+                slowWheelAdd.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnBadCherryAddClick() {
+            if (_totalPropCounts["BadCherry"] >= 5) {
+                Debug.LogError("Bad cherry add error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["BadCherry"]++;
+
+            // If reaches the maximum number 5, disable the add button
+            if (_totalPropCounts["BadCherry"] == 5) {
+                badCherryAdd.gameObject.SetActive(false);
+            }
+
+            // If already more than zero bad cherry, enable the minus button
+            if (_totalPropCounts["BadCherry"] == 1) {
+                badCherryMinus.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnBadCherryMinusClick() {
+            if (_totalPropCounts["BadCherry"] <= 0) {
+                Debug.LogError("Bad cherry minus error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["BadCherry"]--;
+
+            // If reaches the minimum number 1, disable the minus button
+            if (_totalPropCounts["BadCherry"] == 1) {
+                badCherryMinus.gameObject.SetActive(false);
+            }
+
+            // If already less than five bad cherries, enable the add button
+            if (_totalPropCounts["BadCherry"] == 5) {
+                badCherryAdd.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnLuckyDiceAddClick() {
+            if (_totalPropCounts["LuckyDice"] >= 5) {
+                Debug.LogError("Lucky dice add error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["LuckyDice"]++;
+
+            // If reaches the maximum number 5, disable the add button
+            if (_totalPropCounts["LuckyDice"] == 5) {
+                luckyDiceAdd.gameObject.SetActive(false);
+            }
+
+            // If already more than zero lucky dice, enable the minus button
+            if (_totalPropCounts["LuckyDice"] == 1) {
+                luckyDiceMinus.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnLuckyDiceMinusClick() {
+            if (_totalPropCounts["LuckyDice"] <= 0) {
+                Debug.LogError("Lucky dice minus error!");
+                return;
+            }
+
+            // Update count
+            _totalPropCounts["LuckyDice"]--;
+
+            // If reaches the minimum number 1, disable the minus button
+            if (_totalPropCounts["LuckyDice"] == 1) {
+                luckyDiceMinus.gameObject.SetActive(false);
+            }
+
+            // If already less than five lucky dices, enable the add button
+            if (_totalPropCounts["LuckyDice"] == 5) {
+                luckyDiceAdd.gameObject.SetActive(true);
+            }
+        }
+
+        // When a prop is placed on a block:
+        // Disable all props button, enable the remove button
+        private void PropPlacedButtonUpdate() {
+            ghostSpawnButton.enabled = false;
+            pacmanSpawnButton.enabled = false;
+            powerPelletButton.enabled = false;
+            fastWheelButton.enabled = false;
+            niceBombButton.enabled = false;
+            slowWheelButton.enabled = false;
+            badCherryButton.enabled = false;
+            luckyDiceButton.enabled = false;
+
+            removeButton.enabled = true;
+        }
+
+        // When a prop is removed/missing on a block:
+        // Disable the remove button, enable all props button
+        private void PropMissingButtonUpdate() {
+            removeButton.enabled = false;
+
+            ghostSpawnButton.enabled = true;
+            pacmanSpawnButton.enabled = true;
+            powerPelletButton.enabled = true;
+            fastWheelButton.enabled = true;
+            niceBombButton.enabled = true;
+            slowWheelButton.enabled = true;
+            badCherryButton.enabled = true;
+            luckyDiceButton.enabled = true;
+        }
     }
 }
