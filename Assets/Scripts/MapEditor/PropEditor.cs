@@ -171,7 +171,7 @@ namespace MapEditor {
                     var currentRenderer = currentTile.GetComponent<Renderer>();
                     if (currentRenderer != null) currentRenderer.material = tileHighlightMaterial;
 
-                    // Update
+                    // Update the last selected tile
                     _lastSelectedTile = currentTile;
 
                     Debug.Log($"Tile Selected: {_selectedTile}");
@@ -190,7 +190,7 @@ namespace MapEditor {
             return new Vector3(_gridStart.x + xIndex * _gridSpacing, 0, _gridStart.z - zIndex * _gridSpacing);
         }
 
-        // Handle prop placements
+        // Prop placement operations
         public void PlaceProp(string propType) {
             if (!_tileSelected) return;
 

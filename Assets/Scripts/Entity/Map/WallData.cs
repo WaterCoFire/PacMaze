@@ -1,4 +1,4 @@
-﻿namespace Data {
+﻿namespace Entity.Map {
     public struct WallData {
         public bool[,] HorizontalWallStatus;
         public bool[,] VerticalWallStatus;

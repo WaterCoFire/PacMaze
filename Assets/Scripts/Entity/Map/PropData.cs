@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Data {
+namespace Entity.Map {
     public struct PropData {
         public Dictionary<Vector3, GameObject> PropOnTile; // Prop on every tile
 
