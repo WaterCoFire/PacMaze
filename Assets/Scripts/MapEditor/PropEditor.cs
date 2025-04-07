@@ -156,6 +156,12 @@ namespace MapEditor {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit)) {
                 Vector3 tilePosition = SnapToGrid(hit.point);
+
+                if (!hit.collider.CompareTag("Tile")) {
+                    Debug.Log("Warning: Clicked but not found a tile!");
+                    return;
+                }
+
                 if (tilePosition != _selectedTile) {
                     _selectedTile = tilePosition;
                     _tileSelected = true;
@@ -311,6 +317,7 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["GhostSpawn"]++;
+            ghostCountText.text = "Total:" + _totalPropCounts["GhostSpawn"];
 
             // If reaches the maximum number 5, disable the add button
             if (_totalPropCounts["GhostSpawn"] == 5) {
@@ -331,6 +338,7 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["GhostSpawn"]--;
+            ghostCountText.text = "Total:" + _totalPropCounts["GhostSpawn"];
 
             // If reaches the minimum number 1, disable the minus button
             if (_totalPropCounts["GhostSpawn"] == 1) {
@@ -351,6 +359,7 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["PowerPellet"]++;
+            powerPelletCountText.text = "Total:" + _totalPropCounts["PowerPellet"];
 
             // If reaches the maximum number 5, disable the add button
             if (_totalPropCounts["PowerPellet"] == 5) {
@@ -371,9 +380,10 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["PowerPellet"]--;
+            powerPelletCountText.text = "Total:" + _totalPropCounts["PowerPellet"];
 
-            // If reaches the minimum number 1, disable the minus button
-            if (_totalPropCounts["PowerPellet"] == 1) {
+            // If reaches the minimum number 0, disable the minus button
+            if (_totalPropCounts["PowerPellet"] == 0) {
                 powerPelletMinus.gameObject.SetActive(false);
             }
 
@@ -391,6 +401,7 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["FastWheel"]++;
+            fastWheelCountText.text = "Total:" + _totalPropCounts["FastWheel"];
 
             // If reaches the maximum number 5, disable the add button
             if (_totalPropCounts["FastWheel"] == 5) {
@@ -411,9 +422,10 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["FastWheel"]--;
+            fastWheelCountText.text = "Total:" + _totalPropCounts["FastWheel"];
 
-            // If reaches the minimum number 1, disable the minus button
-            if (_totalPropCounts["FastWheel"] == 1) {
+            // If reaches the minimum number 0, disable the minus button
+            if (_totalPropCounts["FastWheel"] == 0) {
                 fastWheelMinus.gameObject.SetActive(false);
             }
 
@@ -431,6 +443,7 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["NiceBomb"]++;
+            niceBombCountText.text = "Total:" + _totalPropCounts["NiceBomb"];
 
             // If reaches the maximum number 5, disable the add button
             if (_totalPropCounts["NiceBomb"] == 5) {
@@ -451,9 +464,10 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["NiceBomb"]--;
+            niceBombCountText.text = "Total:" + _totalPropCounts["NiceBomb"];
 
-            // If reaches the minimum number 1, disable the minus button
-            if (_totalPropCounts["NiceBomb"] == 1) {
+            // If reaches the minimum number 0, disable the minus button
+            if (_totalPropCounts["NiceBomb"] == 0) {
                 niceBombMinus.gameObject.SetActive(false);
             }
 
@@ -471,6 +485,7 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["SlowWheel"]++;
+            slowWheelCountText.text = "Total:" + _totalPropCounts["SlowWheel"];
 
             // If reaches the maximum number 5, disable the add button
             if (_totalPropCounts["SlowWheel"] == 5) {
@@ -491,9 +506,10 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["SlowWheel"]--;
+            slowWheelCountText.text = "Total:" + _totalPropCounts["SlowWheel"];
 
-            // If reaches the minimum number 1, disable the minus button
-            if (_totalPropCounts["SlowWheel"] == 1) {
+            // If reaches the minimum number 0, disable the minus button
+            if (_totalPropCounts["SlowWheel"] == 0) {
                 slowWheelMinus.gameObject.SetActive(false);
             }
 
@@ -511,6 +527,7 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["BadCherry"]++;
+            badCherryCountText.text = "Total:" + _totalPropCounts["BadCherry"];
 
             // If reaches the maximum number 5, disable the add button
             if (_totalPropCounts["BadCherry"] == 5) {
@@ -531,9 +548,10 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["BadCherry"]--;
+            badCherryCountText.text = "Total:" + _totalPropCounts["BadCherry"];
 
-            // If reaches the minimum number 1, disable the minus button
-            if (_totalPropCounts["BadCherry"] == 1) {
+            // If reaches the minimum number 0, disable the minus button
+            if (_totalPropCounts["BadCherry"] == 0) {
                 badCherryMinus.gameObject.SetActive(false);
             }
 
@@ -551,6 +569,7 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["LuckyDice"]++;
+            luckyDiceCountText.text = "Total:" + _totalPropCounts["LuckyDice"];
 
             // If reaches the maximum number 5, disable the add button
             if (_totalPropCounts["LuckyDice"] == 5) {
@@ -571,9 +590,10 @@ namespace MapEditor {
 
             // Update count
             _totalPropCounts["LuckyDice"]--;
+            luckyDiceCountText.text = "Total:" + _totalPropCounts["LuckyDice"];
 
-            // If reaches the minimum number 1, disable the minus button
-            if (_totalPropCounts["LuckyDice"] == 1) {
+            // If reaches the minimum number 0, disable the minus button
+            if (_totalPropCounts["LuckyDice"] == 0) {
                 luckyDiceMinus.gameObject.SetActive(false);
             }
 

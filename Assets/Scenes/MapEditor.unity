@@ -43900,6 +43900,85 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1531265833}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1533156576
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1748880447}
+    m_Modifications:
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -22.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2597502382568120572, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: df42923bf816e384094a73db727e97af, type: 2}
+    - target: {fileID: 4651827728719459063, guid: 132f642c303a9ac44b779ea0cf60d090,
+        type: 3}
+      propertyPath: m_Name
+      value: TestGround
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 132f642c303a9ac44b779ea0cf60d090, type: 3}
+--- !u!4 &1533156577 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1273957107607783164, guid: 132f642c303a9ac44b779ea0cf60d090,
+    type: 3}
+  m_PrefabInstance: {fileID: 1533156576}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1542180715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50171,6 +50250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1748880447}
   - component: {fileID: 1748880448}
+  - component: {fileID: 1748880449}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -50192,6 +50272,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1737938044}
+  - {fileID: 1533156577}
   - {fileID: 1601128368}
   - {fileID: 1728778754}
   - {fileID: 1925071019}
@@ -50455,6 +50536,68 @@ MonoBehaviour:
   - {fileID: 489694377}
   - {fileID: 1553366379}
   wallMode: 0
+--- !u!114 &1748880449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748880446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3488d5a21c334487a4122d3e4945c0ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileNormalMaterial: {fileID: 2100000, guid: 6e9133f69a2e8fb46b8a553802962f56, type: 2}
+  tileHighlightMaterial: {fileID: 2100000, guid: df42923bf816e384094a73db727e97af,
+    type: 2}
+  ghostSpawnPrefab: {fileID: 7658568862808983002, guid: 46c364ba2f6fbcf4ca46dec6edc82282,
+    type: 3}
+  pacmanSpawnPrefab: {fileID: 4887355432709199903, guid: 57a9eadb0b806da41a4b1c397b2add0c,
+    type: 3}
+  powerPelletPrefab: {fileID: 7060741750217758432, guid: ba2801dd5a546a54eb69ad983dd56c29,
+    type: 3}
+  fastWheelPrefab: {fileID: 4908766425515103001, guid: 32bfee8e7d719af4ab6a1ed2e71c9f7b,
+    type: 3}
+  niceBombPrefab: {fileID: 4554726331056008436, guid: 5dd19c6ca11279540b6d6b42e132402d,
+    type: 3}
+  slowWheelPrefab: {fileID: 998998524191414617, guid: 5a5ccc56507630542ac31a4582131da7,
+    type: 3}
+  badCherryPrefab: {fileID: 5538566272066926428, guid: 133a7e231f0698749b4827395eb676fa,
+    type: 3}
+  luckyDicePrefab: {fileID: 7510056223922930930, guid: 06993ec41dfafbf4b867caa95b48c5d5,
+    type: 3}
+  ghostSpawnButton: {fileID: 1450119741}
+  pacmanSpawnButton: {fileID: 1087834388}
+  powerPelletButton: {fileID: 1208983869}
+  fastWheelButton: {fileID: 59255367}
+  niceBombButton: {fileID: 1863499089}
+  slowWheelButton: {fileID: 121250278}
+  badCherryButton: {fileID: 1100223294}
+  luckyDiceButton: {fileID: 1329974617}
+  removeButton: {fileID: 1450119741}
+  ghostSpawnAdd: {fileID: 478039116}
+  ghostSpawnMinus: {fileID: 1922291938}
+  powerPelletAdd: {fileID: 118786554}
+  powerPelletMinus: {fileID: 376087261}
+  fastWheelAdd: {fileID: 948321117}
+  fastWheelMinus: {fileID: 1494471836}
+  niceBombAdd: {fileID: 1258731642}
+  niceBombMinus: {fileID: 770451353}
+  slowWheelAdd: {fileID: 519590279}
+  slowWheelMinus: {fileID: 1882571484}
+  badCherryAdd: {fileID: 363567514}
+  badCherryMinus: {fileID: 1988965735}
+  luckyDiceAdd: {fileID: 651143153}
+  luckyDiceMinus: {fileID: 967720862}
+  ghostCountText: {fileID: 1612967858}
+  powerPelletCountText: {fileID: 1169949364}
+  fastWheelCountText: {fileID: 377308844}
+  niceBombCountText: {fileID: 2083491982}
+  slowWheelCountText: {fileID: 1218296966}
+  badCherryCountText: {fileID: 160795461}
+  luckyDiceCountText: {fileID: 242448466}
+  propMode: 0
 --- !u!1001 &1755040639
 PrefabInstance:
   m_ObjectHideFlags: 0
