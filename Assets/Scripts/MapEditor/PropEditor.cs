@@ -101,12 +101,25 @@ namespace MapEditor {
             { "LuckyDice", 0 }
         };
 
-        public void PropMode() {
+        // Enters the prop editing mode. Used in MapEditor class.
+        public void EnterPropMode() {
             propMode = true;
             _tileSelected = false;
 
             propEditPanel.SetActive(false);
             tileNotSelectedPrompt.SetActive(true);
+            PropsButtonInit();
+        }
+
+        // Quits the prop editing mode. Used in MapEditor class.
+        public void QuitPropMode() {
+            propMode = false;
+            
+            // Change the material of the last tile back to the normal one
+            if (_lastSelectedTile != null) {
+                var renderer = _lastSelectedTile.GetComponent<Renderer>();
+                if (renderer != null) renderer.material = tileNormalMaterial;
+            }
         }
 
         // TOTAL counts of all the props - including FIXED and RANDOM ones
@@ -125,7 +138,7 @@ namespace MapEditor {
         private readonly int _gridSize = 11; // Map grid size
 
         private void Start() {
-            PropMode();
+            EnterPropMode();
 
             SetButtonActionListener();
             LoadPropTotalCount();
@@ -260,10 +273,10 @@ namespace MapEditor {
                 Destroy(propToRemove);
                 _propOnTiles[_selectedTileVector3] = null;
 
-                Debug.Log("Prop to be removed: " + propToRemove.name);
+                Debug.Log("Prop to be removed: " + CleanName(propToRemove.name));
 
-                // TODO (Clone) issue
-                _fixedPropCounts[propToRemove.name]--;
+                // Update the fixed prop counts
+                _fixedPropCounts[CleanName(propToRemove.name)]--;
             } else {
                 Debug.LogError("PROP TO REMOVE IS NULL");
             }
@@ -914,6 +927,26 @@ namespace MapEditor {
             } else {
                 luckyDiceMinus.gameObject.SetActive(true);
             }
+        }
+        
+        // Remove the "(Clone)" at the end of the game object name if it exists
+        // Used when trying to destroy an object
+        private string CleanName(string nameToBeCleaned) {
+            const string cloneTag = "(Clone)";
+            return nameToBeCleaned.EndsWith(cloneTag) ? nameToBeCleaned.Remove(nameToBeCleaned.Length - 7) : nameToBeCleaned;
+        }
+        
+        // Initial setting: Disable all the props buttons (including remove) at the beginning
+        private void PropsButtonInit() {
+            ghostSpawnButton.interactable = false;
+            pacmanSpawnButton.interactable = false;
+            powerPelletButton.interactable = false;
+            fastWheelButton.interactable = false;
+            niceBombButton.interactable = false;
+            slowWheelButton.interactable = false;
+            badCherryButton.interactable = false;
+            luckyDiceButton.interactable = false;
+            removeButton.interactable = false;
         }
     }
 }
