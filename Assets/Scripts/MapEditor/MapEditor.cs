@@ -7,22 +7,114 @@ namespace MapEditor {
     public class MapEditor : MonoBehaviour {
         public Button quitButton; // No saving
         public Button saveButton; // Save map and close
-        
+
         // Normal color 8C79FF
-        // Highlight color E4FF49
+        // Highlight color 634AFC
+        // Selected color E4FF49
+        private Color _normalColor = new Color(140f / 255f, 121f / 255f, 255f / 255f);
+        private Color _selectedColor = new Color(228f / 255f, 255f / 255f, 73f / 255f);
+
         public Button wallModeButton; // Editing wall mode
         public Button propModeButton; // Editing prop mode
 
+        // UI panels
+        public GameObject wallModeSettingPanel;
+        public GameObject propModeSettingPanel;
+
         public TMP_Text mapNameText;
         public TMP_Text modePromptText;
-        
+
         // Prompt Text
         // Default: Click to edit walls or props of your map!
         // Wall Mode: Editing Walls
         // Prop Mode: Editing Props
 
         private void Start() {
+            SetButtonActionListener();
+            InitUI();
+        }
+
+        // Edit Walls button operation
+        private void OnEditWallsButtonClick() {
+            // Update the prompt
+            modePromptText.SetText("Editing:Walls");
+
+            // Mode setting
+            gameObject.GetComponent<PropEditor>().QuitPropMode();
+            gameObject.GetComponent<WallEditor>().EnterWallMode();
+
+            // Buttons color update
+            SetButtonStatus(propModeButton, false);
+            SetButtonStatus(wallModeButton, true);
+            
+            // Update the setting panel
+            propModeSettingPanel.SetActive(false);
+            wallModeSettingPanel.SetActive(true);
+        }
+
+        // Edit Props button operation
+        private void OnEditPropsButtonClick() {
+            // Update the prompt
+            modePromptText.SetText("Editing:Props");
+
+            // Mode setting
+            gameObject.GetComponent<WallEditor>().QuitWallMode();
+            gameObject.GetComponent<PropEditor>().EnterPropMode();
+            
+            // Buttons color update
+            SetButtonStatus(wallModeButton, false);
+            SetButtonStatus(propModeButton, true);
+            
+            // Update the setting panel
+            wallModeSettingPanel.SetActive(false);
+            propModeSettingPanel.SetActive(true);
+        }
+
+        // Quit (directly) button operation
+        private void OnQuitButtonClick() {
+            InitUI();
+        }
+
+        // Save & Quit button operation
+        private void OnSaveAndQuitButtonClick() {
+            InitUI();
+        }
+        
+        // Set the color of a button
+        private void SetButtonStatus(Button button, bool selected) {
+            if (selected) {
+                var colors = button.colors;
+                colors.normalColor = _selectedColor;
+                button.colors = colors;
+            } else {
+                var colors = button.colors;
+                colors.normalColor = _normalColor;
+                button.colors = colors;
+            }
+        }
+
+        private void SetButtonActionListener() {
+            quitButton.onClick.AddListener(OnQuitButtonClick);
+            saveButton.onClick.AddListener(OnSaveAndQuitButtonClick);
+            wallModeButton.onClick.AddListener(OnEditWallsButtonClick);
+            propModeButton.onClick.AddListener(OnEditPropsButtonClick);
+        }
+
+        private void InitUI() {
+            // Reset the prompt
             modePromptText.SetText("Click to edit walls or props of your map!");
+
+            // Clear of both modes
+            gameObject.GetComponent<WallEditor>().QuitWallMode();
+            gameObject.GetComponent<PropEditor>().QuitPropMode();
+            
+            // Reset the color of both buttons
+            SetButtonStatus(wallModeButton, false);
+            SetButtonStatus(propModeButton, false);
+            
+            // Reset both setting panels
+            wallModeSettingPanel.SetActive(false);
+            propModeSettingPanel.SetActive(false);
         }
     }
 }

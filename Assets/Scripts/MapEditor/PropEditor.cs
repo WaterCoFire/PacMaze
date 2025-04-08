@@ -82,9 +82,6 @@ namespace MapEditor {
         public GameObject propEditPanel; // Only active when a tile is selected
         public GameObject tileNotSelectedPrompt;
 
-        public Button quitButton;
-        public Button saveAndQuitButton;
-
         public bool propMode;
 
         private Dictionary<Vector3, GameObject> _propOnTiles = new(); // Prop on every tile

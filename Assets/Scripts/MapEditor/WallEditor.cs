@@ -155,6 +155,22 @@ public class WallEditor : MonoBehaviour {
         }
     }
 
+    // Enters the wall editing mode. Used in MapEditor class.
+    public void EnterWallMode() {
+        wallMode = true;
+        _previousMeshRenderer = null;
+    }
+
+    // Quits the prop editing mode. Used in MapEditor class.
+    public void QuitWallMode() {
+        wallMode = false;
+        
+        // Set the material of the previous selected wall
+        if (_previousMeshRenderer != null) {
+            _previousMeshRenderer.material = _previousStatus ? normalMaterial : missingMaterial;
+        }
+    }
+
     // Update is called once per frame
     void Update() {
         if (!wallMode) return;
