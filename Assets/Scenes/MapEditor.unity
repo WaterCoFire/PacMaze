@@ -6896,7 +6896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &217498454
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13960,7 +13960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &462489691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50602,8 +50602,10 @@ MonoBehaviour:
   slowWheelCountText: {fileID: 1218296966}
   badCherryCountText: {fileID: 160795461}
   luckyDiceCountText: {fileID: 242448466}
-  quitButton: {fileID: 0}
-  saveAndQuitButton: {fileID: 0}
+  propEditPanel: {fileID: 217498453}
+  tileNotSelectedPrompt: {fileID: 462489690}
+  quitButton: {fileID: 156708631}
+  saveAndQuitButton: {fileID: 355151793}
   propMode: 0
 --- !u!1001 &1755040639
 PrefabInstance:
