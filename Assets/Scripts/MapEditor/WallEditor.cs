@@ -236,7 +236,7 @@ public class WallEditor : MonoBehaviour {
     }
     
     /**
-     * Obtains the data about the wall.
+     * Obtains the data about the walls.
      * Called in MapEditor.
      */
     public WallData GetWallData() {

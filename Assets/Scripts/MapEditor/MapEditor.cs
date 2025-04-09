@@ -100,6 +100,7 @@ namespace MapEditor {
             propModeButton.onClick.AddListener(OnEditPropsButtonClick);
         }
 
+        // Initializes the map editor UI. 
         private void InitUI() {
             // Reset the prompt
             modePromptText.SetText("Click to edit walls or props of your map!");
