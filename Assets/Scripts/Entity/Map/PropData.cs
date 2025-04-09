@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Entity.Map {
     public struct PropData {
-        public Dictionary<Vector3, GameObject> PropOnTile; // Prop on every tile
+        public Dictionary<Vector3, GameObject> PropOnTiles; // Prop on every tile
 
         // FIXED counts of all the props
         public Dictionary<string, int> FixedPropCounts;
@@ -11,8 +11,8 @@ namespace Entity.Map {
         // TOTAL counts of all the props - including FIXED and RANDOM ones
         public Dictionary<string, int> TotalPropCounts;
         
-        public PropData(Dictionary<Vector3, GameObject> propOnTile, Dictionary<string, int> fixedPropCounts, Dictionary<string, int> totalPropCounts) {
-            PropOnTile = propOnTile;
+        public PropData(Dictionary<Vector3, GameObject> propOnTiles, Dictionary<string, int> fixedPropCounts, Dictionary<string, int> totalPropCounts) {
+            PropOnTiles = propOnTiles;
             FixedPropCounts = fixedPropCounts;
             TotalPropCounts = totalPropCounts;
         }

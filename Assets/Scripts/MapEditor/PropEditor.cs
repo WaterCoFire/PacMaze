@@ -99,6 +99,31 @@ namespace MapEditor {
             { "LuckyDice", 0 }
         };
 
+        // TOTAL counts of all the props - including FIXED and RANDOM ones
+        private Dictionary<string, int> _totalPropCounts = new() {
+            { "GhostSpawn", 2 },
+            { "PowerPellet", 0 },
+            { "FastWheel", 0 },
+            { "NiceBomb", 0 },
+            { "SlowWheel", 0 },
+            { "BadCherry", 0 },
+            { "LuckyDice", 0 }
+        };
+
+        private readonly Vector3 _gridStart = new(-15, 0, 15); // The top left corner
+        private readonly float _gridSpacing = 3.0f; // The length of each tile
+        private readonly int _gridSize = 11; // Map grid size
+
+        /**
+         * Sets the prop data. Used in MapEditor class.
+         * Dictionary<Vector3, GameObject> propOnTiles, Dictionary<string, int> fixedPropCounts, Dictionary<string, int> totalPropCounts
+         */
+        public void SetPropData(PropData propData) {
+            _propOnTiles = propData.PropOnTiles;
+            _fixedPropCounts = propData.FixedPropCounts;
+            _totalPropCounts = propData.TotalPropCounts;
+        }
+
         // Enters the prop editing mode. Used in MapEditor class.
         public void EnterPropMode() {
             propMode = true;
@@ -119,21 +144,6 @@ namespace MapEditor {
                 if (renderer != null) renderer.material = tileNormalMaterial;
             }
         }
-
-        // TOTAL counts of all the props - including FIXED and RANDOM ones
-        private Dictionary<string, int> _totalPropCounts = new() {
-            { "GhostSpawn", 2 },
-            { "PowerPellet", 0 },
-            { "FastWheel", 0 },
-            { "NiceBomb", 0 },
-            { "SlowWheel", 0 },
-            { "BadCherry", 0 },
-            { "LuckyDice", 0 }
-        };
-
-        private readonly Vector3 _gridStart = new(-15, 0, 15); // The top left corner
-        private readonly float _gridSpacing = 3.0f; // The length of each tile
-        private readonly int _gridSize = 11; // Map grid size
 
         private void Start() {
             EnterPropMode();

@@ -46,111 +46,112 @@ public class WallEditor : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        wallMode = true;
-        
-        // TODO 默认地图优化
+        wallMode = false;
+    }
+
+    public void SetWallData(WallData wallData) {
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[0, column] = true;
+            _horizontalWallStatus[0, column] = wallData.HorizontalWallStatus[0, column];
             _wallLookup[horizontalWalls1[column]] = (true, 0, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[1, column] = true;
+            _horizontalWallStatus[1, column] = wallData.HorizontalWallStatus[1, column];
             _wallLookup[horizontalWalls2[column]] = (true, 1, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[2, column] = true;
+            _horizontalWallStatus[2, column] = wallData.HorizontalWallStatus[2, column];
             _wallLookup[horizontalWalls3[column]] = (true, 2, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[3, column] = true;
+            _horizontalWallStatus[3, column] = wallData.HorizontalWallStatus[3, column];
             _wallLookup[horizontalWalls4[column]] = (true, 3, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[4, column] = true;
+            _horizontalWallStatus[4, column] = wallData.HorizontalWallStatus[4, column];
             _wallLookup[horizontalWalls5[column]] = (true, 4, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[5, column] = true;
+            _horizontalWallStatus[5, column] = wallData.HorizontalWallStatus[5, column];
             _wallLookup[horizontalWalls6[column]] = (true, 5, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[6, column] = true;
+            _horizontalWallStatus[6, column] = wallData.HorizontalWallStatus[6, column];
             _wallLookup[horizontalWalls7[column]] = (true, 6, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[7, column] = true;
+            _horizontalWallStatus[7, column] = wallData.HorizontalWallStatus[7, column];
             _wallLookup[horizontalWalls8[column]] = (true, 7, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[8, column] = true;
+            _horizontalWallStatus[8, column] = wallData.HorizontalWallStatus[8, column];
             _wallLookup[horizontalWalls9[column]] = (true, 8, column);
         }
 
         for (int column = 0; column < 11; column++) {
-            _horizontalWallStatus[9, column] = true;
+            _horizontalWallStatus[9, column] = wallData.HorizontalWallStatus[9, column];
             _wallLookup[horizontalWalls10[column]] = (true, 9, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[0, column] = true;
+            _verticalWallStatus[0, column] = wallData.VerticalWallStatus[0, column];
             _wallLookup[verticalWalls1[column]] = (false, 0, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[1, column] = true;
+            _verticalWallStatus[1, column] = wallData.VerticalWallStatus[1, column];
             _wallLookup[verticalWalls2[column]] = (false, 1, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[2, column] = true;
+            _verticalWallStatus[2, column] = wallData.VerticalWallStatus[2, column];
             _wallLookup[verticalWalls3[column]] = (false, 2, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[3, column] = true;
+            _verticalWallStatus[3, column] = wallData.VerticalWallStatus[3, column];
             _wallLookup[verticalWalls4[column]] = (false, 3, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[4, column] = true;
+            _verticalWallStatus[4, column] = wallData.VerticalWallStatus[4, column];
             _wallLookup[verticalWalls5[column]] = (false, 4, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[5, column] = true;
+            _verticalWallStatus[5, column] = wallData.VerticalWallStatus[5, column];
             _wallLookup[verticalWalls6[column]] = (false, 5, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[6, column] = true;
+            _verticalWallStatus[6, column] = wallData.VerticalWallStatus[6, column];
             _wallLookup[verticalWalls7[column]] = (false, 6, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[7, column] = true;
+            _verticalWallStatus[7, column] = wallData.VerticalWallStatus[7, column];
             _wallLookup[verticalWalls8[column]] = (false, 7, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[8, column] = true;
+            _verticalWallStatus[8, column] = wallData.VerticalWallStatus[8, column];
             _wallLookup[verticalWalls9[column]] = (false, 8, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[9, column] = true;
+            _verticalWallStatus[9, column] = wallData.VerticalWallStatus[9, column];
             _wallLookup[verticalWalls10[column]] = (false, 9, column);
         }
 
         for (int column = 0; column < 10; column++) {
-            _verticalWallStatus[10, column] = true;
+            _verticalWallStatus[10, column] = wallData.VerticalWallStatus[10, column];
             _wallLookup[verticalWalls11[column]] = (false, 10, column);
         }
     }

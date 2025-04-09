@@ -45,6 +45,10 @@ namespace MapEditor {
             
             SetButtonActionListener();
             InitUI("DEBUG TEST");
+            
+            // TEST TEST TEST
+            PlayerPrefs.SetString("EditMapToLoad", "DEBUG TEST");
+            LoadMap();
         }
 
         /**
@@ -62,6 +66,39 @@ namespace MapEditor {
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
             
             return true;
+        }
+
+        /**
+         * Loads the map data from the file. Used when the player enters the map editor.
+         */
+        private bool LoadMap() {
+            // Read from player preferences
+            string mapName = PlayerPrefs.GetString("EditMapToLoad", "");
+            _mapName = mapName;
+            
+            // Obtain the file path
+            string path = Path.Combine(_saveDirectory, _mapName + ".json");
+            
+            // Read the file
+            if (!string.IsNullOrEmpty(mapName) && File.Exists(path)) {
+                string json = File.ReadAllText(path);
+                MapJsonWrapper wrapper = JsonUtility.FromJson<MapJsonWrapper>(json);
+
+                // Initialize UI (set names etc.)
+                InitUI(_mapName);
+
+                // Set walls
+                gameObject.GetComponent<WallEditor>().SetWallData(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
+
+                // Set props
+                gameObject.GetComponent<PropEditor>().SetPropData(new PropData(wrapper.PropPositions(),
+                    wrapper.FixedPropCounts, wrapper.TotalPropCounts));
+
+                return true;
+            } else {
+                Debug.LogError("Load map error: File not found!");
+                return false;
+            }
         }
 
         // Edit Walls button operation
