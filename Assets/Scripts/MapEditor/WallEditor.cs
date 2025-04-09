@@ -46,7 +46,112 @@ public class WallEditor : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        wallMode = false;
+        wallMode = true;
+
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[0, column] = true;
+        //     _wallLookup[horizontalWalls1[column]] = (true, 0, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[1, column] = true;
+        //     _wallLookup[horizontalWalls2[column]] = (true, 1, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[2, column] = true;
+        //     _wallLookup[horizontalWalls3[column]] = (true, 2, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[3, column] = true;
+        //     _wallLookup[horizontalWalls4[column]] = (true, 3, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[4, column] = true;
+        //     _wallLookup[horizontalWalls5[column]] = (true, 4, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[5, column] = true;
+        //     _wallLookup[horizontalWalls6[column]] = (true, 5, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[6, column] = true;
+        //     _wallLookup[horizontalWalls7[column]] = (true, 6, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[7, column] = true;
+        //     _wallLookup[horizontalWalls8[column]] = (true, 7, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[8, column] = true;
+        //     _wallLookup[horizontalWalls9[column]] = (true, 8, column);
+        // }
+        //
+        // for (int column = 0; column < 11; column++) {
+        //     _horizontalWallStatus[9, column] = true;
+        //     _wallLookup[horizontalWalls10[column]] = (true, 9, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[0, column] = true;
+        //     _wallLookup[verticalWalls1[column]] = (false, 0, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[1, column] = true;
+        //     _wallLookup[verticalWalls2[column]] = (false, 1, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[2, column] = true;
+        //     _wallLookup[verticalWalls3[column]] = (false, 2, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[3, column] = true;
+        //     _wallLookup[verticalWalls4[column]] = (false, 3, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[4, column] = true;
+        //     _wallLookup[verticalWalls5[column]] = (false, 4, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[5, column] = true;
+        //     _wallLookup[verticalWalls6[column]] = (false, 5, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[6, column] = true;
+        //     _wallLookup[verticalWalls7[column]] = (false, 6, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[7, column] = true;
+        //     _wallLookup[verticalWalls8[column]] = (false, 7, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[8, column] = true;
+        //     _wallLookup[verticalWalls9[column]] = (false, 8, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[9, column] = true;
+        //     _wallLookup[verticalWalls10[column]] = (false, 9, column);
+        // }
+        //
+        // for (int column = 0; column < 10; column++) {
+        //     _verticalWallStatus[10, column] = true;
+        //     _wallLookup[verticalWalls11[column]] = (false, 10, column);
+        // }
     }
 
     public void SetWallData(WallData wallData) {
@@ -165,7 +270,7 @@ public class WallEditor : MonoBehaviour {
     // Quits the prop editing mode. Used in MapEditor class.
     public void QuitWallMode() {
         wallMode = false;
-        
+
         // Set the material of the previous selected wall
         if (_previousMeshRenderer != null) {
             _previousMeshRenderer.material = _previousStatus ? normalMaterial : missingMaterial;
@@ -235,7 +340,7 @@ public class WallEditor : MonoBehaviour {
 
         // NOTICE - Missing wall is not completely inactive!
     }
-    
+
     /**
      * Obtains the data about the walls.
      * Called in MapEditor.

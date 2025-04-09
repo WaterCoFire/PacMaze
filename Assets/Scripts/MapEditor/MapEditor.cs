@@ -4,6 +4,7 @@ using Entity.Map;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 
 namespace MapEditor {
     public class MapEditor : MonoBehaviour {
@@ -82,11 +83,23 @@ namespace MapEditor {
             // Read the file
             if (!string.IsNullOrEmpty(mapName) && File.Exists(path)) {
                 string json = File.ReadAllText(path);
-                MapJsonWrapper wrapper = JsonUtility.FromJson<MapJsonWrapper>(json);
+                Debug.Log(json);
+                // TODO issues
+                MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
+                
+                Debug.Log("11111 " + wrapper.name);
+                Debug.Log("11111 " + wrapper.played);
+                Debug.Log("11111 " + wrapper.lastPlayedDateTime);
+                Debug.Log("11111 " + wrapper.fastestTime);
+                Debug.Log(wrapper.HorizontalWallStatus);
+                Debug.Log(wrapper.VerticalWallStatus);
+                Debug.Log(wrapper.FixedPropCounts);
+                Debug.Log(wrapper.TotalPropCounts);
 
                 // Initialize UI (set names etc.)
                 InitUI(_mapName);
-
+                
+                // TODO Still not working
                 // Set walls
                 gameObject.GetComponent<WallEditor>().SetWallData(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
 
