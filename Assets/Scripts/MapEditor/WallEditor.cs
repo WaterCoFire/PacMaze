@@ -158,106 +158,190 @@ public class WallEditor : MonoBehaviour {
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[0, column] = wallData.HorizontalWallStatus[0, column];
             _wallLookup[horizontalWalls1[column]] = (true, 0, column);
+            
+            // Set the wall material on the map
+            horizontalWalls1[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[0, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[1, column] = wallData.HorizontalWallStatus[1, column];
             _wallLookup[horizontalWalls2[column]] = (true, 1, column);
+            
+            // Set the wall material on the map
+            horizontalWalls2[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[1, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[2, column] = wallData.HorizontalWallStatus[2, column];
             _wallLookup[horizontalWalls3[column]] = (true, 2, column);
+            
+            // Set the wall material on the map
+            horizontalWalls3[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[2, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[3, column] = wallData.HorizontalWallStatus[3, column];
             _wallLookup[horizontalWalls4[column]] = (true, 3, column);
+            
+            // Set the wall material on the map
+            horizontalWalls4[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[3, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[4, column] = wallData.HorizontalWallStatus[4, column];
             _wallLookup[horizontalWalls5[column]] = (true, 4, column);
+            
+            // Set the wall material on the map
+            horizontalWalls5[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[4, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[5, column] = wallData.HorizontalWallStatus[5, column];
             _wallLookup[horizontalWalls6[column]] = (true, 5, column);
+            
+            // Set the wall material on the map
+            horizontalWalls6[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[5, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[6, column] = wallData.HorizontalWallStatus[6, column];
             _wallLookup[horizontalWalls7[column]] = (true, 6, column);
+            
+            // Set the wall material on the map
+            horizontalWalls7[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[6, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[7, column] = wallData.HorizontalWallStatus[7, column];
             _wallLookup[horizontalWalls8[column]] = (true, 7, column);
+            
+            // Set the wall material on the map
+            horizontalWalls8[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[7, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[8, column] = wallData.HorizontalWallStatus[8, column];
             _wallLookup[horizontalWalls9[column]] = (true, 8, column);
+            
+            // Set the wall material on the map
+            horizontalWalls9[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[8, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 11; column++) {
             _horizontalWallStatus[9, column] = wallData.HorizontalWallStatus[9, column];
             _wallLookup[horizontalWalls10[column]] = (true, 9, column);
+            
+            // Set the wall material on the map
+            horizontalWalls10[column].GetComponent<MeshRenderer>().material =
+                _horizontalWallStatus[9, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[0, column] = wallData.VerticalWallStatus[0, column];
             _wallLookup[verticalWalls1[column]] = (false, 0, column);
+            
+            // Set the wall material on the map
+            verticalWalls1[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[0, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[1, column] = wallData.VerticalWallStatus[1, column];
             _wallLookup[verticalWalls2[column]] = (false, 1, column);
+            
+            // Set the wall material on the map
+            verticalWalls2[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[1, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[2, column] = wallData.VerticalWallStatus[2, column];
             _wallLookup[verticalWalls3[column]] = (false, 2, column);
+            
+            // Set the wall material on the map
+            verticalWalls3[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[2, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[3, column] = wallData.VerticalWallStatus[3, column];
             _wallLookup[verticalWalls4[column]] = (false, 3, column);
+            
+            // Set the wall material on the map
+            verticalWalls4[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[3, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[4, column] = wallData.VerticalWallStatus[4, column];
             _wallLookup[verticalWalls5[column]] = (false, 4, column);
+            
+            // Set the wall material on the map
+            verticalWalls5[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[4, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[5, column] = wallData.VerticalWallStatus[5, column];
             _wallLookup[verticalWalls6[column]] = (false, 5, column);
+            
+            // Set the wall material on the map
+            verticalWalls6[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[5, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[6, column] = wallData.VerticalWallStatus[6, column];
             _wallLookup[verticalWalls7[column]] = (false, 6, column);
+            
+            // Set the wall material on the map
+            verticalWalls7[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[6, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[7, column] = wallData.VerticalWallStatus[7, column];
             _wallLookup[verticalWalls8[column]] = (false, 7, column);
+            
+            // Set the wall material on the map
+            verticalWalls8[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[7, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[8, column] = wallData.VerticalWallStatus[8, column];
             _wallLookup[verticalWalls9[column]] = (false, 8, column);
+            
+            // Set the wall material on the map
+            verticalWalls9[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[8, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[9, column] = wallData.VerticalWallStatus[9, column];
             _wallLookup[verticalWalls10[column]] = (false, 9, column);
+            
+            // Set the wall material on the map
+            verticalWalls10[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[9, column] ? normalMaterial : missingMaterial;
         }
 
         for (int column = 0; column < 10; column++) {
             _verticalWallStatus[10, column] = wallData.VerticalWallStatus[10, column];
             _wallLookup[verticalWalls11[column]] = (false, 10, column);
+            
+            // Set the wall material on the map
+            verticalWalls11[column].GetComponent<MeshRenderer>().material =
+                _verticalWallStatus[10, column] ? normalMaterial : missingMaterial;
         }
     }
 

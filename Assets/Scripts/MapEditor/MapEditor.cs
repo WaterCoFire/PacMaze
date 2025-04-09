@@ -84,7 +84,6 @@ namespace MapEditor {
             if (!string.IsNullOrEmpty(mapName) && File.Exists(path)) {
                 string json = File.ReadAllText(path);
                 Debug.Log(json);
-                // TODO issues
                 MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
                 
                 Debug.Log("11111 " + wrapper.name);
@@ -99,13 +98,14 @@ namespace MapEditor {
                 // Initialize UI (set names etc.)
                 InitUI(_mapName);
                 
-                // TODO Still not working
                 // Set walls
                 gameObject.GetComponent<WallEditor>().SetWallData(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
-
+                Debug.Log("Wall set");
+                
                 // Set props
                 gameObject.GetComponent<PropEditor>().SetPropData(new PropData(wrapper.PropPositions(),
                     wrapper.FixedPropCounts, wrapper.TotalPropCounts));
+                Debug.Log("Prop set");
 
                 return true;
             } else {

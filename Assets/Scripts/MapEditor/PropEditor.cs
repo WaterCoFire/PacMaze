@@ -116,12 +116,29 @@ namespace MapEditor {
 
         /**
          * Sets the prop data. Used in MapEditor class.
-         * Dictionary<Vector3, GameObject> propOnTiles, Dictionary<string, int> fixedPropCounts, Dictionary<string, int> totalPropCounts
+         * Information to be set: propOnTiles, fixedPropCounts, totalPropCounts
          */
         public void SetPropData(PropData propData) {
+            // Data update
             _propOnTiles = propData.PropOnTiles;
             _fixedPropCounts = propData.FixedPropCounts;
             _totalPropCounts = propData.TotalPropCounts;
+
+            // Place props on the map
+            foreach (var kvp in _propOnTiles) {
+                GameObject prefab = kvp.Value;
+
+                if (prefab == null) {
+                    Debug.LogError($"WARNING Invalid prop type: {prefab}");
+                    return;
+                }
+
+                Instantiate(prefab, kvp.Key, Quaternion.identity);
+            }
+            
+            // UI update
+            LoadPropTotalCount();
+            TotalNumberButtonUpdate();
         }
 
         // Enters the prop editing mode. Used in MapEditor class.
@@ -146,10 +163,7 @@ namespace MapEditor {
         }
 
         private void Start() {
-            EnterPropMode();
-
             SetButtonActionListener();
-            LoadPropTotalCount();
         }
 
         // Load the total count information UI text for all props
@@ -260,7 +274,7 @@ namespace MapEditor {
 
             // UI update
             PropPlacedButtonUpdate();
-            
+
             return true;
         }
 
@@ -363,7 +377,7 @@ namespace MapEditor {
                 Debug.LogError("GhostSpawn place error!");
                 return;
             }
-            
+
             // Check if the number of fixed ones has reached the total number
             // If so, disable the minus button
             if (_fixedPropCounts["GhostSpawn"] == _totalPropCounts["GhostSpawn"]) {
@@ -376,7 +390,7 @@ namespace MapEditor {
                 Debug.LogError("PowerPellet place error!");
                 return;
             }
-            
+
             // Check if the number of fixed ones has reached the total number
             // If so, disable the minus button
             if (_fixedPropCounts["PowerPellet"] == _totalPropCounts["PowerPellet"]) {
@@ -389,7 +403,7 @@ namespace MapEditor {
                 Debug.LogError("FastWheel place error!");
                 return;
             }
-            
+
             // Check if the number of fixed ones has reached the total number
             // If so, disable the minus button
             if (_fixedPropCounts["FastWheel"] == _totalPropCounts["FastWheel"]) {
@@ -402,7 +416,7 @@ namespace MapEditor {
                 Debug.LogError("NiceBomb place error!");
                 return;
             }
-            
+
             // Check if the number of fixed ones has reached the total number
             // If so, disable the minus button
             if (_fixedPropCounts["NiceBomb"] == _totalPropCounts["NiceBomb"]) {
@@ -415,7 +429,7 @@ namespace MapEditor {
                 Debug.LogError("SlowWheel place error!");
                 return;
             }
-            
+
             // Check if the number of fixed ones has reached the total number
             // If so, disable the minus button
             if (_fixedPropCounts["SlowWheel"] == _totalPropCounts["SlowWheel"]) {
@@ -428,7 +442,7 @@ namespace MapEditor {
                 Debug.LogError("BadCherry place error!");
                 return;
             }
-            
+
             // Check if the number of fixed ones has reached the total number
             // If so, disable the minus button
             if (_fixedPropCounts["BadCherry"] == _totalPropCounts["BadCherry"]) {
@@ -441,7 +455,7 @@ namespace MapEditor {
                 Debug.LogError("LuckyDice place error!");
                 return;
             }
-            
+
             // Check if the number of fixed ones has reached the total number
             // If so, disable the minus button
             if (_fixedPropCounts["LuckyDice"] == _totalPropCounts["LuckyDice"]) {

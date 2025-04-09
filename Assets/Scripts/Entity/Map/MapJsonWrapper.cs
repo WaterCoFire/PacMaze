@@ -28,7 +28,7 @@ namespace Entity.Map {
         public List<bool> hwStatusRow8;
         public List<bool> hwStatusRow9;
         public List<bool> hwStatusRow10;
-        
+
         public List<bool> vwStatusRow1;
         public List<bool> vwStatusRow2;
         public List<bool> vwStatusRow3;
@@ -62,7 +62,7 @@ namespace Entity.Map {
             fixedPropValues = new List<int>(map.PropData.FixedPropCounts.Values);
             totalPropKeys = new List<string>(map.PropData.TotalPropCounts.Keys);
             totalPropValues = new List<int>(map.PropData.TotalPropCounts.Values);
-            
+
             hwStatusRow1 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 0));
             hwStatusRow2 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 1));
             hwStatusRow3 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 2));
@@ -140,7 +140,7 @@ namespace Entity.Map {
                 return result;
             }
         }
-        
+
         public bool[,] VerticalWallStatus {
             get {
                 bool[,] result = new bool[11, 10];
@@ -165,7 +165,6 @@ namespace Entity.Map {
         /**
          * Obtains the corresponding game object based on the prop type given.
          */
-        // TODO 优化
         private GameObject GetCorrespondingGameObject(string propName) {
             switch (CleanName(propName)) {
                 case "PacmanSpawn":
@@ -209,7 +208,5 @@ namespace Entity.Map {
 
             return list;
         }
-        
-        
     }
 }
