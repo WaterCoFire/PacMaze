@@ -102,25 +102,22 @@ namespace MapEditor {
          * Information to be set: propOnTiles, fixedPropCounts, totalPropCounts
          */
         public void SetPropData(PropData propData) {
-            // Data update
-            _propOnTiles = propData.PropOnTiles;
+            // Prop count data update
             _fixedPropCounts = propData.FixedPropCounts;
             _totalPropCounts = propData.TotalPropCounts;
 
-            // Place props on the map
-            foreach (var kvp in _propOnTiles) {
+            // Prop place info update
+            // & Place props on the map
+            foreach (var kvp in propData.PropOnTiles) {
                 GameObject prefab = kvp.Value;
 
                 if (prefab == null) {
                     Debug.LogError($"WARNING Invalid prop type: {prefab}");
                     return;
                 }
-
-                // TODO Issues here
-                Instantiate(prefab, kvp.Key, Quaternion.identity);
                 
-                // GameObject newProp = Instantiate(prefab, kvp.Key, Quaternion.identity);
-                // _propOnTiles[kvp.Key] = newProp;
+                GameObject newProp = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                _propOnTiles[kvp.Key] = newProp;
             }
             
             // UI update
