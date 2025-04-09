@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using MapEditor;
 using UnityEngine;
 
 namespace Entity.Map {
@@ -42,13 +44,12 @@ namespace Entity.Map {
         }
 
         // Used to convert to the format required by PropData when deserializing
-        // TODO 有问题
         public Dictionary<Vector3, GameObject> PropPositions() {
             var dict = new Dictionary<Vector3, GameObject>();
             for (int i = 0; i < propPositions.Count; i++) {
                 Vector3 pos = propPositions[i];
                 string type = propTypes[i];
-                dict[pos] = Resources.Load<GameObject>("Props/" + type); // 道具需放入 Resources/Props 文件夹
+                dict[pos] = GetCorrespondingGameObject(type);
             }
 
             return dict;
@@ -74,6 +75,42 @@ namespace Entity.Map {
 
                 return dict;
             }
+        }
+
+        /**
+         * Obtains the corresponding game object based on the prop type given.
+         */
+        // TODO 优化
+        private GameObject GetCorrespondingGameObject(string propName) {
+            switch (CleanName(propName)) {
+                case "PacmanSpawn":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/PacmanSpawn");
+                case "GhostSpawn":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/GhostSpawn");
+                case "PowerPellet":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/PowerPellet");
+                case "FastWheel":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/FastWheel");
+                case "NiceBomb":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/NiceBomb");
+                case "SlowWheel":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/SlowWheel");
+                case "BadCherry":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/BadCherry");
+                case "LuckyDice":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/LuckyDice");
+                default:
+                    Debug.LogError("Get corresponding game object error: " + CleanName(propName));
+                    return null;
+            }
+        }
+
+        // Remove the "(Clone)" at the end of the game object Name if it exists
+        private string CleanName(string nameToBeCleaned) {
+            const string cloneTag = "(Clone)";
+            return nameToBeCleaned.EndsWith(cloneTag)
+                ? nameToBeCleaned.Remove(nameToBeCleaned.Length - 7)
+                : nameToBeCleaned;
         }
     }
 }
