@@ -305,7 +305,7 @@ namespace MapEditor {
                             luckyDiceMinus.gameObject.SetActive(true);
                             break;
                         default:
-                            Debug.LogError("Invalid prop name: " + propName);
+                            Debug.LogError("Invalid prop Name: " + propName);
                             break;
                     }
                 }
@@ -1028,7 +1028,7 @@ namespace MapEditor {
             }
         }
 
-        // Remove the "(Clone)" at the end of the game object name if it exists
+        // Remove the "(Clone)" at the end of the game object Name if it exists
         // Used when trying to destroy an object
         private string CleanName(string nameToBeCleaned) {
             const string cloneTag = "(Clone)";

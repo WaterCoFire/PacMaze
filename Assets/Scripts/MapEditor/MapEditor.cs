@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Entity.Map;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,14 +26,42 @@ namespace MapEditor {
         public TMP_Text mapNameText;
         public TMP_Text modePromptText;
 
+        private string _mapName;
+        
+        // Map data save directory
+        private string _saveDirectory;
+
         // Prompt Text
         // Default: Click to edit walls or props of your map!
         // Wall Mode: Editing Walls
         // Prop Mode: Editing Props
 
         private void Start() {
+            // Set save directory
+            _saveDirectory = Path.Combine(Application.dataPath, "Maps");
+
+            if (!Directory.Exists(_saveDirectory))
+                Directory.CreateDirectory(_saveDirectory);
+            
             SetButtonActionListener();
-            InitUI();
+            InitUI("DEBUG TEST");
+        }
+
+        /**
+         * Saves the map data to .json file.
+         */
+        private bool SaveMapToFile() {
+            WallData wallData = gameObject.GetComponent<WallEditor>().GetWallData();
+            PropData propData = gameObject.GetComponent<PropEditor>().GetPropData();
+
+            Map map = new(_mapName, wallData, propData);
+            
+            // Save to file in .json
+            string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
+            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + ".json"), json);
+            Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
+            
+            return true;
         }
 
         // Edit Walls button operation
@@ -72,12 +102,15 @@ namespace MapEditor {
 
         // Quit (directly) button operation
         private void OnQuitButtonClick() {
-            InitUI();
+            InitUI(_mapName);
         }
 
         // Save & Quit button operation
         private void OnSaveAndQuitButtonClick() {
-            InitUI();
+            InitUI(_mapName);
+            
+            // Save map logic
+            SaveMapToFile();
         }
         
         // Set the color of a button
@@ -101,7 +134,11 @@ namespace MapEditor {
         }
 
         // Initializes the map editor UI. 
-        private void InitUI() {
+        private void InitUI(string mapName) {
+            // Map Name setting
+            _mapName = mapName;
+            mapNameText.text = mapName;
+            
             // Reset the prompt
             modePromptText.SetText("Click to edit walls or props of your map!");
 
