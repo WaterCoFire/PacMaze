@@ -116,6 +116,10 @@ namespace MapEditor {
                     return;
                 }
                 
+                // if (!_propOnTiles.ContainsKey(kvp.Key)) {
+                //     _propOnTiles[_selectedTileVector3] = new GameObject();
+                // }
+                
                 GameObject newProp = Instantiate(prefab, kvp.Key, Quaternion.identity);
                 _propOnTiles[kvp.Key] = newProp;
             }
@@ -234,9 +238,9 @@ namespace MapEditor {
         public bool PlaceProp(string propType) {
             if (!_tileSelected) return false;
 
-            if (!_propOnTiles.ContainsKey(_selectedTileVector3)) {
-                _propOnTiles[_selectedTileVector3] = new GameObject();
-            }
+            // if (!_propOnTiles.ContainsKey(_selectedTileVector3)) {
+            //     _propOnTiles[_selectedTileVector3] = new GameObject();
+            // }
 
             if (propType == "PacmanSpawn" && _fixedPropCounts["PacmanSpawn"] >= 1) {
                 Debug.Log("WARNING Only one Pacman Spawn Point is allowed.");
