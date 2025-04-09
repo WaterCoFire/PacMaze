@@ -88,27 +88,10 @@ namespace MapEditor {
         private Dictionary<Vector3, GameObject> _propOnTiles = new(); // Prop on every tile
 
         // FIXED counts of all the props
-        private Dictionary<string, int> _fixedPropCounts = new() {
-            { "PacmanSpawn", 0 },
-            { "GhostSpawn", 0 },
-            { "PowerPellet", 0 },
-            { "FastWheel", 0 },
-            { "NiceBomb", 0 },
-            { "SlowWheel", 0 },
-            { "BadCherry", 0 },
-            { "LuckyDice", 0 }
-        };
+        private Dictionary<string, int> _fixedPropCounts;
 
         // TOTAL counts of all the props - including FIXED and RANDOM ones
-        private Dictionary<string, int> _totalPropCounts = new() {
-            { "GhostSpawn", 2 },
-            { "PowerPellet", 0 },
-            { "FastWheel", 0 },
-            { "NiceBomb", 0 },
-            { "SlowWheel", 0 },
-            { "BadCherry", 0 },
-            { "LuckyDice", 0 }
-        };
+        private Dictionary<string, int> _totalPropCounts;
 
         private readonly Vector3 _gridStart = new(-15, 0, 15); // The top left corner
         private readonly float _gridSpacing = 3.0f; // The length of each tile
@@ -133,7 +116,11 @@ namespace MapEditor {
                     return;
                 }
 
+                // TODO Issues here
                 Instantiate(prefab, kvp.Key, Quaternion.identity);
+                
+                // GameObject newProp = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                // _propOnTiles[kvp.Key] = newProp;
             }
             
             // UI update
@@ -160,6 +147,8 @@ namespace MapEditor {
                 var renderer = _lastSelectedTile.GetComponent<Renderer>();
                 if (renderer != null) renderer.material = tileNormalMaterial;
             }
+            
+            PropsButtonInit();
         }
 
         private void Start() {
@@ -305,7 +294,7 @@ namespace MapEditor {
                 _fixedPropCounts[propName]--;
 
                 // Enable the corresponding minus button if the fixed count is already less than total number
-                if (_fixedPropCounts[propName] < _totalPropCounts[propName]) {
+                if (propName != "PacmanSpawn" && _fixedPropCounts[propName] < _totalPropCounts[propName]) {
                     switch (propName) {
                         case "GhostSpawn":
                             ghostSpawnMinus.gameObject.SetActive(true);
@@ -361,7 +350,8 @@ namespace MapEditor {
         // Checks if the condition is satisfied for save & quit, returns:
         // true if all set
         // false if the pacman spawn point is not set
-        private bool CheckCondition() {
+        public bool CheckCondition() {
+            // Must have a pacman spawn point
             if (_fixedPropCounts["PacmanSpawn"] == 0) return false;
             return true;
         }
