@@ -68,10 +68,13 @@ namespace MapEditor {
             PropData propData = gameObject.GetComponent<PropEditor>().GetPropData();
 
             Map map = new(_mapName, wallData, propData);
+            
+            // Get the number of total ghosts (will be part of the file name)
+            int totalGhosts = propData.TotalPropCounts["GhostSpawn"];
 
             // Save to file in .json
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
-            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + ".json"), json);
+            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + ".json"), json);
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
 
             return true;
