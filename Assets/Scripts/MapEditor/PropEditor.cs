@@ -83,7 +83,7 @@ namespace MapEditor {
         public GameObject propEditPanel; // Only active when a tile is selected
         public GameObject tileNotSelectedPrompt;
 
-        public bool propMode;
+        private bool _propMode;
 
         private Dictionary<Vector3, GameObject> _propOnTiles = new(); // Prop on every tile
 
@@ -131,7 +131,7 @@ namespace MapEditor {
 
         // Enters the prop editing mode. Used in MapEditor class.
         public void EnterPropMode() {
-            propMode = true;
+            _propMode = true;
             _tileSelected = false;
 
             propEditPanel.SetActive(false);
@@ -141,7 +141,7 @@ namespace MapEditor {
 
         // Quits the prop editing mode. Used in MapEditor class.
         public void QuitPropMode() {
-            propMode = false;
+            _propMode = false;
 
             // Change the material of the last tile back to the normal one
             if (_lastSelectedTile != null) {
@@ -169,7 +169,7 @@ namespace MapEditor {
 
         // Handle mouse press
         void Update() {
-            if (!propMode) return;
+            if (!_propMode) return;
             if (Input.GetMouseButtonDown(0)) {
                 SelectTile();
             }

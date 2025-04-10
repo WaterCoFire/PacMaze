@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Entity.Map;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /**
  * Manages the wall editor.
@@ -40,13 +41,13 @@ public class WallEditor : MonoBehaviour {
     public GameObject[] verticalWalls10;
     public GameObject[] verticalWalls11;
 
-    public bool wallMode;
+    private bool _wallMode;
 
     private Dictionary<GameObject, (bool isHorizontal, int row, int column)> _wallLookup = new();
 
     // Start is called before the first frame update
     void Start() {
-        wallMode = false;
+        _wallMode = false;
     }
 
     public void SetWallData(WallData wallData) {
@@ -242,13 +243,13 @@ public class WallEditor : MonoBehaviour {
 
     // Enters the wall editing mode. Used in MapEditor class.
     public void EnterWallMode() {
-        wallMode = true;
+        _wallMode = true;
         _previousMeshRenderer = null;
     }
 
     // Quits the prop editing mode. Used in MapEditor class.
     public void QuitWallMode() {
-        wallMode = false;
+        _wallMode = false;
 
         // Set the material of the previous selected wall
         if (_previousMeshRenderer != null) {
@@ -258,7 +259,7 @@ public class WallEditor : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (!wallMode) return;
+        if (!_wallMode) return;
         HandleMouseInput();
     }
 

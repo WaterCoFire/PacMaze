@@ -38,7 +38,7 @@ namespace MapEditor {
         private string _mapName;
 
         // Map data save directory
-        private string _saveDirectory;
+        private string _saveDirectory = Path.Combine(Application.dataPath, "Maps");
 
         // Prompt Text
         // Default: Click to edit walls or props of your map!
@@ -46,9 +46,6 @@ namespace MapEditor {
         // Prop Mode: Editing Props
 
         private void Start() {
-            // Set save directory
-            _saveDirectory = Path.Combine(Application.dataPath, "Maps");
-
             if (!Directory.Exists(_saveDirectory))
                 Directory.CreateDirectory(_saveDirectory);
 
