@@ -52,14 +52,15 @@ namespace MapEditor {
         // Difficulty Mode: Editing Difficulty
 
         private void Start() {
+            Debug.Log("MapEditor START");
+
             if (!Directory.Exists(_saveDirectory))
                 Directory.CreateDirectory(_saveDirectory);
 
             SetButtonActionListener();
-            InitUI("DEBUG TEST");
 
-            // TEST TEST TEST TODO integrate
-            PlayerPrefs.SetString("EditMapFileToLoad", "CLASSIC_2_E");
+            // InitUI("DEBUG TEST");
+            // PlayerPrefs.SetString("EditMapFileToLoad", "CLASSIC_2_E");
             LoadMap();
         }
 
@@ -76,7 +77,19 @@ namespace MapEditor {
             // Get the number of total ghosts (will be part of the file name)
             int totalGhosts = propData.TotalPropCounts["GhostSpawn"];
 
-            // Save to file in .json
+            Debug.Log("Saving map, name " + _mapName + ", " + totalGhosts + " ghosts, difficulty " + difficulty);
+
+            // Find the origin file to delete it
+            string originMapFile = _saveDirectory + "/" + PlayerPrefs.GetString("EditMapFileToLoad") + ".json";
+            if (!File.Exists(originMapFile)) {
+                Debug.LogError("Map Editor save error: Origin map file not found!");
+                return false;
+            }
+            
+            // Delete the origin file
+            File.Delete(originMapFile);
+
+            // Save to a new file in .json
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
             File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + "_" + difficulty + ".json"),
                 json);
@@ -202,7 +215,7 @@ namespace MapEditor {
         // Quit (directly) button operation
         private void OnQuitButtonClick() {
             InitUI(_mapName); // Reset this UI as it is being closed
-            
+
             // Load MainPage UI
             SceneManager.LoadScene("UI");
         }
@@ -226,7 +239,7 @@ namespace MapEditor {
 
             // Save map logic
             SaveMapToFile();
-            
+
             // Load MainPage UI
             SceneManager.LoadScene("UI");
         }
@@ -302,7 +315,7 @@ namespace MapEditor {
             gameObject.GetComponent<WallEditor>().QuitWallMode();
             gameObject.GetComponent<PropEditor>().QuitPropMode();
             gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-            
+
             // Mode index reset (in none of the modes)
             _mode = 0;
 

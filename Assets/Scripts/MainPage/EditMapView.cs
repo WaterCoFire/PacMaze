@@ -33,6 +33,8 @@ namespace MainPage {
         private string _renamedMapNewName;
 
         private void Start() {
+            Debug.Log("EditMapView START");
+            
             SetButtonActionListener();
 
             _mapInfos = new List<MapInfo>();
@@ -238,13 +240,39 @@ namespace MainPage {
          * Called by the confirm button in create window.
          */
         public void CreateMap(string newMapName) {
-            // TODO Create logic
-
             // Create new map file
             // BY DEFAULT, THE MAP:
             // Number of ghosts: 2 Ghosts
             // Difficulty: Easy
 
+            // Default map path
+            string defaultMapPath = _saveDirectory + "/Default/DEFAULT_MAP.json";
+            
+            // Path of the map to be created
+            string targetMapPath = _saveDirectory + "/" + newMapName + "_2_E.json";
+            
+            if (!File.Exists(defaultMapPath)) {
+                Debug.LogError("Default map file does not exist!");
+                return;
+            }
+
+            try {
+                // Read all the text in the default map file json
+                string json = File.ReadAllText(defaultMapPath);
+                
+                // Replace the default name with the new one
+                string newMapJson = System.Text.RegularExpressions.Regex.Replace(
+                    json,
+                    "\"name\"\\s*:\\s*\"[^\"]*\"",
+                    $"\"name\": \"{newMapName}\""
+                );
+
+                // And write it to the new map file
+                File.WriteAllText(targetMapPath, newMapJson);
+            } catch (IOException e) {
+                Debug.LogError($"Create map error: {e.Message}");
+                return;
+            }
 
             // Player preference setting: the file name to load
             PlayerPrefs.SetString("EditMapFileToLoad", newMapName + "_2_E");

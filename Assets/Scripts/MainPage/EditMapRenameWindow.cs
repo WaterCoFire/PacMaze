@@ -89,6 +89,12 @@ namespace MainPage {
                 warningText.text = "Pacman is scared because it sees some unusual characters!";
                 return false;
             }
+            
+            // Name does not change at all
+            if (nameInput == _originName) {
+                warningText.text = "Pacman is sad because nothing has changed at all!";
+                return false;
+            }
 
             // Name conflict
             if (editMapViewWindow.GetComponent<EditMapView>().CheckNameConflict(nameInput.ToUpper())) {

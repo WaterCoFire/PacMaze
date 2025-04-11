@@ -45,8 +45,6 @@ namespace Entity.Map {
         public MapJsonWrapper() { }
 
         public MapJsonWrapper(Map map) {
-            Debug.Log("MapJsonWrapper 111");
-            Debug.Log("Map name" + map.Name);
             name = map.Name;
             played = map.Played;
             lastPlayedDateTime = map.LastPlayedDateTime.ToString();
