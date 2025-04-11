@@ -13,7 +13,7 @@ namespace MainPage {
         public ScrollRect editMapScrollRect;
         public GameObject mapInfoPrefab;
         public Transform scrollRectContent;
-        
+
         // Buttons at the top
         public Button backButton;
         public Button createNewMapButton;
@@ -31,7 +31,7 @@ namespace MainPage {
 
         private void Start() {
             SetButtonActionListener();
-            
+
             _mapInfos = new List<MapInfo>();
             UpdateEditMapList();
         }
@@ -192,7 +192,8 @@ namespace MainPage {
             // Get file paths
             string oldPath = Path.Combine(_saveDirectory,
                 $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostNum}_{_renamedMapOldInfo.Difficulty}.json");
-            string newPath = Path.Combine(_saveDirectory, $"{newName}_{_renamedMapOldInfo.GhostNum}_{_renamedMapOldInfo.Difficulty}.json");
+            string newPath = Path.Combine(_saveDirectory,
+                $"{newName}_{_renamedMapOldInfo.GhostNum}_{_renamedMapOldInfo.Difficulty}.json");
 
             if (File.Exists(oldPath)) {
                 // File operation
@@ -200,17 +201,17 @@ namespace MainPage {
                 Debug.Log($"Renamed {oldPath} -> {newPath}");
 
                 UpdateEditMapList(); // UI update
-                
+
                 // Re-set the map name in the json file
                 string json = File.ReadAllText(newPath);
-                
+
                 // Replace the old name with the new one
                 string updatedJson = System.Text.RegularExpressions.Regex.Replace(
                     json,
                     "\"name\"\\s*:\\s*\"[^\"]*\"",
                     $"\"name\": \"{newName}\""
                 );
-                
+
                 File.WriteAllText(newPath, updatedJson);
 
                 Debug.Log($"Successfully updated 'name' field in {Path.GetFileName(newPath)} to '{newName}'");
@@ -225,6 +226,18 @@ namespace MainPage {
          */
         public void CreateMap(string newMapName) {
             // TODO
+
+            // Create new map file
+            // BY DEFAULT, THE MAP:
+            // Number of ghosts: 2 Ghosts
+            // Difficulty: Easy
+
+
+            // Player preference setting: the file name to load
+            PlayerPrefs.SetString("EditMapFileToLoad", newMapName + "_2_E");
+
+            // Jump to Map Editor
+            SceneManager.LoadScene("MapEditor");
         }
 
         /* Button action listeners setting */
@@ -232,7 +245,7 @@ namespace MainPage {
         private void OnBackButtonClick() {
             // TODO
         }
-        
+
         // Create new map button: Enters the create window
         private void OnCreateNewMapButtonClick() {
             gameObject.GetComponent<EditMapCreateWindow>().ShowCreateWindow();

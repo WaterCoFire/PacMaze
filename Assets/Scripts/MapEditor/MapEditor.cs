@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
 using TMPro;
@@ -41,9 +40,6 @@ namespace MapEditor {
         private int _mode;
         private string _mapName;
 
-        // Current difficulty set TODO setting
-        private char _difficulty = 'E';
-
         // Map data save directory
         private string _saveDirectory = Path.Combine(Application.dataPath, "Maps");
         private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
@@ -52,6 +48,7 @@ namespace MapEditor {
         // Default: Click to edit walls or props of your map!
         // Wall Mode: Editing Walls
         // Prop Mode: Editing Props
+        // Difficulty Mode: Editing Difficulty
 
         private void Start() {
             if (!Directory.Exists(_saveDirectory))
@@ -71,17 +68,16 @@ namespace MapEditor {
         private bool SaveMapToFile() {
             WallData wallData = gameObject.GetComponent<WallEditor>().GetWallData();
             PropData propData = gameObject.GetComponent<PropEditor>().GetPropData();
-            _difficulty = gameObject.GetComponent<DifficultyEditor>().GetDifficultyData();
+            char difficulty = gameObject.GetComponent<DifficultyEditor>().GetDifficultyData();
 
-            // TODO difficulty setting
-            Map map = new(_mapName, _difficulty, wallData, propData);
+            Map map = new(_mapName, difficulty, wallData, propData);
 
             // Get the number of total ghosts (will be part of the file name)
             int totalGhosts = propData.TotalPropCounts["GhostSpawn"];
 
             // Save to file in .json
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
-            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + "_" + _difficulty + ".json"),
+            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + "_" + difficulty + ".json"),
                 json);
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
 
@@ -104,7 +100,7 @@ namespace MapEditor {
 
             // Set map name and difficulty
             _mapName = match.Groups[1].Value;
-            _difficulty = match.Groups[3].Value[0];
+            gameObject.GetComponent<DifficultyEditor>().SetDifficultyData(match.Groups[3].Value[0]);
 
             // Obtain the file path
             string path = Path.Combine(_saveDirectory, mapFileName + ".json");
@@ -147,7 +143,7 @@ namespace MapEditor {
         // Edit Walls button operation
         private void OnEditWallsButtonClick() {
             // Update the prompt
-            modePromptText.SetText("Editing:Walls");
+            modePromptText.SetText("Editing:\nWalls");
 
             // Mode setting
             gameObject.GetComponent<PropEditor>().QuitPropMode();
@@ -170,7 +166,7 @@ namespace MapEditor {
         // Edit Props button operation
         private void OnEditPropsButtonClick() {
             // Update the prompt
-            modePromptText.SetText("Editing:Props");
+            modePromptText.SetText("Editing:\nProps");
 
             // Mode setting
             gameObject.GetComponent<WallEditor>().QuitWallMode();
@@ -193,7 +189,7 @@ namespace MapEditor {
         // Difficulty setting button operation
         private void OnDifficultyButtonClick() {
             // Update the prompt
-            modePromptText.SetText("Editing:Difficulty");
+            modePromptText.SetText("Editing:\nDifficulty");
 
             // Mode setting
             gameObject.GetComponent<PropEditor>().QuitPropMode();

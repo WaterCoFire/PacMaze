@@ -3,11 +3,36 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace MapEditor {
+    /**
+     * DIFFICULTY SETTING
+     * Easy:
+     * - Lucky Dice won't bring in any negative effect (Slow Wheel, Bad Cherry)
+     *   (50% Fast Wheel, 25% Power Pellet, 25% Nice Bomb)
+     * - Ghosts move slowly when chasing
+     * - A ghost would chase pacman only if it is CLOSE to pacman
+     *
+     * Normal:
+     * - Lucky Dice would bring any effect
+     *   (20% Power Pellet, 20% Fast Wheel, 20% Nice Bomb, 20% Slow Wheel, 20% Bad Cherry)
+     * - Ghosts move at normal speed when chasing
+     * - A ghost would chase pacman if it is NOT FAR from pacman
+     *
+     * Hard:
+     * - Lucky Dice would more likely bring a negative effect
+     *   (20% Fast Wheel, 15% Power Pellet, 15% Nice Bomb, 25% Slow Wheel, 25% Bad Cherry)
+     * - Ghosts move faster when chasing
+     * - Ghosts would ALWAYS chase the pacman, despite the distance
+     */
     public class DifficultyEditor : MonoBehaviour {
         // Difficulty setting buttons
         public Button easyButton;
         public Button normalButton;
         public Button hardButton;
+
+        // The prompts describing every difficulty level
+        public GameObject easyModePrompt;
+        public GameObject normalModePrompt;
+        public GameObject hardModePrompt;
 
         // COLORS
         // EASY - normal color
@@ -26,11 +51,6 @@ namespace MapEditor {
         private void Start() {
             _difficultyMode = false;
             SetButtonActionListener();
-        }
-
-        // UPDATE FUNCTION
-        private void Update() {
-            if (!_difficultyMode) return;
         }
 
         /**
@@ -55,6 +75,19 @@ namespace MapEditor {
          */
         public void EnterDifficultyMode() {
             _difficultyMode = true;
+
+            // Update UI based on the difficulty level
+            switch (_difficultySet) {
+                case 'E':
+                    OnEasyButtonClick();
+                    break;
+                case 'N':
+                    OnNormalButtonClick();
+                    break;
+                case 'H':
+                    OnHardButtonClick();
+                    break;
+            }
         }
 
         /**
@@ -104,6 +137,11 @@ namespace MapEditor {
             SetButtonStatus(normalButton, 'N', false);
             SetButtonStatus(hardButton, 'H', false);
             
+            // Prompt update
+            easyModePrompt.SetActive(true);
+            normalModePrompt.SetActive(false);
+            hardModePrompt.SetActive(false);
+            
             // Set difficulty data
             _difficultySet = 'E';
         }
@@ -114,6 +152,11 @@ namespace MapEditor {
             SetButtonStatus(normalButton, 'N', true);
             SetButtonStatus(hardButton, 'H', false);
             
+            // Prompt update
+            easyModePrompt.SetActive(false);
+            normalModePrompt.SetActive(true);
+            hardModePrompt.SetActive(false);
+            
             // Set difficulty data
             _difficultySet = 'N';
         }
@@ -123,6 +166,11 @@ namespace MapEditor {
             SetButtonStatus(easyButton, 'E', false);
             SetButtonStatus(normalButton, 'N', false);
             SetButtonStatus(hardButton, 'H', true);
+            
+            // Prompt update
+            easyModePrompt.SetActive(false);
+            normalModePrompt.SetActive(false);
+            hardModePrompt.SetActive(true);
             
             // Set difficulty data
             _difficultySet = 'H';
