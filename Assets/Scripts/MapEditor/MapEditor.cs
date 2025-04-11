@@ -45,7 +45,7 @@ namespace MapEditor {
         private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
         // Prompt Text
-        // Default: Click to edit walls or props of your map!
+        // Default: Click to select what you need to edit!
         // Wall Mode: Editing Walls
         // Prop Mode: Editing Props
         // Difficulty Mode: Editing Difficulty
@@ -58,7 +58,7 @@ namespace MapEditor {
             InitUI("DEBUG TEST");
 
             // TEST TEST TEST TODO integrate
-            PlayerPrefs.SetString("EditMapFileToLoad", "DEBUG TEST_2_E");
+            PlayerPrefs.SetString("EditMapFileToLoad", "CLASSIC_2_E");
             LoadMap();
         }
 
@@ -300,7 +300,7 @@ namespace MapEditor {
             mapNameText.text = mapName;
 
             // Reset the prompt
-            modePromptText.SetText("Click to edit walls or props of your map!");
+            modePromptText.SetText("Click to select what you need to edit!");
 
             // Clear of all the modes
             gameObject.GetComponent<WallEditor>().QuitWallMode();

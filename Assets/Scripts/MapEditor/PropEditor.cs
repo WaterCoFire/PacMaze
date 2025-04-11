@@ -214,10 +214,10 @@ namespace MapEditor {
 
                 // UI update
                 if (!_propOnTiles.ContainsKey(_selectedTileVector3) || _propOnTiles[_selectedTileVector3] == null) {
-                    Debug.Log("UI: This tile does not have a valid tile.");
+                    Debug.Log("UI: This tile does not have a valid prop.");
                     PropMissingButtonUpdate();
                 } else {
-                    Debug.Log("UI: This tile have a valid tile.");
+                    Debug.Log("UI: This tile have a valid prop.");
                     PropPlacedButtonUpdate();
                 }
             }
@@ -474,7 +474,10 @@ namespace MapEditor {
 
             // If the total count is becoming more than the fixed count, enable the prop button
             if (_totalPropCounts["GhostSpawn"] > _fixedPropCounts["GhostSpawn"]) {
-                ghostSpawnButton.interactable = true;
+                // ghostSpawnButton.interactable = true;
+                if (_tileSelected && (!_propOnTiles.ContainsKey(_selectedTileVector3) || _propOnTiles[_selectedTileVector3] == null)) {
+                    ghostSpawnButton.interactable = true;
+                }
             }
 
             // If reaches the maximum number 5, disable the add button
@@ -528,7 +531,10 @@ namespace MapEditor {
 
             // If the total count is becoming more than the fixed count, enable the prop button
             if (_totalPropCounts["PowerPellet"] > _fixedPropCounts["PowerPellet"]) {
-                powerPelletButton.interactable = true;
+                // powerPelletButton.interactable = true;
+                if (_tileSelected && (!_propOnTiles.ContainsKey(_selectedTileVector3) || _propOnTiles[_selectedTileVector3] == null)) {
+                    powerPelletButton.interactable = true;
+                }
             }
 
             // If reaches the maximum number 5, disable the add button
@@ -582,7 +588,10 @@ namespace MapEditor {
 
             // If the total count is becoming more than the fixed count, enable the prop button
             if (_totalPropCounts["FastWheel"] > _fixedPropCounts["FastWheel"]) {
-                fastWheelButton.interactable = true;
+                // fastWheelButton.interactable = true;
+                if (_tileSelected && (!_propOnTiles.ContainsKey(_selectedTileVector3) || _propOnTiles[_selectedTileVector3] == null)) {
+                    fastWheelButton.interactable = true;
+                }
             }
 
             // If reaches the maximum number 5, disable the add button
@@ -634,7 +643,10 @@ namespace MapEditor {
 
             // If the total count is becoming more than the fixed count, enable the prop button
             if (_totalPropCounts["NiceBomb"] > _fixedPropCounts["NiceBomb"]) {
-                niceBombButton.interactable = true;
+                // niceBombButton.interactable = true;
+                if (_tileSelected && (!_propOnTiles.ContainsKey(_selectedTileVector3) || _propOnTiles[_selectedTileVector3] == null)) {
+                    niceBombButton.interactable = true;
+                }
             }
 
             // If reaches the maximum number 5, disable the add button
@@ -686,7 +698,10 @@ namespace MapEditor {
 
             // If the total count is becoming more than the fixed count, enable the prop button
             if (_totalPropCounts["SlowWheel"] > _fixedPropCounts["SlowWheel"]) {
-                slowWheelButton.interactable = true;
+                // slowWheelButton.interactable = true;
+                if (_tileSelected && (!_propOnTiles.ContainsKey(_selectedTileVector3) || _propOnTiles[_selectedTileVector3] == null)) {
+                    slowWheelButton.interactable = true;
+                }
             }
 
             // If reaches the maximum number 5, disable the add button
@@ -738,7 +753,10 @@ namespace MapEditor {
 
             // If the total count is becoming more than the fixed count, enable the prop button
             if (_totalPropCounts["BadCherry"] > _fixedPropCounts["BadCherry"]) {
-                badCherryButton.interactable = true;
+                // badCherryButton.interactable = true;
+                if (_tileSelected && (!_propOnTiles.ContainsKey(_selectedTileVector3) || _propOnTiles[_selectedTileVector3] == null)) {
+                    badCherryButton.interactable = true;
+                }
             }
 
             // If reaches the maximum number 5, disable the add button
@@ -790,7 +808,10 @@ namespace MapEditor {
 
             // If the total count is becoming more than the fixed count, enable the prop button
             if (_totalPropCounts["LuckyDice"] > _fixedPropCounts["LuckyDice"]) {
-                luckyDiceButton.interactable = true;
+                // luckyDiceButton.interactable = true;
+                if (_tileSelected && (!_propOnTiles.ContainsKey(_selectedTileVector3) || _propOnTiles[_selectedTileVector3] == null)) {
+                    luckyDiceButton.interactable = true;
+                }
             }
 
             // If reaches the maximum number 5, disable the add button

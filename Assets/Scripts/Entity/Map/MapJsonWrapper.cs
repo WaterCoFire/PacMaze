@@ -56,8 +56,11 @@ namespace Entity.Map {
             propPositions = new List<Vector3>();
             propTypes = new List<string>();
             foreach (var kvp in map.PropData.PropOnTiles) {
-                propPositions.Add(kvp.Key);
-                propTypes.Add(kvp.Value.name); // Use the name of the prop to identify its type
+                // Add prop position and type information to Json
+                if (kvp.Value != null) {
+                    propPositions.Add(kvp.Key);
+                    propTypes.Add(kvp.Value.name); // Use the name of the prop to identify its type
+                }
             }
 
             fixedPropKeys = new List<string>(map.PropData.FixedPropCounts.Keys);

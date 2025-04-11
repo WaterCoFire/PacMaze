@@ -30526,7 +30526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1045898886
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45085,8 +45085,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -741.5331, y: -190}
-  m_SizeDelta: {x: 342.9338, y: 82.4768}
+  m_AnchoredPosition: {x: -770.2, y: -190}
+  m_SizeDelta: {x: 280.5107, y: 82.4768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1510401337
 MonoBehaviour:
@@ -45135,8 +45135,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 27
+  m_fontSizeBase: 27
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -52762,7 +52762,7 @@ MonoBehaviour:
   difficultyModeButton: {fileID: 1088379072}
   wallModeSettingPanel: {fileID: 1036632321}
   propModeSettingPanel: {fileID: 2015901838}
-  difficultySettingPanel: {fileID: 0}
+  difficultySettingPanel: {fileID: 1045898885}
   mapNameText: {fileID: 382957435}
   modePromptText: {fileID: 1510401337}
   noPacmanSpawnWarningPanel: {fileID: 315549939}
