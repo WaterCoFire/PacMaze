@@ -123,7 +123,7 @@ namespace MainPage {
                                 text.text = "NORMAL";
                                 break;
                             case 'H':
-                                text.text = "HIGH";
+                                text.text = "HARD";
                                 break;
                             default:
                                 Debug.LogError("Difficulty error while reading files");
@@ -152,7 +152,7 @@ namespace MainPage {
                             Destroy(mapInfoObject);
                             Debug.Log($"Deleted map: {mapInfo.Name}");
 
-                            // UpdateEditMapList(); // Update then
+                            // UpdateEditMapList(); // Update then TODO figure this out
                         });
                     } else if (objName == "RenameButton") {
                         // RENAME THIS MAP OPERATION

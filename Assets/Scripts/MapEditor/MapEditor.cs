@@ -20,10 +20,12 @@ namespace MapEditor {
 
         public Button wallModeButton; // Editing wall mode
         public Button propModeButton; // Editing prop mode
+        public Button difficultyModeButton; // Difficulty setting mode
 
         // UI panels
         public GameObject wallModeSettingPanel;
         public GameObject propModeSettingPanel;
+        public GameObject difficultySettingPanel;
 
         public TMP_Text mapNameText;
         public TMP_Text modePromptText;
@@ -35,6 +37,7 @@ namespace MapEditor {
         // 0 - Disabled/Default
         // 1 - Walls
         // 2 - Props
+        // 3 - Difficulty
         private int _mode;
         private string _mapName;
 
@@ -57,7 +60,7 @@ namespace MapEditor {
             SetButtonActionListener();
             InitUI("DEBUG TEST");
 
-            // TEST TEST TEST
+            // TEST TEST TEST TODO integrate
             PlayerPrefs.SetString("EditMapFileToLoad", "DEBUG TEST_2_E");
             LoadMap();
         }
@@ -68,6 +71,7 @@ namespace MapEditor {
         private bool SaveMapToFile() {
             WallData wallData = gameObject.GetComponent<WallEditor>().GetWallData();
             PropData propData = gameObject.GetComponent<PropEditor>().GetPropData();
+            _difficulty = gameObject.GetComponent<DifficultyEditor>().GetDifficultyData();
 
             // TODO difficulty setting
             Map map = new(_mapName, _difficulty, wallData, propData);
@@ -77,7 +81,8 @@ namespace MapEditor {
 
             // Save to file in .json
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
-            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + "_" + _difficulty + ".json"), json);
+            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + "_" + _difficulty + ".json"),
+                json);
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
 
             return true;
@@ -96,7 +101,7 @@ namespace MapEditor {
                 Debug.LogError("File match error when loading map file! File name: " + mapFileName);
                 return false;
             }
-            
+
             // Set map name and difficulty
             _mapName = match.Groups[1].Value;
             _difficulty = match.Groups[3].Value[0];
@@ -146,16 +151,19 @@ namespace MapEditor {
 
             // Mode setting
             gameObject.GetComponent<PropEditor>().QuitPropMode();
+            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
             gameObject.GetComponent<WallEditor>().EnterWallMode();
 
             _mode = 1;
 
             // Buttons color update
             SetButtonStatus(propModeButton, false);
+            SetButtonStatus(difficultyModeButton, false);
             SetButtonStatus(wallModeButton, true);
 
             // Update the setting panel
             propModeSettingPanel.SetActive(false);
+            difficultySettingPanel.SetActive(false);
             wallModeSettingPanel.SetActive(true);
         }
 
@@ -166,17 +174,43 @@ namespace MapEditor {
 
             // Mode setting
             gameObject.GetComponent<WallEditor>().QuitWallMode();
+            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
             gameObject.GetComponent<PropEditor>().EnterPropMode();
 
             _mode = 2;
 
             // Buttons color update
             SetButtonStatus(wallModeButton, false);
+            SetButtonStatus(difficultyModeButton, false);
             SetButtonStatus(propModeButton, true);
 
             // Update the setting panel
             wallModeSettingPanel.SetActive(false);
+            difficultySettingPanel.SetActive(false);
             propModeSettingPanel.SetActive(true);
+        }
+
+        // Difficulty setting button operation
+        private void OnDifficultyButtonClick() {
+            // Update the prompt
+            modePromptText.SetText("Editing:Difficulty");
+
+            // Mode setting
+            gameObject.GetComponent<PropEditor>().QuitPropMode();
+            gameObject.GetComponent<WallEditor>().QuitWallMode();
+            gameObject.GetComponent<DifficultyEditor>().EnterDifficultyMode();
+
+            _mode = 3;
+
+            // Buttons color update
+            SetButtonStatus(wallModeButton, false);
+            SetButtonStatus(propModeButton, false);
+            SetButtonStatus(difficultyModeButton, true);
+
+            // Update the setting panel
+            wallModeSettingPanel.SetActive(false);
+            propModeSettingPanel.SetActive(false);
+            difficultySettingPanel.SetActive(true);
         }
 
         // Quit (directly) button operation
@@ -194,6 +228,7 @@ namespace MapEditor {
                 // (Recovered after the close button is clicked)
                 gameObject.GetComponent<WallEditor>().QuitWallMode();
                 gameObject.GetComponent<PropEditor>().QuitPropMode();
+                gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
 
                 return;
             }
@@ -210,19 +245,28 @@ namespace MapEditor {
 
             switch (_mode) {
                 case 0:
-                    // In neither mode
+                    // In none of the modes
                     gameObject.GetComponent<WallEditor>().QuitWallMode();
                     gameObject.GetComponent<PropEditor>().QuitPropMode();
+                    gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
                     break;
                 case 1:
                     // In walls mode
                     gameObject.GetComponent<WallEditor>().EnterWallMode();
                     gameObject.GetComponent<PropEditor>().QuitPropMode();
+                    gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
                     break;
                 case 2:
                     // In props mode
                     gameObject.GetComponent<WallEditor>().QuitWallMode();
                     gameObject.GetComponent<PropEditor>().EnterPropMode();
+                    gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+                    break;
+                case 3:
+                    // In difficulty setting mode
+                    gameObject.GetComponent<WallEditor>().QuitWallMode();
+                    gameObject.GetComponent<PropEditor>().QuitPropMode();
+                    gameObject.GetComponent<DifficultyEditor>().EnterDifficultyMode();
                     break;
                 default:
                     Debug.LogError("Mode error!");
@@ -243,11 +287,13 @@ namespace MapEditor {
             }
         }
 
+        // Set the action listeners of all the buttons
         private void SetButtonActionListener() {
             quitButton.onClick.AddListener(OnQuitButtonClick);
             saveButton.onClick.AddListener(OnSaveAndQuitButtonClick);
             wallModeButton.onClick.AddListener(OnEditWallsButtonClick);
             propModeButton.onClick.AddListener(OnEditPropsButtonClick);
+            difficultyModeButton.onClick.AddListener(OnDifficultyButtonClick);
             warningPanelCloseButton.onClick.AddListener(OnWarningPanelCloseButtonClick);
         }
 
@@ -260,18 +306,23 @@ namespace MapEditor {
             // Reset the prompt
             modePromptText.SetText("Click to edit walls or props of your map!");
 
-            // Clear of both modes
+            // Clear of all the modes
             gameObject.GetComponent<WallEditor>().QuitWallMode();
             gameObject.GetComponent<PropEditor>().QuitPropMode();
+            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+            
+            // Mode index reset (in none of the modes)
             _mode = 0;
 
             // Reset the color of both buttons
             SetButtonStatus(wallModeButton, false);
             SetButtonStatus(propModeButton, false);
+            SetButtonStatus(difficultyModeButton, false);
 
             // Reset both setting panels
             wallModeSettingPanel.SetActive(false);
             propModeSettingPanel.SetActive(false);
+            difficultySettingPanel.SetActive(false);
         }
     }
 }
