@@ -6,6 +6,7 @@ namespace Entity.Map {
     public class Map {
         // Basic information
         public String Name;
+        public char Difficulty;
         public DateTime LastPlayedDateTime;
         
         // public Time FastestTime;
@@ -16,8 +17,9 @@ namespace Entity.Map {
         public PropData PropData;
         public WallData WallData;
 
-        public Map(string name, WallData wallData, PropData propData) {
+        public Map(string name, char difficulty, WallData wallData, PropData propData) {
             Name = name;
+            Difficulty = difficulty;
             WallData = wallData;
             PropData = propData;
 

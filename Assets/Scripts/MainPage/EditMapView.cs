@@ -36,8 +36,11 @@ namespace MainPage {
                 Destroy(child.gameObject);
             }
 
+            Debug.Log("1 Destroyed");
+
             // Clear the list
             _mapInfos.Clear();
+            Debug.Log("2 Cleared");
 
             // Reset the cumulative height
             _cumulativeHeight = 0f;
@@ -48,23 +51,32 @@ namespace MainPage {
                 return false;
             }
 
+            Debug.Log("3 Directory found");
+
             // Read all the files in the directory
             string[] files = Directory.GetFiles(_saveDirectory, "*.json");
+            Debug.Log("4 Files read");
 
             // The format of the file
-            Regex regex = new Regex(@"^([^_]+)_(\d+)\.json$");
+            // MAP NAME + GHOSTS (NUM) + DIFFICULTY (LETTER)
+            Regex regex = new Regex(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
 
             // Read all file names
             foreach (var filePath in files) {
                 string fileName = Path.GetFileName(filePath);
                 Match match = regex.Match(fileName);
 
+                Debug.Log("5 Files name " + fileName);
+
                 // File name matched
                 if (match.Success) {
+                    Debug.Log("5.1 Match success " + fileName);
                     string mapName = match.Groups[1].Value;
                     int ghosts = int.Parse(match.Groups[2].Value);
+                    char difficulty = match.Groups[3].Value[0];
 
-                    MapInfo mapInfo = new MapInfo(mapName, ghosts);
+                    MapInfo mapInfo = new MapInfo(mapName, ghosts, difficulty);
+                    Debug.Log("5.1 Map info " + mapName + ", " + ghosts + ", " + difficulty);
                     _mapInfos.Add(mapInfo);
                 }
             }
@@ -87,9 +99,26 @@ namespace MainPage {
                     } else if (objName == "TotalGhostNumText") {
                         // Number of ghosts
                         text.text = mapInfo.GhostNum.ToString();
+                        // TODO set colors
+                    } else if (objName == "DifficultyText") {
+                        // Map difficulty
+                        // TODO set colors
+                        switch (mapInfo.Difficulty) {
+                            case 'E':
+                                text.text = "EASY";
+                                break;
+                            case 'N':
+                                text.text = "NORMAL";
+                                break;
+                            case 'H':
+                                text.text = "HIGH";
+                                break;
+                            default:
+                                Debug.LogError("Difficulty error while reading files");
+                                return false;
+                        }
                     }
 
-                    // TODO set colors
                 }
 
                 // Set button operations
@@ -101,6 +130,7 @@ namespace MainPage {
                         // DELETE THIS MAP OPERATION
                         // Delete this map (.json file)
                         button.onClick.AddListener(() => {
+                            Debug.Log("Delete clicked!");
                             string path = Path.Combine(_saveDirectory, $"{mapInfo.Name}_{mapInfo.GhostNum}.json");
                             if (File.Exists(path)) {
                                 File.Delete(path);
@@ -115,14 +145,19 @@ namespace MainPage {
                         });
                     } else if (objName == "RenameButton") {
                         // RENAME THIS MAP OPERATION
-                        _renamedMapOldInfo = mapInfo;
-                        ShowRenameWindow(mapInfo.Name); // Show rename window
+                        button.onClick.AddListener(() => {
+                            Debug.Log("Rename clicked!");
+                            _renamedMapOldInfo = mapInfo;
+                            ShowRenameWindow(mapInfo.Name); // Show rename window
+                        });
                     } else if (objName == "EditButton") {
                         // EDIT THIS MAP
                         // Enter the map editor interface for this map
                         // Set the player preferences string "EditMapToLoad" to the map name (mapInfo.Name) and switch to MapEditor scene
                         button.onClick.AddListener(() => {
-                            PlayerPrefs.SetString("EditMapToLoad", mapInfo.Name);
+                            Debug.Log("Edit clicked!");
+                            PlayerPrefs.SetString("EditMapFileToLoad",
+                                mapInfo.Name + "_" + mapInfo.GhostNum + "_" + mapInfo.Difficulty);
                             SceneManager.LoadScene("MapEditor");
                         });
                     }

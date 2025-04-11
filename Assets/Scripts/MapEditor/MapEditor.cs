@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using Entity.Map;
 using TMPro;
 using UnityEngine;
@@ -37,8 +38,12 @@ namespace MapEditor {
         private int _mode;
         private string _mapName;
 
+        // Current difficulty set TODO setting
+        private char _difficulty = 'E';
+
         // Map data save directory
         private string _saveDirectory = Path.Combine(Application.dataPath, "Maps");
+        private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
         // Prompt Text
         // Default: Click to edit walls or props of your map!
@@ -53,7 +58,7 @@ namespace MapEditor {
             InitUI("DEBUG TEST");
 
             // TEST TEST TEST
-            PlayerPrefs.SetString("EditMapToLoad", "DEBUG TEST");
+            PlayerPrefs.SetString("EditMapFileToLoad", "DEBUG TEST_2_E");
             LoadMap();
         }
 
@@ -64,14 +69,15 @@ namespace MapEditor {
             WallData wallData = gameObject.GetComponent<WallEditor>().GetWallData();
             PropData propData = gameObject.GetComponent<PropEditor>().GetPropData();
 
-            Map map = new(_mapName, wallData, propData);
-            
+            // TODO difficulty setting
+            Map map = new(_mapName, _difficulty, wallData, propData);
+
             // Get the number of total ghosts (will be part of the file name)
             int totalGhosts = propData.TotalPropCounts["GhostSpawn"];
 
             // Save to file in .json
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
-            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + ".json"), json);
+            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + "_" + _difficulty + ".json"), json);
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
 
             return true;
@@ -82,14 +88,24 @@ namespace MapEditor {
          */
         private bool LoadMap() {
             // Read from player preferences
-            string mapName = PlayerPrefs.GetString("EditMapToLoad", "");
-            _mapName = mapName;
+            string mapFileName = PlayerPrefs.GetString("EditMapFileToLoad", "");
+
+            Match match = _regex.Match(mapFileName);
+
+            if (!match.Success) {
+                Debug.LogError("File match error when loading map file! File name: " + mapFileName);
+                return false;
+            }
+            
+            // Set map name and difficulty
+            _mapName = match.Groups[1].Value;
+            _difficulty = match.Groups[3].Value[0];
 
             // Obtain the file path
-            string path = Path.Combine(_saveDirectory, _mapName + ".json");
+            string path = Path.Combine(_saveDirectory, mapFileName + ".json");
 
             // Read the file
-            if (!string.IsNullOrEmpty(mapName) && File.Exists(path)) {
+            if (!string.IsNullOrEmpty(mapFileName) && File.Exists(path)) {
                 string json = File.ReadAllText(path);
                 Debug.Log(json);
                 MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
@@ -173,7 +189,7 @@ namespace MapEditor {
             // Check if the condition is met
             if (!gameObject.GetComponent<PropEditor>().CheckCondition()) {
                 noPacmanSpawnWarningPanel.SetActive(true);
-                
+
                 // Temporarily disable both modes
                 // (Recovered after the close button is clicked)
                 gameObject.GetComponent<WallEditor>().QuitWallMode();

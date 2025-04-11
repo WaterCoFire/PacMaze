@@ -10,6 +10,7 @@ namespace Entity.Map {
         public bool played;
         public string lastPlayedDateTime;
         public string fastestTime;
+        public char difficulty;
 
         public List<Vector3> propPositions;
         public List<string> propTypes;
@@ -50,6 +51,7 @@ namespace Entity.Map {
             played = map.Played;
             lastPlayedDateTime = map.LastPlayedDateTime.ToString();
             // fastestTime = map.FastestTime.ToString();
+            difficulty = map.Difficulty;
 
             propPositions = new List<Vector3>();
             propTypes = new List<string>();

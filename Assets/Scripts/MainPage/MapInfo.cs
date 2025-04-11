@@ -6,10 +6,12 @@
     public struct MapInfo {
         public string Name;
         public int GhostNum;
+        public char Difficulty;
 
-        public MapInfo(string name, int ghostNum) {
+        public MapInfo(string name, int ghostNum, char difficulty) {
             Name = name;
             GhostNum = ghostNum;
+            Difficulty = difficulty;
         }
     }
 }
