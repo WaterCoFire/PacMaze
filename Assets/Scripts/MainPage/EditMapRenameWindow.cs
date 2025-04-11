@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Text.RegularExpressions;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +11,16 @@ namespace MainPage {
         public GameObject renameWindow;
         public TMP_InputField renameInputField;
         public GameObject renameWarningPrompt;
+        public TMP_Text warningText;
         public Button renameCloseButton;
         public Button renameConfirmButton;
 
         private string _originName;
-        
+
         private void Start() {
             SetButtonActionListener();
         }
-        
+
         private void SetButtonActionListener() {
             renameConfirmButton.onClick.AddListener(OnRenameConfirmButtonClick);
             renameCloseButton.onClick.AddListener(OnRenameCloseButtonClick);
@@ -27,6 +29,7 @@ namespace MainPage {
         public void ShowRenameWindow(string originName) {
             editMapViewWindow.SetActive(false);
             renameWindow.SetActive(true);
+            renameWarningPrompt.SetActive(false);
 
             _originName = originName;
             renameInputField.text = _originName;
@@ -34,13 +37,22 @@ namespace MainPage {
 
         private void OnRenameConfirmButtonClick() {
             string newNameInput = renameInputField.text;
-            // TODO Check name validity
             
-            editMapViewWindow.GetComponent<EditMapView>().RenameMap("newNameInput");
-            
+            // Check name validity
+            if (!CheckNameValidity(newNameInput)) {
+                renameWarningPrompt.SetActive(true);
+                return;
+            }
+
+            // Transform to upper letters
+            newNameInput = newNameInput.ToUpper();
+
+            editMapViewWindow.GetComponent<EditMapView>().RenameMap(newNameInput);
+
             // Close rename window
             renameWindow.SetActive(false);
-            
+            renameWarningPrompt.SetActive(false);
+
             // Enable the map view window
             editMapViewWindow.SetActive(true);
         }
@@ -48,12 +60,37 @@ namespace MainPage {
         private void OnRenameCloseButtonClick() {
             // Disable the warning prompt
             renameWarningPrompt.SetActive(false);
-            
+
             // Close rename window
             renameWindow.SetActive(false);
-            
+
             // Enable the map view window
             editMapViewWindow.SetActive(true);
+        }
+
+        /**
+         * Checks if the name input is valid or not.
+         */
+        private bool CheckNameValidity(string nameInput) {
+            // Check name length
+            if (nameInput.Length > 15) {
+                warningText.text = "Pacman feels pressure because that's too long!";
+                return false;
+            }
+
+            // No space at both ends
+            if (nameInput.StartsWith(" ") || nameInput.EndsWith(" ")) {
+                warningText.text = "Pacman is unhappy because it hates space at the edges!";
+                return false;
+            }
+
+            // No invalid characters
+            if (!Regex.IsMatch(nameInput, @"^[A-Za-z0-9 ]+$")) {
+                warningText.text = "Pacman is confused because it sees some unusual characters!";
+                return false;
+            }
+
+            return true;
         }
     }
 }

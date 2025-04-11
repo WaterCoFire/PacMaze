@@ -1576,7 +1576,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0.0000023614596}
+  m_AnchoredPosition: {x: 0.000030517578, y: -0.000008206828}
   m_SizeDelta: {x: 0, y: 170}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &391677641
@@ -5637,6 +5637,7 @@ MonoBehaviour:
   renameWindow: {fileID: 1209083750}
   renameInputField: {fileID: 393734526}
   renameWarningPrompt: {fileID: 660374742}
+  warningText: {fileID: 660374744}
   renameCloseButton: {fileID: 1437655046}
   renameConfirmButton: {fileID: 148178818}
 --- !u!114 &1622098653
@@ -5655,6 +5656,7 @@ MonoBehaviour:
   createWindow: {fileID: 1103224689}
   createInputField: {fileID: 1413247517}
   createWarningPrompt: {fileID: 859709763}
+  warningText: {fileID: 859709765}
   createCloseButton: {fileID: 147462756}
   createConfirmButton: {fileID: 174733124}
 --- !u!114 &1622098654
@@ -5672,6 +5674,8 @@ MonoBehaviour:
   editMapScrollRect: {fileID: 101401064}
   mapInfoPrefab: {fileID: 128314430}
   scrollRectContent: {fileID: 368001309}
+  backButton: {fileID: 156708631}
+  createNewMapButton: {fileID: 1571888227}
 --- !u!1 &1657714095
 GameObject:
   m_ObjectHideFlags: 0

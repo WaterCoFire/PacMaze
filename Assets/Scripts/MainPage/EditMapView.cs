@@ -13,6 +13,10 @@ namespace MainPage {
         public ScrollRect editMapScrollRect;
         public GameObject mapInfoPrefab;
         public Transform scrollRectContent;
+        
+        // Buttons at the top
+        public Button backButton;
+        public Button createNewMapButton;
 
         private List<MapInfo> _mapInfos;
 
@@ -26,8 +30,16 @@ namespace MainPage {
         private string _renamedMapNewName;
 
         private void Start() {
+            SetButtonActionListener();
+            
             _mapInfos = new List<MapInfo>();
             UpdateEditMapList();
+        }
+
+        // Sets the button action listeners
+        private void SetButtonActionListener() {
+            backButton.onClick.AddListener(OnBackButtonClick);
+            createNewMapButton.onClick.AddListener(OnCreateNewMapButtonClick);
         }
 
         public bool UpdateEditMapList() {
@@ -118,7 +130,6 @@ namespace MainPage {
                                 return false;
                         }
                     }
-
                 }
 
                 // Set button operations
@@ -180,8 +191,8 @@ namespace MainPage {
         public void RenameMap(string newName) {
             // Get file paths
             string oldPath = Path.Combine(_saveDirectory,
-                $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostNum}.json");
-            string newPath = Path.Combine(_saveDirectory, $"{newName}_{_renamedMapOldInfo.GhostNum}.json");
+                $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostNum}_{_renamedMapOldInfo.Difficulty}.json");
+            string newPath = Path.Combine(_saveDirectory, $"{newName}_{_renamedMapOldInfo.GhostNum}_{_renamedMapOldInfo.Difficulty}.json");
 
             if (File.Exists(oldPath)) {
                 // File operation
@@ -189,6 +200,20 @@ namespace MainPage {
                 Debug.Log($"Renamed {oldPath} -> {newPath}");
 
                 UpdateEditMapList(); // UI update
+                
+                // Re-set the map name in the json file
+                string json = File.ReadAllText(newPath);
+                
+                // Replace the old name with the new one
+                string updatedJson = System.Text.RegularExpressions.Regex.Replace(
+                    json,
+                    "\"name\"\\s*:\\s*\"[^\"]*\"",
+                    $"\"name\": \"{newName}\""
+                );
+                
+                File.WriteAllText(newPath, updatedJson);
+
+                Debug.Log($"Successfully updated 'name' field in {Path.GetFileName(newPath)} to '{newName}'");
             } else {
                 Debug.LogError("Rename error: Old file no longer exists!");
             }
@@ -196,7 +221,21 @@ namespace MainPage {
 
         /**
          * Creates a new map.
+         * Called by the confirm button in create window.
          */
-        public void CreateMap(string newMapName) { }
+        public void CreateMap(string newMapName) {
+            // TODO
+        }
+
+        /* Button action listeners setting */
+        // Back button: back to home page
+        private void OnBackButtonClick() {
+            // TODO
+        }
+        
+        // Create new map button: Enters the create window
+        private void OnCreateNewMapButtonClick() {
+            gameObject.GetComponent<EditMapCreateWindow>().ShowCreateWindow();
+        }
     }
 }
