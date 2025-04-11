@@ -84,7 +84,13 @@ namespace MainPage {
 
             // No invalid characters
             if (!Regex.IsMatch(nameInput, @"^[A-Za-z0-9 ]+$")) {
-                warningText.text = "Pacman is confused because it sees some unusual characters!";
+                warningText.text = "Pacman is scared because it sees some unusual characters!";
+                return false;
+            }
+            
+            // Name conflict
+            if (editMapViewWindow.GetComponent<EditMapView>().CheckNameConflict(nameInput.ToUpper())) {
+                warningText.text = "Pacman is confused because there is another map named this!";
                 return false;
             }
 

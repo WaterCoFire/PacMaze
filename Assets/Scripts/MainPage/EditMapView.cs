@@ -17,6 +17,9 @@ namespace MainPage {
         // Buttons at the top
         public Button backButton;
         public Button createNewMapButton;
+        
+        // Prompt for no map
+        public GameObject noMapPrompt;
 
         private List<MapInfo> _mapInfos;
 
@@ -93,6 +96,16 @@ namespace MainPage {
                 }
             }
 
+            // Check if there is any map
+            if (_mapInfos.Count == 0) {
+                // No map: Show prompt
+                noMapPrompt.SetActive(true);
+                return true;
+            }
+            
+            // There exists at least one map
+            noMapPrompt.SetActive(false);
+
             // UI update
             foreach (var mapInfo in _mapInfos) {
                 GameObject mapInfoObject = Instantiate(mapInfoPrefab, scrollRectContent);
@@ -142,7 +155,7 @@ namespace MainPage {
                         // Delete this map (.json file)
                         button.onClick.AddListener(() => {
                             Debug.Log("Delete clicked!");
-                            string path = Path.Combine(_saveDirectory, $"{mapInfo.Name}_{mapInfo.GhostNum}.json");
+                            string path = Path.Combine(_saveDirectory, $"{mapInfo.Name}_{mapInfo.GhostNum}_{mapInfo.Difficulty}.json");
                             if (File.Exists(path)) {
                                 File.Delete(path);
                             } else {
@@ -152,7 +165,7 @@ namespace MainPage {
                             Destroy(mapInfoObject);
                             Debug.Log($"Deleted map: {mapInfo.Name}");
 
-                            // UpdateEditMapList(); // Update then TODO figure this out
+                            UpdateEditMapList(); // Update then TODO figure this out
                         });
                     } else if (objName == "RenameButton") {
                         // RENAME THIS MAP OPERATION
@@ -200,10 +213,8 @@ namespace MainPage {
                 File.Move(oldPath, newPath);
                 Debug.Log($"Renamed {oldPath} -> {newPath}");
 
-                UpdateEditMapList(); // UI update
+                UpdateEditMapList(); // Update the data & UI
                 
-                // TODO Delete issue
-
                 // Re-set the map name in the json file
                 string json = File.ReadAllText(newPath);
 
@@ -251,6 +262,24 @@ namespace MainPage {
         // Create new map button: Enters the create window
         private void OnCreateNewMapButtonClick() {
             gameObject.GetComponent<EditMapCreateWindow>().ShowCreateWindow();
+        }
+
+        /**
+         * Checks if a name is already occupied by an existing map.
+         * Used by Map rename/create window when setting the map name.
+         * RETURNS:
+         * true if conflict happens, false if okay
+         */
+        public bool CheckNameConflict(string proposedName) {
+            // Check every map info
+            foreach (var mapInfo in _mapInfos) {
+                if (mapInfo.Name == proposedName) {
+                    return true;
+                }
+            }
+
+            // No conflict
+            return false;
         }
     }
 }

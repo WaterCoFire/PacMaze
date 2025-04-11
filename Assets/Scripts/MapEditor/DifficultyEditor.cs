@@ -35,13 +35,7 @@ namespace MapEditor {
         public GameObject hardModePrompt;
 
         // COLORS
-        // EASY - normal color
-        // NORMAL - normal color
-        // HARD - normal color
-        // Selected color E4FF49
-        private Color _easyColor = new Color(140f / 255f, 121f / 255f, 255f / 255f);
         private Color _normalColor = new Color(140f / 255f, 121f / 255f, 255f / 255f);
-        private Color _hardColor = new Color(140f / 255f, 121f / 255f, 255f / 255f);
         private Color _selectedColor = new Color(228f / 255f, 255f / 255f, 73f / 255f);
 
         private bool _difficultyMode;
@@ -106,21 +100,8 @@ namespace MapEditor {
                 button.colors = colors;
             } else {
                 var colors = button.colors;
-
-                switch (correspondingDifficulty) {
-                    case 'E':
-                        colors.normalColor = _easyColor;
-                        button.colors = colors;
-                        break;
-                    case 'N':
-                        colors.normalColor = _normalColor;
-                        button.colors = colors;
-                        break;
-                    case 'H':
-                        colors.normalColor = _hardColor;
-                        button.colors = colors;
-                        break;
-                }
+                colors.normalColor = _normalColor;
+                button.colors = colors;
             }
         }
 
