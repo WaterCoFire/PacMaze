@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 
 namespace MapEditor {
     public class MapEditor : MonoBehaviour {
@@ -108,17 +109,7 @@ namespace MapEditor {
             // Read the file
             if (!string.IsNullOrEmpty(mapFileName) && File.Exists(path)) {
                 string json = File.ReadAllText(path);
-                Debug.Log(json);
                 MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
-
-                Debug.Log("11111 " + wrapper.name);
-                Debug.Log("11111 " + wrapper.played);
-                Debug.Log("11111 " + wrapper.lastPlayedDateTime);
-                Debug.Log("11111 " + wrapper.fastestTime);
-                Debug.Log(wrapper.HorizontalWallStatus);
-                Debug.Log(wrapper.VerticalWallStatus);
-                Debug.Log(wrapper.FixedPropCounts);
-                Debug.Log(wrapper.TotalPropCounts);
 
                 // Initialize UI (set names etc.)
                 InitUI(_mapName);
@@ -126,12 +117,11 @@ namespace MapEditor {
                 // Set walls
                 gameObject.GetComponent<WallEditor>()
                     .SetWallData(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
-                Debug.Log("Wall set");
 
                 // Set props
                 gameObject.GetComponent<PropEditor>().SetPropData(new PropData(wrapper.PropPositions(),
                     wrapper.FixedPropCounts, wrapper.TotalPropCounts));
-                Debug.Log("Prop set");
+                Debug.Log("All set");
 
                 return true;
             } else {
@@ -211,7 +201,10 @@ namespace MapEditor {
 
         // Quit (directly) button operation
         private void OnQuitButtonClick() {
-            InitUI(_mapName);
+            InitUI(_mapName); // Reset this UI as it is being closed
+            
+            // Load MainPage UI
+            SceneManager.LoadScene("UI");
         }
 
         // Save & Quit button operation
@@ -229,10 +222,13 @@ namespace MapEditor {
                 return;
             }
 
-            InitUI(_mapName);
+            InitUI(_mapName); // Reset this UI as it is being closed
 
             // Save map logic
             SaveMapToFile();
+            
+            // Load MainPage UI
+            SceneManager.LoadScene("UI");
         }
 
         // Operations after the close button of the warning panel is clicked

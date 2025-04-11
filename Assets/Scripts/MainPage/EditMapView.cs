@@ -201,6 +201,8 @@ namespace MainPage {
                 Debug.Log($"Renamed {oldPath} -> {newPath}");
 
                 UpdateEditMapList(); // UI update
+                
+                // TODO Delete issue
 
                 // Re-set the map name in the json file
                 string json = File.ReadAllText(newPath);
@@ -225,7 +227,7 @@ namespace MainPage {
          * Called by the confirm button in create window.
          */
         public void CreateMap(string newMapName) {
-            // TODO
+            // TODO Create logic
 
             // Create new map file
             // BY DEFAULT, THE MAP:
