@@ -226,11 +226,19 @@ namespace MapEditor {
             if (!gameObject.GetComponent<PropEditor>().CheckCondition()) {
                 noPacmanSpawnWarningPanel.SetActive(true);
 
-                // Temporarily disable both modes
+                // Temporarily disable all modes
                 // (Recovered after the close button is clicked)
                 gameObject.GetComponent<WallEditor>().QuitWallMode();
                 gameObject.GetComponent<PropEditor>().QuitPropMode();
                 gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+                
+                // Temporarily ban all the buttons
+                // (Recovered after the close button is clicked)
+                quitButton.interactable = false;
+                saveButton.interactable = false;
+                propModeButton.interactable = false;
+                wallModeButton.interactable = false;
+                difficultyModeButton.interactable = false;
 
                 return;
             }
@@ -247,6 +255,13 @@ namespace MapEditor {
         // Operations after the close button of the warning panel is clicked
         private void OnWarningPanelCloseButtonClick() {
             noPacmanSpawnWarningPanel.SetActive(false);
+            
+            // Enable all the buttons
+            quitButton.interactable = true;
+            saveButton.interactable = true;
+            propModeButton.interactable = true;
+            wallModeButton.interactable = true;
+            difficultyModeButton.interactable = true;
 
             switch (_mode) {
                 case 0:

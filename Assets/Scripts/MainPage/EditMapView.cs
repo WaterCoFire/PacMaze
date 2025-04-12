@@ -17,6 +17,12 @@ namespace MainPage {
         // Buttons at the top
         public Button backButton;
         public Button createNewMapButton;
+        
+        // This edit map page
+        public GameObject editMapPage;
+        
+        // Home page
+        public GameObject homePage;
 
         // Prompt for no map
         public GameObject noMapPrompt;
@@ -133,7 +139,7 @@ namespace MainPage {
                         text.text = mapInfo.GhostNum.ToString();
                     } else if (objName == "DifficultyText") {
                         // Map difficulty
-                        // TODO set colors
+                        // Set the text content and color
                         switch (mapInfo.Difficulty) {
                             case 'E':
                                 text.text = "EASY";
@@ -292,7 +298,11 @@ namespace MainPage {
         /* Button action listeners setting */
         // Back button: back to home page
         private void OnBackButtonClick() {
-            // TODO
+            // Disable this page
+            editMapPage.SetActive(false);
+            
+            // Enable the home page
+            homePage.SetActive(true);
         }
 
         // Create new map button: Enters the create window
