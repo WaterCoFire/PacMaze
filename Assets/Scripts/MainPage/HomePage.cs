@@ -1,0 +1,64 @@
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace MainPage {
+    /**
+     * The home page.
+     * Buttons: Play, Edit Maps, Setting, Quit Game
+     */
+    public class HomePage : MonoBehaviour {
+        // This home page
+        public GameObject homePage;
+
+        public GameObject playMapsPage; // Play maps view page
+        public GameObject editMapsPage; // Edit maps view page
+
+        /* Buttons */
+        public Button playButton;
+        public Button editMapsButton;
+        public Button settingButton;
+        public Button quitGameButton;
+
+        // START FUNCTION
+        private void Start() {
+            Debug.Log("HomePage START");
+            SetButtonActionListener(); // Set button action listeners
+        }
+        
+        /**
+         * Set the action listeners for all the buttons
+         */
+        private void SetButtonActionListener() {
+            playButton.onClick.AddListener(OnPlayButtonClick);
+            editMapsButton.onClick.AddListener(OnEditMapsButtonClick);
+            settingButton.onClick.AddListener(OnSettingButtonClick);
+            quitGameButton.onClick.AddListener(OnQuitButtonClick);
+        }
+
+        /* Button action listeners */
+        // Play button
+        public void OnPlayButtonClick() {
+            // Close this home page
+            homePage.SetActive(false);
+            
+            // Open play maps page
+            playMapsPage.SetActive(true);
+        }
+
+        // Edit maps button
+        public void OnEditMapsButtonClick() {
+            // Close this home page
+            homePage.SetActive(false);
+            
+            // Open play maps page
+            editMapsPage.SetActive(true);
+        }
+
+        // Setting button
+        public void OnSettingButtonClick() { }
+
+        // Quit game button
+        public void OnQuitButtonClick() { }
+    }
+}
