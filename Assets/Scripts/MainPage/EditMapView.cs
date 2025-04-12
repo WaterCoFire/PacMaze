@@ -17,7 +17,7 @@ namespace MainPage {
         // Buttons at the top
         public Button backButton;
         public Button createNewMapButton;
-        
+
         // Prompt for no map
         public GameObject noMapPrompt;
 
@@ -32,9 +32,14 @@ namespace MainPage {
         private MapInfo _renamedMapOldInfo;
         private string _renamedMapNewName;
 
+        // Map difficulty text color
+        private Color _easyTextColor = new Color(65f / 255f, 255f / 255f, 0f / 255f);
+        private Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
+        private Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
+
         private void Start() {
             Debug.Log("EditMapView START");
-            
+
             SetButtonActionListener();
 
             _mapInfos = new List<MapInfo>();
@@ -104,7 +109,7 @@ namespace MainPage {
                 noMapPrompt.SetActive(true);
                 return true;
             }
-            
+
             // There exists at least one map
             noMapPrompt.SetActive(false);
 
@@ -126,19 +131,21 @@ namespace MainPage {
                     } else if (objName == "TotalGhostNumText") {
                         // Number of ghosts
                         text.text = mapInfo.GhostNum.ToString();
-                        // TODO set colors
                     } else if (objName == "DifficultyText") {
                         // Map difficulty
                         // TODO set colors
                         switch (mapInfo.Difficulty) {
                             case 'E':
                                 text.text = "EASY";
+                                text.color = _easyTextColor;
                                 break;
                             case 'N':
                                 text.text = "NORMAL";
+                                text.color = _normalTextColor;
                                 break;
                             case 'H':
                                 text.text = "HARD";
+                                text.color = _hardTextColor;
                                 break;
                             default:
                                 Debug.LogError("Difficulty error while reading files");
@@ -157,7 +164,8 @@ namespace MainPage {
                         // Delete this map (.json file)
                         button.onClick.AddListener(() => {
                             Debug.Log("Delete clicked!");
-                            string path = Path.Combine(_saveDirectory, $"{mapInfo.Name}_{mapInfo.GhostNum}_{mapInfo.Difficulty}.json");
+                            string path = Path.Combine(_saveDirectory,
+                                $"{mapInfo.Name}_{mapInfo.GhostNum}_{mapInfo.Difficulty}.json");
                             if (File.Exists(path)) {
                                 File.Delete(path);
                             } else {
@@ -167,7 +175,7 @@ namespace MainPage {
                             Destroy(mapInfoObject);
                             Debug.Log($"Deleted map: {mapInfo.Name}");
 
-                            UpdateEditMapList(); // Update then TODO figure this out
+                            UpdateEditMapList(); // Update then
                         });
                     } else if (objName == "RenameButton") {
                         // RENAME THIS MAP OPERATION
@@ -216,7 +224,7 @@ namespace MainPage {
                 Debug.Log($"Renamed {oldPath} -> {newPath}");
 
                 UpdateEditMapList(); // Update the data & UI
-                
+
                 // Re-set the map name in the json file
                 string json = File.ReadAllText(newPath);
 
@@ -247,10 +255,10 @@ namespace MainPage {
 
             // Default map path
             string defaultMapPath = _saveDirectory + "/Default/DEFAULT_MAP.json";
-            
+
             // Path of the map to be created
             string targetMapPath = _saveDirectory + "/" + newMapName + "_2_E.json";
-            
+
             if (!File.Exists(defaultMapPath)) {
                 Debug.LogError("Default map file does not exist!");
                 return;
@@ -259,7 +267,7 @@ namespace MainPage {
             try {
                 // Read all the text in the default map file json
                 string json = File.ReadAllText(defaultMapPath);
-                
+
                 // Replace the default name with the new one
                 string newMapJson = System.Text.RegularExpressions.Regex.Replace(
                     json,
