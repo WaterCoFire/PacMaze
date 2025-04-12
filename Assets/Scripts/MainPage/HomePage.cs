@@ -13,6 +13,7 @@ namespace MainPage {
 
         public GameObject playMapsPage; // Play maps view page
         public GameObject editMapsPage; // Edit maps view page
+        public GameObject settingPage; // Setting page
 
         /* Buttons */
         public Button playButton;
@@ -56,7 +57,13 @@ namespace MainPage {
         }
 
         // Setting button
-        public void OnSettingButtonClick() { }
+        public void OnSettingButtonClick() {
+            // Close this home page
+            homePage.SetActive(false);
+            
+            // Open setting page
+            settingPage.SetActive(true);
+        }
 
         // Quit game button
         public void OnQuitButtonClick() { }
