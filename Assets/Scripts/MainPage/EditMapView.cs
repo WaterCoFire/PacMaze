@@ -63,6 +63,8 @@ namespace MainPage {
             foreach (Transform child in editMapScrollRect.content.transform) {
                 Destroy(child.gameObject);
             }
+            
+            editMapScrollRect.verticalNormalizedPosition = 0f;
 
             Debug.Log("1 Destroyed");
 

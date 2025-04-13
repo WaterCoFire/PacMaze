@@ -13,7 +13,8 @@ namespace MainPage {
 
         public GameObject playMapsPage; // Play maps view page
         public GameObject editMapsPage; // Edit maps view page
-        public GameObject settingPage; // Setting page
+        
+        // public GameObject settingPage; // Setting page
 
         /* Buttons */
         public Button playButton;
@@ -26,7 +27,7 @@ namespace MainPage {
             Debug.Log("HomePage START");
             SetButtonActionListener(); // Set button action listeners
         }
-        
+
         /**
          * Set the action listeners for all the buttons
          */
@@ -39,33 +40,33 @@ namespace MainPage {
 
         /* Button action listeners */
         // Play button
-        public void OnPlayButtonClick() {
+        private void OnPlayButtonClick() {
             // Close this home page
             homePage.SetActive(false);
-            
+
             // Open play maps page
             playMapsPage.SetActive(true);
         }
 
         // Edit maps button
-        public void OnEditMapsButtonClick() {
+        private void OnEditMapsButtonClick() {
             // Close this home page
             homePage.SetActive(false);
-            
+
             // Open play maps page
             editMapsPage.SetActive(true);
         }
 
         // Setting button
-        public void OnSettingButtonClick() {
+        private void OnSettingButtonClick() {
             // Close this home page
             homePage.SetActive(false);
-            
+
             // Open setting page
-            settingPage.SetActive(true);
+            // settingPage.SetActive(true);
         }
 
         // Quit game button
-        public void OnQuitButtonClick() { }
+        private void OnQuitButtonClick() { }
     }
 }
