@@ -78,7 +78,6 @@ namespace MainPage {
 
             // Read all the files in the directory
             string[] files = Directory.GetFiles(_saveDirectory, "*.json");
-            Debug.Log("4 Files read");
 
             // The format of the file
             // MAP NAME + GHOSTS (NUM) + DIFFICULTY (LETTER)
@@ -88,17 +87,14 @@ namespace MainPage {
                 string fileName = Path.GetFileName(filePath);
                 Match match = _regex.Match(fileName);
 
-                Debug.Log("Read: Files name " + fileName);
-
                 // File name matched
                 if (match.Success) {
-                    Debug.Log("Match success " + fileName);
                     string mapName = match.Groups[1].Value;
                     int ghosts = int.Parse(match.Groups[2].Value);
                     char difficulty = match.Groups[3].Value[0];
 
                     MapInfo mapInfo = new MapInfo(mapName, ghosts, difficulty);
-                    Debug.Log("Map info " + mapName + ", " + ghosts + ", " + difficulty);
+                    Debug.Log("Play Matched: Map info " + mapName + ", " + ghosts + ", " + difficulty);
                     _mapInfos.Add(mapInfo);
                 }
             }
@@ -183,6 +179,9 @@ namespace MainPage {
         /* Button action listeners setting */
         // Back button: back to home page
         private void OnBackButtonClick() {
+            // Set the UI location information
+            PlayerPrefs.SetInt("MainPageAt", 0);
+            
             // Disable this page
             playMapPage.SetActive(false);
 

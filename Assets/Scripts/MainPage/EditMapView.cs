@@ -34,6 +34,7 @@ namespace MainPage {
         private float _padding = 1f;
 
         private string _saveDirectory = Path.Combine(Application.dataPath, "Maps");
+        private Regex _regex = new Regex(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
 
         private MapInfo _renamedMapOldInfo;
         private string _renamedMapNewName;
@@ -66,11 +67,8 @@ namespace MainPage {
             
             editMapScrollRect.verticalNormalizedPosition = 0f;
 
-            Debug.Log("1 Destroyed");
-
             // Clear the list
             _mapInfos.Clear();
-            Debug.Log("2 Cleared");
 
             // Reset the cumulative height
             _cumulativeHeight = 0f;
@@ -81,32 +79,25 @@ namespace MainPage {
                 return false;
             }
 
-            Debug.Log("3 Directory found");
-
             // Read all the files in the directory
             string[] files = Directory.GetFiles(_saveDirectory, "*.json");
-            Debug.Log("4 Files read");
 
             // The format of the file
             // MAP NAME + GHOSTS (NUM) + DIFFICULTY (LETTER)
-            Regex regex = new Regex(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
 
             // Read all file names
             foreach (var filePath in files) {
                 string fileName = Path.GetFileName(filePath);
-                Match match = regex.Match(fileName);
-
-                Debug.Log("5 Files name " + fileName);
+                Match match = _regex.Match(fileName);
 
                 // File name matched
                 if (match.Success) {
-                    Debug.Log("5.1 Match success " + fileName);
                     string mapName = match.Groups[1].Value;
                     int ghosts = int.Parse(match.Groups[2].Value);
                     char difficulty = match.Groups[3].Value[0];
 
                     MapInfo mapInfo = new MapInfo(mapName, ghosts, difficulty);
-                    Debug.Log("5.1 Map info " + mapName + ", " + ghosts + ", " + difficulty);
+                    Debug.Log("Edit Matched: Map info " + mapName + ", " + ghosts + ", " + difficulty);
                     _mapInfos.Add(mapInfo);
                 }
             }
@@ -300,6 +291,9 @@ namespace MainPage {
         /* Button action listeners setting */
         // Back button: back to home page
         private void OnBackButtonClick() {
+            // Set the UI location information
+            PlayerPrefs.SetInt("MainPageAt", 0);
+            
             // Disable this page
             editMapPage.SetActive(false);
             
