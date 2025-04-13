@@ -1,5 +1,7 @@
 ﻿using Entity.Map;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace PlayMap {
     public class WallController : MonoBehaviour {
@@ -25,6 +27,8 @@ namespace PlayMap {
         public GameObject[] verticalWalls9;
         public GameObject[] verticalWalls10;
         public GameObject[] verticalWalls11;
+
+        public GameObject mapFloor;
 
         public void SetWalls(WallData wallData) {
             for (int column = 0; column < 11; column++) {
@@ -110,6 +114,10 @@ namespace PlayMap {
             for (int column = 0; column < 10; column++) {
                 verticalWalls11[column].SetActive(wallData.VerticalWallStatus[10, column]);
             }
+
+            // Use collider data to build navigation mesh
+            mapFloor.GetComponent<NavMeshSurface>().useGeometry = NavMeshCollectGeometry.PhysicsColliders;
+            mapFloor.GetComponent<NavMeshSurface>().BuildNavMesh();
         }
     }
 }
