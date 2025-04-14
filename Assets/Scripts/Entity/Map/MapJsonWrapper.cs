@@ -91,15 +91,32 @@ namespace Entity.Map {
         }
 
         // Used to convert to the format required by PropData when deserializing
+        // Check the player preferences to judge if the prefabs for editor or the prefabs for map play should be obtained
         public Dictionary<Vector3, GameObject> PropPositions() {
             var dict = new Dictionary<Vector3, GameObject>();
-            for (int i = 0; i < propPositions.Count; i++) {
-                Vector3 pos = propPositions[i];
-                string type = propTypes[i];
-                dict[pos] = GetCorrespondingGameObject(type);
-            }
+            switch (PlayerPrefs.GetString("GameObjectReadMode", "NOT DEFINED")) {
+                case "EDITOR":
+                    // The game object prefabs to be obtained should be the ones for the editor
+                    for (int i = 0; i < propPositions.Count; i++) {
+                        Vector3 pos = propPositions[i];
+                        string type = propTypes[i];
+                        dict[pos] = GetCorrespondingEditorGameObject(type);
+                    }
 
-            return dict;
+                    return dict;
+                case "PLAY":
+                    // The game object prefabs to be obtained should be the ones for map play
+                    for (int i = 0; i < propPositions.Count; i++) {
+                        Vector3 pos = propPositions[i];
+                        string type = propTypes[i];
+                        dict[pos] = GetCorrespondingPlayGameObject(type);
+                    }
+
+                    return dict;
+                default:
+                    Debug.LogError("Invalid game object read mode: " + PlayerPrefs.GetString("GameObjectReadMode"));
+                    return null;
+            }
         }
 
         public Dictionary<string, int> FixedPropCounts {
@@ -167,8 +184,9 @@ namespace Entity.Map {
 
         /**
          * Obtains the corresponding game object based on the prop type given.
+         * The prefabs are used for map editor.
          */
-        private GameObject GetCorrespondingGameObject(string propName) {
+        private GameObject GetCorrespondingEditorGameObject(string propName) {
             switch (CleanName(propName)) {
                 case "PacmanSpawn":
                     return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/PacmanSpawn");
@@ -186,6 +204,53 @@ namespace Entity.Map {
                     return Resources.Load<GameObject>("Prefabs/Props/Editor/BadCherry");
                 case "LuckyDice":
                     return Resources.Load<GameObject>("Prefabs/Props/Editor/LuckyDice");
+                default:
+                    Debug.LogError("Get corresponding game object error: " + CleanName(propName));
+                    return null;
+            }
+        }
+
+        /**
+         * Obtains the corresponding game object based on the prop type given.
+         * The prefabs are used for the map to be played.
+         */
+        private GameObject GetCorrespondingPlayGameObject(string propName) {
+            switch (CleanName(propName)) {
+                case "PacmanSpawn":
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/Pacman");
+                case "GhostSpawn":
+                    switch (PlayerPrefs.GetInt("GhostsCount", -1)) {
+                        case 0:
+                            PlayerPrefs.SetInt("GhostsCount", 1);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/RedGhost");
+                        case 1:
+                            PlayerPrefs.SetInt("GhostsCount", 2);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/BlueGhost");
+                        case 2:
+                            PlayerPrefs.SetInt("GhostsCount", 3);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/YellowGhost");
+                        case 3:
+                            PlayerPrefs.SetInt("GhostsCount", 4);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GreenGhost");
+                        case 4:
+                            PlayerPrefs.SetInt("GhostsCount", 5);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/PinkGhost");
+                        default:
+                            Debug.LogError("Invalid Ghosts Count: " + PlayerPrefs.GetInt("GhostsCount"));
+                            return null;
+                    }
+                case "PowerPellet":
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/PowerPellet");
+                case "FastWheel":
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/FastWheel");
+                case "NiceBomb":
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/NiceBomb");
+                case "SlowWheel":
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/SlowWheel");
+                case "BadCherry":
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/BadCherry");
+                case "LuckyDice":
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/LuckyDice");
                 default:
                     Debug.LogError("Get corresponding game object error: " + CleanName(propName));
                     return null;

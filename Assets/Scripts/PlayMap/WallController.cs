@@ -30,7 +30,11 @@ namespace PlayMap {
 
         public GameObject mapFloor;
 
-        public void SetWalls(WallData wallData) {
+        /**
+         * Sets the walls of the map.
+         * Then bakes the map using NavMesh.
+         */
+        public void InitWalls(WallData wallData) {
             for (int column = 0; column < 11; column++) {
                 horizontalWalls1[column].SetActive(wallData.HorizontalWallStatus[0, column]);
             }

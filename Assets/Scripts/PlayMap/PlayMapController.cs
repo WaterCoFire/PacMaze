@@ -67,10 +67,10 @@ namespace PlayMap {
 
             // Set walls TODO
             gameObject.GetComponent<WallController>()
-                .SetWalls(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
+                .InitWalls(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
 
             // Set props TODO
-            gameObject.GetComponent<PropController>().SetProps(new PropData(wrapper.PropPositions(),
+            gameObject.GetComponent<PropController>().InitProps(new PropData(wrapper.PropPositions(),
                 wrapper.FixedPropCounts, wrapper.TotalPropCounts));
 
             return true;

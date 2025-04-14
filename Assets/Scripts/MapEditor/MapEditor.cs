@@ -132,6 +132,7 @@ namespace MapEditor {
                     .SetWallData(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
 
                 // Set props
+                PlayerPrefs.SetString("GameObjectReadMode", "EDITOR");
                 gameObject.GetComponent<PropEditor>().SetPropData(new PropData(wrapper.PropPositions(),
                     wrapper.FixedPropCounts, wrapper.TotalPropCounts));
                 Debug.Log("All set");
