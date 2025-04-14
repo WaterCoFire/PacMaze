@@ -23,6 +23,9 @@ namespace PlayMap {
          */
         private void Start() {
             Debug.Log("MapController START");
+            
+            // TODO TEST ONLY
+            PlayerPrefs.SetString("PlayMapFileToLoad", "ABC123_2_E");
 
             string mapFileName = PlayerPrefs.GetString("PlayMapFileToLoad", null);
             if (mapFileName == null) {
@@ -70,6 +73,7 @@ namespace PlayMap {
                 .InitWalls(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
 
             // Set props TODO
+            PlayerPrefs.SetString("GameObjectReadMode", "PLAY");
             gameObject.GetComponent<PropController>().InitProps(new PropData(wrapper.PropPositions(),
                 wrapper.FixedPropCounts, wrapper.TotalPropCounts));
 

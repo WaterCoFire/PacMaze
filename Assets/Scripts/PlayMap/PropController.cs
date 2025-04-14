@@ -50,7 +50,6 @@ namespace PlayMap {
             }
 
             // Place all FIXED props on the map
-            PlayerPrefs.SetString("GameObjectReadMode", "PLAY");
             PlayerPrefs.SetInt("GhostsCount", 0);
             foreach (var kvp in _propData.PropOnTiles) {
                 GameObject prefab = kvp.Value;
