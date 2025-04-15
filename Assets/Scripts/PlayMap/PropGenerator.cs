@@ -4,7 +4,7 @@ using UnityEngine;
 using Random = System.Random;
 
 namespace PlayMap {
-    public class PropController : MonoBehaviour {
+    public class PropGenerator : MonoBehaviour {
         // All prop models (except for pacman)
         public GameObject redGhostPrefab;
         public GameObject blueGhostPrefab;
@@ -151,7 +151,7 @@ namespace PlayMap {
             // Generate prop logic
             for (int i = 0; i < randomCount; i++) {
                 freeTilesNum = _freeTiles.Count;
-                int randomIndex = _random.Next(0, freeTilesNum + 1); // Random number
+                int randomIndex = _random.Next(0, freeTilesNum); // Random number
 
                 Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
                 _freeTiles.RemoveAt(randomIndex); // Remove the random chosen tile from free tiles list

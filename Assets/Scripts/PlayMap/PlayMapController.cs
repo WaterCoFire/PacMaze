@@ -68,13 +68,13 @@ namespace PlayMap {
             // Parse the json data and store in the wrapper
             MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
 
-            // Set walls TODO
-            gameObject.GetComponent<WallController>()
+            // Generate walls
+            gameObject.GetComponent<WallGenerator>()
                 .InitWalls(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
 
-            // Set props TODO
+            // Generate props
             PlayerPrefs.SetString("GameObjectReadMode", "PLAY");
-            gameObject.GetComponent<PropController>().InitProps(new PropData(wrapper.PropPositions(),
+            gameObject.GetComponent<PropGenerator>().InitProps(new PropData(wrapper.PropPositions(),
                 wrapper.FixedPropCounts, wrapper.TotalPropCounts));
 
             return true;

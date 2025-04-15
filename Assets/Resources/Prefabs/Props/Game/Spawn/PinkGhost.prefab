@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: cd46c4c845d21ed4690627267f2edc5d, type: 3}
       propertyPath: m_Name
-      value: AGhost
+      value: PinkGhost
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cd46c4c845d21ed4690627267f2edc5d, type: 3}
       propertyPath: m_RootOrder
@@ -139,7 +139,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2.2533157
-  m_BaseOffset: 1.1266578
+  m_BaseOffset: -0.05
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!65 &1436947599153813848

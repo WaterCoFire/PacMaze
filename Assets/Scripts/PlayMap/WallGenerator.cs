@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace PlayMap {
-    public class WallController : MonoBehaviour {
+    public class WallGenerator : MonoBehaviour {
         public GameObject[] horizontalWalls1;
         public GameObject[] horizontalWalls2;
         public GameObject[] horizontalWalls3;
