@@ -9,6 +9,9 @@ namespace Entity.Pacman {
      * - Rotate (controlled by mouse dragging)
      */
     public class PacmanMovement : MonoBehaviour {
+        // Rigid body of the pacman
+        private Rigidbody _rigidbody;
+
         // Move speed and rotate speed
         private float _pacmanMoveSpeed = 5f;
         private float _pacmanRotateSpeed = 5f;
@@ -22,7 +25,7 @@ namespace Entity.Pacman {
         // Status indicating if the pacman is controllable
         // Should be false: when e.g. game paused, game ended
         private bool _controllable;
-        
+
         // Status indicating if the player is in third person view
         private bool _inThirdPersonView;
 
@@ -39,6 +42,16 @@ namespace Entity.Pacman {
             _leftwardKeyCode = GetKeyCode("LeftwardKeyCode", KeyCode.A);
             _rightwardKeyCode = GetKeyCode("RightwardKeyCode", KeyCode.D);
 
+            _rigidbody = GetComponent<Rigidbody>();
+            // Make sure rigid body exists and is configured correctly
+            if (_rigidbody == null) {
+                Debug.LogError("Pacman requires a rigid body component!");
+            }
+            
+            _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+            _rigidbody.isKinematic = true; // Control movement manually with collision detection
+            _rigidbody.useGravity = false;
+
             Cursor.lockState = CursorLockMode.Locked; // Lock mouse
             Cursor.visible = false;
 
@@ -46,10 +59,11 @@ namespace Entity.Pacman {
             _controllable = true;
         }
 
+
         // UPDATE FUNCTION
         private void Update() {
             if (!_controllable) return;
-                
+
             Move(); // Pacman movement operation
         }
 
@@ -83,19 +97,24 @@ namespace Entity.Pacman {
             // Calculate camera-based movement direction
             Vector3 moveDir = inputDir.z * camForward + inputDir.x * camRight;
             moveDir.Normalize();
-
-            // Pacman movement
-            transform.position += moveDir * _pacmanMoveSpeed * Time.deltaTime;
             
+            Vector3 targetPos = transform.position + moveDir * _pacmanMoveSpeed * Time.deltaTime;
+            _rigidbody.MovePosition(targetPos);
+            
+            // transform.position += moveDir * _pacmanMoveSpeed * Time.deltaTime;
+
             // Make the pacman face the current direction of movement
             // ONLY IN THIRD PERSON VIEW
             if (_inThirdPersonView) {
                 if (moveDir.sqrMagnitude > 0.01f) {
                     Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _pacmanRotateSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
+                        _pacmanRotateSpeed * Time.deltaTime);
                 }
             }
         }
+        
+
 
         /**
          * Trys to obtain the corresponding key code in player preferences.
@@ -112,7 +131,7 @@ namespace Entity.Pacman {
                 return defaultKeyCode;
             }
         }
-        
+
         /**
          * Sets the current view mode.
          */
