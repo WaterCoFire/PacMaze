@@ -12,26 +12,35 @@ namespace Entity.Pacman {
         public float moveSpeed;
         public float rotateSpeed;
 
-        // Key code for moving (W by default, it can be customized in Setting)
-        private KeyCode _moveKeyCode;
+        // Key code for moving (WASD by default, it can be customized in Setting)
+        private KeyCode _forwardKeyCode;
+        private KeyCode _backwardKeyCode;
+        private KeyCode _leftwardKeyCode;
+        private KeyCode _rightwardKeyCode;
 
         // Status indicating if the pacman is controllable
         // Should be false: when e.g. game paused, game ended
         private bool _controllable;
         
+        // Status indicating if the player is in third person view
+        private bool _inThirdPersonView;
+
         private float _mouseX;
         private float _rotationY;
 
         // START FUNCTION
         private void Start() {
             Debug.Log("PacmanMovement START");
-            
+
             // Get the keycode set for moving operations
-            _moveKeyCode = GetKeyCode("MoveKeyCode", KeyCode.W);
-            
+            _forwardKeyCode = GetKeyCode("ForwardKeyCode", KeyCode.W);
+            _backwardKeyCode = GetKeyCode("BackwardKeyCode", KeyCode.S);
+            _leftwardKeyCode = GetKeyCode("LeftwardKeyCode", KeyCode.A);
+            _rightwardKeyCode = GetKeyCode("RightwardKeyCode", KeyCode.D);
+
             Cursor.lockState = CursorLockMode.Locked; // Lock mouse
             Cursor.visible = false;
-            
+
             // TEST ONLY
             _controllable = true;
         }
@@ -41,36 +50,50 @@ namespace Entity.Pacman {
             if (!_controllable) return;
 
             Move();
-            Rotate();
         }
 
         /**
          * Manages the movement of the pacman.
          */
         private void Move() {
-            Vector3 direction = Vector3.zero;
+            float h = 0f, v = 0f;
 
-            // Forward movement
-            if (Input.GetKey(_moveKeyCode)) {
-                direction += transform.forward;
-            }
+            if (Input.GetKey(_forwardKeyCode)) v += 1f;
+            if (Input.GetKey(_backwardKeyCode)) v -= 1f;
+            if (Input.GetKey(_rightwardKeyCode)) h += 1f;
+            if (Input.GetKey(_leftwardKeyCode)) h -= 1f;
 
-            direction.y = 0; // Prevent the impact of Y-axis movement
+            Vector3 inputDir = new Vector3(h, 0, v);
+
+            if (inputDir.sqrMagnitude < 0.01f) return;
+
+            inputDir.Normalize();
+
+            // Get the forward and right vectors of the camera
+            // (excluding y-component)
+            Transform cam = Camera.main.transform;
+            Vector3 camForward = cam.forward;
+            Vector3 camRight = cam.right;
+            camForward.y = 0;
+            camRight.y = 0;
+            camForward.Normalize();
+            camRight.Normalize();
+
+            // Calculate camera-based movement direction
+            Vector3 moveDir = inputDir.z * camForward + inputDir.x * camRight;
+            moveDir.Normalize();
+
+            // Pacman movement
+            transform.position += moveDir * moveSpeed * Time.deltaTime;
             
-            // Update the position
-            transform.position += direction.normalized * moveSpeed * Time.deltaTime;
-        }
-
-        /**
-         * Manages the rotation of the pacman.
-         * This is controlled by the mouse dragging.
-         */
-        private void Rotate() {
-            _mouseX = Input.GetAxis("Mouse X"); // Mouse movement on X-axis
-            _rotationY += _mouseX * rotateSpeed; // Calculate the Y-axis rotation
-
-            // Rotate the pacman object
-            transform.rotation = Quaternion.Euler(0f, _rotationY, 0f);
+            // Make the pacman face the current direction of movement
+            // ONLY IN THIRD PERSON VIEW
+            if (_inThirdPersonView) {
+                if (moveDir.sqrMagnitude > 0.01f) {
+                    Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                }
+            }
         }
 
         /**
@@ -87,6 +110,13 @@ namespace Entity.Pacman {
                     $"The key value in player preferences {keyString} cannot be transformed to KeyCode, using default KeyCode: {defaultKeyCode}");
                 return defaultKeyCode;
             }
+        }
+        
+        /**
+         * Sets the current view mode.
+         */
+        public void SetViewMode(bool thirdPerson) {
+            _inThirdPersonView = thirdPerson;
         }
 
         /**

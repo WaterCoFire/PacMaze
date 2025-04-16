@@ -11,91 +11,102 @@ namespace Entity.Pacman {
         // The camera game object
         private Camera _camera;
 
-        // Key code for moving (W by default, it can be customized in Setting)
+        // Key code for camera operation (B & V by default, it can be customized in Setting)
         private KeyCode _lookBackKeyCode;
         private KeyCode _switchViewKeyCode;
 
         // Status indicating if the pacman camera is controllable
         private bool _controllable;
 
-        // Positions of the camera
-        private Vector3 _fpVector3 = new Vector3(0f, 0.722f, 0.366f);
-        private Vector3 _fpVector3Backward = new Vector3(0f, 0.722f, -0.315f);
-        private Vector3 _tpVector3 = new Vector3(0, 1.76f, -1.78f);
-        private Vector3 _tpVector3Backward = new Vector3(0, 1.76f, 1.78f);
+        // Position offsets of the camera, third person view and first person view
+        private readonly Vector3 _thirdPersonOffset = new(0, 1.76f, -1.78f);
+        private readonly Vector3 _firstPersonOffset = new(0, 0.722f, 0.366f);
+
+        public float rotationSpeed = 2f;
+        public float transitionSpeed = 5f;
+
+        private float _yaw;
+        private float _pitch;
+        private Vector3 _currentOffset;
 
         // Status indicating if the player is in third person view
         private bool _inThirdPersonView;
+
+        // Pacman movement component
+        private PacmanMovement _pacmanMovement;
 
         // START FUNCTION
         private void Start() {
             Debug.Log("PacmanCamera START");
 
-            // Set the camera game object
+            // Set the camera game and pacman movement object
             _camera = gameObject.GetComponentInChildren<Camera>();
+            _pacmanMovement = gameObject.GetComponent<PacmanMovement>();
 
             // Get the keycode set for look back & switch view operations
             _lookBackKeyCode = GetKeyCode("LookBackKeyCode", KeyCode.B);
             _switchViewKeyCode = GetKeyCode("SwitchViewKeyCode", KeyCode.V);
 
+            _currentOffset = _thirdPersonOffset;
+            _camera.transform.localPosition = _currentOffset;
+            _pacmanMovement.SetViewMode(true);
+
             // TEST ONLY
             _controllable = true;
-            _inThirdPersonView = false;
-
-            if (!_inThirdPersonView) {
-                _camera.transform.localPosition = _fpVector3;
-            } else {
-                _camera.transform.localPosition = _tpVector3;
-            }
+            _inThirdPersonView = true;
+            
+            _yaw = transform.eulerAngles.y;
         }
 
         // UPDATE FUNCTION
-        private void Update() {
+        private void LateUpdate() {
             if (!_controllable) return;
 
-            // Look back key down
-            if (Input.GetKeyDown(_lookBackKeyCode)) {
-                if (!_inThirdPersonView) {
-                    _camera.transform.localPosition = _fpVector3Backward;
-                } else {
-                    _camera.transform.localPosition = _tpVector3Backward;
-                }
+            float mouseX = Input.GetAxis("Mouse X");
+            float mouseY = Input.GetAxis("Mouse Y");
 
-                // Set the rotation of the camera: look backward
-                Vector3 currentEuler = _camera.transform.localEulerAngles;
-                _camera.transform.localRotation = Quaternion.Euler(currentEuler.x, 180f, currentEuler.z);
+            if (_inThirdPersonView) {
+                _yaw += mouseX * rotationSpeed;
+                _pitch -= mouseY * rotationSpeed;
+                _pitch = Mathf.Clamp(_pitch, -30f, 60f);
+
+                Quaternion rotation = Quaternion.Euler(_pitch, _yaw, 0);
+                Vector3 desiredPosition = transform.position + rotation * _thirdPersonOffset;
+
+                _camera.transform.position = Vector3.Lerp(_camera.transform.position, desiredPosition, Time.deltaTime * transitionSpeed);
+                _camera.transform.LookAt(transform.position + Vector3.up * 1.0f);
+            } else {
+                _yaw += mouseX * rotationSpeed;
+                _pitch -= mouseY * rotationSpeed;
+                _pitch = Mathf.Clamp(_pitch, -45f, 45f);
+
+                Quaternion targetRotation = Quaternion.Euler(_pitch, _yaw, 0);
+
+                _camera.transform.position = Vector3.Lerp(
+                    _camera.transform.position,
+                    transform.position + Quaternion.Euler(0, _yaw, 0) * _firstPersonOffset,
+                    Time.deltaTime * transitionSpeed
+                );
+
+                _camera.transform.rotation = Quaternion.Lerp(_camera.transform.rotation, targetRotation, Time.deltaTime * transitionSpeed);
+
+                // Pacman orientation
+                transform.rotation = Quaternion.Euler(0, _yaw, 0);
             }
 
-            // Look back key up
-            if (Input.GetKeyUp(_lookBackKeyCode)) {
-                if (!_inThirdPersonView) {
-                    _camera.transform.localPosition = _fpVector3;
-                } else {
-                    _camera.transform.localPosition = _tpVector3;
-                }
-                
-                // Set the rotation of the camera: look forward
-                Vector3 currentEuler = _camera.transform.localEulerAngles;
-                _camera.transform.localRotation = Quaternion.Euler(currentEuler.x, 0f, currentEuler.z);
-            }
-
-            // Switch view key pressed
             if (Input.GetKeyDown(_switchViewKeyCode)) {
-                // Reset the rotation of the camera
-                
-                if (!_inThirdPersonView) {
-                    // Switch to third person view
-                    _camera.transform.localPosition = _tpVector3;
-                    _camera.transform.localRotation = Quaternion.Euler(25f, 0f, 0f);
-                    
-                    _inThirdPersonView = true;
-                } else {
-                    // Switch to first person view
-                    _camera.transform.localPosition = _fpVector3;
-                    _camera.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-                    
-                    _inThirdPersonView = false;
+                _inThirdPersonView = !_inThirdPersonView;
+                _currentOffset = _inThirdPersonView ? _thirdPersonOffset : _firstPersonOffset;
+                _pacmanMovement.SetViewMode(_inThirdPersonView);
+
+                if (_inThirdPersonView) {
+                    _yaw = transform.eulerAngles.y;
+                    _pitch = 15f;
                 }
+            }
+
+            if (Input.GetKeyDown(_lookBackKeyCode) && !_inThirdPersonView) {
+                _yaw += 180f;
             }
         }
 
