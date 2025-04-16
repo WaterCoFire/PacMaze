@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entity.Pacman {
     /**
@@ -9,8 +10,8 @@ namespace Entity.Pacman {
      */
     public class PacmanMovement : MonoBehaviour {
         // Move speed and rotate speed
-        public float moveSpeed;
-        public float rotateSpeed;
+        private float _pacmanMoveSpeed = 5f;
+        private float _pacmanRotateSpeed = 5f;
 
         // Key code for moving (WASD by default, it can be customized in Setting)
         private KeyCode _forwardKeyCode;
@@ -84,14 +85,14 @@ namespace Entity.Pacman {
             moveDir.Normalize();
 
             // Pacman movement
-            transform.position += moveDir * moveSpeed * Time.deltaTime;
+            transform.position += moveDir * _pacmanMoveSpeed * Time.deltaTime;
             
             // Make the pacman face the current direction of movement
             // ONLY IN THIRD PERSON VIEW
             if (_inThirdPersonView) {
                 if (moveDir.sqrMagnitude > 0.01f) {
                     Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _pacmanRotateSpeed * Time.deltaTime);
                 }
             }
         }

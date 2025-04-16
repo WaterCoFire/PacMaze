@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Entity.Pacman {
     /**
@@ -11,7 +12,7 @@ namespace Entity.Pacman {
         // The camera game object
         private Camera _camera;
 
-        // Key code for camera operation (B & V by default, it can be customized in Setting)
+        // Key code for camera operation (B & V by default, they can be customized in Setting)
         private KeyCode _turnBackKeyCode;
         private KeyCode _switchViewKeyCode;
 
@@ -22,11 +23,15 @@ namespace Entity.Pacman {
         private readonly Vector3 _thirdPersonOffset = new(0, 1.76f, -1.78f);
         private readonly Vector3 _firstPersonOffset = new(0, 0.722f, 0.366f);
 
-        public float rotationSpeed = 2f;
-        public float transitionSpeed = 5f;
+        // The rotation speed and transition (FPV <> TPV) speed of the camera
+        private readonly float _cameraRotationSpeed = 2f;
+        private readonly float _cameraTransitionSpeed = 10f;
 
-        private float _yaw;
-        private float _pitch;
+        // Horizontal and vertical rotation angles of the camera
+        private float _yaw; // Y-axis rotation (left-right look)
+        private float _pitch; // X-axis rotation (up-down look)
+
+        // Current offset of the camera from Pacman (depends on view mode)
         private Vector3 _currentOffset;
 
         // Status indicating if the player is in third person view
@@ -54,52 +59,62 @@ namespace Entity.Pacman {
             // TEST ONLY
             _controllable = true;
             _inThirdPersonView = true;
-            
+
             _yaw = transform.eulerAngles.y;
         }
 
-        // UPDATE FUNCTION
         private void LateUpdate() {
             if (!_controllable) return;
 
-            float mouseX = Input.GetAxis("Mouse X");
-            float mouseY = Input.GetAxis("Mouse Y");
+            float mouseX = Input.GetAxis("Mouse X"); // Horizontal camera control
+            float mouseY = Input.GetAxis("Mouse Y"); // Vertical camera control
 
             if (_inThirdPersonView) {
-                _yaw += mouseX * rotationSpeed;
-                _pitch -= mouseY * rotationSpeed;
-                _pitch = Mathf.Clamp(_pitch, -30f, 60f);
+                // Third person: Orbit camera around Pacman
+                _yaw += mouseX * _cameraRotationSpeed;
+                _pitch -= mouseY * _cameraRotationSpeed;
+                _pitch = Mathf.Clamp(_pitch, -30f, 60f); // Limit vertical rotation
 
                 Quaternion rotation = Quaternion.Euler(_pitch, _yaw, 0);
                 Vector3 desiredPosition = transform.position + rotation * _thirdPersonOffset;
 
-                _camera.transform.position = Vector3.Lerp(_camera.transform.position, desiredPosition, Time.deltaTime * transitionSpeed);
-                _camera.transform.LookAt(transform.position + Vector3.up * 1.0f);
+                // Smooth camera position transition
+                _camera.transform.position = Vector3.Lerp(_camera.transform.position, desiredPosition,
+                    Time.deltaTime * _cameraTransitionSpeed);
+                _camera.transform.LookAt(transform.position + Vector3.up * 1.0f); // Look at Pacman’s head
             } else {
-                _yaw += mouseX * rotationSpeed;
-                _pitch -= mouseY * rotationSpeed;
-                _pitch = Mathf.Clamp(_pitch, -45f, 45f);
+                // First person: Control Pacman's view direction
+                _yaw += mouseX * _cameraRotationSpeed;
+                _pitch -= mouseY * _cameraRotationSpeed;
+                _pitch = Mathf.Clamp(_pitch, -45f, 45f); // Narrower FPV pitch range
 
                 Quaternion targetRotation = Quaternion.Euler(_pitch, _yaw, 0);
 
+                // Smoothly move camera to FPV position
                 _camera.transform.position = Vector3.Lerp(
                     _camera.transform.position,
                     transform.position + Quaternion.Euler(0, _yaw, 0) * _firstPersonOffset,
-                    Time.deltaTime * transitionSpeed
+                    Time.deltaTime * _cameraTransitionSpeed
                 );
 
-                _camera.transform.rotation = Quaternion.Lerp(_camera.transform.rotation, targetRotation, Time.deltaTime * transitionSpeed);
+                // Smoothly rotate camera to match FPV view
+                _camera.transform.rotation = Quaternion.Lerp(_camera.transform.rotation, targetRotation,
+                    Time.deltaTime * _cameraTransitionSpeed);
 
-                // Pacman orientation
+                // Pacman orientation follows yaw (horizontal only)
                 transform.rotation = Quaternion.Euler(0, _yaw, 0);
             }
 
+            // Switch between FPV and TPV
             if (Input.GetKeyDown(_switchViewKeyCode)) {
                 _inThirdPersonView = !_inThirdPersonView;
-                _currentOffset = _inThirdPersonView ? _thirdPersonOffset : _firstPersonOffset;
                 _pacmanMovement.SetViewMode(_inThirdPersonView);
 
+                // Camera offset reset
+                _currentOffset = _inThirdPersonView ? _thirdPersonOffset : _firstPersonOffset;
+
                 if (_inThirdPersonView) {
+                    // Reset yaw/pitch for a better third-person camera start angle
                     _yaw = transform.eulerAngles.y;
                     _pitch = 15f;
                 }
@@ -108,6 +123,7 @@ namespace Entity.Pacman {
             // Quick turn back
             // Only works in FIRST PERSON VIEW
             if (Input.GetKeyDown(_turnBackKeyCode) && !_inThirdPersonView) {
+                // Instantly turn the camera around
                 _yaw += 180f;
             }
         }
