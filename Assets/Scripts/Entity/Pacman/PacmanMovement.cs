@@ -48,8 +48,8 @@ namespace Entity.Pacman {
         // UPDATE FUNCTION
         private void Update() {
             if (!_controllable) return;
-
-            Move();
+                
+            Move(); // Pacman movement operation
         }
 
         /**

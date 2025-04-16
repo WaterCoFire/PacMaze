@@ -4,7 +4,7 @@ namespace Entity.Pacman {
     /**
      * Manages the camera of the pacman.
      * - Initialization
-     * - "Look Back" operation (Default key: B)
+     * - "Turn Back" operation (Default key: B, only works in FPV)
      * - Switch View operation (Default key: V)
      */
     public class PacmanCamera : MonoBehaviour {
@@ -12,7 +12,7 @@ namespace Entity.Pacman {
         private Camera _camera;
 
         // Key code for camera operation (B & V by default, it can be customized in Setting)
-        private KeyCode _lookBackKeyCode;
+        private KeyCode _turnBackKeyCode;
         private KeyCode _switchViewKeyCode;
 
         // Status indicating if the pacman camera is controllable
@@ -44,7 +44,7 @@ namespace Entity.Pacman {
             _pacmanMovement = gameObject.GetComponent<PacmanMovement>();
 
             // Get the keycode set for look back & switch view operations
-            _lookBackKeyCode = GetKeyCode("LookBackKeyCode", KeyCode.B);
+            _turnBackKeyCode = GetKeyCode("TurnBackKeyCode", KeyCode.B);
             _switchViewKeyCode = GetKeyCode("SwitchViewKeyCode", KeyCode.V);
 
             _currentOffset = _thirdPersonOffset;
@@ -105,7 +105,9 @@ namespace Entity.Pacman {
                 }
             }
 
-            if (Input.GetKeyDown(_lookBackKeyCode) && !_inThirdPersonView) {
+            // Quick turn back
+            // Only works in FIRST PERSON VIEW
+            if (Input.GetKeyDown(_turnBackKeyCode) && !_inThirdPersonView) {
                 _yaw += 180f;
             }
         }
