@@ -12,11 +12,8 @@ namespace Entity.Pacman {
         public float moveSpeed;
         public float rotateSpeed;
 
-        // Key code for moving (WASD by default, they can be customized in Setting)
-        private KeyCode _forwardKeyCode;
-        private KeyCode _backwardKeyCode;
-        private KeyCode _leftwardKeyCode;
-        private KeyCode _rightwardKeyCode;
+        // Key code for moving (W by default, it can be customized in Setting)
+        private KeyCode _moveKeyCode;
 
         // Status indicating if the pacman is controllable
         // Should be false: when e.g. game paused, game ended
@@ -27,11 +24,10 @@ namespace Entity.Pacman {
 
         // START FUNCTION
         private void Start() {
-            // Get the keycode set for four direction operations
-            _forwardKeyCode = GetKeyCode("ForwardKeyCode", KeyCode.W);
-            _backwardKeyCode = GetKeyCode("BackwardKeyCode", KeyCode.S);
-            _leftwardKeyCode = GetKeyCode("LeftwardKeyCode", KeyCode.A);
-            _rightwardKeyCode = GetKeyCode("RightwardKeyCode", KeyCode.D);
+            Debug.Log("PacmanMovement START");
+            
+            // Get the keycode set for moving operations
+            _moveKeyCode = GetKeyCode("MoveKeyCode", KeyCode.W);
             
             Cursor.lockState = CursorLockMode.Locked; // Lock mouse
             Cursor.visible = false;
@@ -50,29 +46,13 @@ namespace Entity.Pacman {
 
         /**
          * Manages the movement of the pacman.
-         * (Forward, Backward, Leftward, Rightward)
          */
         private void Move() {
             Vector3 direction = Vector3.zero;
 
             // Forward movement
-            if (Input.GetKey(_forwardKeyCode)) {
+            if (Input.GetKey(_moveKeyCode)) {
                 direction += transform.forward;
-            }
-
-            // Backward movement
-            if (Input.GetKey(_backwardKeyCode)) {
-                direction -= transform.forward;
-            }
-
-            // Leftward movement
-            if (Input.GetKey(_leftwardKeyCode)) {
-                direction -= transform.right;
-            }
-
-            // Rightward movement
-            if (Input.GetKey(_rightwardKeyCode)) {
-                direction += transform.right;
             }
 
             direction.y = 0; // Prevent the impact of Y-axis movement
