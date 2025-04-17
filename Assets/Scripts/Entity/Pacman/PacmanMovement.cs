@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Entity.Pacman {
     /**
@@ -9,9 +9,6 @@ namespace Entity.Pacman {
      * - Rotate (controlled by mouse dragging)
      */
     public class PacmanMovement : MonoBehaviour {
-        // Rigid body of the pacman
-        private Rigidbody _rigidbody;
-
         // Move speed and rotate speed
         private float _pacmanMoveSpeed = 5f;
         private float _pacmanRotateSpeed = 5f;
@@ -32,6 +29,9 @@ namespace Entity.Pacman {
         private float _mouseX;
         private float _rotationY;
 
+        // Half dimensions of the player's collider (shrunk slightly)
+        private Vector3 _boxHalfExtents;
+
         // START FUNCTION
         private void Start() {
             Debug.Log("PacmanMovement START");
@@ -42,18 +42,11 @@ namespace Entity.Pacman {
             _leftwardKeyCode = GetKeyCode("LeftwardKeyCode", KeyCode.A);
             _rightwardKeyCode = GetKeyCode("RightwardKeyCode", KeyCode.D);
 
-            _rigidbody = GetComponent<Rigidbody>();
-            // Make sure rigid body exists and is configured correctly
-            if (_rigidbody == null) {
-                Debug.LogError("Pacman requires a rigid body component!");
-            }
-            
-            _rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-            _rigidbody.isKinematic = true; // Control movement manually with collision detection
-            _rigidbody.useGravity = false;
-
             Cursor.lockState = CursorLockMode.Locked; // Lock mouse
             Cursor.visible = false;
+
+            // Get slightly reduced box size for collision tolerance
+            _boxHalfExtents = GetComponent<BoxCollider>().bounds.extents * 0.9f;
 
             // TEST ONLY
             _controllable = true;
@@ -68,11 +61,14 @@ namespace Entity.Pacman {
         }
 
         /**
-         * Manages the movement of the pacman.
+         * Handles player movement with wall collision detection and sliding logic.
+         * Prevents moving into walls while allowing smooth sliding along them.
+         * In TPV, also rotates Pacman to face the movement direction.
          */
         private void Move() {
             float h = 0f, v = 0f;
 
+            // Capture directional input
             if (Input.GetKey(_forwardKeyCode)) v += 1f;
             if (Input.GetKey(_backwardKeyCode)) v -= 1f;
             if (Input.GetKey(_rightwardKeyCode)) h += 1f;
@@ -80,12 +76,12 @@ namespace Entity.Pacman {
 
             Vector3 inputDir = new Vector3(h, 0, v);
 
+            // Don't move if input is too small
             if (inputDir.sqrMagnitude < 0.01f) return;
 
             inputDir.Normalize();
 
-            // Get the forward and right vectors of the camera
-            // (excluding y-component)
+            // Get the horizontal forward and right directions from the camera
             Transform cam = Camera.main.transform;
             Vector3 camForward = cam.forward;
             Vector3 camRight = cam.right;
@@ -94,17 +90,54 @@ namespace Entity.Pacman {
             camForward.Normalize();
             camRight.Normalize();
 
-            // Calculate camera-based movement direction
+            // Compute the world movement direction relative to camera
             Vector3 moveDir = inputDir.z * camForward + inputDir.x * camRight;
             moveDir.Normalize();
-            
-            Vector3 targetPos = transform.position + moveDir * _pacmanMoveSpeed * Time.deltaTime;
-            _rigidbody.MovePosition(targetPos);
-            
-            // transform.position += moveDir * _pacmanMoveSpeed * Time.deltaTime;
 
-            // Make the pacman face the current direction of movement
-            // ONLY IN THIRD PERSON VIEW
+            // --- Collision Detection and Sliding Logic ---
+            float moveDistance = _pacmanMoveSpeed * Time.deltaTime;
+
+            // Raise the cast origin slightly so it aligns with Pacman's body center
+            Vector3 castOrigin = transform.position + Vector3.up * _boxHalfExtents.y;
+
+            // Cast a box in the move direction to detect any nearby obstacles
+            RaycastHit[] hits = Physics.BoxCastAll(
+                castOrigin,
+                _boxHalfExtents,
+                moveDir,
+                Quaternion.identity,
+                moveDistance
+            );
+
+            // Filter only wall hits
+            RaycastHit[] wallHits = hits.Where(hit => hit.collider.CompareTag("Wall")).ToArray();
+
+            // If there's at least one wall, find the closest one
+            if (wallHits.Length > 0) {
+                RaycastHit wallHit = wallHits.OrderBy(hit => hit.distance).First();
+
+                // Slide direction = project moveDir onto plane perpendicular to wall
+                Vector3 slideDir = Vector3.ProjectOnPlane(moveDir, wallHit.normal).normalized;
+
+                // Decide whether the sliding direction is safe or not
+                bool blocked = IsDangerousSlide(castOrigin, slideDir, _boxHalfExtents, moveDistance, wallHit);
+
+                if (!blocked) {
+                    // Slide along the wall if it's a safe direction
+                    transform.position += slideDir * moveDistance;
+                    Debug.Log("Slide");
+                } else {
+                    // Block movement completely
+                    Debug.Log("Blocked completely.");
+                    return;
+                }
+            } else {
+                // No wall ahead, move freely
+                transform.position += moveDir * moveDistance;
+                Debug.Log("Move");
+            }
+
+            // In TPV, rotate Pacman to face the movement direction
             if (_inThirdPersonView) {
                 if (moveDir.sqrMagnitude > 0.01f) {
                     Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
@@ -113,7 +146,37 @@ namespace Entity.Pacman {
                 }
             }
         }
-        
+
+        /**
+         * Determines if sliding along a wall is unsafe based on the angle and distance.
+         * Blocks sliding when the direction would likely cause the player to clip through the wall,
+         * or if there’s still a wall directly in the slide direction.
+         * Returns true if the slide direction is dangerous or blocked, otherwise false.
+         *
+         * PARAMS
+         * origin - Start point of the box cast (usually just above the player's center)
+         * direction - The intended slide direction (projected against the wall normal)
+         * halfExtents - Half dimensions of the player's collider (shrunk slightly)
+         * distance - Distance Pacman wants to move in this frame
+         * wallHit - The original wall hit data, used to calculate angles
+         */
+        private bool IsDangerousSlide(Vector3 origin, Vector3 direction, Vector3 halfExtents, float distance,
+            RaycastHit wallHit) {
+            // Compute the angle between the slide direction and the wall's normal
+            float dot = Vector3.Dot(direction.normalized, wallHit.normal);
+            float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
+
+            // If the angle is too small, the direction is almost pushing into the wall → unsafe
+            if (angle < 10f) return true;
+
+            // Perform another box cast in the slide direction to check for direct collision
+            if (Physics.BoxCast(origin, halfExtents, direction, out RaycastHit hit, Quaternion.identity, distance)) {
+                if (hit.collider.CompareTag("Wall")) return true;
+            }
+
+            // Slide direction is safe and not colliding
+            return false;
+        }
 
 
         /**
