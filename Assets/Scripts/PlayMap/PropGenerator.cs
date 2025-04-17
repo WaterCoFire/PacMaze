@@ -30,6 +30,10 @@ namespace PlayMap {
 
         // Pacman game object (used for setting the chase target of all the ghosts)
         private GameObject _pacmanGameObject;
+        
+        // DotManager component
+        // As it is a frequently used component, declare it here could save some time
+        public DotManager dotManager;
 
         /**
          * Places all the FIXED props (including pacman, fixed ghosts) on the map.
@@ -66,10 +70,10 @@ namespace PlayMap {
                     Debug.Log("PACMAN FOUND");
                     _pacmanGameObject = Instantiate(prefab, kvp.Key, Quaternion.identity);
                 } else if (prefab.name.Contains("Ghost")) {
-                    // Store all the ghosts in GhostController
+                    // Store all the ghosts in GhostManager
                     GameObject newGhost = Instantiate(prefab, kvp.Key, Quaternion.identity);
                     // Debug.Log(newGhost.name);
-                    gameObject.GetComponent<GhostController>().AddGhost(newGhost);
+                    gameObject.GetComponent<GhostManager>().AddGhost(newGhost);
                 } else {
                     // All other props
                     Instantiate(prefab, kvp.Key, Quaternion.identity);
@@ -97,14 +101,15 @@ namespace PlayMap {
 
             // Place dots at all the remaining free tile
             foreach (var freeTile in _freeTiles) {
-                Instantiate(dotPrefab, freeTile, Quaternion.identity);
+                GameObject newDot = Instantiate(dotPrefab, freeTile, Quaternion.identity);
+                dotManager.AddDot(newDot); // Add to the dot manager
             }
             
             // Set the pacman target for all the ghosts
             if (_pacmanGameObject == null) {
                 Debug.LogError("Error: Pacman not found!");
             } else {
-                gameObject.GetComponent<GhostController>().SetPacman(_pacmanGameObject);
+                gameObject.GetComponent<GhostManager>().SetPacman(_pacmanGameObject);
             }
 
             // Reset the free tiles list
@@ -182,8 +187,8 @@ namespace PlayMap {
                             return false;
                     }
 
-                    // Add the new ghost to GhostController
-                    gameObject.GetComponent<GhostController>().AddGhost(newGhost);
+                    // Add the new ghost to GhostManager
+                    gameObject.GetComponent<GhostManager>().AddGhost(newGhost);
                 }
 
                 _freeTiles.RemoveAt(randomIndex); // Remove the random chosen tile from free tiles list

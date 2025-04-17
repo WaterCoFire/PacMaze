@@ -13,13 +13,13 @@ namespace Entity.Ghost {
         
         // Chasing Speed
         // This speed varies according to difficulty
-        // Specific numbers are set in GhostController
+        // Specific numbers are set in GhostManager
         private float _chaseSpeed;
         
         // Detection Radius
         // Pacman will be chased when it is within this distance from a ghost
         // This distance varies according to difficulty
-        // Specific numbers are set in GhostController
+        // Specific numbers are set in GhostManager
         private float _detectionRadius;
 
         private NavMeshAgent _agent; // NavMesh agent
@@ -73,7 +73,7 @@ namespace Entity.Ghost {
 
         /**
          * Sets the pacman game object.
-         * Used in GhostController when initializing the map.
+         * Used in GhostManager when initializing the map.
          */
         public void SetPacman(GameObject pacman) {
             _pacman = pacman;
@@ -81,7 +81,7 @@ namespace Entity.Ghost {
         
         /**
          * Sets the normal speed, chasing speed and detection radius of the ghost.
-         * Used in GhostController when initializing the map.
+         * Used in GhostManager when initializing the map.
          */
         public void SetGhostParams(float normalSpeed, float chaseSpeed, float detectionRadius) {
             _normalSpeed = normalSpeed;

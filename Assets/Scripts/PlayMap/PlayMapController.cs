@@ -68,8 +68,8 @@ namespace PlayMap {
             // Difficulty setting
             // TODO Lucky Dice result probability
             
-            // Update difficulty in GhostController to for setting the behaviours of the ghosts
-            gameObject.GetComponent<GhostController>().SetDifficulty(wrapper.difficulty);
+            // Update difficulty in GhostManager to for setting the behaviours of the ghosts
+            gameObject.GetComponent<GhostManager>().SetDifficulty(wrapper.difficulty);
 
             // Generate walls
             gameObject.GetComponent<WallGenerator>()

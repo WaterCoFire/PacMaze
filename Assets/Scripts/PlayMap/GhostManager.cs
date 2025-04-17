@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Entity.Ghost;
 using UnityEngine;
 
@@ -7,32 +6,32 @@ namespace PlayMap {
     /**
      * Manages all the ghosts in each game.
      */
-    public class GhostController : MonoBehaviour {
+    public class GhostManager : MonoBehaviour {
         // The list of all the active ghosts
         private List<GameObject> _ghosts = new();
 
         // Normal wandering speed of ghosts
         // TODO PROVISIONAL
-        private float _ghostNormalSpeed = 2.0f;
+        private readonly float _ghostNormalSpeed = 2.0f;
 
         // Chasing speeds of ghosts, by difficulty
         // TODO PROVISIONAL
-        private float _ghostEasyChaseSpeed = 3.0f;
-        private float _ghostNormalChaseSpeed = 4.0f;
-        private float _ghostHardChaseSpeed = 5.05f;
+        private readonly float _ghostEasyChaseSpeed = 3.0f;
+        private readonly float _ghostNormalChaseSpeed = 4.0f;
+        private readonly float _ghostHardChaseSpeed = 5.05f;
 
         // Detection radius of ghosts, by difficulty
         // TODO PROVISIONAL
-        private float _ghostEasyDetectionRadius = 10.0f;
-        private float _ghostNormalDetectionRadius = 20.0f;
-        private float _ghostHardDetectionRadius = 100.0f;
+        private readonly float _ghostEasyDetectionRadius = 10.0f;
+        private readonly float _ghostNormalDetectionRadius = 20.0f;
+        private readonly float _ghostHardDetectionRadius = 100.0f;
 
         // Difficulty of the current game
         private char _difficulty;
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("GhostController START");
+            Debug.Log("GhostManager START");
 
             // Initialize the ghost list
             _ghosts.Clear();
