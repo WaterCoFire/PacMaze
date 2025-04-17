@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using Entity.Ghost;
 using Entity.Map;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = System.Random;
 
@@ -29,6 +27,9 @@ namespace PlayMap {
 
         // Random instance for generating random numbers
         private Random _random = new();
+
+        // Pacman game object (used for setting the chase target of all the ghosts)
+        private GameObject _pacmanGameObject;
 
         /**
          * Places all the FIXED props (including pacman, fixed ghosts) on the map.
@@ -60,7 +61,18 @@ namespace PlayMap {
                     return;
                 }
 
-                Instantiate(prefab, kvp.Key, Quaternion.identity);
+                if (prefab.name == "Pacman") {
+                    // Look for the pacman game object and store it
+                    Debug.Log("PACMAN FOUND");
+                    _pacmanGameObject = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                } else if (prefab.name.Contains("Ghost")) {
+                    // Store all the ghosts in GhostController
+                    GameObject newGhost = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                    gameObject.GetComponent<GhostController>().AddGhost(newGhost);
+                } else {
+                    // All other props
+                    Instantiate(prefab, kvp.Key, Quaternion.identity);
+                }
 
                 // Remove the tile from the free tiles list
                 _freeTiles.Remove(kvp.Key);
@@ -86,7 +98,15 @@ namespace PlayMap {
             foreach (var freeTile in _freeTiles) {
                 Instantiate(dotPrefab, freeTile, Quaternion.identity);
             }
+            
+            // Set the pacman target for all the ghosts
+            if (_pacmanGameObject == null) {
+                Debug.LogError("Error: Pacman not found!");
+            } else {
+                gameObject.GetComponent<GhostController>().SetPacman(_pacmanGameObject);
+            }
 
+            // Reset the free tiles list
             _freeTiles.Clear();
         }
 
@@ -156,10 +176,13 @@ namespace PlayMap {
                             newGhost = Instantiate(pinkGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         default:
-                            Debug.LogError("Invalid ghosts count when instantiating randomly: " + PlayerPrefs.GetInt("GhostsCount"));
+                            Debug.LogError("Invalid ghosts count when instantiating randomly: " +
+                                           PlayerPrefs.GetInt("GhostsCount"));
                             return false;
                     }
-                    // newGhost TODO Add the new ghost to GhostController
+
+                    // Add the new ghost to GhostController
+                    gameObject.GetComponent<GhostController>().AddGhost(newGhost);
                 }
 
                 _freeTiles.RemoveAt(randomIndex); // Remove the random chosen tile from free tiles list

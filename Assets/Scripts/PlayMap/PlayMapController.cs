@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
-using MapEditor;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -67,6 +64,12 @@ namespace PlayMap {
 
             // Parse the json data and store in the wrapper
             MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
+            
+            // Difficulty setting
+            // TODO Lucky Dice result probability
+            
+            // Update difficulty in GhostController to for setting the behaviours of the ghosts
+            gameObject.GetComponent<GhostController>().SetDifficulty(wrapper.difficulty);
 
             // Generate walls
             gameObject.GetComponent<WallGenerator>()
