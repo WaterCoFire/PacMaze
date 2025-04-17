@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7474194587806851433}
   - component: {fileID: 8537856938909960224}
   - component: {fileID: 2928868862711731810}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PowerPellet_Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2193889081734960329}
   - component: {fileID: 697930307941497158}
   - component: {fileID: 6789520417958208011}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PowerPellet_Rotating_Mesh04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 2748458276794996533}
   - component: {fileID: 3336757919723525408}
   - component: {fileID: 3447437189394959275}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PowerPellet_Rotating_Mesh03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5749966718009762965}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PowerPellets_Rotating
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 8856705109701552987}
   - component: {fileID: 1652279542911722004}
   - component: {fileID: 5192114881335545232}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PowerPellet_Rotating_Mesh01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: 3910937009591534056}
   - component: {fileID: 5504683036398191336}
   - component: {fileID: 8998843214563205324}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PowerPellet_Rotating_Mesh02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7229356811043339410}
   - component: {fileID: 4481258403794804217}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PowerPellet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6188483036100511779}
   - component: {fileID: 8301455506510079905}
   - component: {fileID: 162535885687893437}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4640096830209474917}
   - component: {fileID: 2856905503716581981}
   - component: {fileID: 3756767345804134100}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FastWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

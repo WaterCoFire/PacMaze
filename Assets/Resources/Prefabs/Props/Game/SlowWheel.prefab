@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3744333697079339732}
   - component: {fileID: 6518768150031712350}
   - component: {fileID: 5688074177594374812}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SlowWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 7596767047853496738}
   - component: {fileID: 978691790789569383}
   - component: {fileID: 1651735838766662088}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

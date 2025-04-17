@@ -120,8 +120,16 @@ namespace PlayMap {
             }
 
             // Use collider data to build navigation mesh
-            mapFloor.GetComponent<NavMeshSurface>().useGeometry = NavMeshCollectGeometry.PhysicsColliders;
-            mapFloor.GetComponent<NavMeshSurface>().BuildNavMesh();
+            NavMeshSurface navMeshSurface = mapFloor.GetComponent<NavMeshSurface>();
+
+            if (navMeshSurface == null) {
+                Debug.LogError("Floor has no NavMeshSurface component!");
+                return;
+            }
+
+            // Bake NavMesh
+            navMeshSurface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
+            navMeshSurface.BuildNavMesh();
         }
     }
 }

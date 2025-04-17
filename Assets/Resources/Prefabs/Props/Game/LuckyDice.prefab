@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8732176960597311043}
   - component: {fileID: 770925957487781791}
   - component: {fileID: 7667989869416752512}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: dice_blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 7510700391559138579}
   - component: {fileID: 6160445142367897278}
   - component: {fileID: 3693108148024036578}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LuckyDice
   m_TagString: Untagged
   m_Icon: {fileID: 0}

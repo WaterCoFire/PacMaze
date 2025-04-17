@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9076800972568151827}
   - component: {fileID: 5828900521428593984}
   - component: {fileID: 6284096860241830935}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: NiceBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 500543486135945493}
   - component: {fileID: 6632005632149862731}
   - component: {fileID: 1730928175420182645}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -9,23 +9,23 @@ namespace PlayMap {
      */
     public class GhostController : MonoBehaviour {
         // The list of all the active ghosts
-        private List<GameObject> _ghosts;
+        private List<GameObject> _ghosts = new();
 
         // Normal wandering speed of ghosts
-        // TODO Decide them
-        private float _ghostNormalSpeed;
+        // TODO PROVISIONAL
+        private float _ghostNormalSpeed = 2.0f;
 
         // Chasing speeds of ghosts, by difficulty
-        // TODO Decide them
-        private float _ghostEasyChaseSpeed;
-        private float _ghostNormalChaseSpeed;
-        private float _ghostHardChaseSpeed;
+        // TODO PROVISIONAL
+        private float _ghostEasyChaseSpeed = 3.0f;
+        private float _ghostNormalChaseSpeed = 4.0f;
+        private float _ghostHardChaseSpeed = 5.05f;
 
         // Detection radius of ghosts, by difficulty
-        // TODO Decide them
-        private float _ghostEasyDetectionRadius;
-        private float _ghostNormalDetectionRadius;
-        private float _ghostHardDetectionRadius;
+        // TODO PROVISIONAL
+        private float _ghostEasyDetectionRadius = 10.0f;
+        private float _ghostNormalDetectionRadius = 20.0f;
+        private float _ghostHardDetectionRadius = 100.0f;
 
         // Difficulty of the current game
         private char _difficulty;
@@ -35,7 +35,7 @@ namespace PlayMap {
             Debug.Log("GhostController START");
 
             // Initialize the ghost list
-            _ghosts = new List<GameObject>();
+            _ghosts.Clear();
         }
 
         /**

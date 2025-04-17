@@ -68,6 +68,7 @@ namespace PlayMap {
                 } else if (prefab.name.Contains("Ghost")) {
                     // Store all the ghosts in GhostController
                     GameObject newGhost = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                    // Debug.Log(newGhost.name);
                     gameObject.GetComponent<GhostController>().AddGhost(newGhost);
                 } else {
                     // All other props

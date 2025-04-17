@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BadCherry
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a64ff229f591b3647acfd5348c8a2fa0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: a64ff229f591b3647acfd5348c8a2fa0, type: 3}
       propertyPath: m_RootOrder
       value: 0
