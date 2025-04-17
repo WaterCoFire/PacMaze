@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Entity.Ghost;
 using Entity.Map;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -132,31 +133,33 @@ namespace PlayMap {
                 if (propName != "GhostSpawn") {
                     Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
                 } else {
+                    GameObject newGhost;
                     switch (PlayerPrefs.GetInt("GhostsCount", -1)) {
                         case 0:
                             PlayerPrefs.SetInt("GhostsCount", 1);
-                            Instantiate(redGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            newGhost = Instantiate(redGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 1:
                             PlayerPrefs.SetInt("GhostsCount", 2);
-                            Instantiate(blueGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            newGhost = Instantiate(blueGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 2:
                             PlayerPrefs.SetInt("GhostsCount", 3);
-                            Instantiate(yellowGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            newGhost = Instantiate(yellowGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 3:
                             PlayerPrefs.SetInt("GhostsCount", 4);
-                            Instantiate(greenGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            newGhost = Instantiate(greenGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 4:
                             PlayerPrefs.SetInt("GhostsCount", 5);
-                            Instantiate(pinkGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            newGhost = Instantiate(pinkGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         default:
                             Debug.LogError("Invalid ghosts count when instantiating randomly: " + PlayerPrefs.GetInt("GhostsCount"));
                             return false;
                     }
+                    // newGhost TODO Add the new ghost to GhostController
                 }
 
                 _freeTiles.RemoveAt(randomIndex); // Remove the random chosen tile from free tiles list
