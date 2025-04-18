@@ -16,11 +16,11 @@ namespace MapEditor {
      * GOOD ONES
      * - Power Pellet: Like the classical Pacman Power Pellet
      * - Fast Wheel： Player becomes faster for 5 sec
-     * - Nice Bomb: Press K to kill the nearest ghost
+     * - Nice Bomb: Press K to kill the nearest ghostron
      *
      * BAD ONES
      * - Slow Wheel: Player slows down for 5 sec
-     * - Bad Cherry: One more ghost (spawns randomly)
+     * - Bad Cherry: One more ghostron (spawns randomly)
      *
      * RANDOM
      * - Lucky Dice: One of the five props
@@ -73,9 +73,7 @@ namespace MapEditor {
         public Button luckyDiceMinus;
 
         // Count texts
-        [FormerlySerializedAs("ghostCountText")]
         public TMP_Text ghostronCountText;
-
         public TMP_Text powerPelletCountText;
         public TMP_Text fastWheelCountText;
         public TMP_Text niceBombCountText;

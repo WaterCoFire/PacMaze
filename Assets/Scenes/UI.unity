@@ -6553,7 +6553,7 @@ GameObject:
   - component: {fileID: 1334384235}
   - component: {fileID: 1334384234}
   m_Layer: 5
-  m_Name: TotalGhostNumText
+  m_Name: TotalGhostronNumText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6808,7 +6808,7 @@ GameObject:
   - component: {fileID: 1382190952}
   - component: {fileID: 1382190951}
   m_Layer: 5
-  m_Name: TotalGhostNumText
+  m_Name: TotalGhostronNumText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9170,7 +9170,7 @@ GameObject:
   - component: {fileID: 1749461385}
   - component: {fileID: 1749461384}
   m_Layer: 5
-  m_Name: TotalGhostPrompt
+  m_Name: TotalGhostronPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10441,7 +10441,7 @@ GameObject:
   - component: {fileID: 2044444063}
   - component: {fileID: 2044444062}
   m_Layer: 5
-  m_Name: TotalGhostPrompt
+  m_Name: TotalGhostronPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
