@@ -5,8 +5,9 @@ namespace Entity.Ghostron {
     /**
      * Manages the behaviour of the ghost.
      *
-     * TODO: Models now resembles gfhosts in classical pacman game too much
+     * TODO: Models now resembles ghosts in classical pacman game too much
      * Maybe find some new models online
+     * Already renamed ghost to ghostron, next step is to change ghostron models
      */
     public class Ghostron : MonoBehaviour {
         private GameObject _pacman; // Pacman game object, what the ghostron is hunting for
@@ -33,7 +34,13 @@ namespace Entity.Ghostron {
         private readonly float _wanderInterval = 15.0f; // Interval of switching a wandering target
 
         private NavMeshAgent _agent; // NavMesh agent
-        private bool _isChasing; // Status indicating if the ghostron is wandering or chasing _pacman
+
+        private bool _isChasing; // Status indicating if the ghostron is wandering or chasing pacman
+
+        // Scared logic variables
+        private bool _isScared; // Status indicating if the pacman is scared (when pacman eats a power pellet)
+        private float _scaredTimer; // Timer of the ghostron feeling scared
+        private readonly float _scaredDuration = 6.0f;
 
         // The original material of the ghostron (the normal color)
         private Material _originalMaterial;
@@ -44,6 +51,17 @@ namespace Entity.Ghostron {
         // START FUNCTION
         void Start() {
             Debug.Log("Ghostron START");
+            
+            // Check if the ghostron has all necessary components
+            if (gameObject.GetComponent<NavMeshAgent>() == null ||
+                gameObject.GetComponent<SkinnedMeshRenderer>() == null ||
+                gameObject.GetComponent<BoxCollider>() == null) {
+                Debug.LogError("Ghostron start error: Essential components missing!");
+                return;
+            }
+            
+            // Set the ghost as a trigger
+            gameObject.GetComponent<BoxCollider>().isTrigger = true;
 
             // Bind the NavMeshAgent component
             _agent = GetComponent<NavMeshAgent>();
@@ -57,7 +75,8 @@ namespace Entity.Ghostron {
             // Check the distance between this ghostron and pacman target
             float distance = Vector3.Distance(transform.position, _pacman.transform.position);
 
-            if (distance <= _detectionRadius) {
+            // Only chases pacman if the ghostron is close enough & not scared
+            if (distance <= _detectionRadius && !_isScared) {
                 // Chase the pacman
                 if (!_isChasing) {
                     _isChasing = true;
@@ -77,9 +96,62 @@ namespace Entity.Ghostron {
                     _agent.ResetPath();
                     Debug.Log("Pacman escaped, now wandering.");
                 }
-                
+
                 // Start to wander
                 Wander();
+            }
+
+            // Update the scared timer if the ghost is currently scared
+            if (_isScared) {
+                _scaredTimer += Time.deltaTime;
+
+                // If the timer reaches the scared duration time, stop being scared
+                if (_scaredTimer >= _scaredDuration) {
+                    SetScared(false);
+                }
+            }
+        }
+
+        /**
+         * Sets the scared status of the ghost.
+         */
+        public void SetScared(bool isScared) {
+            if (isScared) {
+                // Now the ghostron becomes scared
+                _scaredTimer = 0f;
+                _isScared = true;
+                // Change skin
+                gameObject.GetComponent<SkinnedMeshRenderer>().material = scaredMaterial;
+                // Change speed
+                _agent.speed = _scaredSpeed;
+            } else {
+                // Now the ghostron is no longer scared
+                _scaredTimer = 0f;
+                _isScared = false;
+                // Change back skin
+                gameObject.GetComponent<SkinnedMeshRenderer>().material = _originalMaterial;
+                // Change back speed
+                _agent.speed = _normalSpeed;
+            }
+        }
+        
+        /**
+         * Unity event: When ghostron collides with another game object
+         * Only pacman is cared here
+         */
+        private void OnTriggerEnter(Collider other) {
+            // If the other game object is not pacman then do nothing
+            if (!other.CompareTag("Pacman")) return;
+
+            // It is pacman
+            if (_isScared) {
+                // The ghostron is scared currently
+                // Teleport it to the central point
+                Debug.Log("Ghostron caught by Pacman! Teleporting back.");
+                transform.position = Vector3.zero;
+                SetScared(false);
+            } else {
+                Debug.LogWarning("Pacman got caught! GAME OVER!");
             }
         }
 
@@ -107,12 +179,12 @@ namespace Entity.Ghostron {
             // Possible x/z axis coordinate values of the target
             int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
 
-            
+
             // Generate random x/z axis coordinates
             int randX = possibleValues[Random.Range(0, possibleValues.Length)];
             int randZ = possibleValues[Random.Range(0, possibleValues.Length)];
             Vector3 potentialPosition = new Vector3(randX, 0, randZ);
-            
+
             // Check if this location is a valid walkable point
             if (NavMesh.SamplePosition(potentialPosition, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) {
                 // Return this position if it is valid
