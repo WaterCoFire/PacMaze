@@ -1522,7 +1522,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3218013390413170282}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.34077564, y: 0.61957407, z: 0.34077564, w: 0.61957407}
+  m_LocalRotation: {x: -0.3407749, y: -0.6195744, z: 0.3407749, w: 0.6195744}
   m_LocalPosition: {x: 6.1629786e-35, y: 0.067160785, z: -1.0507122e-34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1533,7 +1533,7 @@ Transform:
   - {fileID: 5876785692078236910}
   - {fileID: 6910725564821077793}
   m_Father: {fileID: 5396267377430115914}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 57.623}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3338867154675211878
 GameObject:
   m_ObjectHideFlags: 0
@@ -2372,7 +2372,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5396267377430115914}
   m_Layer: 0
-  m_Name: GhostronSpawn
+  m_Name: redRobotStable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2386,9 +2386,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4983011316271254539}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 11.26, y: 0.083333336, z: 0.56}
-  m_LocalScale: {x: 13, y: 13, z: 13}
+  m_LocalScale: {x: 14, y: 14, z: 14}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3139301859096922934}

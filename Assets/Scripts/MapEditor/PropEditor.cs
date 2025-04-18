@@ -16,23 +16,14 @@ namespace MapEditor {
      * GOOD ONES
      * - Power Pellet
      * - Fast Wheel
+     * - Nice Bomb
      * 
-     * - Nice Bomb:
-     * Does nothing when the pacman picks it
-     * Only effective on the player's second operation when one bomb is picked:
-     * Press E to directly kill the nearest ghostron,
-     * OR press Space to deploy the bomb down on the current tile.
-     * If using it by deployment, BOTH the ghostron that hits that deployed bomb
-     * AND another ghostron that is the nearest to the bomb will be killed.
-     * (So Space deployment can kill up to two ghostrons while E kill can only kill one)
-     *
      * BAD ONES
      * - Slow Wheel
      * - Bad Cherry
-     * One more ghostron (spawns in the center).
-     *
+     * 
      * RANDOM
-     * - Lucky Dice: One of the five props
+     * - Lucky Dice
      */
     public class PropEditor : MonoBehaviour {
         private Vector3 _selectedTileVector3; // the selected tile's vector
@@ -988,9 +979,9 @@ namespace MapEditor {
             }
 
             if (_totalPropCounts["SlowWheel"] == 5) {
-                slowWheelMinus.gameObject.SetActive(false);
+                slowWheelAdd.gameObject.SetActive(false);
             } else {
-                slowWheelMinus.gameObject.SetActive(true);
+                slowWheelAdd.gameObject.SetActive(true);
             }
 
             if (_totalPropCounts["BadCherry"] == 5) {
