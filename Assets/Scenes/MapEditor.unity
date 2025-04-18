@@ -11671,7 +11671,7 @@ GameObject:
   - component: {fileID: 478039117}
   - component: {fileID: 478039116}
   m_Layer: 5
-  m_Name: GhostSpawnAdd
+  m_Name: GhostronSpawnAdd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18749,7 +18749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 850295605}
   m_Layer: 5
-  m_Name: GhostSpawn
+  m_Name: GhostronSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34443,7 +34443,7 @@ GameObject:
   - component: {fileID: 1450119742}
   - component: {fileID: 1450119741}
   m_Layer: 5
-  m_Name: GhostSpawnButton
+  m_Name: GhostronSpawnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38284,7 +38284,7 @@ GameObject:
   - component: {fileID: 1612967859}
   - component: {fileID: 1612967858}
   m_Layer: 5
-  m_Name: GhostSpawnTotal
+  m_Name: GhostronSpawnTotal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41553,7 +41553,8 @@ MonoBehaviour:
   tileNormalMaterial: {fileID: 2100000, guid: 6e9133f69a2e8fb46b8a553802962f56, type: 2}
   tileHighlightMaterial: {fileID: 2100000, guid: df42923bf816e384094a73db727e97af,
     type: 2}
-  ghostSpawnPrefab: {fileID: 8612828587485087282}
+  ghostronSpawnPrefab: {fileID: 5532742472465618654, guid: dd40b944c51f4974baeeaca04061cf57,
+    type: 3}
   pacmanSpawnPrefab: {fileID: 4887355432709199903, guid: 57a9eadb0b806da41a4b1c397b2add0c,
     type: 3}
   powerPelletPrefab: {fileID: 7060741750217758432, guid: ba2801dd5a546a54eb69ad983dd56c29,
@@ -41568,7 +41569,7 @@ MonoBehaviour:
     type: 3}
   luckyDicePrefab: {fileID: 7510056223922930930, guid: 06993ec41dfafbf4b867caa95b48c5d5,
     type: 3}
-  ghostSpawnButton: {fileID: 1450119741}
+  ghostronSpawnButton: {fileID: 1450119741}
   pacmanSpawnButton: {fileID: 1087834388}
   powerPelletButton: {fileID: 1208983869}
   fastWheelButton: {fileID: 59255367}
@@ -41577,8 +41578,8 @@ MonoBehaviour:
   badCherryButton: {fileID: 1100223294}
   luckyDiceButton: {fileID: 1329974617}
   removeButton: {fileID: 971843526}
-  ghostSpawnAdd: {fileID: 478039116}
-  ghostSpawnMinus: {fileID: 1922291938}
+  ghostronSpawnAdd: {fileID: 478039116}
+  ghostronSpawnMinus: {fileID: 1922291938}
   powerPelletAdd: {fileID: 118786554}
   powerPelletMinus: {fileID: 376087261}
   fastWheelAdd: {fileID: 948321117}
@@ -41591,7 +41592,7 @@ MonoBehaviour:
   badCherryMinus: {fileID: 1988965735}
   luckyDiceAdd: {fileID: 651143153}
   luckyDiceMinus: {fileID: 967720862}
-  ghostCountText: {fileID: 1612967858}
+  ghostronCountText: {fileID: 1612967858}
   powerPelletCountText: {fileID: 1169949364}
   fastWheelCountText: {fileID: 377308844}
   niceBombCountText: {fileID: 2083491982}
@@ -44914,7 +44915,7 @@ GameObject:
   - component: {fileID: 1922291939}
   - component: {fileID: 1922291938}
   m_Layer: 5
-  m_Name: GhostSpawnMinus
+  m_Name: GhostronSpawnMinus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50626,19 +50627,13 @@ PrefabInstance:
     - target: {fileID: 5532742472465618654, guid: dd40b944c51f4974baeeaca04061cf57,
         type: 3}
       propertyPath: m_Name
-      value: GhostSpawn
+      value: GhostronSpawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd40b944c51f4974baeeaca04061cf57, type: 3}
---- !u!1 &8612828587485087282 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5532742472465618654, guid: dd40b944c51f4974baeeaca04061cf57,
-    type: 3}
-  m_PrefabInstance: {fileID: 8612828587485087281}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8612828587485087283 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5264161887153359110, guid: dd40b944c51f4974baeeaca04061cf57,

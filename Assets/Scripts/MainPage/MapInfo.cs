@@ -1,16 +1,16 @@
 ﻿namespace MainPage {
     /**
      * The struct used for map view function.
-     * Displays: the name of the map, how many ghosts are there in total
+     * Displays: the name of the map, how many ghostrons are there in total
      */
     public struct MapInfo {
         public string Name;
-        public int GhostNum;
+        public int GhostronNum;
         public char Difficulty;
 
-        public MapInfo(string name, int ghostNum, char difficulty) {
+        public MapInfo(string name, int ghostronNum, char difficulty) {
             Name = name;
-            GhostNum = ghostNum;
+            GhostronNum = ghostronNum;
             Difficulty = difficulty;
         }
     }

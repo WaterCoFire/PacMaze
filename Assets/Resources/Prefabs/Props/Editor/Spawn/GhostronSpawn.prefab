@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5264161887153359110}
   m_Layer: 0
-  m_Name: GhostSpawn
+  m_Name: GhostronSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

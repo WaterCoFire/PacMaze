@@ -190,8 +190,8 @@ namespace Entity.Map {
             switch (CleanName(propName)) {
                 case "PacmanSpawn":
                     return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/PacmanSpawn");
-                case "GhostSpawn":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/GhostSpawn");
+                case "GhostronSpawn":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/GhostronSpawn");
                 case "PowerPellet":
                     return Resources.Load<GameObject>("Prefabs/Props/Editor/PowerPellet");
                 case "FastWheel":
@@ -218,25 +218,25 @@ namespace Entity.Map {
             switch (CleanName(propName)) {
                 case "PacmanSpawn":
                     return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/Pacman");
-                case "GhostSpawn":
-                    switch (PlayerPrefs.GetInt("GhostsCount", -1)) {
+                case "GhostronSpawn":
+                    switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
                         case 0:
-                            PlayerPrefs.SetInt("GhostsCount", 1);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/RedGhost");
+                            PlayerPrefs.SetInt("GhostronCount", 1);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/RedGhostron");
                         case 1:
-                            PlayerPrefs.SetInt("GhostsCount", 2);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/BlueGhost");
+                            PlayerPrefs.SetInt("GhostronCount", 2);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/BlueGhostron");
                         case 2:
-                            PlayerPrefs.SetInt("GhostsCount", 3);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/YellowGhost");
+                            PlayerPrefs.SetInt("GhostronCount", 3);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/YellowGhostron");
                         case 3:
-                            PlayerPrefs.SetInt("GhostsCount", 4);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GreenGhost");
+                            PlayerPrefs.SetInt("GhostronCount", 4);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GreenGhostron");
                         case 4:
-                            PlayerPrefs.SetInt("GhostsCount", 5);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/PinkGhost");
+                            PlayerPrefs.SetInt("GhostronCount", 5);
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/PinkGhostron");
                         default:
-                            Debug.LogError("Invalid Ghosts Count: " + PlayerPrefs.GetInt("GhostsCount"));
+                            Debug.LogError("Invalid Ghostron Count: " + PlayerPrefs.GetInt("GhostronCount"));
                             return null;
                     }
                 case "PowerPellet":

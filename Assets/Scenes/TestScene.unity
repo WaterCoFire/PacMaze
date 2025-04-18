@@ -11316,7 +11316,7 @@ PrefabInstance:
     - target: {fileID: 7658568862808983002, guid: d8e7e455f8b55754d810f45c4cdd6943,
         type: 3}
       propertyPath: m_Name
-      value: BlueGhost
+      value: BlueGhostron
       objectReference: {fileID: 0}
     - target: {fileID: 7658568862809414138, guid: d8e7e455f8b55754d810f45c4cdd6943,
         type: 3}

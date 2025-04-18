@@ -38,8 +38,8 @@ namespace PlayMap {
          * - Generates the wall according to file data
          * - Places all the fixed props
          * - Randomly places the remaining props (num for each prop: total - fixed)
-         * - Places the ghosts at their fixed spawn point
-         * - Randomly generates the remaining ghosts (num: total - fixed)
+         * - Places the ghostrons at their fixed spawn point
+         * - Randomly generates the remaining ghostrons (num: total - fixed)
          * - Generates dots for all the spare tiles
          * - Generates the pacman
          */
@@ -68,15 +68,15 @@ namespace PlayMap {
             // Difficulty setting
             // TODO Lucky Dice result probability
             
-            // Update difficulty in GhostManager to for setting the behaviours of the ghosts
-            gameObject.GetComponent<GhostManager>().SetDifficulty(wrapper.difficulty);
+            // Update difficulty in GhostronManager to for setting the behaviours of the ghostrons
+            gameObject.GetComponent<GhostronManager>().SetDifficulty(wrapper.difficulty);
 
             // Generate walls
             gameObject.GetComponent<WallGenerator>()
                 .InitWalls(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
 
             // Generate props
-            PlayerPrefs.SetInt("GhostsCount", 0);
+            PlayerPrefs.SetInt("GhostronCount", 0);
             PlayerPrefs.SetString("GameObjectReadMode", "PLAY");
             gameObject.GetComponent<PropGenerator>().InitProps(new PropData(wrapper.PropPositions(),
                 wrapper.FixedPropCounts, wrapper.TotalPropCounts));

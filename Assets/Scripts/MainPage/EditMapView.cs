@@ -83,7 +83,7 @@ namespace MainPage {
             string[] files = Directory.GetFiles(_saveDirectory, "*.json");
 
             // The format of the file
-            // MAP NAME + GHOSTS (NUM) + DIFFICULTY (LETTER)
+            // MAP NAME + GHOSTRONS (NUM) + DIFFICULTY (LETTER)
 
             // Read all file names
             foreach (var filePath in files) {
@@ -93,11 +93,11 @@ namespace MainPage {
                 // File name matched
                 if (match.Success) {
                     string mapName = match.Groups[1].Value;
-                    int ghosts = int.Parse(match.Groups[2].Value);
+                    int ghostrons = int.Parse(match.Groups[2].Value);
                     char difficulty = match.Groups[3].Value[0];
 
-                    MapInfo mapInfo = new MapInfo(mapName, ghosts, difficulty);
-                    Debug.Log("Edit Matched: Map info " + mapName + ", " + ghosts + ", " + difficulty);
+                    MapInfo mapInfo = new MapInfo(mapName, ghostrons, difficulty);
+                    Debug.Log("Edit Matched: Map info " + mapName + ", " + ghostrons + ", " + difficulty);
                     _mapInfos.Add(mapInfo);
                 }
             }
@@ -119,7 +119,7 @@ namespace MainPage {
                 itemTransform.anchoredPosition = new Vector2(0f, -_cumulativeHeight);
                 _cumulativeHeight += _prefabHeight + _padding;
 
-                // Find the map name TMP_Text and the ghost number TMP_Text in the prefab
+                // Find the map name TMP_Text and the ghostr number TMP_Text in the prefab
                 TMP_Text[] objectTexts = mapInfoObject.GetComponentsInChildren<TMP_Text>();
                 foreach (var text in objectTexts) {
                     string objName = text.gameObject.name;
@@ -127,9 +127,9 @@ namespace MainPage {
                     if (objName == "MapNameText") {
                         // Map name
                         text.text = mapInfo.Name;
-                    } else if (objName == "TotalGhostNumText") {
-                        // Number of ghosts
-                        text.text = mapInfo.GhostNum.ToString();
+                    } else if (objName == "TotalGhostronNumText") {
+                        // Number of ghostrons
+                        text.text = mapInfo.GhostronNum.ToString();
                     } else if (objName == "DifficultyText") {
                         // Map difficulty
                         // Set the text content and color
@@ -164,7 +164,7 @@ namespace MainPage {
                         button.onClick.AddListener(() => {
                             Debug.Log("Delete clicked!");
                             string path = Path.Combine(_saveDirectory,
-                                $"{mapInfo.Name}_{mapInfo.GhostNum}_{mapInfo.Difficulty}.json");
+                                $"{mapInfo.Name}_{mapInfo.GhostronNum}_{mapInfo.Difficulty}.json");
                             if (File.Exists(path)) {
                                 File.Delete(path);
                             } else {
@@ -190,7 +190,7 @@ namespace MainPage {
                         button.onClick.AddListener(() => {
                             Debug.Log("Edit clicked!");
                             PlayerPrefs.SetString("EditMapFileToLoad",
-                                mapInfo.Name + "_" + mapInfo.GhostNum + "_" + mapInfo.Difficulty);
+                                mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + mapInfo.Difficulty);
                             SceneManager.LoadScene("MapEditor");
                         });
                     }
@@ -213,9 +213,9 @@ namespace MainPage {
         public void RenameMap(string newName) {
             // Get file paths
             string oldPath = Path.Combine(_saveDirectory,
-                $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostNum}_{_renamedMapOldInfo.Difficulty}.json");
+                $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostronNum}_{_renamedMapOldInfo.Difficulty}.json");
             string newPath = Path.Combine(_saveDirectory,
-                $"{newName}_{_renamedMapOldInfo.GhostNum}_{_renamedMapOldInfo.Difficulty}.json");
+                $"{newName}_{_renamedMapOldInfo.GhostronNum}_{_renamedMapOldInfo.Difficulty}.json");
 
             if (File.Exists(oldPath)) {
                 // File operation
@@ -249,7 +249,7 @@ namespace MainPage {
         public void CreateMap(string newMapName) {
             // Create new map file
             // BY DEFAULT, THE MAP:
-            // Number of ghosts: 2 Ghosts
+            // Number of ghostrons: 2 Ghostrons
             // Difficulty: Easy
 
             // Default map path

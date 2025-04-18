@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using Entity.Map;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = System.Random;
 
 namespace PlayMap {
     public class PropGenerator : MonoBehaviour {
         // All prop models (except for pacman)
-        public GameObject redGhostPrefab;
-        public GameObject blueGhostPrefab;
-        public GameObject yellowGhostPrefab;
-        public GameObject greenGhostPrefab;
-        public GameObject pinkGhostPrefab;
+        public GameObject redGhostronPrefab;
+        public GameObject blueGhostronPrefab;
+        public GameObject yellowGhostronPrefab;
+        public GameObject greenGhostronPrefab;
+        public GameObject pinkGhostronPrefab;
+
         public GameObject powerPelletPrefab;
         public GameObject fastWheelPrefab;
         public GameObject niceBombPrefab;
@@ -28,16 +30,16 @@ namespace PlayMap {
         // Random instance for generating random numbers
         private Random _random = new();
 
-        // Pacman game object (used for setting the chase target of all the ghosts)
+        // Pacman game object (used for setting the chase target of all the ghostrons)
         private GameObject _pacmanGameObject;
-        
+
         // DotManager component
         // As it is a frequently used component, declare it here could save some time
         public DotManager dotManager;
 
         /**
-         * Places all the FIXED props (including pacman, fixed ghosts) on the map.
-         * Randomly places all the RANDOM props (including ghosts) on the map.
+         * Places all the FIXED props (including pacman, fixed ghostrons) on the map.
+         * Randomly places all the RANDOM props (including ghostrons) on the map.
          * Places dots on all the remaining tiles.
          */
         public void InitProps(PropData propData) {
@@ -55,9 +57,9 @@ namespace PlayMap {
                     _freeTiles.Add(vector3);
                 }
             }
-            
-            // Resets all the infos in ghost and dot manager
-            gameObject.GetComponent<GhostManager>().ResetGhosts();
+
+            // Resets all the infos in ghostron and dot manager
+            gameObject.GetComponent<GhostronManager>().ResetGhostrons();
             gameObject.GetComponent<DotManager>().ResetDots();
 
             // Place all FIXED props on the map
@@ -73,11 +75,10 @@ namespace PlayMap {
                     // Look for the pacman game object and store it
                     Debug.Log("PACMAN FOUND");
                     _pacmanGameObject = Instantiate(prefab, kvp.Key, Quaternion.identity);
-                } else if (prefab.name.Contains("Ghost")) {
-                    // Store all the ghosts in GhostManager
-                    GameObject newGhost = Instantiate(prefab, kvp.Key, Quaternion.identity);
-                    // Debug.Log(newGhost.name);
-                    gameObject.GetComponent<GhostManager>().AddGhost(newGhost);
+                } else if (prefab.name.Contains("Ghostron")) {
+                    // Store all the ghostrons in GhostronManager
+                    GameObject newGhostron = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                    gameObject.GetComponent<GhostronManager>().AddGhostron(newGhostron);
                 } else {
                     // All other props
                     Instantiate(prefab, kvp.Key, Quaternion.identity);
@@ -88,8 +89,8 @@ namespace PlayMap {
             }
 
             // Place the RANDOM props on the map
-            if (!PlaceRandomProps("GhostSpawn"))
-                Debug.LogError("Error occurred when setting random ghosts");
+            if (!PlaceRandomProps("GhostronSpawn"))
+                Debug.LogError("Error occurred when setting random ghostrons");
             if (!PlaceRandomProps("PowerPellet"))
                 Debug.LogError("Error occurred when setting random power pellets");
             if (!PlaceRandomProps("FastWheel"))
@@ -103,19 +104,17 @@ namespace PlayMap {
             if (!PlaceRandomProps("LuckyDice"))
                 Debug.LogError("Error occurred when setting random lucky dices");
 
-            Debug.Log("111");
             // Place dots at all the remaining free tile
             foreach (var freeTile in _freeTiles) {
                 GameObject newDot = Instantiate(dotPrefab, freeTile, Quaternion.identity);
                 dotManager.AddDot(newDot); // Add to the dot manager
             }
-            
-            Debug.Log("222");
-            // Set the pacman target for all the ghosts
+
+            // Set the pacman target for all the ghostrons
             if (_pacmanGameObject == null) {
                 Debug.LogError("Error: Pacman not found!");
             } else {
-                gameObject.GetComponent<GhostManager>().SetPacman(_pacmanGameObject);
+                gameObject.GetComponent<GhostronManager>().SetPacman(_pacmanGameObject);
             }
 
             // Reset the free tiles list
@@ -126,9 +125,9 @@ namespace PlayMap {
             GameObject propObject;
             // Get the corresponding prefab first
             switch (propName) {
-                case "GhostSpawn":
+                case "GhostronSpawn":
                     propObject = null;
-                    // Ghost spawn prop will be dealt with later for there are different variants
+                    // Ghostron spawn prop will be dealt with later for there are different variants
                     break;
                 case "PowerPellet":
                     propObject = powerPelletPrefab;
@@ -162,39 +161,39 @@ namespace PlayMap {
                 freeTilesNum = _freeTiles.Count;
                 int randomIndex = _random.Next(0, freeTilesNum); // Random number
 
-                if (propName != "GhostSpawn") {
+                if (propName != "GhostronSpawn") {
                     Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
                 } else {
-                    GameObject newGhost;
-                    switch (PlayerPrefs.GetInt("GhostsCount", -1)) {
+                    GameObject newGhostron;
+                    switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
                         case 0:
-                            PlayerPrefs.SetInt("GhostsCount", 1);
-                            newGhost = Instantiate(redGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            PlayerPrefs.SetInt("GhostronCount", 1);
+                            newGhostron = Instantiate(redGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 1:
-                            PlayerPrefs.SetInt("GhostsCount", 2);
-                            newGhost = Instantiate(blueGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            PlayerPrefs.SetInt("GhostronCount", 2);
+                            newGhostron = Instantiate(blueGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 2:
-                            PlayerPrefs.SetInt("GhostsCount", 3);
-                            newGhost = Instantiate(yellowGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            PlayerPrefs.SetInt("GhostronCount", 3);
+                            newGhostron = Instantiate(yellowGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 3:
-                            PlayerPrefs.SetInt("GhostsCount", 4);
-                            newGhost = Instantiate(greenGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            PlayerPrefs.SetInt("GhostronCount", 4);
+                            newGhostron = Instantiate(greenGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 4:
-                            PlayerPrefs.SetInt("GhostsCount", 5);
-                            newGhost = Instantiate(pinkGhostPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            PlayerPrefs.SetInt("GhostronCount", 5);
+                            newGhostron = Instantiate(pinkGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         default:
-                            Debug.LogError("Invalid ghosts count when instantiating randomly: " +
-                                           PlayerPrefs.GetInt("GhostsCount"));
+                            Debug.LogError("Invalid ghostrons count when instantiating randomly: " +
+                                           PlayerPrefs.GetInt("GhostronCount"));
                             return false;
                     }
 
-                    // Add the new ghost to GhostManager
-                    gameObject.GetComponent<GhostManager>().AddGhost(newGhost);
+                    // Add the new ghostron to GhostronManager
+                    gameObject.GetComponent<GhostronManager>().AddGhostron(newGhostron);
                 }
 
                 _freeTiles.RemoveAt(randomIndex); // Remove the random chosen tile from free tiles list

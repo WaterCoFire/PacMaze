@@ -23,12 +23,12 @@
     ],
     "propTypes": [
         "PacmanSpawn(Clone)",
-        "GhostSpawn(Clone)",
-        "GhostSpawn(Clone)"
+        "GhostronSpawn(Clone)",
+        "GhostronSpawn(Clone)"
     ],
     "fixedPropKeys": [
         "PacmanSpawn",
-        "GhostSpawn",
+        "GhostronSpawn",
         "PowerPellet",
         "FastWheel",
         "NiceBomb",
@@ -47,7 +47,7 @@
         0
     ],
     "totalPropKeys": [
-        "GhostSpawn",
+        "GhostronSpawn",
         "PowerPellet",
         "FastWheel",
         "NiceBomb",

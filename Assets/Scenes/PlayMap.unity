@@ -1570,7 +1570,7 @@ PrefabInstance:
     - target: {fileID: 7658568862808983002, guid: f651abee6bdf2c5409d250efb22ec015,
         type: 3}
       propertyPath: m_Name
-      value: ScaredGhost
+      value: ScaredGhostron
       objectReference: {fileID: 0}
     - target: {fileID: 7658568862809414138, guid: f651abee6bdf2c5409d250efb22ec015,
         type: 3}
@@ -4054,7 +4054,7 @@ PrefabInstance:
     - target: {fileID: 7658568862808983002, guid: fb789a72ab023ca4ea267f0ef9e0e2b8,
         type: 3}
       propertyPath: m_Name
-      value: GreenGhost
+      value: GreenGhostron
       objectReference: {fileID: 0}
     - target: {fileID: 7658568862809414138, guid: fb789a72ab023ca4ea267f0ef9e0e2b8,
         type: 3}
@@ -23969,7 +23969,7 @@ PrefabInstance:
     - target: {fileID: 7658568862808983002, guid: d0d6aefc75c47214a8f8c3ed527fb62b,
         type: 3}
       propertyPath: m_Name
-      value: YellowGhost
+      value: YellowGhostron
       objectReference: {fileID: 0}
     - target: {fileID: 7658568862809414138, guid: d0d6aefc75c47214a8f8c3ed527fb62b,
         type: 3}
@@ -26115,7 +26115,7 @@ PrefabInstance:
     - target: {fileID: 7658568862808983002, guid: d8e7e455f8b55754d810f45c4cdd6943,
         type: 3}
       propertyPath: m_Name
-      value: BlueGhost
+      value: BlueGhostron
       objectReference: {fileID: 0}
     - target: {fileID: 7658568862809414138, guid: d8e7e455f8b55754d810f45c4cdd6943,
         type: 3}
@@ -31874,7 +31874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1644447278}
   m_Layer: 0
-  m_Name: Ghosts
+  m_Name: Ghostrons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34314,15 +34314,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f9980cb79d4253aada30a9da930322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  redGhostPrefab: {fileID: 7658568862808983002, guid: 3f1d9cae47b6ca14d912543342526e17,
+  redGhostronPrefab: {fileID: 7658568862808983002, guid: 3f1d9cae47b6ca14d912543342526e17,
     type: 3}
-  blueGhostPrefab: {fileID: 7658568862808983002, guid: d8e7e455f8b55754d810f45c4cdd6943,
+  blueGhostronPrefab: {fileID: 7658568862808983002, guid: d8e7e455f8b55754d810f45c4cdd6943,
     type: 3}
-  yellowGhostPrefab: {fileID: 7658568862808983002, guid: d0d6aefc75c47214a8f8c3ed527fb62b,
+  yellowGhostronPrefab: {fileID: 7658568862808983002, guid: d0d6aefc75c47214a8f8c3ed527fb62b,
     type: 3}
-  greenGhostPrefab: {fileID: 7658568862808983002, guid: fb789a72ab023ca4ea267f0ef9e0e2b8,
+  greenGhostronPrefab: {fileID: 7658568862808983002, guid: fb789a72ab023ca4ea267f0ef9e0e2b8,
     type: 3}
-  pinkGhostPrefab: {fileID: 7658568862808983002, guid: fde4fa442ed8a024a858ee6ce687d1bf,
+  pinkGhostronPrefab: {fileID: 7658568862808983002, guid: fde4fa442ed8a024a858ee6ce687d1bf,
     type: 3}
   powerPelletPrefab: {fileID: 7060741750217758432, guid: fb7d3f5ea65ead44f9cf402b19c779f3,
     type: 3}
@@ -36111,7 +36111,7 @@ PrefabInstance:
     - target: {fileID: 7658568862808983002, guid: 3f1d9cae47b6ca14d912543342526e17,
         type: 3}
       propertyPath: m_Name
-      value: RedGhost
+      value: RedGhostron
       objectReference: {fileID: 0}
     - target: {fileID: 7658568862809414138, guid: 3f1d9cae47b6ca14d912543342526e17,
         type: 3}
@@ -41714,7 +41714,7 @@ PrefabInstance:
     - target: {fileID: 7658568862808983002, guid: fde4fa442ed8a024a858ee6ce687d1bf,
         type: 3}
       propertyPath: m_Name
-      value: PinkGhost
+      value: PinkGhostron
       objectReference: {fileID: 0}
     - target: {fileID: 7658568862809414138, guid: fde4fa442ed8a024a858ee6ce687d1bf,
         type: 3}

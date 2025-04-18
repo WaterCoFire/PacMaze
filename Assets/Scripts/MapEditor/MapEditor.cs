@@ -74,10 +74,10 @@ namespace MapEditor {
 
             Map map = new(_mapName, difficulty, wallData, propData);
 
-            // Get the number of total ghosts (will be part of the file name)
-            int totalGhosts = propData.TotalPropCounts["GhostSpawn"];
+            // Get the number of total ghostrons (will be part of the file name)
+            int totalGhostrons = propData.TotalPropCounts["GhostronSpawn"];
 
-            Debug.Log("Saving map, name " + _mapName + ", " + totalGhosts + " ghosts, difficulty " + difficulty);
+            Debug.Log("Saving map, name " + _mapName + ", " + totalGhostrons + " ghostrons, difficulty " + difficulty);
 
             // Find the origin file to delete it
             string originMapFile = _saveDirectory + "/" + PlayerPrefs.GetString("EditMapFileToLoad") + ".json";
@@ -91,7 +91,7 @@ namespace MapEditor {
 
             // Save to a new file in .json
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
-            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhosts + "_" + difficulty + ".json"),
+            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + difficulty + ".json"),
                 json);
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
 

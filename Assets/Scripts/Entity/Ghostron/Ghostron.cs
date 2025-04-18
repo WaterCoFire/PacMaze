@@ -1,31 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-namespace Entity.Ghost {
+namespace Entity.Ghostron {
     /**
      * Manages the behaviour of the ghost.
      *
-     * TODO: Models now resembles ghosts in classical pacman game too much
+     * TODO: Models now resembles gfhosts in classical pacman game too much
      * Maybe find some new models online
      */
-    public class Ghost : MonoBehaviour {
-        private GameObject _pacman; // Pacman game object, what the ghost is hunting for
+    public class Ghostron : MonoBehaviour {
+        private GameObject _pacman; // Pacman game object, what the ghostron is hunting for
 
-        // Normal wandering speed of the ghost
+        // Normal wandering speed of the ghostron
         private float _normalSpeed;
 
-        // Speed when the ghost is scared (pacman eats a power pellet)
+        // Speed when the ghostron is scared (pacman eats a power pellet)
         private float _scaredSpeed;
 
         // Chasing Speed
         // This speed varies according to difficulty
-        // Specific numbers are set in GhostManager
+        // Specific numbers are set in GhostronManager
         private float _chaseSpeed;
 
         // Detection Radius
-        // Pacman will be chased when it is within this distance from a ghost
+        // Pacman will be chased when it is within this distance from a ghostron
         // This distance varies according to difficulty
-        // Specific numbers are set in GhostManager
+        // Specific numbers are set in GhostronManager
         private float _detectionRadius;
 
         // Wandering logic variables
@@ -33,17 +33,17 @@ namespace Entity.Ghost {
         private readonly float _wanderInterval = 15.0f; // Interval of switching a wandering target
 
         private NavMeshAgent _agent; // NavMesh agent
-        private bool _isChasing; // Status indicating if the ghost is wandering or chasing _pacman
+        private bool _isChasing; // Status indicating if the ghostron is wandering or chasing _pacman
 
-        // The original material of the ghost (the normal color)
+        // The original material of the ghostron (the normal color)
         private Material _originalMaterial;
 
-        // Material when the ghost is scared
+        // Material when the ghostron is scared
         public Material scaredMaterial;
 
         // START FUNCTION
         void Start() {
-            Debug.Log("Ghost START");
+            Debug.Log("Ghostron START");
 
             // Bind the NavMeshAgent component
             _agent = GetComponent<NavMeshAgent>();
@@ -54,7 +54,7 @@ namespace Entity.Ghost {
 
         // UPDATE FUNCTION
         void Update() {
-            // Check the distance between this ghost and pacman target
+            // Check the distance between this ghostron and pacman target
             float distance = Vector3.Distance(transform.position, _pacman.transform.position);
 
             if (distance <= _detectionRadius) {
@@ -101,7 +101,7 @@ namespace Entity.Ghost {
 
         /**
          * Generates a random position.
-         * Used for getting a target when the ghost is wandering.
+         * Used for getting a target when the ghostron is wandering.
          */
         private Vector3 GenerateRandomWanderingTarget() {
             // Possible x/z axis coordinate values of the target
@@ -127,17 +127,17 @@ namespace Entity.Ghost {
 
         /**
          * Sets the pacman game object.
-         * Used in GhostManager when initializing the map.
+         * Used in GhostronManager when initializing the map.
          */
         public void SetPacman(GameObject pacman) {
             _pacman = pacman;
         }
 
         /**
-         * Sets the normal speed, scared speed, chasing speed and detection radius of the ghost.
-         * Used in GhostManager when initializing the map.
+         * Sets the normal speed, scared speed, chasing speed and detection radius of the ghostron.
+         * Used in GhostronManager when initializing the map.
          */
-        public void SetGhostParams(float normalSpeed, float scaredSpeed, float chaseSpeed, float detectionRadius) {
+        public void SetGhostronParams(float normalSpeed, float scaredSpeed, float chaseSpeed, float detectionRadius) {
             _normalSpeed = normalSpeed;
             _scaredSpeed = scaredSpeed;
             _chaseSpeed = chaseSpeed;

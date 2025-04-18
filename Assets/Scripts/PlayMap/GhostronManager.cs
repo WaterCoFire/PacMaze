@@ -1,0 +1,102 @@
+﻿using System.Collections.Generic;
+using Entity.Ghostron;
+using UnityEngine;
+
+namespace PlayMap {
+    /**
+     * Manages all the ghostrons in each game.
+     */
+    public class GhostronManager : MonoBehaviour {
+        // The list of all the active ghostrons
+        private List<GameObject> _ghostrons = new();
+
+        // Normal wandering speed of ghostrons
+        // TODO PROVISIONAL
+        private readonly float _ghostronNormalSpeed = 2.0f;
+
+        // Scared speed of ghostrons (when pacman eats a power pellet)
+        // TODO PROVISIONAL
+        private readonly float _ghostronScaredSpeed = 1.0f;
+
+        // Chasing speeds of ghostrons, by difficulty
+        // TODO PROVISIONAL
+        private readonly float _ghostronEasyChaseSpeed = 3.0f;
+        private readonly float _ghostronNormalChaseSpeed = 4.0f;
+        private readonly float _ghostronHardChaseSpeed = 5.05f;
+
+        // Detection radius of ghostrons, by difficulty
+        // TODO PROVISIONAL
+        private readonly float _ghostronEasyDetectionRadius = 10.0f;
+        private readonly float _ghostronNormalDetectionRadius = 20.0f;
+        private readonly float _ghostronHardDetectionRadius = 100.0f;
+
+        // Difficulty of the current game
+        private char _difficulty;
+
+        // START FUNCTION
+        private void Start() {
+            Debug.Log("GhostronManager START");
+        }
+
+        /**
+         * Sets the difficulty of the current game.
+         * Decides the chasing speed and detection radius of the ghostrons.
+         */
+        public void SetDifficulty(char difficulty) {
+            _difficulty = difficulty;
+        }
+
+        /**
+         * Resets the ghostrons list.
+         * Used in PropGenerator when initializing the map.
+         */
+        public void ResetGhostrons() {
+            // Empty the ghostron list
+            _ghostrons.Clear();
+        }
+
+        /**
+         * Add a new ghostron information.
+         */
+        public bool AddGhostron(GameObject newGhostron) {
+            // Set the params of the ghostron according to difficulty
+            switch (_difficulty) {
+                case 'E':
+                    // EASY
+                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
+                        _ghostronEasyChaseSpeed,
+                        _ghostronEasyDetectionRadius);
+                    break;
+                case 'N':
+                    // NORMAL
+                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
+                        _ghostronNormalChaseSpeed,
+                        _ghostronNormalDetectionRadius);
+                    break;
+                case 'H':
+                    // HARD
+                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
+                        _ghostronHardChaseSpeed,
+                        _ghostronHardDetectionRadius);
+                    break;
+                default:
+                    // INVALID DIFFICULTY - PROMPT ERROR
+                    Debug.LogError("Invalid difficulty when adding ghostron information: " + _difficulty);
+                    return false;
+            }
+
+            // Add to the ghostron list
+            _ghostrons.Add(newGhostron);
+            return true;
+        }
+
+        /**
+         * Sets the pacman info that all the ghostrons chase.
+         */
+        public void SetPacman(GameObject pacman) {
+            foreach (var ghostron in _ghostrons) {
+                ghostron.GetComponent<Ghostron>().SetPacman(pacman);
+            }
+        }
+    }
+}
