@@ -125,16 +125,13 @@ namespace Entity.Pacman {
                 if (!blocked) {
                     // Slide along the wall if it's a safe direction
                     transform.position += slideDir * moveDistance;
-                    Debug.Log("Slide");
                 } else {
                     // Block movement completely
-                    Debug.Log("Blocked completely.");
                     return;
                 }
             } else {
                 // No wall ahead, move freely
                 transform.position += moveDir * moveDistance;
-                Debug.Log("Move");
             }
 
             // In TPV, rotate Pacman to face the movement direction

@@ -46,13 +46,13 @@ namespace Entity.Ghost {
         void Update() {
             // Check the distance between this ghost and pacman target
             float distance = Vector3.Distance(transform.position, _pacman.transform.position);
-            Debug.Log("Distance: " + distance);
+            // Debug.Log("Distance: " + distance);
 
             if (distance <= _detectionRadius) {
                 // Chase the pacman
                 if (!_isChasing) {
                     _isChasing = true;
-                    Debug.Log("Pacman detected — starting chase!");
+                    // Debug.Log("Pacman detected — starting chase!");
                 }
 
                 // Set the chasing speed
@@ -66,7 +66,7 @@ namespace Entity.Ghost {
                 if (_isChasing) {
                     _isChasing = false;
                     _agent.ResetPath();
-                    Debug.Log("Pacman escaped — stopping.");
+                    // Debug.Log("Pacman escaped — stopping.");
                 }
             }
         }

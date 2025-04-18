@@ -55,6 +55,10 @@ namespace PlayMap {
                     _freeTiles.Add(vector3);
                 }
             }
+            
+            // Resets all the infos in ghost and dot manager
+            gameObject.GetComponent<GhostManager>().ResetGhosts();
+            gameObject.GetComponent<DotManager>().ResetDots();
 
             // Place all FIXED props on the map
             foreach (var kvp in _propData.PropOnTiles) {
@@ -99,12 +103,14 @@ namespace PlayMap {
             if (!PlaceRandomProps("LuckyDice"))
                 Debug.LogError("Error occurred when setting random lucky dices");
 
+            Debug.Log("111");
             // Place dots at all the remaining free tile
             foreach (var freeTile in _freeTiles) {
                 GameObject newDot = Instantiate(dotPrefab, freeTile, Quaternion.identity);
                 dotManager.AddDot(newDot); // Add to the dot manager
             }
             
+            Debug.Log("222");
             // Set the pacman target for all the ghosts
             if (_pacmanGameObject == null) {
                 Debug.LogError("Error: Pacman not found!");

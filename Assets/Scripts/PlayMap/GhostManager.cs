@@ -32,9 +32,6 @@ namespace PlayMap {
         // START FUNCTION
         private void Start() {
             Debug.Log("GhostManager START");
-
-            // Initialize the ghost list
-            _ghosts.Clear();
         }
 
         /**
@@ -43,6 +40,15 @@ namespace PlayMap {
          */
         public void SetDifficulty(char difficulty) {
             _difficulty = difficulty;
+        }
+        
+        /**
+         * Resets the ghosts list.
+         * Used in PropGenerator when initializing the map.
+         */
+        public void ResetGhosts() {
+            // Empty the ghost list
+            _ghosts.Clear();
         }
 
         /**
