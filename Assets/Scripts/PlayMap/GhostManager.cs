@@ -14,6 +14,10 @@ namespace PlayMap {
         // TODO PROVISIONAL
         private readonly float _ghostNormalSpeed = 2.0f;
 
+        // Scared speed of ghosts (when pacman eats a power pellet)
+        // TODO PROVISIONAL
+        private readonly float _ghostScaredSpeed = 1.0f;
+
         // Chasing speeds of ghosts, by difficulty
         // TODO PROVISIONAL
         private readonly float _ghostEasyChaseSpeed = 3.0f;
@@ -41,7 +45,7 @@ namespace PlayMap {
         public void SetDifficulty(char difficulty) {
             _difficulty = difficulty;
         }
-        
+
         /**
          * Resets the ghosts list.
          * Used in PropGenerator when initializing the map.
@@ -59,17 +63,20 @@ namespace PlayMap {
             switch (_difficulty) {
                 case 'E':
                     // EASY
-                    newGhost.GetComponent<Ghost>().SetGhostParams(_ghostNormalSpeed, _ghostEasyChaseSpeed,
+                    newGhost.GetComponent<Ghost>().SetGhostParams(_ghostNormalSpeed, _ghostScaredSpeed,
+                        _ghostEasyChaseSpeed,
                         _ghostEasyDetectionRadius);
                     break;
                 case 'N':
                     // NORMAL
-                    newGhost.GetComponent<Ghost>().SetGhostParams(_ghostNormalSpeed, _ghostNormalChaseSpeed,
+                    newGhost.GetComponent<Ghost>().SetGhostParams(_ghostNormalSpeed, _ghostScaredSpeed,
+                        _ghostNormalChaseSpeed,
                         _ghostNormalDetectionRadius);
                     break;
                 case 'H':
                     // HARD
-                    newGhost.GetComponent<Ghost>().SetGhostParams(_ghostNormalSpeed, _ghostHardChaseSpeed,
+                    newGhost.GetComponent<Ghost>().SetGhostParams(_ghostNormalSpeed, _ghostScaredSpeed,
+                        _ghostHardChaseSpeed,
                         _ghostHardDetectionRadius);
                     break;
                 default:
