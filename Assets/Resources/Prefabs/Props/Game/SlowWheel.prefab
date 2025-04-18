@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3744333697079339732}
   - component: {fileID: 6518768150031712350}
   - component: {fileID: 5688074177594374812}
+  - component: {fileID: 7658153238243278559}
   m_Layer: 8
   m_Name: SlowWheel
   m_TagString: Untagged
@@ -63,6 +64,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7970967, y: 0.4025488, z: 0.7970967}
   m_Center: {x: 0, y: 0.2097953, z: 0}
+--- !u!114 &7658153238243278559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998998524191414617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 240fcf700bfc43cd90f1fc43ebcacb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3776591840488344790
 GameObject:
   m_ObjectHideFlags: 0

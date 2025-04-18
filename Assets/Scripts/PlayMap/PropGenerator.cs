@@ -59,8 +59,8 @@ namespace PlayMap {
             }
 
             // Resets all the infos in ghostron and dot manager
-            gameObject.GetComponent<GhostronManager>().ResetGhostrons();
-            gameObject.GetComponent<DotManager>().ResetDots();
+            GhostronManager.Instance.ResetGhostrons();
+            DotManager.Instance.ResetDots();
 
             // Place all FIXED props on the map
             foreach (var kvp in _propData.PropOnTiles) {
@@ -78,7 +78,7 @@ namespace PlayMap {
                 } else if (prefab.name.Contains("Ghostron")) {
                     // Store all the ghostrons in GhostronManager
                     GameObject newGhostron = Instantiate(prefab, kvp.Key, Quaternion.identity);
-                    gameObject.GetComponent<GhostronManager>().AddGhostron(newGhostron);
+                    GhostronManager.Instance.AddGhostron(newGhostron);
                 } else {
                     // All other props
                     Instantiate(prefab, kvp.Key, Quaternion.identity);
@@ -114,7 +114,7 @@ namespace PlayMap {
             if (_pacmanGameObject == null) {
                 Debug.LogError("Error: Pacman not found!");
             } else {
-                gameObject.GetComponent<GhostronManager>().SetPacman(_pacmanGameObject);
+                GhostronManager.Instance.SetPacman(_pacmanGameObject);
             }
 
             // Reset the free tiles list
@@ -193,7 +193,7 @@ namespace PlayMap {
                     }
 
                     // Add the new ghostron to GhostronManager
-                    gameObject.GetComponent<GhostronManager>().AddGhostron(newGhostron);
+                    GhostronManager.Instance.AddGhostron(newGhostron);
                 }
 
                 _freeTiles.RemoveAt(randomIndex); // Remove the random chosen tile from free tiles list

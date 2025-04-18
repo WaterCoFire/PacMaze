@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 4640096830209474917}
   - component: {fileID: 2856905503716581981}
   - component: {fileID: 3756767345804134100}
+  - component: {fileID: 6537502211054115288}
   m_Layer: 8
   m_Name: FastWheel
   m_TagString: Untagged
@@ -146,3 +147,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7970967, y: 0.40254885, z: 0.7970967}
   m_Center: {x: 0, y: 0.20979533, z: 0}
+--- !u!114 &6537502211054115288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4908766425515103001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca0101f118694e6db9b3d66e616cde1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

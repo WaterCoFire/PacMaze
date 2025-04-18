@@ -32,6 +32,16 @@ namespace PlayMap {
 
         // Difficulty of the current game
         private char _difficulty;
+        
+        // Singleton instance
+        public static GhostronManager Instance { get; private set; }
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            Debug.Log("GhostronManager AWAKE");
+            // Set singleton instance
+            Instance = this;
+        }
 
         // START FUNCTION
         private void Start() {
@@ -88,6 +98,17 @@ namespace PlayMap {
             // Add to the ghostron list
             _ghostrons.Add(newGhostron);
             return true;
+        }
+
+        /**
+         * Scares all the ghostrons.
+         * Called when the pacman eats a power pellet.
+         */
+        public void ScareAllGhostrons() {
+            foreach (var ghostron in _ghostrons) {
+                // Scare each of them
+                ghostron.GetComponent<Ghostron>().SetScared(true);
+            }
         }
 
         /**

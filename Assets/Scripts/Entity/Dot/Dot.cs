@@ -18,7 +18,7 @@ namespace Entity.Dot {
             // It is set inside the Map game object
             GameObject mapObject = GameObject.Find("Map");
             if (mapObject != null) {
-                _dotManager = mapObject.GetComponent<DotManager>();
+                _dotManager = DotManager.Instance;
             }
             
             // Check if the DotManager is set

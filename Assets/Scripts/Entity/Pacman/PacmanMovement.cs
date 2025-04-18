@@ -10,8 +10,11 @@ namespace Entity.Pacman {
      */
     public class PacmanMovement : MonoBehaviour {
         // Move speed and rotate speed
-        private float _pacmanMoveSpeed = 5f;
-        private float _pacmanRotateSpeed = 5f;
+        private float _pacmanMoveSpeed;
+        private readonly float _pacmanRotateSpeed = 5.0f;
+
+        // Pacman's normal speed
+        private readonly float _pacmanNormalMoveSpeed = 5.0f;
 
         // Key code for moving (WASD by default, it can be customized in Setting)
         private KeyCode _forwardKeyCode;
@@ -32,6 +35,11 @@ namespace Entity.Pacman {
         // Half dimensions of the player's collider (shrunk slightly)
         private Vector3 _boxHalfExtents;
 
+        // Speed buff logic variables
+        private float _speedBuffTimer; // The timer of a speed buff
+        private readonly float _speedBuffDuration = 5.0f; // Duration that a speed buff lasts
+        private bool _speedBuffInEffect; // Status telling whether currently there is a speed buff or not
+
         // START FUNCTION
         private void Start() {
             Debug.Log("PacmanMovement START");
@@ -48,7 +56,10 @@ namespace Entity.Pacman {
             // Get slightly reduced box size for collision tolerance
             _boxHalfExtents = GetComponent<BoxCollider>().bounds.extents * 0.9f;
 
-            // TEST ONLY
+            // Set to normal speed
+            _pacmanMoveSpeed = _pacmanNormalMoveSpeed;
+
+            // TEST
             _controllable = true;
         }
 
@@ -58,6 +69,22 @@ namespace Entity.Pacman {
             if (!_controllable) return;
 
             Move(); // Pacman movement operation
+            
+            // Check if currently there is a speed buff
+            // If there is, keep updating the timer until it reaches the duration
+            if (_speedBuffInEffect) {
+                _speedBuffTimer += Time.deltaTime;
+
+                if (_speedBuffTimer >= _speedBuffDuration) {
+                    // Buff time is over
+                    // Set the speed back to normal speed
+                    _pacmanMoveSpeed = _pacmanNormalMoveSpeed;
+
+                    // Reset timer and status
+                    _speedBuffTimer = 0f;
+                    _speedBuffInEffect = false;
+                }
+            }
         }
 
         /**
@@ -175,6 +202,18 @@ namespace Entity.Pacman {
             return false;
         }
 
+        /**
+         * Temporarily sets a speed for the pacman.
+         * Used when Fast Wheel / Slow Wheel is triggered.
+         */
+        public void SetSpeedBuff(float buffSpeed) {
+            // Set speed
+            _pacmanMoveSpeed = buffSpeed;
+            
+            // Reset timer and statue
+            _speedBuffTimer = 0f;
+            _speedBuffInEffect = true;
+        }
 
         /**
          * Trys to obtain the corresponding key code in player preferences.

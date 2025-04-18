@@ -1,0 +1,18 @@
+﻿using PlayMap;
+using UnityEngine;
+
+namespace Entity.Prop.Impl {
+    /**
+     * POWER PELLET
+     * Scares all ghostrons.
+     * (Slows them down, and they are sent back to center when pacman catches them)
+     */
+    public class PowerPelletProp : Prop {
+        // Override
+        protected override void OnPicked(GameObject pacman) {
+            Debug.Log("POWER PELLET picked");
+            // Scare all the ghosts
+            GhostronManager.Instance.ScareAllGhostrons();
+        }
+    }
+}

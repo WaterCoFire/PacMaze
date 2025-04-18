@@ -17,6 +17,16 @@ namespace PlayMap {
         // Only check the number of dots if this is true, for better performance
         private bool _newDotEaten;
         
+        // Singleton instance
+        public static DotManager Instance { get; private set; }
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            Debug.Log("DotManager AWAKE");
+            // Set singleton instance
+            Instance = this;
+        }
+        
         // START FUNCTION
         private void Start() {
             Debug.Log("DotManager START");

@@ -69,7 +69,7 @@ namespace PlayMap {
             // TODO Lucky Dice result probability
             
             // Update difficulty in GhostronManager to for setting the behaviours of the ghostrons
-            gameObject.GetComponent<GhostronManager>().SetDifficulty(wrapper.difficulty);
+            GhostronManager.Instance.SetDifficulty(wrapper.difficulty);
 
             // Generate walls
             gameObject.GetComponent<WallGenerator>()

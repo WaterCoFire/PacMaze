@@ -14,13 +14,22 @@ namespace MapEditor {
      * - Pacman Spawn Point
      *
      * GOOD ONES
-     * - Power Pellet: Like the classical Pacman Power Pellet
-     * - Fast Wheel： Player becomes faster for 5 sec
-     * - Nice Bomb: Press K to kill the nearest ghostron
+     * - Power Pellet
+     * - Fast Wheel
+     * 
+     * - Nice Bomb:
+     * Does nothing when the pacman picks it
+     * Only effective on the player's second operation when one bomb is picked:
+     * Press E to directly kill the nearest ghostron,
+     * OR press Space to deploy the bomb down on the current tile.
+     * If using it by deployment, BOTH the ghostron that hits that deployed bomb
+     * AND another ghostron that is the nearest to the bomb will be killed.
+     * (So Space deployment can kill up to two ghostrons while E kill can only kill one)
      *
      * BAD ONES
-     * - Slow Wheel: Player slows down for 5 sec
-     * - Bad Cherry: One more ghostron (spawns randomly)
+     * - Slow Wheel
+     * - Bad Cherry
+     * One more ghostron (spawns in the center).
      *
      * RANDOM
      * - Lucky Dice: One of the five props
