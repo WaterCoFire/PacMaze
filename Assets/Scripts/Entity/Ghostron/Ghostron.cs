@@ -40,7 +40,8 @@ namespace Entity.Ghostron {
         // Scared logic variables
         private bool _isScared; // Status indicating if the pacman is scared (when pacman eats a power pellet)
         private float _scaredTimer; // Timer of the ghostron feeling scared
-        private readonly float _scaredDuration = 6.0f;
+        private readonly float _scaredDuration = 6.0f; // Duration of the "scared" effect of ghostrons
+        private bool _isCaught; // Status indicating if the pacman has caught the ghostron when it is scared
 
         // The original material of the ghostron (the normal color)
         private Material _originalMaterial;
@@ -48,18 +49,27 @@ namespace Entity.Ghostron {
         // Material when the ghostron is scared
         public Material scaredMaterial;
 
+        // Ghostron animation logic (walking/spawning animation etc.)
+        private Animator _animator; // Animator
+
+        // Animation speed when the ghostron is in different statuses
+        private readonly float _normalAnimationSpeed = 0.6f; // Wandering
+        private readonly float _chaseAnimationSpeed = 1f; // Chasing pacman
+        private readonly float _scaredAnimationSpeed = 0.3f; // Scared
+
         // START FUNCTION
         void Start() {
             Debug.Log("Ghostron START");
-            
+
             // Check if the ghostron has all necessary components
             if (gameObject.GetComponent<NavMeshAgent>() == null ||
                 gameObject.GetComponent<SkinnedMeshRenderer>() == null ||
-                gameObject.GetComponent<BoxCollider>() == null) {
+                gameObject.GetComponent<BoxCollider>() == null ||
+                gameObject.GetComponent<Animator>() == null) {
                 Debug.LogError("Ghostron start error: Essential components missing!");
                 return;
             }
-            
+
             // Set the ghost as a trigger
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
 
@@ -68,10 +78,41 @@ namespace Entity.Ghostron {
 
             // Bind the original material
             _originalMaterial = gameObject.GetComponent<SkinnedMeshRenderer>().material;
+
+            // Bind the animator
+            _animator = gameObject.GetComponent<Animator>();
         }
 
         // UPDATE FUNCTION
         void Update() {
+            // Get the animator state info
+            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+
+            // Caught teleport logic
+            if (_isCaught) {
+                if (stateInfo.IsName("anim_close")) {
+                    if (stateInfo.normalizedTime >= 1f) {
+                        // Caught ghostron has finished the closing animation
+                        Debug.Log("Caught ghostron finished closing animation.");
+
+                        // Teleport it to the central point
+                        transform.position = Vector3.zero;
+                        
+                        // Let the ghostron play initializing animation there
+                        _animator.SetBool("Open_Anim", true);
+                        _animator.SetBool("Walk_Anim", true);
+                        
+                        // Status update
+                        SetScared(false);
+                    }
+                }
+            }
+
+            // Check if the ghostron is in initializing (opening itself) animation
+            // Not in walking animation status means that the ghostron is initializing
+            // Directly return if so
+            if (!stateInfo.IsName("anim_Walk_Loop")) return;
+
             // Check the distance between this ghostron and pacman target
             float distance = Vector3.Distance(transform.position, _pacman.transform.position);
 
@@ -85,6 +126,9 @@ namespace Entity.Ghostron {
 
                 // Set the chasing speed
                 _agent.speed = _chaseSpeed;
+
+                // Set the animator speed
+                _animator.speed = _chaseAnimationSpeed;
 
                 // Set the chase target (real time position of the pacman)
                 _agent.SetDestination(_pacman.transform.position);
@@ -122,19 +166,24 @@ namespace Entity.Ghostron {
                 _isScared = true;
                 // Change skin
                 gameObject.GetComponent<SkinnedMeshRenderer>().material = scaredMaterial;
-                // Change speed
+                // Change movement speed
                 _agent.speed = _scaredSpeed;
+                // Change animator speed
+                _animator.speed = _scaredAnimationSpeed;
             } else {
                 // Now the ghostron is no longer scared
                 _scaredTimer = 0f;
                 _isScared = false;
+                _isCaught = false;
                 // Change back skin
                 gameObject.GetComponent<SkinnedMeshRenderer>().material = _originalMaterial;
-                // Change back speed
+                // Change back movement speed
                 _agent.speed = _normalSpeed;
+                // Change animator speed
+                _animator.speed = _normalAnimationSpeed;
             }
         }
-        
+
         /**
          * Unity event: When ghostron collides with another game object
          * Only pacman is cared here
@@ -146,10 +195,19 @@ namespace Entity.Ghostron {
             // It is pacman
             if (_isScared) {
                 // The ghostron is scared currently
-                // Teleport it to the central point
-                Debug.Log("Ghostron caught by Pacman! Teleporting back.");
-                transform.position = Vector3.zero;
-                SetScared(false);
+                // This means that the ghostron is caught by the pacman
+                Debug.Log("Ghostron caught by Pacman!");
+                _agent.ResetPath();
+
+                // Corresponding animation
+                _animator.SetBool("Open_Anim", false);
+                _animator.SetBool("Walk_Anim", false);
+
+                _isCaught = true; // Update status
+
+                // After isCaught is updated:
+                // The Update() function keeps tracking if the "closing" animation of the ghostron is over or not
+                // After that animation is over, ghostron will be teleported back to the central point
             } else {
                 Debug.LogWarning("Pacman got caught! GAME OVER!");
             }
@@ -162,8 +220,13 @@ namespace Entity.Ghostron {
         private void Wander() {
             _wanderTimer += Time.deltaTime;
 
+            // Set wandering speed
             _agent.speed = _normalSpeed;
 
+            // Set animator speed
+            _animator.speed = _normalAnimationSpeed;
+
+            // Wandering destination setting
             if (!_agent.hasPath || _agent.remainingDistance < 0.5f || _wanderTimer >= _wanderInterval) {
                 Vector3 newDestination = GenerateRandomWanderingTarget();
                 _agent.SetDestination(newDestination);
@@ -178,7 +241,6 @@ namespace Entity.Ghostron {
         private Vector3 GenerateRandomWanderingTarget() {
             // Possible x/z axis coordinate values of the target
             int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
-
 
             // Generate random x/z axis coordinates
             int randX = possibleValues[Random.Range(0, possibleValues.Length)];

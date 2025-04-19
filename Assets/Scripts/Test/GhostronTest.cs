@@ -6,27 +6,30 @@ using UnityEngine.AI;
 
 namespace Test {
     public class GhostronTest : MonoBehaviour {
-        public Transform destination;
         public GameObject pacman;
+        private Animator _animator;
 
-        private Material _normalMaterial;
-        public Material scaredMaterial;
+        public float animatorSpeed;
 
         private void Start() {
-            _normalMaterial = gameObject.GetComponent<SkinnedMeshRenderer>().material;
-
-            gameObject.GetComponent<Ghostron>().SetPacman(pacman);
-            gameObject.GetComponent<Ghostron>().SetGhostronParams(3f, 1f, 4f, 10f);
+            _animator = GetComponent<Animator>();
+            
+            // _animator.SetBool("Walk_Anim", false);
+            // _animator.SetBool("Open_Anim", true);
+            
+            GetComponent<NavMeshAgent>().SetDestination(pacman.transform.position);
         }
 
         private void Update() {
-            if (Input.GetKeyDown(KeyCode.P)) {
-                gameObject.GetComponent<SkinnedMeshRenderer>().material = scaredMaterial;
-            }
-
-            if (Input.GetKeyDown(KeyCode.O)) {
-                gameObject.GetComponent<SkinnedMeshRenderer>().material = _normalMaterial;
-            }
+            // AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            // Debug.Log(
+            //     $"当前状态名Hash: {stateInfo.fullPathHash}, 进度: {stateInfo.normalizedTime:F2}, 是否循环: {stateInfo.loop}");
+            //
+            // if (stateInfo.IsName("anim_Walk_Loop")) {
+            //     Debug.Log("当前是 Walk 状态");
+            // }
+            
+            _animator.speed = animatorSpeed;
         }
     }
 }
