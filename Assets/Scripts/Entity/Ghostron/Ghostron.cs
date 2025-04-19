@@ -44,7 +44,7 @@ namespace Entity.Ghostron {
         private bool _isCaught; // Status indicating if the pacman has caught the ghostron when it is scared
 
         // The original material of the ghostron (the normal color)
-        private Material _originalMaterial;
+        public Material originalMaterial;
 
         // Material when the ghostron is scared
         public Material scaredMaterial;
@@ -63,7 +63,6 @@ namespace Entity.Ghostron {
 
             // Check if the ghostron has all necessary components
             if (gameObject.GetComponent<NavMeshAgent>() == null ||
-                gameObject.GetComponent<SkinnedMeshRenderer>() == null ||
                 gameObject.GetComponent<BoxCollider>() == null ||
                 gameObject.GetComponent<Animator>() == null) {
                 Debug.LogError("Ghostron start error: Essential components missing!");
@@ -76,15 +75,14 @@ namespace Entity.Ghostron {
             // Bind the NavMeshAgent component
             _agent = GetComponent<NavMeshAgent>();
 
-            // Bind the original material
-            _originalMaterial = gameObject.GetComponent<SkinnedMeshRenderer>().material;
-
             // Bind the animator
             _animator = gameObject.GetComponent<Animator>();
         }
 
         // UPDATE FUNCTION
         void Update() {
+            Debug.Log("SPEED " + _agent.speed);
+            
             // Get the animator state info
             AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
@@ -94,9 +92,6 @@ namespace Entity.Ghostron {
                     if (stateInfo.normalizedTime >= 1f) {
                         // Caught ghostron has finished the closing animation
                         Debug.Log("Caught ghostron finished closing animation.");
-
-                        // Teleport it to the central point
-                        transform.position = Vector3.zero;
                         
                         // Let the ghostron play initializing animation there
                         _animator.SetBool("Open_Anim", true);
@@ -132,7 +127,7 @@ namespace Entity.Ghostron {
 
                 // Set the chase target (real time position of the pacman)
                 _agent.SetDestination(_pacman.transform.position);
-            } else {
+            } else if (!_isCaught) {
                 // Pacman is out of the chasing detection radius
                 // Impossible if in HARD game mode because the radius is long enough
                 if (_isChasing) {
@@ -165,7 +160,7 @@ namespace Entity.Ghostron {
                 _scaredTimer = 0f;
                 _isScared = true;
                 // Change skin
-                gameObject.GetComponent<SkinnedMeshRenderer>().material = scaredMaterial;
+                SetScaredMaterial();
                 // Change movement speed
                 _agent.speed = _scaredSpeed;
                 // Change animator speed
@@ -176,11 +171,9 @@ namespace Entity.Ghostron {
                 _isScared = false;
                 _isCaught = false;
                 // Change back skin
-                gameObject.GetComponent<SkinnedMeshRenderer>().material = _originalMaterial;
-                // Change back movement speed
-                _agent.speed = _normalSpeed;
+                SetOriginalMaterial();
                 // Change animator speed
-                _animator.speed = _normalAnimationSpeed;
+                // _animator.speed = _normalAnimationSpeed;
             }
         }
 
@@ -197,9 +190,11 @@ namespace Entity.Ghostron {
                 // The ghostron is scared currently
                 // This means that the ghostron is caught by the pacman
                 Debug.Log("Ghostron caught by Pacman!");
-                _agent.ResetPath();
+                _agent.speed = 0f;
 
                 // Corresponding animation
+                // Ghostron "closes" itself
+                _animator.speed = _normalAnimationSpeed;
                 _animator.SetBool("Open_Anim", false);
                 _animator.SetBool("Walk_Anim", false);
 
@@ -207,7 +202,7 @@ namespace Entity.Ghostron {
 
                 // After isCaught is updated:
                 // The Update() function keeps tracking if the "closing" animation of the ghostron is over or not
-                // After that animation is over, ghostron will be teleported back to the central point
+                // After that animation is over, ghostron will "open" again
             } else {
                 Debug.LogWarning("Pacman got caught! GAME OVER!");
             }
@@ -276,6 +271,74 @@ namespace Entity.Ghostron {
             _scaredSpeed = scaredSpeed;
             _chaseSpeed = chaseSpeed;
             _detectionRadius = detectionRadius;
+        }
+
+        /**
+         * Change the "skin" of the ghostron to purple (scared).
+         */
+        private void SetScaredMaterial() {
+            // Check if both materials are properly set
+            if (scaredMaterial == null || originalMaterial == null) {
+                Debug.LogError("Error: Original/Scared material not properly set!");
+                return;
+            }
+            
+            // Get all MeshRenderers in children
+            MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>(true);
+            
+            // Change all the original materials in all MeshRenderers to scared ones
+            foreach (MeshRenderer renderer in renderers) {
+                Material[] currentMats = renderer.sharedMaterials;
+                bool hasChange = false;
+                Material[] newMats = new Material[currentMats.Length];
+            
+                for (int i = 0; i < currentMats.Length; i++) {
+                    if (currentMats[i] == originalMaterial) {
+                        newMats[i] = scaredMaterial;
+                        hasChange = true;
+                    } else {
+                        newMats[i] = currentMats[i];
+                    }
+                }
+            
+                if (hasChange) {
+                    renderer.sharedMaterials = newMats;
+                }
+            }
+        }
+        
+        /**
+         * Change the "skin" of the ghostron back to the original one.
+         */
+        private void SetOriginalMaterial() {
+            // Check if both materials are properly set
+            if (scaredMaterial == null || originalMaterial == null) {
+                Debug.LogError("Error: Original/Scared material not properly set!");
+                return;
+            }
+            
+            // Get all MeshRenderers in children
+            MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>(true);
+            
+            // Change all the scared materials in all MeshRenderers to original ones
+            foreach (MeshRenderer renderer in renderers) {
+                Material[] currentMats = renderer.sharedMaterials;
+                bool hasChange = false;
+                Material[] newMats = new Material[currentMats.Length];
+            
+                for (int i = 0; i < currentMats.Length; i++) {
+                    if (currentMats[i] == scaredMaterial) {
+                        newMats[i] = originalMaterial;
+                        hasChange = true;
+                    } else {
+                        newMats[i] = currentMats[i];
+                    }
+                }
+            
+                if (hasChange) {
+                    renderer.sharedMaterials = newMats;
+                }
+            }
         }
     }
 }

@@ -12,11 +12,11 @@ namespace PlayMap {
     public class DotManager : MonoBehaviour {
         // List of all the dot index
         private List<int> _dots = new();
-        
+
         // Status indicating a dot is eaten
         // Only check the number of dots if this is true, for better performance
         private bool _newDotEaten;
-        
+
         // Singleton instance
         public static DotManager Instance { get; private set; }
 
@@ -26,7 +26,7 @@ namespace PlayMap {
             // Set singleton instance
             Instance = this;
         }
-        
+
         // START FUNCTION
         private void Start() {
             Debug.Log("DotManager START");
@@ -42,8 +42,6 @@ namespace PlayMap {
             if (_dots.Count == 0) {
                 Debug.Log("No dots left, player should win");
                 // TODO corresponding logic
-            } else {
-                Debug.Log($"Dot num checked, still {_dots.Count} dots to be eaten");
             }
 
             // Dot eaten status resetting
@@ -57,7 +55,7 @@ namespace PlayMap {
         public void ResetDots() {
             // Empty the index list
             _dots.Clear();
-            
+
             // Dot eaten status resetting
             _newDotEaten = false;
         }
@@ -70,10 +68,10 @@ namespace PlayMap {
             // Get the new index of this dot
             // Calculated by the number of elements in the dot index list
             int newIndex = _dots.Count;
-            
+
             // Set the dot's index
             newDot.GetComponent<Dot>().SetIndex(newIndex);
-            
+
             _dots.Add(newIndex); // Add dot index the list
         }
 
