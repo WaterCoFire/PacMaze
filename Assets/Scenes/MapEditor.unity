@@ -26869,7 +26869,7 @@ MonoBehaviour:
 
 
     You will
-    have a hard time dealing with ghosts.'
+    have a hard time dealing with ghostrons.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -28736,8 +28736,8 @@ MonoBehaviour:
   m_text: 'Lucky dice does not trigger any negative effects.
 
 
-    Ghosts are easy
-    to deal with.'
+    Ghostrons are
+    easy to deal with.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -47974,7 +47974,7 @@ MonoBehaviour:
   m_text: 'Lucky dice could trigger any type of effect.
 
 
-    Ghosts are not hard
+    Ghostrons are not hard
     to deal with.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}

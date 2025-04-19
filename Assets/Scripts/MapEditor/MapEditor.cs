@@ -59,8 +59,8 @@ namespace MapEditor {
 
             SetButtonActionListener();
 
-            // InitUI("DEBUG TEST");
-            // PlayerPrefs.SetString("EditMapFileToLoad", "CLASSIC_2_E");
+            // TODO TEST ONLY
+            PlayerPrefs.SetString("EditMapFileToLoad", "ABC123_5_E");
             LoadMap();
         }
 
