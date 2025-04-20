@@ -32,7 +32,7 @@ namespace PlayMap {
 
         // Difficulty of the current game
         private char _difficulty;
-        
+
         // Singleton instance
         public static GhostronManager Instance { get; private set; }
 
@@ -108,6 +108,43 @@ namespace PlayMap {
             foreach (var ghostron in _ghostrons) {
                 // Scare each of them
                 ghostron.GetComponent<Ghostron>().SetScared(true);
+            }
+        }
+
+        /**
+         * Kills the nearest ghostron to the position given.
+         * Used when a nice bomb is used OR deployed and then hit by a ghostron:
+         * - USED:
+         * Obtain the nearest ghostron to the pacman and kill it
+         * - DEPLOYED & HIT:
+         * The ghostron hitting the deployed bomb is killed first
+         * then this function is used to obtain another ghostron nearest to the bomb
+         */
+        public void KillNearestGhostron(Vector3 position) {
+            if (_ghostrons == null || _ghostrons.Count == 0) {
+                Debug.LogWarning("Killing the nearest ghostron: NO GHOSTRON LEFT!");
+            }
+
+            GameObject nearest = null;
+            float minDist = float.MaxValue;
+
+            // Check for the nearest ghostron
+            foreach (var ghost in _ghostrons) {
+                float dist = Vector3.Distance(position, ghost.transform.position);
+                if (dist < minDist) {
+                    minDist = dist;
+                    nearest = ghost;
+                }
+            }
+
+            // Kill the nearest one
+            if (nearest != null) {
+                _ghostrons.Remove(nearest);
+                Destroy(nearest);
+                Debug.Log("Nearest ghostron destroyed!");
+            } else {
+                Debug.LogError(
+                    "Error when killing the nearest ghostron: There are ghostrons but nearest one not found!");
             }
         }
 

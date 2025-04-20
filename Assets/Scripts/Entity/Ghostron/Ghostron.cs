@@ -4,10 +4,6 @@ using UnityEngine.AI;
 namespace Entity.Ghostron {
     /**
      * Manages the behaviour of the ghost.
-     *
-     * TODO: Models now resembles ghosts in classical pacman game too much
-     * Maybe find some new models online
-     * Already renamed ghost to ghostron, next step is to change ghostron models
      */
     public class Ghostron : MonoBehaviour {
         private GameObject _pacman; // Pacman game object, what the ghostron is hunting for
@@ -31,7 +27,7 @@ namespace Entity.Ghostron {
 
         // Wandering logic variables
         private float _wanderTimer; // Timer of the current wandering
-        private readonly float _wanderInterval = 15.0f; // Interval of switching a wandering target
+        private readonly float _wanderInterval = 20.0f; // Interval of switching a wandering target
 
         private NavMeshAgent _agent; // NavMesh agent
 
@@ -81,8 +77,6 @@ namespace Entity.Ghostron {
 
         // UPDATE FUNCTION
         void Update() {
-            Debug.Log("SPEED " + _agent.speed);
-            
             // Get the animator state info
             AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
