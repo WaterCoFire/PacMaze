@@ -73,6 +73,9 @@ namespace Entity.Ghostron {
 
             // Bind the animator
             _animator = gameObject.GetComponent<Animator>();
+            
+            // Set to the original material
+            SetOriginalMaterial();
         }
 
         // UPDATE FUNCTION
@@ -101,9 +104,17 @@ namespace Entity.Ghostron {
             // Not in walking animation status means that the ghostron is initializing
             // Directly return if so
             if (!stateInfo.IsName("anim_Walk_Loop")) return;
+            
+            // TODO TEST ONLY
+            if (_pacman == null) {
+                Debug.LogError("ERROR");
+                Debug.LogError("Idiot name: " + gameObject.name);
+            } else {
+                Debug.Log("NORMAL");
+            }
 
             // Check the distance between this ghostron and pacman target
-            float distance = Vector3.Distance(transform.position, _pacman.transform.position);
+            float distance = Vector3.Distance(gameObject.transform.position, _pacman.transform.position);
 
             // Only chases pacman if the ghostron is close enough & not scared
             if (distance <= _detectionRadius && !_isScared) {
@@ -250,9 +261,10 @@ namespace Entity.Ghostron {
 
         /**
          * Sets the pacman game object.
-         * Used in GhostronManager when initializing the map.
+         * Used in GhostronManager when initializing the map / adding new ghostron due to bad cherry.
          */
         public void SetPacman(GameObject pacman) {
+            Debug.LogWarning("NEW GHOSTRON PACMAN SET");
             _pacman = pacman;
         }
 

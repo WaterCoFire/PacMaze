@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Entity.Ghostron;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace PlayMap {
     /**
@@ -29,6 +33,10 @@ namespace PlayMap {
         // Difficulty of the current game
         private char _difficulty;
 
+        // Pacman object setting
+        private GameObject _pacman;
+        // private bool _pacmanSet;
+
         // Singleton instance
         public static GhostronManager Instance { get; private set; }
 
@@ -41,6 +49,7 @@ namespace PlayMap {
 
         // START FUNCTION
         private void Start() {
+            // _pacmanSet = false;
             Debug.Log("GhostronManager START");
         }
 
@@ -142,11 +151,74 @@ namespace PlayMap {
         }
 
         /**
+         * Spawns a new ghostron with random color at random place.
+         */
+        public void NewRandomGhostron() {
+            // --- Position logic ---
+            Vector3 randomPosition;
+
+            // Generate random position
+            // Possible x/z axis coordinate values of the position
+            int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
+
+            // Generate random x/z axis coordinates
+            int randX = possibleValues[Random.Range(0, possibleValues.Length)];
+            int randZ = possibleValues[Random.Range(0, possibleValues.Length)];
+            Vector3 potentialPosition = new Vector3(randX, 0, randZ);
+
+            // Check if this location is a valid walkable point
+            if (NavMesh.SamplePosition(potentialPosition, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) {
+                // Return this position if it is valid
+                randomPosition = hit.position;
+            } else {
+                // Directly return if it is not valid (no moving)
+                // ALTHOUGH UNLIKELY
+                Debug.LogError("Invalid spawn position generated!");
+                return;
+            }
+
+            // --- Ghostron type logic ---
+            GameObject newGhostron;
+            int rand = Random.Range(0, 5); // Random number
+            switch (rand) {
+                case 0:
+                    newGhostron = Instantiate(GetComponent<PropGenerator>().redGhostronPrefab, randomPosition,
+                        Quaternion.identity);
+                    break;
+                case 1:
+                    newGhostron = Instantiate(GetComponent<PropGenerator>().blueGhostronPrefab, randomPosition,
+                        Quaternion.identity);
+                    break;
+                case 2:
+                    newGhostron = Instantiate(GetComponent<PropGenerator>().yellowGhostronPrefab, randomPosition,
+                        Quaternion.identity);
+                    break;
+                case 3:
+                    newGhostron = Instantiate(GetComponent<PropGenerator>().greenGhostronPrefab, randomPosition,
+                        Quaternion.identity);
+                    break;
+                case 4:
+                    newGhostron = Instantiate(GetComponent<PropGenerator>().pinkGhostronPrefab, randomPosition,
+                        Quaternion.identity);
+                    break;
+                default:
+                    Debug.LogError("Invalid number generated when getting a random ghostron color!");
+                    return;
+            }
+
+            // Set the pacman target
+            newGhostron.GetComponent<Ghostron>().SetPacman(_pacman);
+            // Add to the list
+            AddGhostron(newGhostron);
+        }
+
+        /**
          * Sets the pacman info that all the ghostrons chase.
          */
         public void SetPacman(GameObject pacman) {
+            _pacman = pacman;
             foreach (var ghostron in _ghostrons) {
-                ghostron.GetComponent<Ghostron>().SetPacman(pacman);
+                ghostron.GetComponent<Ghostron>().SetPacman(_pacman);
             }
         }
     }

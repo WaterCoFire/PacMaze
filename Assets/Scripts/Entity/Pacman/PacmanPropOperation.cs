@@ -46,8 +46,6 @@ namespace Entity.Pacman {
         private void Start() {
             Debug.Log("PacmanPropOperation START");
 
-            Debug.Log("Key: " + _useNiceBombKeyCode + ", " + _deployNiceBombKeyCode);
-
             _niceBombs = 0;
             _controllable = true;
             _cooldownTimer = 0f;
