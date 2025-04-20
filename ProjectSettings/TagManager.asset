@@ -9,6 +9,7 @@ TagManager:
   - Tile
   - Wall
   - Pacman
+  - Ghostron
   layers:
   - Default
   - TransparentFX

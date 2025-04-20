@@ -1,7 +1,7 @@
 ﻿using Entity.Pacman;
 using UnityEngine;
 
-namespace Entity.Prop.Impl {
+namespace Entity.Prop.PropImpl {
     /**
      * NICE BOMB
      * Does nothing when the pacman picks it

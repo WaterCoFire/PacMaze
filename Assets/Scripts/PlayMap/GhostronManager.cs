@@ -117,8 +117,8 @@ namespace PlayMap {
          * - USED:
          * Obtain the nearest ghostron to the pacman and kill it
          * - DEPLOYED & HIT:
-         * The ghostron hitting the deployed bomb is killed first
-         * then this function is used to obtain another ghostron nearest to the bomb
+         * Obtain the two nearest ghostron to the deployed bomb and kill them
+         * (which means the ghostron hitting the deployed bomb & another nearest ghostron)
          */
         public void KillNearestGhostron(Vector3 position) {
             if (_ghostrons == null || _ghostrons.Count == 0) {
@@ -142,9 +142,6 @@ namespace PlayMap {
                 _ghostrons.Remove(nearest);
                 Destroy(nearest);
                 Debug.Log("Nearest ghostron destroyed!");
-            } else {
-                Debug.LogError(
-                    "Error when killing the nearest ghostron: There are ghostrons but nearest one not found!");
             }
         }
 

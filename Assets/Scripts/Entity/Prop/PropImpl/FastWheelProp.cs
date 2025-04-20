@@ -1,7 +1,7 @@
 ﻿using Entity.Pacman;
 using UnityEngine;
 
-namespace Entity.Prop.Impl {
+namespace Entity.Prop.PropImpl {
     /**
      * FAST WHEEL
      * Pacman becomes faster for 5 secs.

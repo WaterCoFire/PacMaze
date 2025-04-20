@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Entity.Prop.Impl {
+namespace Entity.Prop.PropImpl {
     /**
      * BAD CHERRY
      * Spawns one more ghostron.

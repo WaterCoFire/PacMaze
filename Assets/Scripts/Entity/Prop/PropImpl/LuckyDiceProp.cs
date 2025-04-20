@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Entity.Prop.Impl {
+namespace Entity.Prop.PropImpl {
     /**
      * LUCKY DICE
      * When picked, gives the effect of one of the five other props.

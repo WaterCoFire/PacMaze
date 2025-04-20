@@ -1,7 +1,7 @@
 ﻿using PlayMap;
 using UnityEngine;
 
-namespace Entity.Prop.Impl {
+namespace Entity.Prop.PropImpl {
     /**
      * POWER PELLET
      * Scares all ghostrons.

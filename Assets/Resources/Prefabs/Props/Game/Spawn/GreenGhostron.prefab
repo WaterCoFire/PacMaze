@@ -2859,7 +2859,7 @@ GameObject:
   - component: {fileID: 7979564904276341186}
   m_Layer: 0
   m_Name: GreenGhostron
-  m_TagString: Untagged
+  m_TagString: Ghostron
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
