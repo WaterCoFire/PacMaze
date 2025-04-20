@@ -19238,7 +19238,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 729.81604, y: 372.17218}
+  m_AnchoredPosition: {x: 824, y: -450}
   m_SizeDelta: {x: 211.4323, y: 77.9852}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1008627830
@@ -25803,7 +25803,7 @@ GameObject:
   - component: {fileID: 1293423035}
   - component: {fileID: 1293423034}
   m_Layer: 5
-  m_Name: UsePrompt
+  m_Name: UseNiceBombKeyPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31779,7 +31779,7 @@ GameObject:
   - component: {fileID: 1612951175}
   - component: {fileID: 1612951174}
   m_Layer: 5
-  m_Name: DeployPrompt
+  m_Name: DeployNiceBombKeyPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
