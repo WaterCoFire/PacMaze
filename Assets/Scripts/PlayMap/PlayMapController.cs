@@ -13,6 +13,18 @@ namespace PlayMap {
         private string _saveDirectory = Path.Combine(Application.dataPath, "Maps");
         private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
+        private char _difficulty; // Difficulty of the current game
+        
+        // Singleton instance
+        public static PlayMapController Instance { get; private set; }
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            Debug.Log("PlayMapController AWAKE");
+            // Set singleton instance
+            Instance = this;
+        }
+
         /**
          * THE START FUNCTION
          * Get the file name of the map to be played
@@ -66,10 +78,10 @@ namespace PlayMap {
             MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
             
             // Difficulty setting
-            // TODO Lucky Dice result probability
+            _difficulty = wrapper.difficulty;
             
             // Update difficulty in GhostronManager to for setting the behaviours of the ghostrons
-            GhostronManager.Instance.SetDifficulty(wrapper.difficulty);
+            GhostronManager.Instance.SetDifficulty(_difficulty);
 
             // Generate walls
             gameObject.GetComponent<WallGenerator>()
@@ -82,6 +94,13 @@ namespace PlayMap {
                 wrapper.FixedPropCounts, wrapper.TotalPropCounts));
 
             return true;
+        }
+
+        /**
+         * Returns the difficulty of the current game.
+         */
+        public char GetDifficulty() {
+            return _difficulty;
         }
     }
 }

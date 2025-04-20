@@ -14,7 +14,7 @@ namespace Entity.Prop.PropImpl {
      */
     public class NiceBombProp : Prop {
         // Override
-        protected override void OnPicked(GameObject pacman) {
+        public override void OnPicked(GameObject pacman) {
             Debug.Log("NICE BOMB picked");
             
             // Give the pacman one more bomb

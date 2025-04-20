@@ -11,24 +11,20 @@ namespace PlayMap {
         private List<GameObject> _ghostrons = new();
 
         // Normal wandering speed of ghostrons
-        // TODO PROVISIONAL
         private readonly float _ghostronNormalSpeed = 2.0f;
 
         // Scared speed of ghostrons (when pacman eats a power pellet)
-        // TODO PROVISIONAL
         private readonly float _ghostronScaredSpeed = 1.0f;
 
         // Chasing speeds of ghostrons, by difficulty
-        // TODO PROVISIONAL
         private readonly float _ghostronEasyChaseSpeed = 3.0f;
         private readonly float _ghostronNormalChaseSpeed = 4.0f;
         private readonly float _ghostronHardChaseSpeed = 5.05f;
 
         // Detection radius of ghostrons, by difficulty
-        // TODO PROVISIONAL
         private readonly float _ghostronEasyDetectionRadius = 10.0f;
         private readonly float _ghostronNormalDetectionRadius = 20.0f;
-        private readonly float _ghostronHardDetectionRadius = 100.0f;
+        private readonly float _ghostronHardDetectionRadius = 30.0f;
 
         // Difficulty of the current game
         private char _difficulty;

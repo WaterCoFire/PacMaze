@@ -21,7 +21,7 @@ namespace MapEditor {
      * - Lucky Dice would more likely bring a negative effect
      *   (20% Fast Wheel, 15% Power Pellet, 15% Nice Bomb, 25% Slow Wheel, 25% Bad Cherry)
      * - Ghostrons move faster when chasing
-     * - Ghostrons would ALWAYS chase the pacman, despite the distance
+     * - Ghostrons wouldn't stop chasing pacman unless it is FAR ENOUGH from pacman
      */
     public class DifficultyEditor : MonoBehaviour {
         // Difficulty setting buttons

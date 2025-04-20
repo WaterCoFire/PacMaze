@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 7510700391559138579}
   - component: {fileID: 6160445142367897278}
   - component: {fileID: 3693108148024036578}
+  - component: {fileID: 7064923891597259098}
   m_Layer: 8
   m_Name: LuckyDice
   m_TagString: Untagged
@@ -146,3 +147,15 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.88635063, y: 0.35069668, z: 0.8731599}
   m_Center: {x: 0, y: 0.18000002, z: 0}
+--- !u!114 &7064923891597259098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7510056223922930930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727f512d06f34052a1d17ee5449115b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

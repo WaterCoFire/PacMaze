@@ -14,7 +14,7 @@ namespace Entity.Prop {
     public abstract class Prop : MonoBehaviour {
         // Abstract function
         // Action when the prop is picked by the pacman
-        protected abstract void OnPicked(GameObject pacman);
+        public abstract void OnPicked(GameObject pacman);
 
         // START FUNCTION
         private void Start() {

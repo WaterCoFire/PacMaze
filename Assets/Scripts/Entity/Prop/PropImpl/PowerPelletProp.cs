@@ -9,7 +9,7 @@ namespace Entity.Prop.PropImpl {
      */
     public class PowerPelletProp : Prop {
         // Override
-        protected override void OnPicked(GameObject pacman) {
+        public override void OnPicked(GameObject pacman) {
             Debug.Log("POWER PELLET picked");
             // Scare all the ghosts
             GhostronManager.Instance.ScareAllGhostrons();

@@ -11,7 +11,7 @@ namespace Entity.Prop.PropImpl {
         private readonly float _fastSpeed = 7f;
 
         // Override
-        protected override void OnPicked(GameObject pacman) {
+        public override void OnPicked(GameObject pacman) {
             Debug.Log("FAST WHEEL picked");
             // Pacman now has faster speed
             pacman.GetComponent<PacmanMovement>().SetSpeedBuff(_fastSpeed);
