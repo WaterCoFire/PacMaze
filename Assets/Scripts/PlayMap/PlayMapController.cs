@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
+using Entity.Pacman;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PlayMap {
     /**
@@ -14,6 +17,11 @@ namespace PlayMap {
         private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
         private char _difficulty; // Difficulty of the current game
+
+        private bool _gamePlaying; // Status telling if the game is currently in progress or not
+        
+        // Game pause UI
+        public GameObject pausePage;
         
         // Singleton instance
         public static PlayMapController Instance { get; private set; }
@@ -32,7 +40,7 @@ namespace PlayMap {
          */
         private void Start() {
             Debug.Log("MapController START");
-            
+
             // TODO TEST ONLY
             PlayerPrefs.SetString("PlayMapFileToLoad", "ABC123_5_E");
 
@@ -43,6 +51,7 @@ namespace PlayMap {
             }
 
             InitMap(mapFileName); // Initialize the map
+            _gamePlaying = true;
         }
 
         /**
@@ -76,10 +85,10 @@ namespace PlayMap {
 
             // Parse the json data and store in the wrapper
             MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
-            
+
             // Difficulty setting
             _difficulty = wrapper.difficulty;
-            
+
             // Update difficulty in GhostronManager to for setting the behaviours of the ghostrons
             GhostronManager.Instance.SetDifficulty(_difficulty);
 
@@ -96,11 +105,49 @@ namespace PlayMap {
             return true;
         }
 
+        // UPDATE FUNCTION
+        private void Update() {
+            // Listening for ESC pause
+            if (!_gamePlaying) return;
+
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                PauseGame();
+            }
+        }
+
         /**
          * Returns the difficulty of the current game.
          */
         public char GetDifficulty() {
             return _difficulty;
+        }
+
+        /**
+         * Pauses the game.
+         */
+        public void PauseGame() {
+            GameObject pacman = GameObject.FindGameObjectWithTag("Pacman");
+            pacman.GetComponent<PacmanMovement>().DisableMovement();
+            pacman.GetComponent<PacmanCamera>().DisableCameraOperation();
+            pacman.GetComponent<PacmanPropOperation>().DisablePropOperation();
+
+            Time.timeScale = 0f; // Stop the time scale
+            
+            pausePage.SetActive(true); // Display the pause page
+        }
+
+        /**
+         * Resumes the game.
+         */
+        public void ResumeGame() {
+            GameObject pacman = GameObject.FindGameObjectWithTag("Pacman");
+            pacman.GetComponent<PacmanMovement>().EnableMovement();
+            pacman.GetComponent<PacmanCamera>().EnableCameraOperation();
+            pacman.GetComponent<PacmanPropOperation>().EnablePropOperation();
+
+            Time.timeScale = 1f; // Resume the time scale
+            
+            pausePage.SetActive(true); // Close the pause page
         }
     }
 }

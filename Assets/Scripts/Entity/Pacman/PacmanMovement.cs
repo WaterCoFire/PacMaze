@@ -242,6 +242,10 @@ namespace Entity.Pacman {
          * Allows the player to control the movement of the pacman.
          */
         public void EnableMovement() {
+            // Set cursor
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            
             _controllable = true;
         }
 
@@ -249,6 +253,10 @@ namespace Entity.Pacman {
          * Stops the player from controlling the movement of the pacman.
          */
         public void DisableMovement() {
+            // Set cursor
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            
             _controllable = false;
         }
     }
