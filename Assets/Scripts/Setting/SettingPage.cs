@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MainPage {
+namespace Setting {
     /**
      * Manages the UI of key setting page.
      */
@@ -96,6 +97,7 @@ namespace MainPage {
 
                         // Set the key code
                         SetKeyCode(_listeningIndex, keyCode);
+                        KeyBindingManager.SaveInfoToFile(); // Update in the file
                         _isListening = false;
                         InitUI();
                     }
@@ -109,6 +111,9 @@ namespace MainPage {
          * and every time a new key code is set.
          */
         public void InitUI() {
+            // Update key binding information
+            KeyBindingManager.LoadInfoFromFile();
+            
             // Key text update
             moveForwardKeyText.text = PlayerPrefs.GetString("ForwardKeyCode", "?");
             moveBackWardKeyText.text = PlayerPrefs.GetString("BackwardKeyCode", "?");
@@ -211,8 +216,10 @@ namespace MainPage {
             switchViewSettingButton.onClick.AddListener(OnSwitchViewSettingButtonClick);
             useNiceBombSettingButton.onClick.AddListener(OnUseNiceBombSettingButtonClick);
             deployNiceBombSettingButton.onClick.AddListener(OnDeployNiceBombSettingButtonClick);
+            
+            backButton.onClick.AddListener(OnBackButtonClick);
         }
-        
+
         /* Button Action Listeners */
         // Move forward setting button
         private void OnMoveForwardSettingButtonClick() {
@@ -313,10 +320,11 @@ namespace MainPage {
         // Action when the back button is clicked.
         // Returns to the previous page.
         private void OnBackButtonClick() {
+            _isListening = false;
             promptText.text = "";
             promptText.gameObject.SetActive(false);
             settingPage.SetActive(false);
-            settingPage.SetActive(true);
+            previousPage.SetActive(true);
         }
 
         /**

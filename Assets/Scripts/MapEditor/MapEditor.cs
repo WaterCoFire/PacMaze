@@ -42,7 +42,7 @@ namespace MapEditor {
         private string _mapName;
 
         // Map data save directory
-        private string _saveDirectory = Path.Combine(Application.dataPath, "Maps");
+        private string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
         private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
         // Prompt Text

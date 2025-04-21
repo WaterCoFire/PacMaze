@@ -33,8 +33,8 @@ namespace MainPage {
         private float _prefabHeight = 170f;
         private float _padding = 1f;
 
-        private string _saveDirectory = Path.Combine(Application.dataPath, "Maps");
-        private Regex _regex = new Regex(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
+        private string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
 
         private MapInfo _renamedMapOldInfo;
         private string _renamedMapNewName;

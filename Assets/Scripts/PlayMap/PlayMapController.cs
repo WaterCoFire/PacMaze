@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Entity.Map;
 using Entity.Pacman;
 using Newtonsoft.Json;
+using Setting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +14,7 @@ namespace PlayMap {
      */
     public class PlayMapController : MonoBehaviour {
         // Map data save directory
-        private string _saveDirectory = Path.Combine(Application.dataPath, "Maps");
+        private string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
         private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
         private char _difficulty; // Difficulty of the current game
@@ -101,6 +102,9 @@ namespace PlayMap {
             PlayerPrefs.SetString("GameObjectReadMode", "PLAY");
             gameObject.GetComponent<PropGenerator>().InitProps(new PropData(wrapper.PropPositions(),
                 wrapper.FixedPropCounts, wrapper.TotalPropCounts));
+            
+            // Update operation key binding info
+            KeyBindingManager.LoadInfoFromFile();
 
             return true;
         }
@@ -147,7 +151,7 @@ namespace PlayMap {
 
             Time.timeScale = 1f; // Resume the time scale
             
-            pausePage.SetActive(true); // Close the pause page
+            pausePage.SetActive(false); // Close the pause page
         }
     }
 }

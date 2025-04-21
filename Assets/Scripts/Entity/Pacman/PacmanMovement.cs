@@ -242,6 +242,12 @@ namespace Entity.Pacman {
          * Allows the player to control the movement of the pacman.
          */
         public void EnableMovement() {
+            // Update KeyCode
+            _forwardKeyCode = GetKeyCode("ForwardKeyCode", KeyCode.W);
+            _backwardKeyCode = GetKeyCode("BackwardKeyCode", KeyCode.S);
+            _leftwardKeyCode = GetKeyCode("LeftwardKeyCode", KeyCode.A);
+            _rightwardKeyCode = GetKeyCode("RightwardKeyCode", KeyCode.D);
+            
             // Set cursor
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

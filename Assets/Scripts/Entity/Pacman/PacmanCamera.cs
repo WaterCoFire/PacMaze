@@ -147,6 +147,10 @@ namespace Entity.Pacman {
          * Allows the player to control the camera of the pacman.
          */
         public void EnableCameraOperation() {
+            // Update KeyCode
+            _turnBackKeyCode = GetKeyCode("TurnBackKeyCode", KeyCode.Q);
+            _switchViewKeyCode = GetKeyCode("SwitchViewKeyCode", KeyCode.V);
+            
             _controllable = true;
         }
 

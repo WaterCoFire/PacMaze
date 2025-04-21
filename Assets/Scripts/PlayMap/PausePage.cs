@@ -1,6 +1,6 @@
 ﻿using System;
-using MainPage;
 using Unity.VisualScripting;
+using Setting;
 using UnityEngine;
 using UnityEngine.UI;
 

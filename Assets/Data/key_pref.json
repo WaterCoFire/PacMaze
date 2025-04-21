@@ -1,0 +1,10 @@
+{
+    "ForwardKeyCode": "W",
+    "BackwardKeyCode": "S",
+    "LeftwardKeyCode": "A",
+    "RightwardKeyCode": "D",
+    "TurnBackKeyCode": "Q",
+    "SwitchViewKeyCode": "V",
+    "UseNiceBombKeyCode": "E",
+    "DeployNiceBombKeyCode": "F"
+}
