@@ -60,7 +60,7 @@ namespace MapEditor {
             SetButtonActionListener();
 
             // TODO TEST ONLY
-            PlayerPrefs.SetString("EditMapFileToLoad", "ABC123_5_E");
+            // PlayerPrefs.SetString("EditMapFileToLoad", "ABC123_5_E");
             LoadMap();
         }
 
@@ -218,7 +218,7 @@ namespace MapEditor {
             InitUI(_mapName); // Reset this UI as it is being closed
 
             // Load MainPage UI
-            SceneManager.LoadScene("UI");
+            SceneManager.LoadScene("MainPage");
         }
 
         // Save & Quit button operation
@@ -250,7 +250,7 @@ namespace MapEditor {
             SaveMapToFile();
 
             // Load MainPage UI
-            SceneManager.LoadScene("UI");
+            SceneManager.LoadScene("LoadScene");
         }
 
         // Operations after the close button of the warning panel is clicked

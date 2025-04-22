@@ -43,7 +43,7 @@ namespace PlayMap {
             Debug.Log("MapController START");
 
             // TODO TEST ONLY
-            PlayerPrefs.SetString("PlayMapFileToLoad", "ABC123_5_E");
+            // PlayerPrefs.SetString("PlayMapFileToLoad", "ABC123_5_E");
 
             string mapFileName = PlayerPrefs.GetString("PlayMapFileToLoad", null);
             if (mapFileName == null) {

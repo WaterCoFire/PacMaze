@@ -166,8 +166,8 @@ namespace MainPage {
                             PlayerPrefs.SetString("PlayMapFileToLoad",
                                 mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + mapInfo.Difficulty);
                             
-                            // TODO Load the map scene
-                            SceneManager.LoadScene("MapEditor");
+                            // Load the map scene
+                            SceneManager.LoadScene("PlayMap");
                         });
                     }
                 }

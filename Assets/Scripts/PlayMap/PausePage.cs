@@ -2,6 +2,7 @@
 using Unity.VisualScripting;
 using Setting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace PlayMap {
@@ -54,7 +55,9 @@ namespace PlayMap {
         
         // Quit button
         private void OnQuitButtonClick() {
-            // TODO Quit the game
+            // Quit the game
+            PlayerPrefs.SetInt("MainPageAt", 1);
+            SceneManager.LoadScene("MainPage");
         }
     }
 }

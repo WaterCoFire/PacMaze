@@ -104,14 +104,6 @@ namespace Entity.Ghostron {
             // Not in walking animation status means that the ghostron is initializing
             // Directly return if so
             if (!stateInfo.IsName("anim_Walk_Loop")) return;
-            
-            // TODO TEST ONLY
-            if (_pacman == null) {
-                Debug.LogError("ERROR");
-                Debug.LogError("Idiot name: " + gameObject.name);
-            } else {
-                Debug.Log("NORMAL");
-            }
 
             // Check the distance between this ghostron and pacman target
             float distance = Vector3.Distance(gameObject.transform.position, _pacman.transform.position);
