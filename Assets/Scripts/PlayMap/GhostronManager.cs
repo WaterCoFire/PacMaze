@@ -221,5 +221,13 @@ namespace PlayMap {
                 ghostron.GetComponent<Ghostron>().SetPacman(_pacman);
             }
         }
+
+        /**
+         * Action when a ghostron catches the pacman.
+         * Make the game over (and the player loses).
+         */
+        public void PacmanCaught() {
+            PlayMapController.Instance.Lose();
+        }
     }
 }

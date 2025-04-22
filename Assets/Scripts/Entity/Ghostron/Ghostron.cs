@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayMap;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Entity.Ghostron {
@@ -201,7 +202,10 @@ namespace Entity.Ghostron {
                 // The Update() function keeps tracking if the "closing" animation of the ghostron is over or not
                 // After that animation is over, ghostron will "open" again
             } else {
+                // The ghostron is not currently scared
+                // This means the game should be over
                 Debug.LogWarning("Pacman got caught! GAME OVER!");
+                GhostronManager.Instance.PacmanCaught();
             }
         }
 

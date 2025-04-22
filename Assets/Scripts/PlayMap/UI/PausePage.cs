@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace PlayMap {
+namespace PlayMap.UI {
     /**
      * Manages the game pause page UI.
      */

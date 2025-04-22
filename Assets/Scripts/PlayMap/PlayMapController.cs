@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Entity.Map;
 using Entity.Pacman;
 using Newtonsoft.Json;
+using PlayMap.UI;
 using Setting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,10 +21,15 @@ namespace PlayMap {
         private char _difficulty; // Difficulty of the current game
 
         private bool _gamePlaying; // Status telling if the game is currently in progress or not
-        
-        // Game pause UI
-        public GameObject pausePage;
-        
+
+        // GAME TIMER
+        private float _gameTimer;
+
+        // In-game UI
+        public GameObject pausePage; // Pause page
+        public GameObject winPage; // Game over page: player wins
+        public GameObject losePage; // Game over page: player loses
+
         // Singleton instance
         public static PlayMapController Instance { get; private set; }
 
@@ -42,9 +48,6 @@ namespace PlayMap {
         private void Start() {
             Debug.Log("MapController START");
 
-            // TODO TEST ONLY
-            // PlayerPrefs.SetString("PlayMapFileToLoad", "ABC123_5_E");
-
             string mapFileName = PlayerPrefs.GetString("PlayMapFileToLoad", null);
             if (mapFileName == null) {
                 Debug.LogError("Play map: File name not properly set!");
@@ -52,6 +55,13 @@ namespace PlayMap {
             }
 
             InitMap(mapFileName); // Initialize the map
+            // UI initialization
+            pausePage.SetActive(false);
+            winPage.SetActive(false);
+            losePage.SetActive(false);
+            
+            Time.timeScale = 1f; // Reset time scale
+            _gameTimer = 0f; // Reset timer
             _gamePlaying = true;
         }
 
@@ -102,7 +112,7 @@ namespace PlayMap {
             PlayerPrefs.SetString("GameObjectReadMode", "PLAY");
             gameObject.GetComponent<PropGenerator>().InitProps(new PropData(wrapper.PropPositions(),
                 wrapper.FixedPropCounts, wrapper.TotalPropCounts));
-            
+
             // Update operation key binding info
             KeyBindingManager.LoadInfoFromFile();
 
@@ -111,20 +121,18 @@ namespace PlayMap {
 
         // UPDATE FUNCTION
         private void Update() {
-            // Listening for ESC pause
+            // No action is game is currently paused
             if (!_gamePlaying) return;
 
+            // Update timer
+            _gameTimer += Time.deltaTime;
+
+            // Listening for ESC pause
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 PauseGame();
             }
         }
 
-        /**
-         * Returns the difficulty of the current game.
-         */
-        public char GetDifficulty() {
-            return _difficulty;
-        }
 
         /**
          * Pauses the game.
@@ -136,7 +144,7 @@ namespace PlayMap {
             pacman.GetComponent<PacmanPropOperation>().DisablePropOperation();
 
             Time.timeScale = 0f; // Stop the time scale
-            
+
             pausePage.SetActive(true); // Display the pause page
         }
 
@@ -150,8 +158,67 @@ namespace PlayMap {
             pacman.GetComponent<PacmanPropOperation>().EnablePropOperation();
 
             Time.timeScale = 1f; // Resume the time scale
-            
+
             pausePage.SetActive(false); // Close the pause page
+        }
+
+        /**
+         * The player wins the game.
+         * Called when all dots are eaten by the pacman.
+         */
+        public void Win() {
+            _gamePlaying = false;
+
+            // Disable pacman control
+            GameObject pacman = GameObject.FindGameObjectWithTag("Pacman");
+            pacman.GetComponent<PacmanMovement>().DisableMovement();
+            pacman.GetComponent<PacmanCamera>().DisableCameraOperation();
+            pacman.GetComponent<PacmanPropOperation>().DisablePropOperation();
+
+            Time.timeScale = 0f; // Stop the time scale
+
+            // Display win page
+            winPage.SetActive(true);
+            winPage.GetComponent<WinPage>().UpdateText();
+        }
+
+        /**
+         * The player loses the game.
+         * Called when a ghostron catches the pacman.
+         */
+        public void Lose() {
+            _gamePlaying = false;
+
+            // Disable pacman control
+            GameObject pacman = GameObject.FindGameObjectWithTag("Pacman");
+            pacman.GetComponent<PacmanMovement>().DisableMovement();
+            pacman.GetComponent<PacmanCamera>().DisableCameraOperation();
+            pacman.GetComponent<PacmanPropOperation>().DisablePropOperation();
+
+            Time.timeScale = 0f; // Stop the time scale
+
+            // Display lose page
+            losePage.SetActive(true);
+        }
+
+        /**
+         * Returns the difficulty of the current game.
+         */
+        public char GetDifficulty() {
+            return _difficulty;
+        }
+
+        /**
+         * Returns the elapsed time of the current game.
+         * Used by the game over win page to display the time used.
+         */
+        public float GetTime() {
+            // Warning if game is in progress
+            if (_gamePlaying) {
+                Debug.LogWarning("Game is still in progress but there is an attempt to obtain the game time!");
+            }
+
+            return _gameTimer;
         }
     }
 }

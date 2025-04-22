@@ -41,7 +41,8 @@ namespace PlayMap {
 
             if (_dots.Count == 0) {
                 Debug.Log("No dots left, player should win");
-                // TODO corresponding logic
+                // Make the player win
+                PlayMapController.Instance.Win();
             }
 
             // Dot eaten status resetting
