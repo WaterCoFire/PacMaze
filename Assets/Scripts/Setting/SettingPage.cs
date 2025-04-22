@@ -75,7 +75,7 @@ namespace Setting {
                         if (!CheckValidity(keyCode)) {
                             // Warn the player if not valid
                             Debug.LogWarning("Invalid key pressed: " + keyCode);
-                            promptText.text = "Invalid key! Only letters/numbers allowed.";
+                            promptText.text = "Invalid key! Only alphabetic keys allowed.";
                             promptText.gameObject.SetActive(true);
 
                             _isListening = false;
@@ -113,7 +113,7 @@ namespace Setting {
         public void InitUI() {
             // Update key binding information
             KeyBindingManager.LoadInfoFromFile();
-            
+
             // Key text update
             moveForwardKeyText.text = PlayerPrefs.GetString("ForwardKeyCode", "?");
             moveBackWardKeyText.text = PlayerPrefs.GetString("BackwardKeyCode", "?");
@@ -151,15 +151,14 @@ namespace Setting {
 
         /**
          * Checks for the validity of the new key code.
-         * (A-Z or 0-9)
+         * (A-Z)
          * Returns true if valid, false otherwise.
          */
         private bool CheckValidity(KeyCode newKeyCode) {
             promptText.text = "";
             promptText.gameObject.SetActive(false);
 
-            if ((newKeyCode >= KeyCode.Alpha0 && newKeyCode <= KeyCode.Alpha9) ||
-                (newKeyCode >= KeyCode.A && newKeyCode <= KeyCode.Z)) {
+            if (newKeyCode >= KeyCode.A && newKeyCode <= KeyCode.Z) {
                 return true;
             } else {
                 return false;
@@ -216,7 +215,7 @@ namespace Setting {
             switchViewSettingButton.onClick.AddListener(OnSwitchViewSettingButtonClick);
             useNiceBombSettingButton.onClick.AddListener(OnUseNiceBombSettingButtonClick);
             deployNiceBombSettingButton.onClick.AddListener(OnDeployNiceBombSettingButtonClick);
-            
+
             backButton.onClick.AddListener(OnBackButtonClick);
         }
 

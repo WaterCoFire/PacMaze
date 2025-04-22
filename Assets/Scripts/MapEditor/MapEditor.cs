@@ -250,7 +250,8 @@ namespace MapEditor {
             SaveMapToFile();
 
             // Load MainPage UI
-            SceneManager.LoadScene("LoadScene");
+            PlayerPrefs.SetInt("MainPageAt", 2);
+            SceneManager.LoadScene("MainPage");
         }
 
         // Operations after the close button of the warning panel is clicked
