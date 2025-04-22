@@ -1,3 +1,3 @@
 # PacMaze
 
-Welcome!
+Games Programming
