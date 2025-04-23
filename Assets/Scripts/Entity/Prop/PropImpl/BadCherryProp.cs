@@ -14,6 +14,9 @@ namespace Entity.Prop.PropImpl {
             Debug.Log("BAD CHERRY picked");
             // Spawn a new ghostron at random place
             GhostronManager.Instance.NewRandomGhostron();
+            
+            // Reduce 50 score points
+            PlayMapController.Instance.DeductScore(50);
         }
     }
 }

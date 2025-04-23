@@ -197,6 +197,9 @@ namespace Entity.Ghostron {
                 _animator.SetBool("Walk_Anim", false);
 
                 _isCaught = true; // Update status
+                
+                // Give the pacman 200 score points
+                PlayMapController.Instance.AddScore(200);
 
                 // After isCaught is updated:
                 // The Update() function keeps tracking if the "closing" animation of the ghostron is over or not

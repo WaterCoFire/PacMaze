@@ -59,6 +59,9 @@ namespace Entity.Dot {
 
             // Remove this dot in DotManager
             _dotManager.RemoveDot(_index);
+            
+            // Give the pacman 10 score points
+            PlayMapController.Instance.AddScore(10);
 
             // Destroy the game object of this dot
             // So that it disappears from the scene

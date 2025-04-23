@@ -6,6 +6,7 @@ using Entity.Pacman;
 using Newtonsoft.Json;
 using PlayMap.UI;
 using Setting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +20,7 @@ namespace PlayMap {
         private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
         private char _difficulty; // Difficulty of the current game
+        private int _currentScore; // Current game score
 
         private bool _gamePlaying; // Status telling if the game is currently in progress or not
 
@@ -26,6 +28,7 @@ namespace PlayMap {
         private float _gameTimer;
 
         // In-game UI
+        public TMP_Text scoreText; // Score text
         public GameObject pausePage; // Pause page
         public GameObject winPage; // Game over page: player wins
         public GameObject losePage; // Game over page: player loses
@@ -63,6 +66,10 @@ namespace PlayMap {
             Time.timeScale = 1f; // Reset time scale
             _gameTimer = 0f; // Reset timer
             _gamePlaying = true;
+            
+            // Reset score
+            _currentScore = 0;
+            scoreText.text = "Score: " + _currentScore;
         }
 
         /**
@@ -219,6 +226,51 @@ namespace PlayMap {
             }
 
             return _gameTimer;
+        }
+        
+        /**
+         * Returns the game score.
+         * Used by the game over win page to display the score.
+         */
+        public int GetScore() {
+            // Warning if game is in progress
+            if (_gamePlaying) {
+                Debug.LogWarning("Game is still in progress but there is an attempt to obtain the game score!");
+            }
+
+            return _currentScore;
+        }
+
+        /**
+         * Adds some score.
+         */
+        public void AddScore(int score) {
+            // Show error if game is NOT in progress
+            if (!_gamePlaying) {
+                Debug.LogError("Error: Game is NOT in progress but score is being added!");
+                return;
+            }
+
+            // Update score
+            _currentScore += score;
+            scoreText.text = "Score: " + _currentScore;
+        }
+        
+        /**
+         * Deducts some score.
+         */
+        public void DeductScore(int score) {
+            // Show error if game is NOT in progress
+            if (!_gamePlaying) {
+                Debug.LogError("Error: Game is NOT in progress but score is being added!");
+                return;
+            }
+
+            // Update score
+            _currentScore -= score;
+            // Cap the score to 0 if it is less than 0
+            if (_currentScore < 0) _currentScore = 0;
+            scoreText.text = "Score: " + _currentScore;
         }
     }
 }

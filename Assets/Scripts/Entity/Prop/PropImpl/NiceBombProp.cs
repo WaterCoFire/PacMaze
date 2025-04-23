@@ -1,4 +1,5 @@
 ﻿using Entity.Pacman;
+using PlayMap;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -19,6 +20,9 @@ namespace Entity.Prop.PropImpl {
             
             // Give the pacman one more bomb
             pacman.GetComponent<PacmanPropOperation>().GetNiceBomb();
+            
+            // Add 10 score points
+            PlayMapController.Instance.AddScore(10);
         }
     }
 }

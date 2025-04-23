@@ -1,4 +1,5 @@
 ﻿using Entity.Pacman;
+using PlayMap;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -15,6 +16,9 @@ namespace Entity.Prop.PropImpl {
             Debug.Log("FAST WHEEL picked");
             // Pacman now has faster speed
             pacman.GetComponent<PacmanMovement>().SetSpeedBuff(_fastSpeed);
+            
+            // Add 10 score points
+            PlayMapController.Instance.AddScore(10);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Entity.Pacman {
 
         // Nice bomb operation KeyCodes
         private KeyCode _useNiceBombKeyCode; // Use (default: E)
-        private KeyCode _deployNiceBombKeyCode; // deploy (default: F)
+        private KeyCode _deployNiceBombKeyCode; // Deploy (default: F)
 
         // UI elements
         private Button
@@ -118,6 +118,9 @@ namespace Entity.Pacman {
             // Update cooldown status
             _cooldownTimer = 0f;
             _onCooldown = true;
+            
+            // Give the pacman 50 score points
+            PlayMapController.Instance.AddScore(50);
 
             // UI update
             _cooldownPromptText.gameObject.SetActive(true);
@@ -148,6 +151,9 @@ namespace Entity.Pacman {
             // Update cooldown status
             _cooldownTimer = 0f;
             _onCooldown = true;
+            
+            // Give the pacman 200 score points
+            PlayMapController.Instance.AddScore(200);
 
             // UI update
             _cooldownPromptText.gameObject.SetActive(true);
