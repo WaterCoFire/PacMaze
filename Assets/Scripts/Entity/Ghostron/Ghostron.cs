@@ -84,19 +84,16 @@ namespace Entity.Ghostron {
             // Get the animator state info
             AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
 
-            // Caught teleport logic
+            // Caught logic
             if (_isCaught) {
                 if (stateInfo.IsName("anim_close")) {
+                    // Caught ghostron has finished the closing animation
                     if (stateInfo.normalizedTime >= 1f) {
-                        // Caught ghostron has finished the closing animation
                         Debug.Log("Caught ghostron finished closing animation.");
                         
                         // Let the ghostron play initializing animation there
                         _animator.SetBool("Open_Anim", true);
                         _animator.SetBool("Walk_Anim", true);
-                        
-                        // Status update
-                        SetScared(false);
                     }
                 }
             }
@@ -171,7 +168,7 @@ namespace Entity.Ghostron {
                 // Change back skin
                 SetOriginalMaterial();
                 // Change animator speed
-                // _animator.speed = _normalAnimationSpeed;
+                _animator.speed = _normalAnimationSpeed;
             }
         }
 
@@ -187,6 +184,7 @@ namespace Entity.Ghostron {
             if (_isScared) {
                 // The ghostron is scared currently
                 // This means that the ghostron is caught by the pacman
+                if (_isCaught) return; // No action if the ghostron is just caught
                 Debug.Log("Ghostron caught by Pacman!");
                 _agent.speed = 0f;
 
