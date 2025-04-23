@@ -72,9 +72,15 @@ namespace MainPage {
          * Checks if the name input is valid or not.
          */
         private bool CheckNameValidity(string nameInput) {
-            // Check name length
+            // Check name length: too long
             if (nameInput.Length > 15) {
                 warningText.text = "Pacman feels pressure because that's too long!";
+                return false;
+            }
+            
+            // Check name length: too short
+            if (nameInput.Length < 1) {
+                warningText.text = "Pacman feels empty, just like this name!";
                 return false;
             }
 

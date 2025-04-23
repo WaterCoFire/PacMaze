@@ -26,11 +26,35 @@ namespace Entity.Prop.DeployedProp {
          */
         private void GhostronHit() {
             Debug.Log("Ghostron hits the deployed bomb");
+            int ghostronsKilled = 0; // Count of how many ghostrons are killed, can be 1/2
+
             Vector3 bombPosition = gameObject.transform.position;
+
             // Kill this ghostron
-            GhostronManager.Instance.KillNearestGhostron(bombPosition);
+            if (GhostronManager.Instance.KillNearestGhostron(bombPosition)) {
+                ghostronsKilled++;
+            }
+
             // Kill another ghostron which is nearest to this bomb
-            GhostronManager.Instance.KillNearestGhostron(bombPosition);
+            if (GhostronManager.Instance.KillNearestGhostron(bombPosition)) {
+                ghostronsKilled++;
+            }
+
+            switch (ghostronsKilled) {
+                case 1:
+                    // Only one ghostron killed
+                    // Give the pacman 200 score points
+                    PlayMapController.Instance.AddScore(200);
+                    break;
+                case 2:
+                    // Two ghostrons killed
+                    // Give the pacman 500 score points
+                    PlayMapController.Instance.AddScore(500);
+                    break;
+                default:
+                    Debug.LogError("Unexpected amount of ghostrons killed by deployed bomb: " + ghostronsKilled);
+                    break;
+            }
         }
     }
 }

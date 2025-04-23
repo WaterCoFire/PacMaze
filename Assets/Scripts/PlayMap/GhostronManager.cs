@@ -124,10 +124,15 @@ namespace PlayMap {
          * - DEPLOYED & HIT:
          * Obtain the two nearest ghostron to the deployed bomb and kill them
          * (which means the ghostron hitting the deployed bomb & another nearest ghostron)
+         *
+         * RETURNS:
+         * - true if a ghostron is successfully killed
+         * - false otherwise (when there is no ghostron left / unexpected things happen)
          */
-        public void KillNearestGhostron(Vector3 position) {
-            if (_ghostrons == null || _ghostrons.Count == 0) {
+        public bool KillNearestGhostron(Vector3 position) {
+            if (_ghostrons.Count == 0) {
                 Debug.LogWarning("Killing the nearest ghostron: NO GHOSTRON LEFT!");
+                return false;
             }
 
             GameObject nearest = null;
@@ -147,7 +152,11 @@ namespace PlayMap {
                 _ghostrons.Remove(nearest);
                 Destroy(nearest);
                 Debug.Log("Nearest ghostron destroyed!");
+                return true;
             }
+            
+            Debug.LogError("An error occurred when killing the nearest ghostron! (nearest = null)");
+            return false;
         }
 
         /**

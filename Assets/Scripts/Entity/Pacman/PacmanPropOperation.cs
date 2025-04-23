@@ -113,14 +113,14 @@ namespace Entity.Pacman {
             _niceBombs--;
 
             // Kill the ghostron nearest to the pacman
-            GhostronManager.Instance.KillNearestGhostron(gameObject.transform.position);
+            if (GhostronManager.Instance.KillNearestGhostron(gameObject.transform.position)) {
+                // Give the pacman 200 score points if killing is successful
+                PlayMapController.Instance.AddScore(200);
+            }
 
             // Update cooldown status
             _cooldownTimer = 0f;
             _onCooldown = true;
-            
-            // Give the pacman 50 score points
-            PlayMapController.Instance.AddScore(50);
 
             // UI update
             _cooldownPromptText.gameObject.SetActive(true);
@@ -151,9 +151,6 @@ namespace Entity.Pacman {
             // Update cooldown status
             _cooldownTimer = 0f;
             _onCooldown = true;
-            
-            // Give the pacman 200 score points
-            PlayMapController.Instance.AddScore(200);
 
             // UI update
             _cooldownPromptText.gameObject.SetActive(true);
