@@ -16,11 +16,13 @@ namespace MainPage {
         public GameObject playMapsPage; // Play maps view page
         public GameObject editMapsPage; // Edit maps view page
         public GameObject settingPage; // Key binding setting page
+        public GameObject creditsPage; // Credits page
 
         /* Buttons */
         public Button playButton;
         public Button editMapsButton;
         public Button settingButton;
+        public Button creditsButton;
         public Button quitGameButton;
 
         // START FUNCTION
@@ -62,6 +64,7 @@ namespace MainPage {
             playButton.onClick.AddListener(OnPlayButtonClick);
             editMapsButton.onClick.AddListener(OnEditMapsButtonClick);
             settingButton.onClick.AddListener(OnSettingButtonClick);
+            creditsButton.onClick.AddListener(OnCreditsButtonClick);
             quitGameButton.onClick.AddListener(OnQuitButtonClick);
         }
 
@@ -98,6 +101,15 @@ namespace MainPage {
             // Open setting page
             settingPage.SetActive(true);
             settingPage.GetComponent<SettingPage>().InitUI();
+        }
+        
+        // Credits button
+        private void OnCreditsButtonClick() {
+            // Close this home page
+            homePage.SetActive(false);
+
+            // Open credits page
+            creditsPage.SetActive(true);
         }
 
         // Quit game button
