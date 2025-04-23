@@ -15607,6 +15607,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlueGhostron
       objectReference: {fileID: 0}
+    - target: {fileID: 8152409030748813943, guid: 49c03c3629f7ecc46a369f8401a5e96a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -27298,6 +27303,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pacman
       objectReference: {fileID: 0}
+    - target: {fileID: 4887355432709199903, guid: 73f1374fff6298c4185294c79dfbd947,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -38563,6 +38573,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DeployedNiceBomb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4554726331056008436, guid: 8832f3c47c9c1e84f9c416e692cca349,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9076800972568151827, guid: 8832f3c47c9c1e84f9c416e692cca349,
         type: 3}
