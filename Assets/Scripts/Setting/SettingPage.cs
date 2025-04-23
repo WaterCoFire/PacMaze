@@ -24,6 +24,7 @@ namespace Setting {
         public TMP_Text moveRightwardKeyText;
         public TMP_Text turnBackKeyText;
         public TMP_Text switchViewKeyText;
+        public TMP_Text openMapKeyText;
         public TMP_Text useNiceBombKeyText;
         public TMP_Text deployNiceBombKeyText;
 
@@ -34,6 +35,7 @@ namespace Setting {
         public Button moveRightwardSettingButton;
         public Button turnBackSettingButton;
         public Button switchViewSettingButton;
+        public Button openMapSettingButton;
         public Button useNiceBombSettingButton;
         public Button deployNiceBombSettingButton;
 
@@ -42,7 +44,7 @@ namespace Setting {
 
         private List<Button> _settingButtons = new();
         private bool _isListening; // Listening status
-        private int _listeningIndex; // 1-8, indicating which operations are being set
+        private int _listeningIndex; // 1-9, indicating which operations are being set
 
         // START FUNCTION
         private void Start() {
@@ -53,6 +55,7 @@ namespace Setting {
             _settingButtons.Add(moveRightwardSettingButton);
             _settingButtons.Add(turnBackSettingButton);
             _settingButtons.Add(switchViewSettingButton);
+            _settingButtons.Add(openMapSettingButton);
             _settingButtons.Add(useNiceBombSettingButton);
             _settingButtons.Add(deployNiceBombSettingButton);
 
@@ -121,6 +124,7 @@ namespace Setting {
             moveRightwardKeyText.text = PlayerPrefs.GetString("RightwardKeyCode", "?");
             turnBackKeyText.text = PlayerPrefs.GetString("TurnBackKeyCode", "?");
             switchViewKeyText.text = PlayerPrefs.GetString("SwitchViewKeyCode", "?");
+            openMapKeyText.text = PlayerPrefs.GetString("OpenMapKeyCode", "?");
             useNiceBombKeyText.text = PlayerPrefs.GetString("UseNiceBombKeyCode", "?");
             deployNiceBombKeyText.text = PlayerPrefs.GetString("DeployNiceBombKeyCode", "?");
 
@@ -138,7 +142,7 @@ namespace Setting {
             // All keys in player preferences
             string[] keys = {
                 "ForwardKeyCode", "BackwardKeyCode", "LeftwardKeyCode", "RightwardKeyCode", "TurnBackKeyCode",
-                "SwitchViewKeyCode", "UseNiceBombKeyCode", "DeployNiceBombKeyCode"
+                "SwitchViewKeyCode", "OpenMapKeyCode", "UseNiceBombKeyCode", "DeployNiceBombKeyCode"
             };
 
             // Get the corresponding key and set the key code
@@ -173,7 +177,7 @@ namespace Setting {
             // All keys in player preferences
             string[] keys = {
                 "ForwardKeyCode", "BackwardKeyCode", "LeftwardKeyCode", "RightwardKeyCode", "TurnBackKeyCode",
-                "SwitchViewKeyCode", "UseNiceBombKeyCode", "DeployNiceBombKeyCode"
+                "SwitchViewKeyCode", "OpenMapKeyCode", "UseNiceBombKeyCode", "DeployNiceBombKeyCode"
             };
 
             // Check all the key codes for conflict
@@ -213,6 +217,7 @@ namespace Setting {
             moveRightwardSettingButton.onClick.AddListener(OnMoveRightwardSettingButtonClick);
             turnBackSettingButton.onClick.AddListener(OnTurnBackSettingButtonClick);
             switchViewSettingButton.onClick.AddListener(OnSwitchViewSettingButtonClick);
+            openMapSettingButton.onClick.AddListener(OnOpenMapSettingButtonClick);
             useNiceBombSettingButton.onClick.AddListener(OnUseNiceBombSettingButtonClick);
             deployNiceBombSettingButton.onClick.AddListener(OnDeployNiceBombSettingButtonClick);
 
@@ -292,11 +297,23 @@ namespace Setting {
             switchViewSettingButton.GetComponentInChildren<TMP_Text>().text = "Listening";
         }
 
+        // Open map setting button
+        private void OnOpenMapSettingButtonClick() {
+            if (_isListening) return;
+            _isListening = true;
+            _listeningIndex = 7;
+
+            // Disable all the buttons except this one
+            DisableAllButtons();
+            openMapSettingButton.interactable = true;
+            openMapSettingButton.GetComponentInChildren<TMP_Text>().text = "Listening";
+        }
+
         // Use nice bomb setting button
         private void OnUseNiceBombSettingButtonClick() {
             if (_isListening) return;
             _isListening = true;
-            _listeningIndex = 7;
+            _listeningIndex = 8;
 
             // Disable all the buttons except this one
             DisableAllButtons();
@@ -308,7 +325,7 @@ namespace Setting {
         private void OnDeployNiceBombSettingButtonClick() {
             if (_isListening) return;
             _isListening = true;
-            _listeningIndex = 8;
+            _listeningIndex = 9;
 
             // Disable all the buttons except this one
             DisableAllButtons();

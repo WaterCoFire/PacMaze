@@ -1,4 +1,5 @@
 ﻿using System;
+using Setting;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,8 +15,7 @@ namespace MainPage {
 
         public GameObject playMapsPage; // Play maps view page
         public GameObject editMapsPage; // Edit maps view page
-
-        // public GameObject settingPage; // Setting page
+        public GameObject settingPage; // Key binding setting page
 
         /* Buttons */
         public Button playButton;
@@ -96,7 +96,8 @@ namespace MainPage {
             homePage.SetActive(false);
 
             // Open setting page
-            // settingPage.SetActive(true);
+            settingPage.SetActive(true);
+            settingPage.GetComponent<SettingPage>().InitUI();
         }
 
         // Quit game button

@@ -21,6 +21,7 @@ namespace Setting {
                 RightwardKeyCode = PlayerPrefs.GetString("RightwardKeyCode", "D"),
                 TurnBackKeyCode = PlayerPrefs.GetString("TurnBackKeyCode", "Q"),
                 SwitchViewKeyCode = PlayerPrefs.GetString("SwitchViewKeyCode", "V"),
+                OpenMapKeyCode = PlayerPrefs.GetString("OpenMapKeyCode", "M"),
                 UseNiceBombKeyCode = PlayerPrefs.GetString("UseNiceBombKeyCode", "E"),
                 DeployNiceBombKeyCode = PlayerPrefs.GetString("DeployNiceBombKeyCode", "F")
             };
@@ -50,6 +51,7 @@ namespace Setting {
                 PlayerPrefs.SetString("RightwardKeyCode", keyBindings.RightwardKeyCode);
                 PlayerPrefs.SetString("TurnBackKeyCode", keyBindings.TurnBackKeyCode);
                 PlayerPrefs.SetString("SwitchViewKeyCode", keyBindings.SwitchViewKeyCode);
+                PlayerPrefs.SetString("OpenMapKeyCode", keyBindings.OpenMapKeyCode);
                 PlayerPrefs.SetString("UseNiceBombKeyCode", keyBindings.UseNiceBombKeyCode);
                 PlayerPrefs.SetString("DeployNiceBombKeyCode", keyBindings.DeployNiceBombKeyCode);
 

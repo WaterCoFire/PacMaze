@@ -10,6 +10,7 @@
         public string RightwardKeyCode;
         public string TurnBackKeyCode;
         public string SwitchViewKeyCode;
+        public string OpenMapKeyCode;
         public string UseNiceBombKeyCode;
         public string DeployNiceBombKeyCode;
     }

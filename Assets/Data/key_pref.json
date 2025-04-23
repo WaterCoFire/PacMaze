@@ -5,6 +5,7 @@
     "RightwardKeyCode": "D",
     "TurnBackKeyCode": "Q",
     "SwitchViewKeyCode": "V",
+    "OpenMapKeyCode": "M",
     "UseNiceBombKeyCode": "E",
     "DeployNiceBombKeyCode": "F"
 }
