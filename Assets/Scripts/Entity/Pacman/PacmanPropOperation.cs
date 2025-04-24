@@ -23,7 +23,7 @@ namespace Entity.Pacman {
         private int _niceBombs;
 
         private bool _onCooldown; // Status indicating if a prop is just being used
-        private readonly float _cooldownDuration = 5.0f; // The duration between two consecutive use/deployment, 3 secs
+        private readonly float _cooldownDuration = 5.0f; // The duration between two consecutive use/deployment, 5 secs
         private float _cooldownTimer; // Cooldown timer
 
         // Nice bomb operation KeyCodes
@@ -39,7 +39,7 @@ namespace Entity.Pacman {
         private TMP_Text _useNiceBombKeyPrompt; // Prompt indicating which key to press to use the nice bomb
         private TMP_Text _deployNiceBombKeyPrompt; // Prompt indicating which key to press to deploy the nice bomb
 
-        // Disabled when game is not in normal process (e.g., paused)
+        // Disabled when game is not in normal process (e.g. paused)
         private bool _controllable;
 
         // START FUNCTION

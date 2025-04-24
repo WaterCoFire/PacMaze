@@ -58,10 +58,7 @@ namespace MapEditor {
                 Directory.CreateDirectory(_saveDirectory);
 
             SetButtonActionListener();
-
-            // TODO TEST ONLY
-            // PlayerPrefs.SetString("EditMapFileToLoad", "ABC123_5_E");
-            LoadMap();
+            LoadMap(); // Load the map to be edited
         }
 
         /**
