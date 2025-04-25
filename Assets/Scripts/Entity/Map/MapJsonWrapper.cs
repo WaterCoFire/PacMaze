@@ -7,9 +7,6 @@ namespace Entity.Map {
     [System.Serializable]
     public class MapJsonWrapper {
         public string name;
-        public bool played;
-        public string lastPlayedDateTime;
-        public string fastestTime;
         public char difficulty;
 
         public List<Vector3> propPositions;
@@ -46,9 +43,6 @@ namespace Entity.Map {
 
         public MapJsonWrapper(Map map) {
             name = map.Name;
-            played = map.Played;
-            lastPlayedDateTime = map.LastPlayedDateTime.ToString();
-            // fastestTime = map.FastestTime.ToString();
             difficulty = map.Difficulty;
 
             propPositions = new List<Vector3>();

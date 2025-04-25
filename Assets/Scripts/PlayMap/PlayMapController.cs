@@ -151,6 +151,7 @@ namespace PlayMap {
             pacman.GetComponent<PacmanPropOperation>().DisablePropOperation();
 
             Time.timeScale = 0f; // Stop the time scale
+            _gamePlaying = false;
 
             pausePage.SetActive(true); // Display the pause page
         }
@@ -165,6 +166,7 @@ namespace PlayMap {
             pacman.GetComponent<PacmanPropOperation>().EnablePropOperation();
 
             Time.timeScale = 1f; // Resume the time scale
+            _gamePlaying = true;
 
             pausePage.SetActive(false); // Close the pause page
         }

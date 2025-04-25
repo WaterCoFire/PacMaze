@@ -7,11 +7,6 @@ namespace Entity.Map {
         // Basic information
         public String Name;
         public char Difficulty;
-        public DateTime LastPlayedDateTime;
-        
-        // public Time FastestTime;
-
-        public bool Played;
 
         // Information from map editor
         public PropData PropData;
@@ -22,9 +17,6 @@ namespace Entity.Map {
             Difficulty = difficulty;
             WallData = wallData;
             PropData = propData;
-
-            Played = false;
-            LastPlayedDateTime = DateTime.Now;
         }
     }
 }
