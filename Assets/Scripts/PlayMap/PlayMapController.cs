@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
 using Entity.Pacman;
@@ -8,7 +7,6 @@ using PlayMap.UI;
 using Setting;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace PlayMap {
     /**
@@ -82,20 +80,20 @@ namespace PlayMap {
          * - Generates dots for all the spare tiles
          * - Generates the pacman
          */
-        private bool InitMap(string mapFileName) {
+        private void InitMap(string mapFileName) {
             // Parse the map file name
             Match match = _regex.Match(mapFileName);
 
             if (!match.Success) {
                 Debug.LogError("File match error when loading map file to play! File name: " + mapFileName);
-                return false;
+                return;
             }
 
             // Obtain the file path
             string path = Path.Combine(_saveDirectory, mapFileName + ".json");
             if (!File.Exists(path)) {
                 Debug.LogError("Load map to play error: File not found!");
-                return false;
+                return;
             }
 
             // Read the file
@@ -122,8 +120,6 @@ namespace PlayMap {
 
             // Update operation key binding info
             KeyBindingManager.LoadInfoFromFile();
-
-            return true;
         }
 
         // UPDATE FUNCTION

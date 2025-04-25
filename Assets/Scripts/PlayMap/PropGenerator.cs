@@ -33,10 +33,6 @@ namespace PlayMap {
         // Pacman game object (used for setting the chase target of all the ghostrons)
         private GameObject _pacmanGameObject;
 
-        // DotManager component
-        // As it is a frequently used component, declare it here could save some time
-        public DotManager dotManager;
-
         /**
          * Places all the FIXED props (including pacman, fixed ghostrons) on the map.
          * Randomly places all the RANDOM props (including ghostrons) on the map.
@@ -107,7 +103,7 @@ namespace PlayMap {
             // Place dots at all the remaining free tile
             foreach (var freeTile in _freeTiles) {
                 GameObject newDot = Instantiate(dotPrefab, freeTile, Quaternion.identity);
-                dotManager.AddDot(newDot); // Add to the dot manager
+                DotManager.Instance.AddDot(newDot); // Add to the dot manager
             }
 
             // Set the pacman target for all the ghostrons

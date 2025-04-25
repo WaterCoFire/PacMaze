@@ -15,8 +15,8 @@ namespace MapEditor {
         // Normal color 8C79FF
         // Highlight color 634AFC
         // Selected color E4FF49
-        private Color _normalColor = new Color(140f / 255f, 121f / 255f, 255f / 255f);
-        private Color _selectedColor = new Color(228f / 255f, 255f / 255f, 73f / 255f);
+        private readonly Color _normalColor = new Color(140f / 255f, 121f / 255f, 255f / 255f);
+        private readonly Color _selectedColor = new Color(228f / 255f, 255f / 255f, 73f / 255f);
 
         public Button wallModeButton; // Editing wall mode
         public Button propModeButton; // Editing prop mode
@@ -42,8 +42,8 @@ namespace MapEditor {
         private string _mapName;
 
         // Map data save directory
-        private string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
-        private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
+        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
         // Prompt Text
         // Default: Click to select what you need to edit!
@@ -64,7 +64,7 @@ namespace MapEditor {
         /**
          * Saves the map data to .json file.
          */
-        private bool SaveMapToFile() {
+        private void SaveMapToFile() {
             WallData wallData = gameObject.GetComponent<WallEditor>().GetWallData();
             PropData propData = gameObject.GetComponent<PropEditor>().GetPropData();
             char difficulty = gameObject.GetComponent<DifficultyEditor>().GetDifficultyData();
@@ -80,7 +80,6 @@ namespace MapEditor {
             string originMapFile = _saveDirectory + "/" + PlayerPrefs.GetString("EditMapFileToLoad") + ".json";
             if (!File.Exists(originMapFile)) {
                 Debug.LogError("Map Editor save error: Origin map file not found!");
-                return false;
             }
             
             // Delete the origin file
@@ -91,14 +90,12 @@ namespace MapEditor {
             File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + difficulty + ".json"),
                 json);
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
-
-            return true;
         }
 
         /**
          * Loads the map data from the file. Used when the player enters the map editor.
          */
-        private bool LoadMap() {
+        private void LoadMap() {
             // Read from player preferences
             string mapFileName = PlayerPrefs.GetString("EditMapFileToLoad", "");
 
@@ -106,7 +103,7 @@ namespace MapEditor {
 
             if (!match.Success) {
                 Debug.LogError("File match error when loading map file! File name: " + mapFileName);
-                return false;
+                return;
             }
 
             // Set map name and difficulty
@@ -133,11 +130,8 @@ namespace MapEditor {
                 gameObject.GetComponent<PropEditor>().SetPropData(new PropData(wrapper.PropPositions(),
                     wrapper.FixedPropCounts, wrapper.TotalPropCounts));
                 Debug.Log("All set");
-
-                return true;
             } else {
                 Debug.LogError("Load map error: File not found!");
-                return false;
             }
         }
 

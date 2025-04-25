@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Entity.Ghostron;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -35,7 +33,6 @@ namespace PlayMap {
 
         // Pacman object setting
         private GameObject _pacman;
-        // private bool _pacmanSet;
 
         // Singleton instance
         public static GhostronManager Instance { get; private set; }
@@ -49,7 +46,6 @@ namespace PlayMap {
 
         // START FUNCTION
         private void Start() {
-            // _pacmanSet = false;
             Debug.Log("GhostronManager START");
         }
 
@@ -73,7 +69,7 @@ namespace PlayMap {
         /**
          * Add a new ghostron information.
          */
-        public bool AddGhostron(GameObject newGhostron) {
+        public void AddGhostron(GameObject newGhostron) {
             // Set the params of the ghostron according to difficulty
             switch (_difficulty) {
                 case 'E':
@@ -97,12 +93,11 @@ namespace PlayMap {
                 default:
                     // INVALID DIFFICULTY - PROMPT ERROR
                     Debug.LogError("Invalid difficulty when adding ghostron information: " + _difficulty);
-                    return false;
+                    return;
             }
 
             // Add to the ghostron list
             _ghostrons.Add(newGhostron);
-            return true;
         }
 
         /**
