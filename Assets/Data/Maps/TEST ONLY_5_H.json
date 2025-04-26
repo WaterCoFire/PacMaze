@@ -1,18 +1,27 @@
 {
-    "name": "VERY HARD",
-    "played": false,
-    "lastPlayedDateTime": "23/04/2025 15:27:01",
-    "fastestTime": "",
-    "difficulty": 78,
+    "name": "TEST ONLY",
+    "difficulty": 72,
     "propPositions": [
         {
             "x": 0.0,
             "y": 0.0,
             "z": -9.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -3.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
         }
     ],
     "propTypes": [
-        "PacmanSpawn(Clone)"
+        "PacmanSpawn(Clone)",
+        "GhostronSpawn(Clone)",
+        "GhostronSpawn(Clone)"
     ],
     "fixedPropKeys": [
         "PacmanSpawn",
@@ -26,7 +35,7 @@
     ],
     "fixedPropValues": [
         1,
-        0,
+        2,
         0,
         0,
         0,
@@ -45,12 +54,12 @@
     ],
     "totalPropValues": [
         5,
-        2,
         5,
-        0,
-        0,
-        0,
-        0
+        5,
+        5,
+        5,
+        5,
+        5
     ],
     "hwStatusRow1": [
         false,

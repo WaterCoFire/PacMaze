@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MainPage {
+namespace HomePage {
     public class EditMapRenameWindow : MonoBehaviour {
         public GameObject editMapViewWindow;
 

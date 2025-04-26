@@ -22,7 +22,7 @@ namespace PlayMap.UI {
         private void OnHomePageButtonClick() {
             // Back to play map view
             PlayerPrefs.SetInt("MainPageAt", 1);
-            SceneManager.LoadScene("MainPage");
+            SceneManager.LoadScene("HomePage");
 
             // Close this page
             gameObject.SetActive(false);

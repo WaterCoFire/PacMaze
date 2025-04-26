@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayMap;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Entity.Pacman {
@@ -12,9 +13,13 @@ namespace Entity.Pacman {
         // The camera game object
         private Camera _camera;
 
-        // Key code for camera operation (B & V by default, they can be customized in Setting)
+        // The mini map panel on the top right
+        private GameObject _mapPanel;
+
+        // Key code for camera operation (B/V/M by default, they can be customized in Setting)
         private KeyCode _turnBackKeyCode;
         private KeyCode _switchViewKeyCode;
+        private KeyCode _openMapKeyCode;
 
         // Status indicating if the pacman camera is controllable
         private bool _controllable;
@@ -51,6 +56,7 @@ namespace Entity.Pacman {
             // Get the keycode set for look back & switch view operations
             _turnBackKeyCode = GetKeyCode("TurnBackKeyCode", KeyCode.Q);
             _switchViewKeyCode = GetKeyCode("SwitchViewKeyCode", KeyCode.V);
+            _openMapKeyCode = GetKeyCode("OpenMapKeyCode", KeyCode.M);
 
             _currentOffset = _thirdPersonOffset;
             _camera.transform.localPosition = _currentOffset;
@@ -58,6 +64,10 @@ namespace Entity.Pacman {
 
             _controllable = true;
             _inThirdPersonView = true;
+            
+            // By default, the map is not displayed
+            _mapPanel = GameObject.Find("MapPanel");
+            _mapPanel.SetActive(false);
 
             _yaw = transform.eulerAngles.y;
         }
@@ -125,6 +135,25 @@ namespace Entity.Pacman {
                 // Instantly turn the camera around
                 _yaw += 180f;
             }
+            
+            // Map logic
+            // Open/Close the map
+            if (Input.GetKeyDown(_openMapKeyCode)) {
+                SetMapView(!_mapPanel.activeSelf);
+            }
+        }
+
+        /**
+         * Sets the open/close status of the map in game.
+         */
+        private void SetMapView(bool open) {
+            // Operation is not allowed in hard mode
+            if (PlayMapController.Instance.GetDifficulty() == 'H') {
+                Debug.LogWarning("Map cannot be shown in hard mode.");
+                return;
+            }
+            
+            _mapPanel.SetActive(open); // Display/Hide the map camera
         }
 
         /**

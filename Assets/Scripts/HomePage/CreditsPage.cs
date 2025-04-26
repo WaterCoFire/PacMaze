@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MainPage {
+namespace HomePage {
     /**
      * Manages the credits page of the game.
      */

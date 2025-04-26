@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-namespace MainPage {
+namespace HomePage {
     public class EditMapView : MonoBehaviour {
         public ScrollRect editMapScrollRect;
         public GameObject mapInfoPrefab;

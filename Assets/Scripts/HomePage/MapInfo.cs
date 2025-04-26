@@ -1,4 +1,4 @@
-﻿namespace MainPage {
+﻿namespace HomePage {
     /**
      * The struct used for map view function.
      * Displays: the name of the map, how many ghostrons are there in total

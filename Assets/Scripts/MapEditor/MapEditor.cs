@@ -208,8 +208,8 @@ namespace MapEditor {
         private void OnQuitButtonClick() {
             InitUI(_mapName); // Reset this UI as it is being closed
 
-            // Load MainPage UI
-            SceneManager.LoadScene("MainPage");
+            // Load HomePage UI
+            SceneManager.LoadScene("HomePage");
         }
 
         // Save & Quit button operation
@@ -240,9 +240,9 @@ namespace MapEditor {
             // Save map logic
             SaveMapToFile();
 
-            // Load MainPage UI
+            // Load HomePage UI
             PlayerPrefs.SetInt("MainPageAt", 2);
-            SceneManager.LoadScene("MainPage");
+            SceneManager.LoadScene("HomePage");
         }
 
         // Operations after the close button of the warning panel is clicked

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MainPage {
+namespace HomePage {
     /**
      * The home page.
      * Buttons: Play, Edit Maps, Setting, Quit Game

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MainPage {
+namespace HomePage {
     public class EditMapCreateWindow : MonoBehaviour {
         public GameObject editMapViewWindow;
 

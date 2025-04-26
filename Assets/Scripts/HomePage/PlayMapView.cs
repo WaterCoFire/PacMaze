@@ -9,7 +9,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
-namespace MainPage {
+namespace HomePage {
     public class PlayMapView : MonoBehaviour {
         public ScrollRect playMapScrollRect;
 
