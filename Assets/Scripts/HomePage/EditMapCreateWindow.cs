@@ -45,7 +45,7 @@ namespace HomePage {
             // Transform to upper letters
             newNameInput = newNameInput.ToUpper();
             
-            editMapViewWindow.GetComponent<EditMapView>().CreateMap(newNameInput);
+            editMapViewWindow.GetComponent<EditMapPage>().CreateMap(newNameInput);
             
             // Close create window
             createWindow.SetActive(false);
@@ -95,7 +95,7 @@ namespace HomePage {
             }
             
             // Name conflict
-            if (editMapViewWindow.GetComponent<EditMapView>().CheckNameConflict(nameInput.ToUpper())) {
+            if (editMapViewWindow.GetComponent<EditMapPage>().CheckNameConflict(nameInput.ToUpper())) {
                 warningText.text = "Pacman is confused because there is another map named this!";
                 return false;
             }

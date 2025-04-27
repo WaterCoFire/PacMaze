@@ -10264,7 +10264,7 @@ GameObject:
   - component: {fileID: 975596502}
   - component: {fileID: 975596503}
   m_Layer: 5
-  m_Name: PlayMapView
+  m_Name: PlayMapPage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15780,7 +15780,7 @@ GameObject:
   - component: {fileID: 1622098653}
   - component: {fileID: 1622098652}
   m_Layer: 5
-  m_Name: EditMapView
+  m_Name: EditMapPage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

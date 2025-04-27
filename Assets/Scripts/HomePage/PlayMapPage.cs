@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace HomePage {
-    public class PlayMapView : MonoBehaviour {
+    public class PlayMapPage : MonoBehaviour {
         public ScrollRect playMapScrollRect;
 
         public GameObject mapInfoPrefab;
@@ -43,7 +43,7 @@ namespace HomePage {
         private Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
 
         private void Start() {
-            Debug.Log("PlayMapView START");
+            Debug.Log("PlayMapPage START");
 
             SetButtonActionListener();
 

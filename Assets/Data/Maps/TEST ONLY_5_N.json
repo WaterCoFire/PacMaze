@@ -1,6 +1,6 @@
 {
     "name": "TEST ONLY",
-    "difficulty": 72,
+    "difficulty": 78,
     "propPositions": [
         {
             "x": 0.0,
@@ -16,10 +16,16 @@
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
+        },
+        {
+            "x": 12.0,
+            "y": 0.0,
+            "z": -9.0
         }
     ],
     "propTypes": [
         "PacmanSpawn(Clone)",
+        "GhostronSpawn(Clone)",
         "GhostronSpawn(Clone)",
         "GhostronSpawn(Clone)"
     ],
@@ -35,7 +41,7 @@
     ],
     "fixedPropValues": [
         1,
-        2,
+        3,
         0,
         0,
         0,

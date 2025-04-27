@@ -40,6 +40,9 @@ namespace Entity.Ghostron {
         private readonly float _scaredDuration = 6.0f; // Duration of the "scared" effect of ghostrons
         private bool _isCaught; // Status indicating if the pacman has caught the ghostron when it is scared
 
+        private readonly float
+            _scaredWarningTime = 2.0f; // The time before the scared state ends to start warning (in secs)
+
         // The original material of the ghostron (the normal color)
         public Material originalMaterial;
 
@@ -74,7 +77,7 @@ namespace Entity.Ghostron {
 
             // Bind the animator
             _animator = gameObject.GetComponent<Animator>();
-            
+
             // Set to the original material
             SetOriginalMaterial();
         }
@@ -90,7 +93,7 @@ namespace Entity.Ghostron {
                     // Caught ghostron has finished the closing animation
                     if (stateInfo.normalizedTime >= 1f) {
                         Debug.Log("Caught ghostron finished closing animation.");
-                        
+
                         // Let the ghostron play initializing animation there
                         _animator.SetBool("Open_Anim", true);
                         _animator.SetBool("Walk_Anim", true);
@@ -139,6 +142,16 @@ namespace Entity.Ghostron {
             if (_isScared) {
                 _scaredTimer += Time.deltaTime;
 
+                // Check if the scared ghostron is in the last two seconds of the scared state
+                if (_scaredTimer >= _scaredDuration - _scaredWarningTime) {
+                    // Warning player about scared status ending soon
+                    if (_scaredTimer < _scaredDuration) {
+                        Debug.LogWarning("Warning: Ghostron scared state will end soon!");
+                        // Make the skin swap between normal and scared materials
+                        SetRandomMaterialDuringScared();
+                    }
+                }
+
                 // If the timer reaches the scared duration time, stop being scared
                 if (_scaredTimer >= _scaredDuration) {
                     SetScared(false);
@@ -173,6 +186,23 @@ namespace Entity.Ghostron {
         }
 
         /**
+         * Randomly switch the materials between original and scared materials
+         * during the last 2 seconds of the scared state.
+         */
+        private void SetRandomMaterialDuringScared() {
+            if (!_isScared || _isCaught) {
+                Debug.LogError("Ghostron is not scared / already caught but random skin setting function called.");
+            }
+
+            if (_scaredTimer % 0.5f < 0.25f) {
+                // Alternating the material every 0.25 seconds
+                SetOriginalMaterial();
+            } else {
+                SetScaredMaterial();
+            }
+        }
+
+        /**
          * Unity event: When ghostron collides with another game object
          * Only pacman is cared here
          */
@@ -195,7 +225,7 @@ namespace Entity.Ghostron {
                 _animator.SetBool("Walk_Anim", false);
 
                 _isCaught = true; // Update status
-                
+
                 // Give the pacman 200 score points
                 PlayMapController.Instance.AddScore(200);
 
@@ -285,16 +315,16 @@ namespace Entity.Ghostron {
                 Debug.LogError("Error: Original/Scared material not properly set!");
                 return;
             }
-            
+
             // Get all MeshRenderers in children
             MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>(true);
-            
+
             // Change all the original materials in all MeshRenderers to scared ones
             foreach (MeshRenderer renderer in renderers) {
                 Material[] currentMats = renderer.sharedMaterials;
                 bool hasChange = false;
                 Material[] newMats = new Material[currentMats.Length];
-            
+
                 for (int i = 0; i < currentMats.Length; i++) {
                     if (currentMats[i] == originalMaterial) {
                         newMats[i] = scaredMaterial;
@@ -303,13 +333,13 @@ namespace Entity.Ghostron {
                         newMats[i] = currentMats[i];
                     }
                 }
-            
+
                 if (hasChange) {
                     renderer.sharedMaterials = newMats;
                 }
             }
         }
-        
+
         /**
          * Change the "skin" of the ghostron back to the original one.
          */
@@ -319,16 +349,16 @@ namespace Entity.Ghostron {
                 Debug.LogError("Error: Original/Scared material not properly set!");
                 return;
             }
-            
+
             // Get all MeshRenderers in children
             MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>(true);
-            
+
             // Change all the scared materials in all MeshRenderers to original ones
             foreach (MeshRenderer renderer in renderers) {
                 Material[] currentMats = renderer.sharedMaterials;
                 bool hasChange = false;
                 Material[] newMats = new Material[currentMats.Length];
-            
+
                 for (int i = 0; i < currentMats.Length; i++) {
                     if (currentMats[i] == scaredMaterial) {
                         newMats[i] = originalMaterial;
@@ -337,7 +367,7 @@ namespace Entity.Ghostron {
                         newMats[i] = currentMats[i];
                     }
                 }
-            
+
                 if (hasChange) {
                     renderer.sharedMaterials = newMats;
                 }

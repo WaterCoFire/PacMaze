@@ -9,7 +9,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 namespace HomePage {
-    public class EditMapView : MonoBehaviour {
+    public class EditMapPage : MonoBehaviour {
         public ScrollRect editMapScrollRect;
         public GameObject mapInfoPrefab;
         public Transform scrollRectContent;
@@ -45,7 +45,7 @@ namespace HomePage {
         private Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
 
         private void Start() {
-            Debug.Log("EditMapView START");
+            Debug.Log("EditMapPage START");
 
             SetButtonActionListener();
 
