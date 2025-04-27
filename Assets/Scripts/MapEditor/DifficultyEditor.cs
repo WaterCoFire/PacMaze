@@ -34,16 +34,14 @@ namespace MapEditor {
         public GameObject normalModePrompt;
         public GameObject hardModePrompt;
 
-        // COLORS
-        private Color _normalColor = new Color(140f / 255f, 121f / 255f, 255f / 255f);
-        private Color _selectedColor = new Color(228f / 255f, 255f / 255f, 73f / 255f);
+        // BUTTON COLORS
+        private readonly Color _normalColor = new(140f / 255f, 121f / 255f, 255f / 255f);
+        private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
 
-        private bool _difficultyMode;
         private char _difficultySet;
-        
+
         // START FUNCTION
         private void Start() {
-            _difficultyMode = false;
             SetButtonActionListener();
         }
 
@@ -68,8 +66,6 @@ namespace MapEditor {
          * Used by Map Editor when user clicks the difficulty setting mode.
          */
         public void EnterDifficultyMode() {
-            _difficultyMode = true;
-
             // Update UI based on the difficulty level
             switch (_difficultySet) {
                 case 'E':
@@ -87,13 +83,14 @@ namespace MapEditor {
         /**
          * Quit the difficulty setting mode.
          * Used by Map Editor when user quits the map editor or enters other setting modes.
+         * NO LOGIC HERE
          */
-        public void QuitDifficultyMode() {
-            _difficultyMode = false;
-        }
+        public void QuitDifficultyMode() { }
 
-        // Set the color of a button
-        private void SetButtonStatus(Button button, char correspondingDifficulty, bool selected) {
+        /**
+         * Sets the color of a button.
+         */
+        private void SetButtonStatus(Button button, bool selected) {
             if (selected) {
                 var colors = button.colors;
                 colors.normalColor = _selectedColor;
@@ -110,49 +107,49 @@ namespace MapEditor {
             normalButton.onClick.AddListener(OnNormalButtonClick);
             hardButton.onClick.AddListener(OnHardButtonClick);
         }
-  
+
         /* Difficulty button operations */
         private void OnEasyButtonClick() {
             // UI update
-            SetButtonStatus(easyButton, 'E', true);
-            SetButtonStatus(normalButton, 'N', false);
-            SetButtonStatus(hardButton, 'H', false);
-            
+            SetButtonStatus(easyButton, true);
+            SetButtonStatus(normalButton, false);
+            SetButtonStatus(hardButton, false);
+
             // Prompt update
             easyModePrompt.SetActive(true);
             normalModePrompt.SetActive(false);
             hardModePrompt.SetActive(false);
-            
+
             // Set difficulty data
             _difficultySet = 'E';
         }
 
         private void OnNormalButtonClick() {
             // UI update
-            SetButtonStatus(easyButton, 'E', false);
-            SetButtonStatus(normalButton, 'N', true);
-            SetButtonStatus(hardButton, 'H', false);
-            
+            SetButtonStatus(easyButton, false);
+            SetButtonStatus(normalButton, true);
+            SetButtonStatus(hardButton, false);
+
             // Prompt update
             easyModePrompt.SetActive(false);
             normalModePrompt.SetActive(true);
             hardModePrompt.SetActive(false);
-            
+
             // Set difficulty data
             _difficultySet = 'N';
         }
 
         private void OnHardButtonClick() {
             // UI update
-            SetButtonStatus(easyButton, 'E', false);
-            SetButtonStatus(normalButton, 'N', false);
-            SetButtonStatus(hardButton, 'H', true);
-            
+            SetButtonStatus(easyButton, false);
+            SetButtonStatus(normalButton, false);
+            SetButtonStatus(hardButton, true);
+
             // Prompt update
             easyModePrompt.SetActive(false);
             normalModePrompt.SetActive(false);
             hardModePrompt.SetActive(true);
-            
+
             // Set difficulty data
             _difficultySet = 'H';
         }

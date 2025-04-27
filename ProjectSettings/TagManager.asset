@@ -8,8 +8,8 @@ TagManager:
   - MazeGeo
   - Tile
   - Wall
-  - Pacman
   - Ghostron
+  - Pacboy
   layers:
   - Default
   - TransparentFX

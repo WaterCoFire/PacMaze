@@ -6,27 +6,29 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace MapEditor {
     public class MapEditor : MonoBehaviour {
         public Button quitButton; // No saving
         public Button saveButton; // Save map and close
 
+        // Button Colours
         // Normal color 8C79FF
         // Highlight color 634AFC
         // Selected color E4FF49
-        private readonly Color _normalColor = new Color(140f / 255f, 121f / 255f, 255f / 255f);
-        private readonly Color _selectedColor = new Color(228f / 255f, 255f / 255f, 73f / 255f);
+        private readonly Color _normalColor = new(140f / 255f, 121f / 255f, 255f / 255f);
+        private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
 
         public Button wallModeButton; // Editing wall mode
         public Button propModeButton; // Editing prop mode
         public Button difficultyModeButton; // Difficulty setting mode
+        public Button eventModeButton; // Event status setting mode
 
         // UI panels
         public GameObject wallModeSettingPanel;
         public GameObject propModeSettingPanel;
         public GameObject difficultySettingPanel;
+        public GameObject eventSettingPanel;
 
         public TMP_Text mapNameText;
         public TMP_Text modePromptText;
@@ -39,6 +41,7 @@ namespace MapEditor {
         // 1 - Walls
         // 2 - Props
         // 3 - Difficulty
+        // 4 - Event
         private int _mode;
         private string _mapName;
 
@@ -51,6 +54,7 @@ namespace MapEditor {
         // Wall Mode: Editing Walls
         // Prop Mode: Editing Props
         // Difficulty Mode: Editing Difficulty
+        // Event Mode: Editing Event Status
 
         private void Start() {
             Debug.Log("MapEditor START");
@@ -69,26 +73,26 @@ namespace MapEditor {
             WallData wallData = gameObject.GetComponent<WallEditor>().GetWallData();
             PropData propData = gameObject.GetComponent<PropEditor>().GetPropData();
             char difficulty = gameObject.GetComponent<DifficultyEditor>().GetDifficultyData();
+            bool eventEnabled = gameObject.GetComponent<EventEditor>().GetEventStatusData();
 
-            Map map = new(_mapName, difficulty, wallData, propData);
+            Map map = new(_mapName, difficulty, eventEnabled, wallData, propData);
 
             // Get the number of total ghostrons (will be part of the file name)
             int totalGhostrons = propData.TotalPropCounts["GhostronSpawn"];
-
-            Debug.Log("Saving map, name " + _mapName + ", " + totalGhostrons + " ghostrons, difficulty " + difficulty);
 
             // Find the origin file to delete it
             string originMapFile = _saveDirectory + "/" + PlayerPrefs.GetString("EditMapFileToLoad") + ".json";
             if (!File.Exists(originMapFile)) {
                 Debug.LogError("Map Editor save error: Origin map file not found!");
             }
-            
+
             // Delete the origin file
             File.Delete(originMapFile);
 
             // Save to a new file in .json
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
-            File.WriteAllText(Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + difficulty + ".json"),
+            File.WriteAllText(
+                Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + difficulty + ".json"),
                 json);
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
         }
@@ -107,7 +111,7 @@ namespace MapEditor {
                 return;
             }
 
-            // Set map name and difficulty
+            // Set map name & difficulty info according to map name
             _mapName = match.Groups[1].Value;
             gameObject.GetComponent<DifficultyEditor>().SetDifficultyData(match.Groups[3].Value[0]);
 
@@ -130,6 +134,9 @@ namespace MapEditor {
                 PlayerPrefs.SetString("GameObjectReadMode", "EDITOR");
                 gameObject.GetComponent<PropEditor>().SetPropData(new PropData(wrapper.PropPositions(),
                     wrapper.FixedPropCounts, wrapper.TotalPropCounts));
+
+                // Set event status
+                gameObject.GetComponent<EventEditor>().SetEventStatusData(wrapper.eventEnabled);
                 Debug.Log("All set");
             } else {
                 Debug.LogError("Load map error: File not found!");
@@ -144,6 +151,7 @@ namespace MapEditor {
             // Mode setting
             gameObject.GetComponent<PropEditor>().QuitPropMode();
             gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+            gameObject.GetComponent<EventEditor>().QuitEventMode();
             gameObject.GetComponent<WallEditor>().EnterWallMode();
 
             _mode = 1;
@@ -151,11 +159,13 @@ namespace MapEditor {
             // Buttons color update
             SetButtonStatus(propModeButton, false);
             SetButtonStatus(difficultyModeButton, false);
+            SetButtonStatus(eventModeButton, false);
             SetButtonStatus(wallModeButton, true);
 
             // Update the setting panel
             propModeSettingPanel.SetActive(false);
             difficultySettingPanel.SetActive(false);
+            eventSettingPanel.SetActive(false);
             wallModeSettingPanel.SetActive(true);
         }
 
@@ -167,6 +177,7 @@ namespace MapEditor {
             // Mode setting
             gameObject.GetComponent<WallEditor>().QuitWallMode();
             gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+            gameObject.GetComponent<EventEditor>().QuitEventMode();
             gameObject.GetComponent<PropEditor>().EnterPropMode();
 
             _mode = 2;
@@ -174,11 +185,13 @@ namespace MapEditor {
             // Buttons color update
             SetButtonStatus(wallModeButton, false);
             SetButtonStatus(difficultyModeButton, false);
+            SetButtonStatus(eventModeButton, false);
             SetButtonStatus(propModeButton, true);
 
             // Update the setting panel
             wallModeSettingPanel.SetActive(false);
             difficultySettingPanel.SetActive(false);
+            eventSettingPanel.SetActive(false);
             propModeSettingPanel.SetActive(true);
         }
 
@@ -190,6 +203,7 @@ namespace MapEditor {
             // Mode setting
             gameObject.GetComponent<PropEditor>().QuitPropMode();
             gameObject.GetComponent<WallEditor>().QuitWallMode();
+            gameObject.GetComponent<EventEditor>().QuitEventMode();
             gameObject.GetComponent<DifficultyEditor>().EnterDifficultyMode();
 
             _mode = 3;
@@ -197,12 +211,40 @@ namespace MapEditor {
             // Buttons color update
             SetButtonStatus(wallModeButton, false);
             SetButtonStatus(propModeButton, false);
+            SetButtonStatus(eventModeButton, false);
             SetButtonStatus(difficultyModeButton, true);
 
             // Update the setting panel
             wallModeSettingPanel.SetActive(false);
             propModeSettingPanel.SetActive(false);
+            eventSettingPanel.SetActive(false);
             difficultySettingPanel.SetActive(true);
+        }
+
+        // Event setting button operation
+        private void OnEventButtonClick() {
+            // Update the prompt
+            modePromptText.SetText("Editing:\nEvent Status");
+
+            // Mode setting
+            gameObject.GetComponent<PropEditor>().QuitPropMode();
+            gameObject.GetComponent<WallEditor>().QuitWallMode();
+            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+            gameObject.GetComponent<EventEditor>().EnterEventMode();
+
+            _mode = 4;
+
+            // Buttons color update
+            SetButtonStatus(wallModeButton, false);
+            SetButtonStatus(propModeButton, false);
+            SetButtonStatus(difficultyModeButton, false);
+            SetButtonStatus(eventModeButton, true);
+
+            // Update the setting panel
+            wallModeSettingPanel.SetActive(false);
+            propModeSettingPanel.SetActive(false);
+            difficultySettingPanel.SetActive(false);
+            eventSettingPanel.SetActive(true);
         }
 
         // Quit (directly) button operation
@@ -224,7 +266,8 @@ namespace MapEditor {
                 gameObject.GetComponent<WallEditor>().QuitWallMode();
                 gameObject.GetComponent<PropEditor>().QuitPropMode();
                 gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-                
+                gameObject.GetComponent<EventEditor>().QuitEventMode();
+
                 // Temporarily ban all the buttons
                 // (Recovered after the close button is clicked)
                 quitButton.interactable = false;
@@ -232,6 +275,7 @@ namespace MapEditor {
                 propModeButton.interactable = false;
                 wallModeButton.interactable = false;
                 difficultyModeButton.interactable = false;
+                eventModeButton.interactable = false;
 
                 return;
             }
@@ -249,13 +293,14 @@ namespace MapEditor {
         // Operations after the close button of the warning panel is clicked
         private void OnWarningPanelCloseButtonClick() {
             noPacboySpawnWarningPanel.SetActive(false);
-            
+
             // Enable all the buttons
             quitButton.interactable = true;
             saveButton.interactable = true;
             propModeButton.interactable = true;
             wallModeButton.interactable = true;
             difficultyModeButton.interactable = true;
+            eventModeButton.interactable = true;
 
             switch (_mode) {
                 case 0:
@@ -269,18 +314,28 @@ namespace MapEditor {
                     gameObject.GetComponent<WallEditor>().EnterWallMode();
                     gameObject.GetComponent<PropEditor>().QuitPropMode();
                     gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+                    gameObject.GetComponent<EventEditor>().QuitEventMode();
                     break;
                 case 2:
                     // In props mode
                     gameObject.GetComponent<WallEditor>().QuitWallMode();
                     gameObject.GetComponent<PropEditor>().EnterPropMode();
                     gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+                    gameObject.GetComponent<EventEditor>().QuitEventMode();
                     break;
                 case 3:
                     // In difficulty setting mode
                     gameObject.GetComponent<WallEditor>().QuitWallMode();
                     gameObject.GetComponent<PropEditor>().QuitPropMode();
                     gameObject.GetComponent<DifficultyEditor>().EnterDifficultyMode();
+                    gameObject.GetComponent<EventEditor>().QuitEventMode();
+                    break;
+                case 4:
+                    // In event setting mode
+                    gameObject.GetComponent<WallEditor>().QuitWallMode();
+                    gameObject.GetComponent<PropEditor>().QuitPropMode();
+                    gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+                    gameObject.GetComponent<EventEditor>().EnterEventMode();
                     break;
                 default:
                     Debug.LogError("Mode error!");
@@ -308,6 +363,7 @@ namespace MapEditor {
             wallModeButton.onClick.AddListener(OnEditWallsButtonClick);
             propModeButton.onClick.AddListener(OnEditPropsButtonClick);
             difficultyModeButton.onClick.AddListener(OnDifficultyButtonClick);
+            eventModeButton.onClick.AddListener(OnEventButtonClick);
             warningPanelCloseButton.onClick.AddListener(OnWarningPanelCloseButtonClick);
         }
 
@@ -324,6 +380,7 @@ namespace MapEditor {
             gameObject.GetComponent<WallEditor>().QuitWallMode();
             gameObject.GetComponent<PropEditor>().QuitPropMode();
             gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+            gameObject.GetComponent<EventEditor>().QuitEventMode();
 
             // Mode index reset (in none of the modes)
             _mode = 0;
@@ -332,11 +389,13 @@ namespace MapEditor {
             SetButtonStatus(wallModeButton, false);
             SetButtonStatus(propModeButton, false);
             SetButtonStatus(difficultyModeButton, false);
+            SetButtonStatus(eventModeButton, false);
 
             // Reset both setting panels
             wallModeSettingPanel.SetActive(false);
             propModeSettingPanel.SetActive(false);
             difficultySettingPanel.SetActive(false);
+            eventSettingPanel.SetActive(false);
         }
     }
 }

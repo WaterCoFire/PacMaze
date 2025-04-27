@@ -1,6 +1,7 @@
 {
     "name": "VERY HARD",
     "difficulty": 72,
+    "eventEnabled": true,
     "propPositions": [
         {
             "x": 0.0,

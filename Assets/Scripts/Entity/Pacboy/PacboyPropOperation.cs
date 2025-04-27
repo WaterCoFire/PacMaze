@@ -9,8 +9,8 @@ using UnityEngine.UI;
 
 namespace Entity.Pacboy {
     /**
-     * Manages the prop operation of the pacman.
-     * In the current game design, when the pacman has picked up a nice bomb,
+     * Manages the prop operation of the Pacboy.
+     * In the current game design, when the Pacboy has picked up a nice bomb,
      * The player can press E (default) to directly use it (kills the nearest ghostron)
      * or press F (default) to deploy it, and kills two ghostrons when a ghostron hits it
      */
@@ -19,7 +19,7 @@ namespace Entity.Pacboy {
         // Has a different color for the player to tell its difference from un-picked ones
         public GameObject deployedNiceBombPrefab;
 
-        // The number of nice bombs that the pacman has
+        // The number of nice bombs that the Pacboy has
         private int _niceBombs;
 
         private bool _onCooldown; // Status indicating if a prop is just being used
@@ -105,16 +105,16 @@ namespace Entity.Pacboy {
 
         /**
          * Pacboy uses a nice bomb (default key code E).
-         * Directly kills the ghostron nearest to the pacman.
+         * Directly kills the ghostron nearest to the Pacboy.
          */
         private void UseNiceBomb() {
             Debug.Log("NiceBomb USE");
             // Reduce the number
             _niceBombs--;
 
-            // Kill the ghostron nearest to the pacman
+            // Kill the ghostron nearest to the Pacboy
             if (GhostronManager.Instance.KillNearestGhostron(gameObject.transform.position)) {
-                // Give the pacman 200 score points if killing is successful
+                // Give the Pacboy 200 score points if killing is successful
                 PlayMapController.Instance.AddScore(200);
             }
 
@@ -145,7 +145,7 @@ namespace Entity.Pacboy {
             // Reduce the number
             _niceBombs--;
 
-            // Place the deployed bomb at the current location of the pacman
+            // Place the deployed bomb at the current location of the Pacboy
             Instantiate(deployedNiceBombPrefab, transform.position, Quaternion.identity);
 
             // Update cooldown status
@@ -166,8 +166,8 @@ namespace Entity.Pacboy {
         }
 
         /**
-         * Grant a new nice bomb to the pacman.
-         * Called when the pacman eats a new un-picked nice bomb object.
+         * Grant a new nice bomb to the Pacboy.
+         * Called when the Pacboy eats a new un-picked nice bomb object.
          */
         public void GetNiceBomb() {
             // One more nice bomb

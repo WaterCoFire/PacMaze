@@ -6048,7 +6048,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Pacman models in this game as well as the map models (e.g. walls, floors)
+  m_text: The Pacboy model in this game as well as the map models (e.g. walls, floors)
     are derived from this resource.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -8014,7 +8014,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pacman couldn''t find any map!
+  m_text: 'Pacboy couldn''t find any map!
 
 
     Maybe it wants a new one by creating
@@ -13363,7 +13363,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pacman couldn''t find any map!
+  m_text: 'Pacboy couldn''t find any map!
 
 
     Maybe it wants a new one by clicking

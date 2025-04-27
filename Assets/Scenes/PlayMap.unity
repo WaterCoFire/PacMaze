@@ -49387,7 +49387,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pacman has successfully eaten all the dots in [TEST TIME].
+  m_text: 'Pacboy has successfully eaten all the dots in [TEST TIME].
 
 
     The maze

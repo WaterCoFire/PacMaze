@@ -8,6 +8,7 @@ namespace Entity.Map {
     public class MapJsonWrapper {
         public string name;
         public char difficulty;
+        public bool eventEnabled;
 
         public List<Vector3> propPositions;
         public List<string> propTypes;
@@ -44,6 +45,7 @@ namespace Entity.Map {
         public MapJsonWrapper(Map map) {
             name = map.Name;
             difficulty = map.Difficulty;
+            eventEnabled = map.EventEnabled;
 
             propPositions = new List<Vector3>();
             propTypes = new List<string>();
