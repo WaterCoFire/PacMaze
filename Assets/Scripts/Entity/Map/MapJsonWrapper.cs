@@ -182,8 +182,8 @@ namespace Entity.Map {
          */
         private GameObject GetCorrespondingEditorGameObject(string propName) {
             switch (CleanName(propName)) {
-                case "PacmanSpawn":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/PacmanSpawn");
+                case "PacboySpawn":
+                    return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/PacboySpawn");
                 case "GhostronSpawn":
                     return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/GhostronSpawn");
                 case "PowerPellet":
@@ -210,8 +210,8 @@ namespace Entity.Map {
          */
         private GameObject GetCorrespondingPlayGameObject(string propName) {
             switch (CleanName(propName)) {
-                case "PacmanSpawn":
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/Pacman");
+                case "PacboySpawn":
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/Pacboy");
                 case "GhostronSpawn":
                     switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
                         case 0:

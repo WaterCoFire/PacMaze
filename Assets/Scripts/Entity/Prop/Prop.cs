@@ -13,8 +13,8 @@ namespace Entity.Prop {
      */
     public abstract class Prop : MonoBehaviour {
         // Abstract function
-        // Action when the prop is picked by the pacman
-        public abstract void OnPicked(GameObject pacman);
+        // Action when the prop is picked by the pacboy
+        public abstract void OnPicked(GameObject pacboy);
 
         // START FUNCTION
         private void Start() {
@@ -23,11 +23,11 @@ namespace Entity.Prop {
 
         /**
          * Unity event: When the prop collides with a game object
-         * Checks if the game object is pacman
+         * Checks if the game object is pacboy
          * If so, call the OnPicked() logic
          */
         private void OnTriggerEnter(Collider other) {
-            if (other.CompareTag("Pacman")) {
+            if (other.CompareTag("Pacboy")) {
                 OnPicked(other.gameObject); // Corresponding action
                 Destroy(gameObject); // Destroy this game object
             }

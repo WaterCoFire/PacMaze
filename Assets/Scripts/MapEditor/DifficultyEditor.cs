@@ -9,19 +9,19 @@ namespace MapEditor {
      * - Lucky Dice won't bring in any negative effect (Slow Wheel, Bad Cherry)
      *   (50% Fast Wheel, 25% Power Pellet, 25% Nice Bomb)
      * - Ghostrons move slowly when chasing
-     * - A ghost would chase pacman only if it is CLOSE to pacman
+     * - A ghost would chase Pacboy only if it is CLOSE to Pacboy
      *
      * Normal:
      * - Lucky Dice would bring any effect
      *   (20% Power Pellet, 20% Fast Wheel, 20% Nice Bomb, 20% Slow Wheel, 20% Bad Cherry)
      * - Ghostrons move at normal speed when chasing
-     * - A ghostron would chase pacman if it is NOT FAR from pacman
+     * - A ghostron would chase Pacboy if it is NOT FAR from Pacboy
      *
      * Hard:
      * - Lucky Dice would more likely bring a negative effect
      *   (20% Fast Wheel, 15% Power Pellet, 15% Nice Bomb, 25% Slow Wheel, 25% Bad Cherry)
      * - Ghostrons move faster when chasing
-     * - Ghostrons wouldn't stop chasing pacman unless it is FAR ENOUGH from pacman
+     * - Ghostrons wouldn't stop chasing Pacboy unless it is FAR ENOUGH from Pacboy
      */
     public class DifficultyEditor : MonoBehaviour {
         // Difficulty setting buttons

@@ -11,7 +11,7 @@ namespace MapEditor {
      *
      * BASIC
      * - Ghostron Spawn Point
-     * - Pacman Spawn Point
+     * - Pacboy Spawn Point
      *
      * GOOD ONES
      * - Power Pellet
@@ -37,7 +37,7 @@ namespace MapEditor {
 
         // All prop models
         public GameObject ghostronSpawnPrefab;
-        public GameObject pacmanSpawnPrefab;
+        public GameObject pacboySpawnPrefab;
         public GameObject powerPelletPrefab;
         public GameObject fastWheelPrefab;
         public GameObject niceBombPrefab;
@@ -47,7 +47,7 @@ namespace MapEditor {
 
         // Props buttons
         public Button ghostronSpawnButton;
-        public Button pacmanSpawnButton;
+        public Button pacboySpawnButton;
         public Button powerPelletButton;
         public Button fastWheelButton;
         public Button niceBombButton;
@@ -243,12 +243,12 @@ namespace MapEditor {
             //     _propOnTiles[_selectedTileVector3] = new GameObject();
             // }
 
-            if (propType == "PacmanSpawn" && _fixedPropCounts["PacmanSpawn"] >= 1) {
-                Debug.Log("WARNING Only one Pacman Spawn Point is allowed.");
+            if (propType == "PacboySpawn" && _fixedPropCounts["PacboySpawn"] >= 1) {
+                Debug.Log("WARNING Only one Pacboy Spawn Point is allowed.");
                 return false;
             }
 
-            if (propType != "PacmanSpawn" && _fixedPropCounts[propType] > _totalPropCounts[propType]) {
+            if (propType != "PacboySpawn" && _fixedPropCounts[propType] > _totalPropCounts[propType]) {
                 Debug.Log($"WARNING Maximum of: {propType} reached (defined by the total number).");
                 return false;
             }
@@ -296,7 +296,7 @@ namespace MapEditor {
                 _fixedPropCounts[propName]--;
 
                 // Enable the corresponding minus button if the fixed count is already less than total number
-                if (propName != "PacmanSpawn" && _fixedPropCounts[propName] < _totalPropCounts[propName]) {
+                if (propName != "PacboySpawn" && _fixedPropCounts[propName] < _totalPropCounts[propName]) {
                     switch (propName) {
                         case "GhostronSpawn":
                             ghostronSpawnMinus.gameObject.SetActive(true);
@@ -338,7 +338,7 @@ namespace MapEditor {
         private GameObject GetPrefabByType(string propType) {
             return propType switch {
                 "GhostronSpawn" => ghostronSpawnPrefab,
-                "PacmanSpawn" => pacmanSpawnPrefab,
+                "PacboySpawn" => pacboySpawnPrefab,
                 "PowerPellet" => powerPelletPrefab,
                 "FastWheel" => fastWheelPrefab,
                 "NiceBomb" => niceBombPrefab,
@@ -351,17 +351,17 @@ namespace MapEditor {
 
         // Checks if the condition is satisfied for save & quit, returns:
         // true if all set
-        // false if the pacman spawn point is not set
+        // false if the Pacboy spawn point is not set
         public bool CheckCondition() {
-            // Must have a pacman spawn point
-            if (_fixedPropCounts["PacmanSpawn"] == 0) return false;
+            // Must have a Pacboy spawn point
+            if (_fixedPropCounts["PacboySpawn"] == 0) return false;
             return true;
         }
 
         /* On click operations */
         // Props buttons
-        private void OnPacmanSpawnButtonClick() {
-            PlaceProp("PacmanSpawn");
+        private void OnPacboySpawnButtonClick() {
+            PlaceProp("PacboySpawn");
         }
 
         private void OnGhostronSpawnButtonClick() {
@@ -862,7 +862,7 @@ namespace MapEditor {
         // Button action listener setting
         private void SetButtonActionListener() {
             ghostronSpawnButton.onClick.AddListener(OnGhostronSpawnButtonClick);
-            pacmanSpawnButton.onClick.AddListener(OnPacmanSpawnButtonClick);
+            pacboySpawnButton.onClick.AddListener(OnPacboySpawnButtonClick);
             powerPelletButton.onClick.AddListener(OnPowerPelletButtonClick);
             fastWheelButton.onClick.AddListener(OnFastWheelButtonClick);
             niceBombButton.onClick.AddListener(OnNiceBombButtonClick);
@@ -892,7 +892,7 @@ namespace MapEditor {
         // Disable all props button, enable the remove button
         private void PropPlacedButtonUpdate() {
             ghostronSpawnButton.interactable = false;
-            pacmanSpawnButton.interactable = false;
+            pacboySpawnButton.interactable = false;
             powerPelletButton.interactable = false;
             fastWheelButton.interactable = false;
             niceBombButton.interactable = false;
@@ -911,7 +911,7 @@ namespace MapEditor {
             // Disable the remove button
             removeButton.interactable = false;
 
-            // Check every prop except for Pacman spawn:
+            // Check every prop except for Pacboy spawn:
             // Only if its current total count is more than the fixed count can its button be enabled
             if (_totalPropCounts["GhostronSpawn"] > _fixedPropCounts["GhostronSpawn"]) {
                 ghostronSpawnButton.interactable = true;
@@ -941,9 +941,9 @@ namespace MapEditor {
                 luckyDiceButton.interactable = true;
             }
 
-            // Pacman spawn button logic
-            if (_fixedPropCounts["PacmanSpawn"] == 0) {
-                pacmanSpawnButton.interactable = true;
+            // Pacboy spawn button logic
+            if (_fixedPropCounts["PacboySpawn"] == 0) {
+                pacboySpawnButton.interactable = true;
             }
 
             Debug.Log("UI updated: Only prop buttons available");
@@ -1084,7 +1084,7 @@ namespace MapEditor {
         // Initial setting: Disable all the props buttons (including remove) at the beginning
         private void PropsButtonInit() {
             ghostronSpawnButton.interactable = false;
-            pacmanSpawnButton.interactable = false;
+            pacboySpawnButton.interactable = false;
             powerPelletButton.interactable = false;
             fastWheelButton.interactable = false;
             niceBombButton.interactable = false;

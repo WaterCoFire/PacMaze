@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace MapEditor {
     public class MapEditor : MonoBehaviour {
@@ -30,7 +31,7 @@ namespace MapEditor {
         public TMP_Text mapNameText;
         public TMP_Text modePromptText;
 
-        public GameObject noPacmanSpawnWarningPanel;
+        public GameObject noPacboySpawnWarningPanel;
         public Button warningPanelCloseButton;
 
         // Current edit mode
@@ -216,7 +217,7 @@ namespace MapEditor {
         private void OnSaveAndQuitButtonClick() {
             // Check if the condition is met
             if (!gameObject.GetComponent<PropEditor>().CheckCondition()) {
-                noPacmanSpawnWarningPanel.SetActive(true);
+                noPacboySpawnWarningPanel.SetActive(true);
 
                 // Temporarily disable all modes
                 // (Recovered after the close button is clicked)
@@ -247,7 +248,7 @@ namespace MapEditor {
 
         // Operations after the close button of the warning panel is clicked
         private void OnWarningPanelCloseButtonClick() {
-            noPacmanSpawnWarningPanel.SetActive(false);
+            noPacboySpawnWarningPanel.SetActive(false);
             
             // Enable all the buttons
             quitButton.interactable = true;

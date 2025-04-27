@@ -1,20 +1,20 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-namespace Entity.Pacman {
+namespace Entity.Pacboy {
     /**
-     * Manages the movement of pacman:
+     * Manages the movement of Pacboy:
      * (Controlled by the player)
      * - Go Forward / Backward / Leftward / Rightward
      * - Rotate (controlled by mouse dragging)
      */
-    public class PacmanMovement : MonoBehaviour {
+    public class PacboyMovement : MonoBehaviour {
         // Move speed and rotate speed
-        private float _pacmanMoveSpeed;
-        private readonly float _pacmanRotateSpeed = 5.0f;
+        private float _pacboyMoveSpeed;
+        private readonly float _pacboyRotateSpeed = 5.0f;
 
-        // Pacman's normal speed
-        private readonly float _pacmanNormalMoveSpeed = 5.0f;
+        // Pacboy's normal speed
+        private readonly float _pacboyNormalMoveSpeed = 5.0f;
 
         // Key code for moving (WASD by default, it can be customized in Setting)
         private KeyCode _forwardKeyCode;
@@ -22,7 +22,7 @@ namespace Entity.Pacman {
         private KeyCode _leftwardKeyCode;
         private KeyCode _rightwardKeyCode;
 
-        // Status indicating if the pacman is controllable
+        // Status indicating if the Pacboy is controllable
         // Should be false: when e.g. game paused, game ended
         private bool _controllable;
 
@@ -42,7 +42,7 @@ namespace Entity.Pacman {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacmanMovement START");
+            Debug.Log("PacboyMovement START");
 
             // Get the keycode set for moving operations
             _forwardKeyCode = GetKeyCode("ForwardKeyCode", KeyCode.W);
@@ -57,7 +57,7 @@ namespace Entity.Pacman {
             _boxHalfExtents = GetComponent<BoxCollider>().bounds.extents * 0.9f;
 
             // Set to normal speed
-            _pacmanMoveSpeed = _pacmanNormalMoveSpeed;
+            _pacboyMoveSpeed = _pacboyNormalMoveSpeed;
 
             // TEST
             _controllable = true;
@@ -68,7 +68,7 @@ namespace Entity.Pacman {
         private void Update() {
             if (!_controllable) return;
 
-            Move(); // Pacman movement operation
+            Move(); // Pacboy movement operation
             
             // Check if currently there is a speed buff
             // If there is, keep updating the timer until it reaches the duration
@@ -78,7 +78,7 @@ namespace Entity.Pacman {
                 if (_speedBuffTimer >= _speedBuffDuration) {
                     // Buff time is over
                     // Set the speed back to normal speed
-                    _pacmanMoveSpeed = _pacmanNormalMoveSpeed;
+                    _pacboyMoveSpeed = _pacboyNormalMoveSpeed;
 
                     // Reset timer and status
                     _speedBuffTimer = 0f;
@@ -90,7 +90,7 @@ namespace Entity.Pacman {
         /**
          * Handles player movement with wall collision detection and sliding logic.
          * Prevents moving into walls while allowing smooth sliding along them.
-         * In TPV, also rotates Pacman to face the movement direction.
+         * In TPV, also rotates Pacboy to face the movement direction.
          */
         private void Move() {
             float h = 0f, v = 0f;
@@ -122,9 +122,9 @@ namespace Entity.Pacman {
             moveDir.Normalize();
 
             // --- Collision Detection and Sliding Logic ---
-            float moveDistance = _pacmanMoveSpeed * Time.deltaTime;
+            float moveDistance = _pacboyMoveSpeed * Time.deltaTime;
 
-            // Raise the cast origin slightly so it aligns with Pacman's body center
+            // Raise the cast origin slightly so it aligns with Pacboy's body center
             Vector3 castOrigin = transform.position + Vector3.up * _boxHalfExtents.y;
 
             // Cast a box in the move direction to detect any nearby obstacles
@@ -161,12 +161,12 @@ namespace Entity.Pacman {
                 transform.position += moveDir * moveDistance;
             }
 
-            // In TPV, rotate Pacman to face the movement direction
+            // In TPV, rotate Pacboy to face the movement direction
             if (_inThirdPersonView) {
                 if (moveDir.sqrMagnitude > 0.01f) {
                     Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
-                        _pacmanRotateSpeed * Time.deltaTime);
+                        _pacboyRotateSpeed * Time.deltaTime);
                 }
             }
         }
@@ -181,7 +181,7 @@ namespace Entity.Pacman {
          * origin - Start point of the box cast (usually just above the player's center)
          * direction - The intended slide direction (projected against the wall normal)
          * halfExtents - Half dimensions of the player's collider (shrunk slightly)
-         * distance - Distance Pacman wants to move in this frame
+         * distance - Distance Pacboy wants to move in this frame
          * wallHit - The original wall hit data, used to calculate angles
          */
         private bool IsDangerousSlide(Vector3 origin, Vector3 direction, Vector3 halfExtents, float distance,
@@ -203,12 +203,12 @@ namespace Entity.Pacman {
         }
 
         /**
-         * Temporarily sets a speed for the pacman.
+         * Temporarily sets a speed for the Pacboy.
          * Used when Fast Wheel / Slow Wheel is triggered.
          */
         public void SetSpeedBuff(float buffSpeed) {
             // Set speed
-            _pacmanMoveSpeed = buffSpeed;
+            _pacboyMoveSpeed = buffSpeed;
             
             // Reset timer and statue
             _speedBuffTimer = 0f;
@@ -239,7 +239,7 @@ namespace Entity.Pacman {
         }
 
         /**
-         * Allows the player to control the movement of the pacman.
+         * Allows the player to control the movement of the Pacboy.
          */
         public void EnableMovement() {
             // Update KeyCode
@@ -256,7 +256,7 @@ namespace Entity.Pacman {
         }
 
         /**
-         * Stops the player from controlling the movement of the pacman.
+         * Stops the player from controlling the movement of the Pacboy.
          */
         public void DisableMovement() {
             // Set cursor

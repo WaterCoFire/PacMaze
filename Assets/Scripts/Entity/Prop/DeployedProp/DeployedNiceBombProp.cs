@@ -43,12 +43,12 @@ namespace Entity.Prop.DeployedProp {
             switch (ghostronsKilled) {
                 case 1:
                     // Only one ghostron killed
-                    // Give the pacman 200 score points
+                    // Give the Pacboy 200 score points
                     PlayMapController.Instance.AddScore(200);
                     break;
                 case 2:
                     // Two ghostrons killed
-                    // Give the pacman 500 score points
+                    // Give the Pacboy 500 score points
                     PlayMapController.Instance.AddScore(500);
                     break;
                 default:

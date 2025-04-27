@@ -7,14 +7,14 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace Entity.Pacman {
+namespace Entity.Pacboy {
     /**
      * Manages the prop operation of the pacman.
      * In the current game design, when the pacman has picked up a nice bomb,
      * The player can press E (default) to directly use it (kills the nearest ghostron)
      * or press F (default) to deploy it, and kills two ghostrons when a ghostron hits it
      */
-    public class PacmanPropOperation : MonoBehaviour {
+    public class PacboyPropOperation : MonoBehaviour {
         // The game object prefab of the deployed nice bomb
         // Has a different color for the player to tell its difference from un-picked ones
         public GameObject deployedNiceBombPrefab;
@@ -44,7 +44,7 @@ namespace Entity.Pacman {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacmanPropOperation START");
+            Debug.Log("PacboyPropOperation START");
 
             _niceBombs = 0;
             _controllable = true;
@@ -104,7 +104,7 @@ namespace Entity.Pacman {
         }
 
         /**
-         * Pacman uses a nice bomb (default key code E).
+         * Pacboy uses a nice bomb (default key code E).
          * Directly kills the ghostron nearest to the pacman.
          */
         private void UseNiceBomb() {
@@ -136,7 +136,7 @@ namespace Entity.Pacman {
         }
 
         /**
-         * Pacman deploys a nice bomb (default key code F).
+         * Pacboy deploys a nice bomb (default key code F).
          * Places the deployed bomb at the current position.
          * Two ghostrons nearest to it will be killed when a ghostron hits the deployed bomb.
          */

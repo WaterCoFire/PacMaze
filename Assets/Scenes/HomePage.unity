@@ -846,7 +846,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pacman doesn''t want to feel too much pressure!
+  m_text: 'Pacboy doesn''t want to feel too much pressure!
 
 
     So please make sure
@@ -5278,7 +5278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pacman doesn''t want to feel too much pressure!
+  m_text: 'Pacboy doesn''t want to feel too much pressure!
 
 
     So please make sure
@@ -7173,7 +7173,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Oh no! Pacman feels pressure!
+  m_text: Oh no! Pacboy feels pressure!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -8617,7 +8617,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Oh no! Pacman feels pressure!
+  m_text: Oh no! Pacboy feels pressure!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -11196,7 +11196,7 @@ GameObject:
   - component: {fileID: 1179462857}
   - component: {fileID: 1179462856}
   m_Layer: 5
-  m_Name: PacmanImage
+  m_Name: PacboyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17277,7 +17277,7 @@ GameObject:
   - component: {fileID: 1747580152}
   - component: {fileID: 1747580151}
   m_Layer: 5
-  m_Name: PacmanImage
+  m_Name: PacboyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

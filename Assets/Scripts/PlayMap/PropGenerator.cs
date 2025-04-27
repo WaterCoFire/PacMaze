@@ -6,7 +6,7 @@ using Random = System.Random;
 
 namespace PlayMap {
     public class PropGenerator : MonoBehaviour {
-        // All prop models (except for pacman)
+        // All prop models (except for Pacboy)
         public GameObject redGhostronPrefab;
         public GameObject blueGhostronPrefab;
         public GameObject yellowGhostronPrefab;
@@ -30,11 +30,11 @@ namespace PlayMap {
         // Random instance for generating random numbers
         private Random _random = new();
 
-        // Pacman game object (used for setting the chase target of all the ghostrons)
-        private GameObject _pacmanGameObject;
+        // Pacboy game object (used for setting the chase target of all the ghostrons)
+        private GameObject _pacboyGameObject;
 
         /**
-         * Places all the FIXED props (including pacman, fixed ghostrons) on the map.
+         * Places all the FIXED props (including Pacboy, fixed ghostrons) on the map.
          * Randomly places all the RANDOM props (including ghostrons) on the map.
          * Places dots on all the remaining tiles.
          */
@@ -67,10 +67,10 @@ namespace PlayMap {
                     return;
                 }
 
-                if (prefab.name == "Pacman") {
-                    // Look for the pacman game object and store it
-                    Debug.Log("PACMAN FOUND");
-                    _pacmanGameObject = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                if (prefab.name == "Pacboy") {
+                    // Look for the Pacboy game object and store it
+                    Debug.Log("PACBOY FOUND");
+                    _pacboyGameObject = Instantiate(prefab, kvp.Key, Quaternion.identity);
                 } else if (prefab.name.Contains("Ghostron")) {
                     // Store all the ghostrons in GhostronManager
                     GameObject newGhostron = Instantiate(prefab, kvp.Key, Quaternion.identity);
@@ -106,11 +106,11 @@ namespace PlayMap {
                 DotManager.Instance.AddDot(newDot); // Add to the dot manager
             }
 
-            // Set the pacman target for all the ghostrons
-            if (_pacmanGameObject == null) {
-                Debug.LogError("Error: Pacman not found!");
+            // Set the Pacboy target for all the ghostrons
+            if (_pacboyGameObject == null) {
+                Debug.LogError("Error: Pacboy not found!");
             } else {
-                GhostronManager.Instance.SetPacman(_pacmanGameObject);
+                GhostronManager.Instance.SetPacboy(_pacboyGameObject);
             }
 
             // Reset the free tiles list

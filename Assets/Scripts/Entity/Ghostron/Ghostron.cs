@@ -7,12 +7,12 @@ namespace Entity.Ghostron {
      * Manages the behaviour of the ghost.
      */
     public class Ghostron : MonoBehaviour {
-        private GameObject _pacman; // Pacman game object, what the ghostron is hunting for
+        private GameObject _pacboy; // Pacboy game object, what the ghostron is hunting for
 
         // Normal wandering speed of the ghostron
         private float _normalSpeed;
 
-        // Speed when the ghostron is scared (pacman eats a power pellet)
+        // Speed when the ghostron is scared (Pacboy eats a power pellet)
         private float _scaredSpeed;
 
         // Chasing Speed
@@ -21,7 +21,7 @@ namespace Entity.Ghostron {
         private float _chaseSpeed;
 
         // Detection Radius
-        // Pacman will be chased when it is within this distance from a ghostron
+        // Pacboy will be chased when it is within this distance from a ghostron
         // This distance varies according to difficulty
         // Specific numbers are set in GhostronManager
         private float _detectionRadius;
@@ -32,13 +32,13 @@ namespace Entity.Ghostron {
 
         private NavMeshAgent _agent; // NavMesh agent
 
-        private bool _isChasing; // Status indicating if the ghostron is wandering or chasing pacman
+        private bool _isChasing; // Status indicating if the ghostron is wandering or chasing Pacboy
 
         // Scared logic variables
-        private bool _isScared; // Status indicating if the pacman is scared (when pacman eats a power pellet)
+        private bool _isScared; // Status indicating if the Pacboy is scared (when Pacboy eats a power pellet)
         private float _scaredTimer; // Timer of the ghostron feeling scared
         private readonly float _scaredDuration = 6.0f; // Duration of the "scared" effect of ghostrons
-        private bool _isCaught; // Status indicating if the pacman has caught the ghostron when it is scared
+        private bool _isCaught; // Status indicating if the Pacboy has caught the ghostron when it is scared
 
         private readonly float
             _scaredWarningTime = 2.0f; // The time before the scared state ends to start warning (in secs)
@@ -54,7 +54,7 @@ namespace Entity.Ghostron {
 
         // Animation speed when the ghostron is in different statuses
         private readonly float _normalAnimationSpeed = 0.6f; // Wandering
-        private readonly float _chaseAnimationSpeed = 1f; // Chasing pacman
+        private readonly float _chaseAnimationSpeed = 1f; // Chasing Pacboy
         private readonly float _scaredAnimationSpeed = 0.3f; // Scared
 
         // START FUNCTION
@@ -106,15 +106,15 @@ namespace Entity.Ghostron {
             // Directly return if so
             if (!stateInfo.IsName("anim_Walk_Loop")) return;
 
-            // Check the distance between this ghostron and pacman target
-            float distance = Vector3.Distance(gameObject.transform.position, _pacman.transform.position);
+            // Check the distance between this ghostron and Pacboy target
+            float distance = Vector3.Distance(gameObject.transform.position, _pacboy.transform.position);
 
-            // Only chases pacman if the ghostron is close enough & not scared
+            // Only chases Pacboy if the ghostron is close enough & not scared
             if (distance <= _detectionRadius && !_isScared) {
-                // Chase the pacman
+                // Chase the Pacboy
                 if (!_isChasing) {
                     _isChasing = true;
-                    Debug.Log("Pacman detected, starting chase!");
+                    Debug.Log("Pacboy detected, starting chase!");
                 }
 
                 // Set the chasing speed
@@ -123,15 +123,15 @@ namespace Entity.Ghostron {
                 // Set the animator speed
                 _animator.speed = _chaseAnimationSpeed;
 
-                // Set the chase target (real time position of the pacman)
-                _agent.SetDestination(_pacman.transform.position);
+                // Set the chase target (real time position of the Pacboy)
+                _agent.SetDestination(_pacboy.transform.position);
             } else if (!_isCaught) {
-                // Pacman is out of the chasing detection radius
+                // Pacboy is out of the chasing detection radius
                 // Impossible if in HARD game mode because the radius is long enough
                 if (_isChasing) {
                     _isChasing = false;
                     _agent.ResetPath();
-                    Debug.Log("Pacman escaped, now wandering.");
+                    Debug.Log("Pacboy escaped, now wandering.");
                 }
 
                 // Start to wander
@@ -204,18 +204,18 @@ namespace Entity.Ghostron {
 
         /**
          * Unity event: When ghostron collides with another game object
-         * Only pacman is cared here
+         * Only Pacboy is cared here
          */
         private void OnTriggerEnter(Collider other) {
-            // If the other game object is not pacman then do nothing
-            if (!other.CompareTag("Pacman")) return;
+            // If the other game object is not Pacboy then do nothing
+            if (!other.CompareTag("Pacboy")) return;
 
-            // It is pacman
+            // It is Pacboy
             if (_isScared) {
                 // The ghostron is scared currently
-                // This means that the ghostron is caught by the pacman
+                // This means that the ghostron is caught by the Pacboy
                 if (_isCaught) return; // No action if the ghostron is just caught
-                Debug.Log("Ghostron caught by Pacman!");
+                Debug.Log("Ghostron caught by Pacboy!");
                 _agent.speed = 0f;
 
                 // Corresponding animation
@@ -226,7 +226,7 @@ namespace Entity.Ghostron {
 
                 _isCaught = true; // Update status
 
-                // Give the pacman 200 score points
+                // Give the Pacboy 200 score points
                 PlayMapController.Instance.AddScore(200);
 
                 // After isCaught is updated:
@@ -235,8 +235,8 @@ namespace Entity.Ghostron {
             } else {
                 // The ghostron is not currently scared
                 // This means the game should be over
-                Debug.LogWarning("Pacman got caught! GAME OVER!");
-                GhostronManager.Instance.PacmanCaught();
+                Debug.LogWarning("Pacboy got caught! GAME OVER!");
+                GhostronManager.Instance.PacboyCaught();
             }
         }
 
@@ -287,12 +287,12 @@ namespace Entity.Ghostron {
         }
 
         /**
-         * Sets the pacman game object.
+         * Sets the Pacboy game object.
          * Used in GhostronManager when initializing the map / adding new ghostron due to bad cherry.
          */
-        public void SetPacman(GameObject pacman) {
-            Debug.LogWarning("NEW GHOSTRON PACMAN SET");
-            _pacman = pacman;
+        public void SetPacboy(GameObject pacboy) {
+            Debug.LogWarning("NEW GHOSTRON PACBOY SET");
+            _pacboy = pacboy;
         }
 
         /**

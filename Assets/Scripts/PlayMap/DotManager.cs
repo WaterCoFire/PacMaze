@@ -7,7 +7,7 @@ using UnityEngine;
 namespace PlayMap {
     /**
      * Manages all the dots in the play map.
-     * The player wins when all the dots are eaten by pacman (disappear).
+     * The player wins when all the dots are eaten by Pacboy (disappear).
      */
     public class DotManager : MonoBehaviour {
         // List of all the dot index
@@ -78,7 +78,7 @@ namespace PlayMap {
 
         /**
          * Removes a dot object from the list by index.
-         * Called by Dot class when it collides with pacman (being eaten).
+         * Called by Dot class when it collides with Pacboy (being eaten).
          */
         public void RemoveDot(int eatenDotIndex) {
             if (!_dots.Remove(eatenDotIndex)) {

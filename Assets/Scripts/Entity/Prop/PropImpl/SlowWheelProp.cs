@@ -1,21 +1,21 @@
-﻿using Entity.Pacman;
+﻿using Entity.Pacboy;
 using PlayMap;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
     /**
      * SLOW WHEEL
-     * Pacman becomes slower for 5 secs.
+     * Pacboy becomes slower for 5 secs.
      */
     public class SlowWheelProp : Prop {
         // Slow wheel speed
         private readonly float _slowSpeed = 4f;
 
         // Override
-        public override void OnPicked(GameObject pacman) {
+        public override void OnPicked(GameObject pacboy) {
             Debug.Log("SLOW WHEEL picked");
-            // Pacman now has slower speed
-            pacman.GetComponent<PacmanMovement>().SetSpeedBuff(_slowSpeed);
+            // Pacboy now has slower speed
+            pacboy.GetComponent<PacboyMovement>().SetSpeedBuff(_slowSpeed);
             
             // Reduce 10 score points
             PlayMapController.Instance.DeductScore(10);

@@ -1,6 +1,5 @@
 ﻿using PlayMap;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Entity.Prop.PropImpl {
     /**
@@ -10,7 +9,7 @@ namespace Entity.Prop.PropImpl {
      */
     public class BadCherryProp : Prop {
         // Override
-        public override void OnPicked(GameObject pacman) {
+        public override void OnPicked(GameObject pacboy) {
             Debug.Log("BAD CHERRY picked");
             // Spawn a new ghostron at random place
             GhostronManager.Instance.NewRandomGhostron();

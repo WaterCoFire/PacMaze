@@ -2,14 +2,14 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Entity.Pacman {
+namespace Entity.Pacboy {
     /**
-     * Manages the camera of the pacman.
+     * Manages the camera of the Pacboy.
      * - Initialization
      * - "Turn Back" operation (Default key: Q, only works in FPV)
      * - Switch View operation (Default key: V)
      */
-    public class PacmanCamera : MonoBehaviour {
+    public class PacboyCamera : MonoBehaviour {
         // The camera game object
         private Camera _camera;
 
@@ -21,7 +21,7 @@ namespace Entity.Pacman {
         private KeyCode _switchViewKeyCode;
         private KeyCode _openMapKeyCode;
 
-        // Status indicating if the pacman camera is controllable
+        // Status indicating if the Pacboy camera is controllable
         private bool _controllable;
 
         // Position offsets of the camera, third person view and first person view
@@ -36,22 +36,22 @@ namespace Entity.Pacman {
         private float _yaw; // Y-axis rotation (left-right look)
         private float _pitch; // X-axis rotation (up-down look)
 
-        // Current offset of the camera from Pacman (depends on view mode)
+        // Current offset of the camera from Pacboy (depends on view mode)
         private Vector3 _currentOffset;
 
         // Status indicating if the player is in third person view
         private bool _inThirdPersonView;
 
-        // Pacman movement component
-        private PacmanMovement _pacmanMovement;
+        // Pacboy movement component
+        private PacboyMovement _pacboyMovement;
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacmanCamera START");
+            Debug.Log("PacboyCamera START");
 
-            // Set the camera game and pacman movement object
+            // Set the camera game and Pacboy movement object
             _camera = gameObject.GetComponentInChildren<Camera>();
-            _pacmanMovement = gameObject.GetComponent<PacmanMovement>();
+            _pacboyMovement = gameObject.GetComponent<PacboyMovement>();
 
             // Get the keycode set for look back & switch view operations
             _turnBackKeyCode = GetKeyCode("TurnBackKeyCode", KeyCode.Q);
@@ -60,7 +60,7 @@ namespace Entity.Pacman {
 
             _currentOffset = _thirdPersonOffset;
             _camera.transform.localPosition = _currentOffset;
-            _pacmanMovement.SetViewMode(true);
+            _pacboyMovement.SetViewMode(true);
 
             _controllable = true;
             _inThirdPersonView = true;
@@ -79,7 +79,7 @@ namespace Entity.Pacman {
             float mouseY = Input.GetAxis("Mouse Y"); // Vertical camera control
 
             if (_inThirdPersonView) {
-                // Third person: Orbit camera around Pacman
+                // Third person: Orbit camera around Pacboy
                 _yaw += mouseX * _cameraRotationSpeed;
                 _pitch -= mouseY * _cameraRotationSpeed;
                 _pitch = Mathf.Clamp(_pitch, -30f, 60f); // Limit vertical rotation
@@ -90,9 +90,9 @@ namespace Entity.Pacman {
                 // Smooth camera position transition
                 _camera.transform.position = Vector3.Lerp(_camera.transform.position, desiredPosition,
                     Time.deltaTime * _cameraTransitionSpeed);
-                _camera.transform.LookAt(transform.position + Vector3.up * 1.0f); // Look at Pacman’s head
+                _camera.transform.LookAt(transform.position + Vector3.up * 1.0f); // Look at Pacboy’s head
             } else {
-                // First person: Control Pacman's view direction
+                // First person: Control Pacboy's view direction
                 _yaw += mouseX * _cameraRotationSpeed;
                 _pitch -= mouseY * _cameraRotationSpeed;
                 _pitch = Mathf.Clamp(_pitch, -45f, 45f); // Narrower FPV pitch range
@@ -110,14 +110,14 @@ namespace Entity.Pacman {
                 _camera.transform.rotation = Quaternion.Lerp(_camera.transform.rotation, targetRotation,
                     Time.deltaTime * _cameraTransitionSpeed);
 
-                // Pacman orientation follows yaw (horizontal only)
+                // Pacboy orientation follows yaw (horizontal only)
                 transform.rotation = Quaternion.Euler(0, _yaw, 0);
             }
 
             // Switch between FPV and TPV
             if (Input.GetKeyDown(_switchViewKeyCode)) {
                 _inThirdPersonView = !_inThirdPersonView;
-                _pacmanMovement.SetViewMode(_inThirdPersonView);
+                _pacboyMovement.SetViewMode(_inThirdPersonView);
 
                 // Camera offset reset
                 _currentOffset = _inThirdPersonView ? _thirdPersonOffset : _firstPersonOffset;
@@ -173,7 +173,7 @@ namespace Entity.Pacman {
         }
 
         /**
-         * Allows the player to control the camera of the pacman.
+         * Allows the player to control the camera of the Pacboy.
          */
         public void EnableCameraOperation() {
             // Update KeyCode
@@ -184,7 +184,7 @@ namespace Entity.Pacman {
         }
 
         /**
-         * Stops the player from controlling the camera of the pacman.
+         * Stops the player from controlling the camera of the Pacboy.
          */
         public void DisableCameraOperation() {
             _controllable = false;

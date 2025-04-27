@@ -5,16 +5,16 @@ namespace Entity.Prop.PropImpl {
     /**
      * POWER PELLET
      * Scares all ghostrons.
-     * (Slows them down, and they are temporarily "frozen" when pacman catches them)
+     * (Slows them down, and they are temporarily "frozen" when pacboy catches them)
      */
     public class PowerPelletProp : Prop {
         // Override
-        public override void OnPicked(GameObject pacman) {
+        public override void OnPicked(GameObject pacboy) {
             Debug.Log("POWER PELLET picked");
             // Scare all the ghosts
             GhostronManager.Instance.ScareAllGhostrons();
             
-            // Give the pacman 50 score points
+            // Give the pacboy 50 score points
             PlayMapController.Instance.AddScore(50);
         }
     }

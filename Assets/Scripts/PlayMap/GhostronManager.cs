@@ -15,7 +15,7 @@ namespace PlayMap {
         // Normal wandering speed of ghostrons
         private readonly float _ghostronNormalSpeed = 2.0f;
 
-        // Scared speed of ghostrons (when pacman eats a power pellet)
+        // Scared speed of ghostrons (when Pacboy eats a power pellet)
         private readonly float _ghostronScaredSpeed = 1.0f;
 
         // Chasing speeds of ghostrons, by difficulty
@@ -31,8 +31,8 @@ namespace PlayMap {
         // Difficulty of the current game
         private char _difficulty;
 
-        // Pacman object setting
-        private GameObject _pacman;
+        // Pacboy object setting
+        private GameObject _pacboy;
 
         // Singleton instance
         public static GhostronManager Instance { get; private set; }
@@ -102,7 +102,7 @@ namespace PlayMap {
 
         /**
          * Scares all the ghostrons.
-         * Called when the pacman eats a power pellet.
+         * Called when the Pacboy eats a power pellet.
          */
         public void ScareAllGhostrons() {
             foreach (var ghostron in _ghostrons) {
@@ -115,7 +115,7 @@ namespace PlayMap {
          * Kills the nearest ghostron to the position given.
          * Used when a nice bomb is used OR deployed and then hit by a ghostron:
          * - USED:
-         * Obtain the nearest ghostron to the pacman and kill it
+         * Obtain the nearest ghostron to the Pacboy and kill it
          * - DEPLOYED & HIT:
          * Obtain the two nearest ghostron to the deployed bomb and kill them
          * (which means the ghostron hitting the deployed bomb & another nearest ghostron)
@@ -210,27 +210,27 @@ namespace PlayMap {
                     return;
             }
 
-            // Set the pacman target
-            newGhostron.GetComponent<Ghostron>().SetPacman(_pacman);
+            // Set the Pacboy target
+            newGhostron.GetComponent<Ghostron>().SetPacboy(_pacboy);
             // Add to the list
             AddGhostron(newGhostron);
         }
 
         /**
-         * Sets the pacman info that all the ghostrons chase.
+         * Sets the Pacboy info that all the ghostrons chase.
          */
-        public void SetPacman(GameObject pacman) {
-            _pacman = pacman;
+        public void SetPacboy(GameObject pacboy) {
+            _pacboy = pacboy;
             foreach (var ghostron in _ghostrons) {
-                ghostron.GetComponent<Ghostron>().SetPacman(_pacman);
+                ghostron.GetComponent<Ghostron>().SetPacboy(_pacboy);
             }
         }
 
         /**
-         * Action when a ghostron catches the pacman.
+         * Action when a ghostron catches the pacboy.
          * Make the game over (and the player loses).
          */
-        public void PacmanCaught() {
+        public void PacboyCaught() {
             PlayMapController.Instance.Lose();
         }
     }

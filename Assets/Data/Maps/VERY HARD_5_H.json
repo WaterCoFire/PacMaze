@@ -9,10 +9,10 @@
         }
     ],
     "propTypes": [
-        "PacmanSpawn(Clone)"
+        "PacboySpawn(Clone)"
     ],
     "fixedPropKeys": [
-        "PacmanSpawn",
+        "PacboySpawn",
         "GhostronSpawn",
         "PowerPellet",
         "FastWheel",

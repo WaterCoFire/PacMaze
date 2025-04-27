@@ -1,11 +1,11 @@
-﻿using Entity.Pacman;
+﻿using Entity.Pacboy;
 using PlayMap;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
     /**
      * NICE BOMB
-     * Does nothing when the pacman picks it
+     * Does nothing when the pacboy picks it
      * Only effective on the player's second operation when a bomb is picked:
      * Press E (default) to directly kill the nearest ghostron,
      * OR press F (default) to deploy the bomb down on the current tile.
@@ -15,11 +15,11 @@ namespace Entity.Prop.PropImpl {
      */
     public class NiceBombProp : Prop {
         // Override
-        public override void OnPicked(GameObject pacman) {
+        public override void OnPicked(GameObject pacboy) {
             Debug.Log("NICE BOMB picked");
             
-            // Give the pacman one more bomb
-            pacman.GetComponent<PacmanPropOperation>().GetNiceBomb();
+            // Give the pacboy one more bomb
+            pacboy.GetComponent<PacboyPropOperation>().GetNiceBomb();
             
             // Add 10 score points
             PlayMapController.Instance.AddScore(10);

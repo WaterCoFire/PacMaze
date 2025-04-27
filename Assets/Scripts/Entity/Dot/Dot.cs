@@ -45,11 +45,11 @@ namespace Entity.Dot {
         
         /**
          * Event when the dot collides with other game objects
-         * (All objects except pacman should be ignored)
+         * (All objects except Pacboy should be ignored)
          */
         private void OnTriggerEnter(Collider other) {
-            // If the other object is not pacman, ignore it
-            if (!other.CompareTag("Pacman")) return;
+            // If the other object is not Pacboy, ignore it
+            if (!other.CompareTag("Pacboy")) return;
 
             // Do not remove if DotManager is still not found
             if (_dotManager == null) {
@@ -60,7 +60,7 @@ namespace Entity.Dot {
             // Remove this dot in DotManager
             _dotManager.RemoveDot(_index);
             
-            // Give the pacman 10 score points
+            // Give the Pacboy 10 score points
             PlayMapController.Instance.AddScore(10);
 
             // Destroy the game object of this dot

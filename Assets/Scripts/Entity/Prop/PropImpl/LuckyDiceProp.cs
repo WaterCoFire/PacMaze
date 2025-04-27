@@ -12,7 +12,7 @@ namespace Entity.Prop.PropImpl {
      */
     public class LuckyDiceProp : Prop {
         // Override
-        public override void OnPicked(GameObject pacman) {
+        public override void OnPicked(GameObject pacboy) {
             Debug.Log("LUCKY DICE picked");
             // Get a random prop type
             int propType = RandomPropType();
@@ -21,23 +21,23 @@ namespace Entity.Prop.PropImpl {
             switch (propType) {
                 case 0:
                     // Power Pellet
-                    new PowerPelletProp().OnPicked(pacman);
+                    new PowerPelletProp().OnPicked(pacboy);
                     return;
                 case 1:
                     // Fast Wheel
-                    new FastWheelProp().OnPicked(pacman);
+                    new FastWheelProp().OnPicked(pacboy);
                     return;
                 case 2:
                     // Nice Bomb
-                    new NiceBombProp().OnPicked(pacman);
+                    new NiceBombProp().OnPicked(pacboy);
                     return;
                 case 3:
                     // Slow Wheel
-                    new SlowWheelProp().OnPicked(pacman);
+                    new SlowWheelProp().OnPicked(pacboy);
                     return;
                 case 4:
                     // Bad Cherry
-                    new BadCherryProp().OnPicked(pacman);
+                    new BadCherryProp().OnPicked(pacboy);
                     return;
                 default:
                     Debug.LogError("Invalid prop type!");

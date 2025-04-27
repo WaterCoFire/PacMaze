@@ -72,31 +72,31 @@ namespace HomePage {
         private bool CheckNameValidity(string nameInput) {
             // Check name length: too long
             if (nameInput.Length > 15) {
-                warningText.text = "Pacman feels pressure because that's too long!";
+                warningText.text = "Pacboy feels pressure because that's too long!";
                 return false;
             }
             
             // Check name length: too short
             if (nameInput.Length < 1) {
-                warningText.text = "Pacman feels empty, just like this name!";
+                warningText.text = "Pacboy feels empty, just like this name!";
                 return false;
             }
 
             // No space at both ends
             if (nameInput.StartsWith(" ") || nameInput.EndsWith(" ")) {
-                warningText.text = "Pacman is unhappy because it hates space at the edges!";
+                warningText.text = "Pacboy is unhappy because it hates space at the edges!";
                 return false;
             }
 
             // No invalid characters
             if (!Regex.IsMatch(nameInput, @"^[A-Za-z0-9 ]+$")) {
-                warningText.text = "Pacman is scared because it sees some unusual characters!";
+                warningText.text = "Pacboy is scared because it sees some unusual characters!";
                 return false;
             }
             
             // Name conflict
             if (editMapViewWindow.GetComponent<EditMapPage>().CheckNameConflict(nameInput.ToUpper())) {
-                warningText.text = "Pacman is confused because there is another map named this!";
+                warningText.text = "Pacboy is confused because there is another map named this!";
                 return false;
             }
 

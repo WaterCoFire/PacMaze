@@ -7343,7 +7343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 282383820}
   m_Layer: 5
-  m_Name: PacmanSpawn
+  m_Name: PacboySpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7759,7 +7759,7 @@ GameObject:
   - component: {fileID: 315549942}
   - component: {fileID: 315549941}
   m_Layer: 5
-  m_Name: NoPacmanWarningPanel
+  m_Name: NoPacboyWarningPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20659,7 +20659,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pacman is sad because it''s being ignored!
+  m_text: 'Pacboy is sad because it''s being ignored!
 
 
     Please set its spawn
@@ -24797,7 +24797,7 @@ GameObject:
   - component: {fileID: 1087834389}
   - component: {fileID: 1087834388}
   m_Layer: 5
-  m_Name: PacmanSpawnButton
+  m_Name: PacboySpawnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26668,7 +26668,7 @@ GameObject:
   - component: {fileID: 1126692546}
   - component: {fileID: 1126692545}
   m_Layer: 5
-  m_Name: PacmanImage
+  m_Name: PacboyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41690,7 +41690,7 @@ MonoBehaviour:
     type: 2}
   ghostronSpawnPrefab: {fileID: 4983011316271254539, guid: bc7136021a3590b46817674775c53944,
     type: 3}
-  pacmanSpawnPrefab: {fileID: 4887355432709199903, guid: 57a9eadb0b806da41a4b1c397b2add0c,
+  pacboySpawnPrefab: {fileID: 4887355432709199903, guid: 57a9eadb0b806da41a4b1c397b2add0c,
     type: 3}
   powerPelletPrefab: {fileID: 7060741750217758432, guid: ba2801dd5a546a54eb69ad983dd56c29,
     type: 3}
@@ -41705,7 +41705,7 @@ MonoBehaviour:
   luckyDicePrefab: {fileID: 7510056223922930930, guid: 06993ec41dfafbf4b867caa95b48c5d5,
     type: 3}
   ghostronSpawnButton: {fileID: 1450119741}
-  pacmanSpawnButton: {fileID: 1087834388}
+  pacboySpawnButton: {fileID: 1087834388}
   powerPelletButton: {fileID: 1208983869}
   fastWheelButton: {fileID: 59255367}
   niceBombButton: {fileID: 1863499089}
@@ -41758,7 +41758,7 @@ MonoBehaviour:
   difficultySettingPanel: {fileID: 1045898885}
   mapNameText: {fileID: 382957435}
   modePromptText: {fileID: 1510401337}
-  noPacmanSpawnWarningPanel: {fileID: 315549939}
+  noPacboySpawnWarningPanel: {fileID: 315549939}
   warningPanelCloseButton: {fileID: 1625177016}
 --- !u!114 &1748880451
 MonoBehaviour:
@@ -43427,7 +43427,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pacman
+  m_text: 'Pacboy
 
     Spawn
 
@@ -50546,7 +50546,7 @@ PrefabInstance:
     - target: {fileID: 4887355432709199903, guid: 57a9eadb0b806da41a4b1c397b2add0c,
         type: 3}
       propertyPath: m_Name
-      value: PacmanSpawn
+      value: PacboySpawn
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

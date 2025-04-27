@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
-using Entity.Pacman;
+using Entity.Pacboy;
 using Newtonsoft.Json;
 using PlayMap.UI;
 using Setting;
@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace PlayMap {
     /**
-     * Manages the map that the player plays in (controls the pacman).
+     * Manages the map that the player plays in (controls the Pacboy).
      */
     public class PlayMapController : MonoBehaviour {
         // Map data save directory
@@ -78,7 +78,7 @@ namespace PlayMap {
          * - Places the ghostrons at their fixed spawn point
          * - Randomly generates the remaining ghostrons (num: total - fixed)
          * - Generates dots for all the spare tiles
-         * - Generates the pacman
+         * - Generates the Pacboy
          */
         private void InitMap(string mapFileName) {
             // Parse the map file name
@@ -141,10 +141,10 @@ namespace PlayMap {
          * Pauses the game.
          */
         public void PauseGame() {
-            GameObject pacman = GameObject.FindGameObjectWithTag("Pacman");
-            pacman.GetComponent<PacmanMovement>().DisableMovement();
-            pacman.GetComponent<PacmanCamera>().DisableCameraOperation();
-            pacman.GetComponent<PacmanPropOperation>().DisablePropOperation();
+            GameObject pacboy = GameObject.FindGameObjectWithTag("Pacboy");
+            pacboy.GetComponent<PacboyMovement>().DisableMovement();
+            pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
+            pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
             Time.timeScale = 0f; // Stop the time scale
             _gamePlaying = false;
@@ -156,10 +156,10 @@ namespace PlayMap {
          * Resumes the game.
          */
         public void ResumeGame() {
-            GameObject pacman = GameObject.FindGameObjectWithTag("Pacman");
-            pacman.GetComponent<PacmanMovement>().EnableMovement();
-            pacman.GetComponent<PacmanCamera>().EnableCameraOperation();
-            pacman.GetComponent<PacmanPropOperation>().EnablePropOperation();
+            GameObject pacboy = GameObject.FindGameObjectWithTag("Pacboy");
+            pacboy.GetComponent<PacboyMovement>().EnableMovement();
+            pacboy.GetComponent<PacboyCamera>().EnableCameraOperation();
+            pacboy.GetComponent<PacboyPropOperation>().EnablePropOperation();
 
             Time.timeScale = 1f; // Resume the time scale
             _gamePlaying = true;
@@ -169,16 +169,16 @@ namespace PlayMap {
 
         /**
          * The player wins the game.
-         * Called when all dots are eaten by the pacman.
+         * Called when all dots are eaten by the Pacboy.
          */
         public void Win() {
             _gamePlaying = false;
 
-            // Disable pacman control
-            GameObject pacman = GameObject.FindGameObjectWithTag("Pacman");
-            pacman.GetComponent<PacmanMovement>().DisableMovement();
-            pacman.GetComponent<PacmanCamera>().DisableCameraOperation();
-            pacman.GetComponent<PacmanPropOperation>().DisablePropOperation();
+            // Disable Pacboy control
+            GameObject pacboy = GameObject.FindGameObjectWithTag("Pacboy");
+            pacboy.GetComponent<PacboyMovement>().DisableMovement();
+            pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
+            pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
             Time.timeScale = 0f; // Stop the time scale
 
@@ -189,16 +189,16 @@ namespace PlayMap {
 
         /**
          * The player loses the game.
-         * Called when a ghostron catches the pacman.
+         * Called when a ghostron catches the Pacboy.
          */
         public void Lose() {
             _gamePlaying = false;
 
-            // Disable pacman control
-            GameObject pacman = GameObject.FindGameObjectWithTag("Pacman");
-            pacman.GetComponent<PacmanMovement>().DisableMovement();
-            pacman.GetComponent<PacmanCamera>().DisableCameraOperation();
-            pacman.GetComponent<PacmanPropOperation>().DisablePropOperation();
+            // Disable Pacboy control
+            GameObject pacboy = GameObject.FindGameObjectWithTag("Pacboy");
+            pacboy.GetComponent<PacboyMovement>().DisableMovement();
+            pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
+            pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
             Time.timeScale = 0f; // Stop the time scale
 
