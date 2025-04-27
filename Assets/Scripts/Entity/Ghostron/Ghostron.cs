@@ -190,8 +190,8 @@ namespace Entity.Ghostron {
          * during the last 2 seconds of the scared state.
          */
         private void SetRandomMaterialDuringScared() {
-            if (!_isScared || _isCaught) {
-                Debug.LogError("Ghostron is not scared / already caught but random skin setting function called.");
+            if (!_isScared) {
+                Debug.LogError("Ghostron is not scared but random skin setting function called.");
             }
 
             if (_scaredTimer % 0.5f < 0.25f) {
