@@ -28,7 +28,11 @@ namespace Entity.Ghostron {
 
         // Wandering logic variables
         private float _wanderTimer; // Timer of the current wandering
-        private readonly float _wanderInterval = 20.0f; // Interval of switching a wandering target
+
+        // Interval of switching a wandering target
+        protected virtual float WanderInterval {
+            get { return 0f; }
+        }
 
         private NavMeshAgent _agent; // NavMesh agent
 
@@ -37,7 +41,12 @@ namespace Entity.Ghostron {
         // Scared logic variables
         private bool _isScared; // Status indicating if the Pacboy is scared (when Pacboy eats a power pellet)
         private float _scaredTimer; // Timer of the ghostron feeling scared
-        private readonly float _scaredDuration = 6.0f; // Duration of the "scared" effect of ghostrons
+
+        // Duration of the "scared" effect of ghostrons
+        protected virtual float ScaredDuration {
+            get { return 0f; }
+        }
+
         private bool _isCaught; // Status indicating if the Pacboy has caught the ghostron when it is scared
 
         private readonly float
@@ -56,7 +65,7 @@ namespace Entity.Ghostron {
         private readonly float _normalAnimationSpeed = 0.6f; // Wandering
         private readonly float _chaseAnimationSpeed = 1f; // Chasing Pacboy
         private readonly float _scaredAnimationSpeed = 0.3f; // Scared
-        
+
         /**
          * Generates a position on the map.
          * Used for getting a target when the ghostron is wandering.
@@ -152,9 +161,9 @@ namespace Entity.Ghostron {
                 _scaredTimer += Time.deltaTime;
 
                 // Check if the scared ghostron is in the last two seconds of the scared state
-                if (_scaredTimer >= _scaredDuration - _scaredWarningTime) {
+                if (_scaredTimer >= ScaredDuration - _scaredWarningTime) {
                     // Warning player about scared status ending soon
-                    if (_scaredTimer < _scaredDuration) {
+                    if (_scaredTimer < ScaredDuration) {
                         Debug.LogWarning("Warning: Ghostron scared state will end soon!");
                         // Make the skin swap between normal and scared materials
                         SetRandomMaterialDuringScared();
@@ -162,7 +171,7 @@ namespace Entity.Ghostron {
                 }
 
                 // If the timer reaches the scared duration time, stop being scared
-                if (_scaredTimer >= _scaredDuration) {
+                if (_scaredTimer >= ScaredDuration) {
                     SetScared(false);
                 }
             }
@@ -263,7 +272,7 @@ namespace Entity.Ghostron {
             _animator.speed = _normalAnimationSpeed;
 
             // Wandering destination setting
-            if (!_agent.hasPath || _agent.remainingDistance < 0.5f || _wanderTimer >= _wanderInterval) {
+            if (!_agent.hasPath || _agent.remainingDistance < 0.5f || _wanderTimer >= WanderInterval) {
                 Vector3 newDestination = GenerateWanderingTarget();
                 _agent.SetDestination(newDestination);
                 _wanderTimer = 0f;

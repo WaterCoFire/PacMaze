@@ -2,22 +2,25 @@
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
-    public class BlueGhostron : Ghostron {
-        // Wander interval of the blue ghostron
+    public class TenaciousGhostron : Ghostron {
+        // Wander interval of the tenacious ghostron
         protected override float WanderInterval {
-            get { return 20.0f; }
+            get { return 2.0f; }
         }
 
-        // Scared duration of the blue ghostron
+        // Scared duration of the tenacious ghostron
+        // TENACIOUS GHOSTRON WILL NOT BE SCARED
         protected override float ScaredDuration {
-            get { return 6.0f; }
+            get { return 0.0f; }
         }
 
         /**
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
-         * Blue Ghostron:
-         * Go to a random position.
+         * Tenacious Ghostron:
+         * Always go to the position that the Pacboy has been to.
+         * As the wander interval is short for tenacious ghostron,
+         * this is almost the current location of the Pacboy.
          */
         protected override Vector3 GenerateWanderingTarget() {
             // Possible x/z axis coordinate values of the target

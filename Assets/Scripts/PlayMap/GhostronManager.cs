@@ -34,6 +34,9 @@ namespace PlayMap {
         // Pacboy object setting
         private GameObject _pacboy;
 
+        // Tenacious ghostron game object prefab
+        public GameObject tenaciousGhostronPrefab;
+
         // Singleton instance
         public static GhostronManager Instance { get; private set; }
 
@@ -149,16 +152,17 @@ namespace PlayMap {
                 Debug.Log("Nearest ghostron destroyed!");
                 return true;
             }
-            
+
             Debug.LogError("An error occurred when killing the nearest ghostron! (nearest = null)");
             return false;
         }
 
         /**
-         * Spawns a new ghostron with random color at random place.
+         * Spawns the tenacious ghostron at random place.
+         * Called when a bad cherry is picked by the Pacboy.
          */
-        public void NewRandomGhostron() {
-            // --- Position logic ---
+        public void SpawnTenaciousGhostron() {
+            // Generate random position for the tenacious ghostron to spawn
             Vector3 randomPosition;
 
             // Generate random position
@@ -181,39 +185,15 @@ namespace PlayMap {
                 return;
             }
 
-            // --- Ghostron type logic ---
-            GameObject newGhostron;
-            int rand = Random.Range(0, 5); // Random number
-            switch (rand) {
-                case 0:
-                    newGhostron = Instantiate(GetComponent<PropGenerator>().redGhostronPrefab, randomPosition,
-                        Quaternion.identity);
-                    break;
-                case 1:
-                    newGhostron = Instantiate(GetComponent<PropGenerator>().blueGhostronPrefab, randomPosition,
-                        Quaternion.identity);
-                    break;
-                case 2:
-                    newGhostron = Instantiate(GetComponent<PropGenerator>().yellowGhostronPrefab, randomPosition,
-                        Quaternion.identity);
-                    break;
-                case 3:
-                    newGhostron = Instantiate(GetComponent<PropGenerator>().greenGhostronPrefab, randomPosition,
-                        Quaternion.identity);
-                    break;
-                case 4:
-                    newGhostron = Instantiate(GetComponent<PropGenerator>().pinkGhostronPrefab, randomPosition,
-                        Quaternion.identity);
-                    break;
-                default:
-                    Debug.LogError("Invalid number generated when getting a random ghostron color!");
-                    return;
-            }
+            // Spawn new tenacious ghostron (oh no for Pacboy!)
+            GameObject newTenaciousGhostron = Instantiate(tenaciousGhostronPrefab, randomPosition,
+                Quaternion.identity);
 
-            // Set the Pacboy target
-            newGhostron.GetComponent<Ghostron>().SetPacboy(_pacboy);
-            // Add to the list
-            AddGhostron(newGhostron);
+            // Set its Pacboy target (oh no again!)
+            newTenaciousGhostron.GetComponent<Ghostron>().SetPacboy(_pacboy);
+            
+            // Add the tenacious ghostron to the list
+            AddGhostron(newTenaciousGhostron);
         }
 
         /**

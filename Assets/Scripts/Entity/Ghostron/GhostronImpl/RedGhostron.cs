@@ -2,32 +2,66 @@
 
 namespace Entity.Ghostron.GhostronImpl {
     public class RedGhostron : Ghostron {
+        // Wander interval of the red ghostron
+        protected override float WanderInterval {
+            get { return 10.0f; }
+        }
+        
+        // Scared duration of the red ghostron
+        protected override float ScaredDuration {
+            get { return 6.0f; }
+        }
+
+        // The four corners, as potential positions
+        private readonly Vector3[] _potentialPositions = {
+            new(-15, 0, -15), new(-15, 0, 15), new(15, 0, -15), new(15, 0, 15)
+        };
+
+        private int _positionIndex = -1; // Index of the current target position, 0-3
+
         /**
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Red Ghostron:
          * Go to the map corner which is the furthest away from the Pacboy.
+         * If the red ghostron already arrives there, go to another random corner.
          */
         protected override Vector3 GenerateWanderingTarget() {
             if (Pacboy != null) {
-                // The four corners
-                Vector3[] potentialPositions = {
-                    new(-15, 0, -15), new(-15, 0, 15), new(15, 0, -15), new(15, 0, 15)
-                };
-
                 // Find the corner that is the furthest away from the Pacboy
-                Vector3 furthestPosition = potentialPositions[0];
+                Vector3 furthestPosition = _potentialPositions[0];
+                int index = 0;
                 float maxDistance = Vector3.Distance(furthestPosition, Pacboy.transform.position);
 
-                foreach (var pos in potentialPositions) {
-                    float distance = Vector3.Distance(pos, Pacboy.transform.position);
+                for (int i = 0; i < 4; i++) {
+                    float distance = Vector3.Distance(_potentialPositions[i], Pacboy.transform.position);
                     if (distance > maxDistance) {
-                        furthestPosition = pos;
+                        furthestPosition = _potentialPositions[i];
+                        index = i;
                         maxDistance = distance;
                     }
                 }
 
-                return furthestPosition;
+                // Duplicate target avoiding logic
+                if (index != _positionIndex) {
+                    // If the new position is different, return this position
+                    _positionIndex = index;
+                    return furthestPosition;
+                } else {
+                    // Get another random position at the corner
+                    int randIndex;
+                    while (true) {
+                        var rand = Random.Range(0, 4);
+                        if (rand != _positionIndex) {
+                            randIndex = rand;
+                            break;
+                        }
+                    }
+
+                    _positionIndex = randIndex;
+                    furthestPosition = _potentialPositions[randIndex];
+                    return furthestPosition;
+                }
             }
 
             return transform.position;

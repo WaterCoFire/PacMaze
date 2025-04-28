@@ -41635,6 +41635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da5196cd6334735818a78ad70efa658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tenaciousGhostronPrefab: {fileID: 1478234892423364373, guid: 4d995a41157a6974d939b46b64a2a66d,
+    type: 3}
 --- !u!114 &1748880452
 MonoBehaviour:
   m_ObjectHideFlags: 0
