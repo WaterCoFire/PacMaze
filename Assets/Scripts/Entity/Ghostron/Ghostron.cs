@@ -385,9 +385,9 @@ namespace Entity.Ghostron {
 
                 // Double the speed
                 _crazyParty = true;
-                _normalSpeed *= 2;
-                _scaredSpeed *= 2;
-                _chaseSpeed *= 2;
+                _normalSpeed *= 3;
+                _scaredSpeed *= 3;
+                _chaseSpeed *= 3;
             } else {
                 if (!_crazyParty) {
                     Debug.LogError("Error: Crazy Party is not active!");
@@ -396,9 +396,9 @@ namespace Entity.Ghostron {
                 
                 // Set back to normal speed
                 _crazyParty = false;
-                _normalSpeed /= 2;
-                _scaredSpeed /= 2;
-                _chaseSpeed /= 2;
+                _normalSpeed /= 3;
+                _scaredSpeed /= 3;
+                _chaseSpeed /= 3;
             }
         }
     }

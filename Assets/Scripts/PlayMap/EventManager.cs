@@ -14,7 +14,7 @@ namespace PlayMap {
      */
     public class EventManager : MonoBehaviour {
         private bool _eventEnabled;
-        private float _eventTriggerProbability = 0.1f;
+        private readonly float _eventTriggerProbability = 0.5f;
         private bool _eventInProcess;
         private float _eventTimer;
         private readonly float _eventDuration = 10.0f;
@@ -33,6 +33,7 @@ namespace PlayMap {
         // START FUNCTION
         private void Start() {
             Debug.Log("EventManager START");
+            _currentEventIndex = 0;
             _eventInProcess = false;
         }
 
@@ -53,19 +54,24 @@ namespace PlayMap {
                     case 1:
                         // Super Bonus
                         PlayMapController.Instance.SetSuperBonus(false);
-                        return;
+                        break;
                     case 2:
                         // Crazy Party
                         GhostronManager.Instance.SetCrazyParty(false);
                         PlayMapController.Instance.GetPacboy().GetComponent<PacboyMovement>().SetCrazyParty(false);
-                        return;
+                        break;
                     case 3:
                         // Air Wall
-                        return;
+                        PlayMapController.Instance.SetAirWall(false);
+                        break;
                     default:
                         Debug.LogError("Error: Invalid event index!");
-                        return;
+                        break;
                 }
+
+                _currentEventIndex = 0;
+                _eventInProcess = false;
+                _eventTimer = 0f;
             }
         }
 
@@ -111,6 +117,7 @@ namespace PlayMap {
                 _currentEventIndex = 3;
                 _eventTimer = 0f;
                 _eventInProcess = true;
+                PlayMapController.Instance.SetAirWall(true);
             }
         }
 
