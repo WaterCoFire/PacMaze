@@ -1,7 +1,7 @@
 {
     "name": "TEST ONLY",
     "difficulty": 69,
-    "eventEnabled": false,
+    "eventEnabled": true,
     "propPositions": [
         {
             "x": 0.0,

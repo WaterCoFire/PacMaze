@@ -7,9 +7,9 @@ namespace MapEditor {
      * Sets whether or not the game events can be triggered
      * A game event might be triggered everytime a dot is eaten by Pacboy
      * POSSIBLE EVENTS
-     * - Air Walls (Walls become invisible)
      * - Super Bonus (All scores awarded are doubled)
      * - Crazy Party (Pacboy and Ghostrons are way faster)
+     * - Air Walls (Walls become invisible)
      */
     public class EventEditor : MonoBehaviour {
         public Button enableEventButton;

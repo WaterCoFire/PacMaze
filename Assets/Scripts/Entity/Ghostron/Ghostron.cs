@@ -66,6 +66,9 @@ namespace Entity.Ghostron {
         private readonly float _chaseAnimationSpeed = 1f; // Chasing Pacboy
         private readonly float _scaredAnimationSpeed = 0.3f; // Scared
 
+        // Event logic - Crazy Party active/disactive (Double the speed)
+        private bool _crazyParty;
+
         /**
          * Generates a position on the map.
          * Used for getting a target when the ghostron is wandering.
@@ -84,6 +87,8 @@ namespace Entity.Ghostron {
                 Debug.LogError("Ghostron start error: Essential components missing!");
                 return;
             }
+
+            _crazyParty = false; // No Crazy Party event by default
 
             // Set the ghost as a trigger
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
@@ -364,6 +369,36 @@ namespace Entity.Ghostron {
                 if (hasChange) {
                     renderer.sharedMaterials = newMats;
                 }
+            }
+        }
+
+        /**
+         * Sets the status of Crazy Party.
+         * Called by EventManager via GhostronManager when the Crazy Party should be on/off.
+         */
+        public void SetCrazyParty(bool on) {
+            if (on) {
+                if (_crazyParty) {
+                    Debug.LogError("Error: Crazy Party is already active!");
+                    return;
+                }
+
+                // Double the speed
+                _crazyParty = true;
+                _normalSpeed *= 2;
+                _scaredSpeed *= 2;
+                _chaseSpeed *= 2;
+            } else {
+                if (!_crazyParty) {
+                    Debug.LogError("Error: Crazy Party is not active!");
+                    return;
+                }
+                
+                // Set back to normal speed
+                _crazyParty = false;
+                _normalSpeed /= 2;
+                _scaredSpeed /= 2;
+                _chaseSpeed /= 2;
             }
         }
     }

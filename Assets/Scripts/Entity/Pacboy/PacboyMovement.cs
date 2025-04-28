@@ -14,7 +14,7 @@ namespace Entity.Pacboy {
         private readonly float _pacboyRotateSpeed = 5.0f;
 
         // Pacboy's normal speed
-        private readonly float _pacboyNormalMoveSpeed = 5.0f;
+        private float _pacboyNormalMoveSpeed = 5.0f;
 
         // Key code for moving (WASD by default, it can be customized in Setting)
         private KeyCode _forwardKeyCode;
@@ -40,6 +40,9 @@ namespace Entity.Pacboy {
         private readonly float _speedBuffDuration = 5.0f; // Duration that a speed buff lasts
         private bool _speedBuffInEffect; // Status telling whether currently there is a speed buff or not
 
+        // Event logic - Crazy Party active/disactive (Double the speed)
+        private bool _crazyParty;
+        
         // START FUNCTION
         private void Start() {
             Debug.Log("PacboyMovement START");
@@ -59,7 +62,7 @@ namespace Entity.Pacboy {
             // Set to normal speed
             _pacboyMoveSpeed = _pacboyNormalMoveSpeed;
 
-            // TEST
+            _crazyParty = false; // No Crazy Party event by default
             _controllable = true;
         }
 
@@ -264,6 +267,36 @@ namespace Entity.Pacboy {
             Cursor.visible = true;
             
             _controllable = false;
+        }
+        
+        /**
+         * Sets the status of Crazy Party.
+         * Called by EventManager via GhostronManager when the Crazy Party should be on/off.
+         */
+        public void SetCrazyParty(bool on) {
+            if (on) {
+                if (_crazyParty) {
+                    Debug.LogError("Error: Crazy Party is already active!");
+                    return;
+                }
+
+                // Double the speed
+                // For both the current speed and the normal speed
+                _crazyParty = true;
+                _pacboyMoveSpeed *= 2;
+                _pacboyNormalMoveSpeed *= 2;
+            } else {
+                if (!_crazyParty) {
+                    Debug.LogError("Error: Crazy Party is not active!");
+                    return;
+                }
+                
+                // Set back to normal speed
+                // For both the current speed and the normal speed
+                _crazyParty = false;
+                _pacboyMoveSpeed /= 2;
+                _pacboyNormalMoveSpeed /= 2;
+            }
         }
     }
 }

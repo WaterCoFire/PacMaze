@@ -31,7 +31,7 @@ namespace PlayMap {
         private Random _random = new();
 
         // Pacboy game object (used for setting the chase target of all the ghostrons)
-        private GameObject _pacboyGameObject;
+        private GameObject _pacboy;
 
         /**
          * Places all the FIXED props (including Pacboy, fixed ghostrons) on the map.
@@ -70,7 +70,7 @@ namespace PlayMap {
                 if (prefab.name == "Pacboy") {
                     // Look for the Pacboy game object and store it
                     Debug.Log("PACBOY FOUND");
-                    _pacboyGameObject = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                    _pacboy = Instantiate(prefab, kvp.Key, Quaternion.identity);
                 } else if (prefab.name.Contains("Ghostron")) {
                     // Store all the ghostrons in GhostronManager
                     GameObject newGhostron = Instantiate(prefab, kvp.Key, Quaternion.identity);
@@ -107,10 +107,11 @@ namespace PlayMap {
             }
 
             // Set the Pacboy target for all the ghostrons
-            if (_pacboyGameObject == null) {
+            if (_pacboy == null) {
                 Debug.LogError("Error: Pacboy not found!");
             } else {
-                GhostronManager.Instance.SetPacboy(_pacboyGameObject);
+                PlayMapController.Instance.SetPacboy(_pacboy);
+                GhostronManager.Instance.SetPacboy(_pacboy);
             }
 
             // Reset the free tiles list

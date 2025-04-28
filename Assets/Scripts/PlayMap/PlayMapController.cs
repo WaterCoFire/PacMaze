@@ -14,8 +14,8 @@ namespace PlayMap {
      */
     public class PlayMapController : MonoBehaviour {
         // Map data save directory
-        private string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
-        private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
+        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
         private char _difficulty; // Difficulty of the current game
         private int _currentScore; // Current game score
@@ -25,11 +25,19 @@ namespace PlayMap {
         // GAME TIMER
         private float _gameTimer;
 
+        // Pacboy game object
+        private GameObject _pacboy;
+
         // In-game UI
         public TMP_Text scoreText; // Score text
         public GameObject pausePage; // Pause page
         public GameObject winPage; // Game over page: player wins
         public GameObject losePage; // Game over page: player loses
+
+        // Event logic - Super Bonus active/disactive (Double the score obtained)
+        private bool _superBonus;
+        private bool _airWall;
+        public GameObject walls; // Wall game object
 
         // Singleton instance
         public static PlayMapController Instance { get; private set; }
@@ -60,11 +68,13 @@ namespace PlayMap {
             pausePage.SetActive(false);
             winPage.SetActive(false);
             losePage.SetActive(false);
-            
+
             Time.timeScale = 1f; // Reset time scale
             _gameTimer = 0f; // Reset timer
+            _superBonus = false; // By default there is no Super Bonus
+            _airWall = false; // By default there is no Air Wall
             _gamePlaying = true;
-            
+
             // Reset score
             _currentScore = 0;
             scoreText.text = "Score: " + _currentScore;
@@ -107,7 +117,7 @@ namespace PlayMap {
 
             // Update difficulty in GhostronManager to for setting the behaviours of the ghostrons
             GhostronManager.Instance.SetDifficulty(_difficulty);
-            
+
             // Set the event status in EventManager (enable/disable event)
             EventManager.Instance.SetEventStatus(wrapper.eventEnabled);
 
@@ -228,7 +238,7 @@ namespace PlayMap {
 
             return _gameTimer;
         }
-        
+
         /**
          * Returns the game score.
          * Used by the game over win page to display the score.
@@ -253,10 +263,17 @@ namespace PlayMap {
             }
 
             // Update score
-            _currentScore += score;
+            if (_superBonus) {
+                // Super Bonus - double score
+                _currentScore += score * 2;
+            } else {
+                // No Super Bonus - Normal
+                _currentScore += score;
+            }
+
             scoreText.text = "Score: " + _currentScore;
         }
-        
+
         /**
          * Deducts some score.
          */
@@ -272,6 +289,64 @@ namespace PlayMap {
             // Cap the score to 0 if it is less than 0
             if (_currentScore < 0) _currentScore = 0;
             scoreText.text = "Score: " + _currentScore;
+        }
+
+        /**
+         * Sets the Pacboy game object of the current game.
+         */
+        public void SetPacboy(GameObject pacboy) {
+            _pacboy = pacboy;
+        }
+
+        /**
+         * Gets the Pacboy game object.
+         */
+        public GameObject GetPacboy() {
+            return _pacboy;
+        }
+
+        /**
+         * Sets the status of Super Bonus.
+         * Called by EventManager when the Super Bonus should be on/off.
+         */
+        public void SetSuperBonus(bool on) {
+            _superBonus = on;
+        }
+        
+        /**
+         * Sets the status of Air Wall.
+         * Called by EventManager when the Air Wall should be on/off.
+         */
+        public void SetAirWall(bool on) {
+            if (on) {
+                if (_airWall) {
+                    Debug.LogError("Error: Air Wall is already active!");
+                    return;
+                }
+
+                // Make all the walls invisible
+                _airWall = true;
+                
+                // Get all Renderers in children of wall object and disable them
+                Renderer[] renderers = walls.GetComponentsInChildren<Renderer>(true);
+                foreach (var renderer in renderers) {
+                    renderer.enabled = false;
+                }
+            } else {
+                if (!_airWall) {
+                    Debug.LogError("Error: Air Wall is not active!");
+                    return;
+                }
+                
+                // Make the walls visible again
+                _airWall = false;
+                
+                // Get all Renderers in children of wall object and enable them
+                Renderer[] renderers = walls.GetComponentsInChildren<Renderer>(true);
+                foreach (var renderer in renderers) {
+                    renderer.enabled = true;
+                }
+            }
         }
     }
 }

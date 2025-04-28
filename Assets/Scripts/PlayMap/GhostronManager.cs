@@ -31,9 +31,6 @@ namespace PlayMap {
         // Difficulty of the current game
         private char _difficulty;
 
-        // Pacboy object setting
-        private GameObject _pacboy;
-
         // Tenacious ghostron game object prefab
         public GameObject tenaciousGhostronPrefab;
 
@@ -190,7 +187,7 @@ namespace PlayMap {
                 Quaternion.identity);
 
             // Set its Pacboy target (oh no again!)
-            newTenaciousGhostron.GetComponent<Ghostron>().SetPacboy(_pacboy);
+            newTenaciousGhostron.GetComponent<Ghostron>().SetPacboy(PlayMapController.Instance.GetPacboy());
             
             // Add the tenacious ghostron to the list
             AddGhostron(newTenaciousGhostron);
@@ -200,9 +197,8 @@ namespace PlayMap {
          * Sets the Pacboy info that all the ghostrons chase.
          */
         public void SetPacboy(GameObject pacboy) {
-            _pacboy = pacboy;
             foreach (var ghostron in _ghostrons) {
-                ghostron.GetComponent<Ghostron>().SetPacboy(_pacboy);
+                ghostron.GetComponent<Ghostron>().SetPacboy(pacboy);
             }
         }
 
@@ -212,6 +208,17 @@ namespace PlayMap {
          */
         public void PacboyCaught() {
             PlayMapController.Instance.Lose();
+        }
+        
+        /**
+         * Sets the status of Crazy Party.
+         * Called by EventManager when the Crazy Party should be on/off.
+         */
+        public void SetCrazyParty(bool on) {
+            foreach (var ghostron in _ghostrons) {
+                // Set the status of all the ghostrons
+                ghostron.GetComponent<Ghostron>().SetCrazyParty(on);
+            }
         }
     }
 }
