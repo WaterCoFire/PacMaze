@@ -9,7 +9,7 @@ namespace Entity.Ghostron.GhostronImpl {
 
         // Scared duration of the yellow ghostron
         protected override float ScaredDuration {
-            get { return 6.0f; }
+            get { return 8.0f; }
         }
 
         /**

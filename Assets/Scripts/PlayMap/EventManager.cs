@@ -17,7 +17,7 @@ namespace PlayMap {
         private readonly float _eventTriggerProbability = 0.05f;
         private bool _eventInProcess;
         private float _eventTimer;
-        private readonly float _eventDuration = 10.0f;
+        private readonly float _eventDuration = 6.0f;
         private int _currentEventIndex;
 
         // Singleton instance

@@ -10,7 +10,7 @@ namespace Entity.Ghostron.GhostronImpl {
         
         // Scared duration of the green ghostron
         protected override float ScaredDuration {
-            get { return 6.0f; }
+            get { return 8.0f; }
         }
         
         // The four quadrant middle points, as potential positions

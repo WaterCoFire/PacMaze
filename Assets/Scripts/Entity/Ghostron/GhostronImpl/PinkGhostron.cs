@@ -10,7 +10,7 @@ namespace Entity.Ghostron.GhostronImpl {
         
         // Scared duration of the pink ghostron
         protected override float ScaredDuration {
-            get { return 6.0f; }
+            get { return 8.0f; }
         }
         
         private bool _isCenterTarget = false; // Status indicating if the last target is center point or not
