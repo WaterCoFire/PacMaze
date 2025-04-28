@@ -5,7 +5,7 @@ namespace Entity.Ghostron.GhostronImpl {
     public class PinkGhostron : Ghostron {
         // Wander interval of the pink ghostron
         protected override float WanderInterval {
-            get { return 10.0f; }
+            get { return 8.0f; }
         }
         
         // Scared duration of the pink ghostron
@@ -19,7 +19,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Pink Ghostron:
-         * Go to the center point.
+         * Head towards to the center point.
          * If the pink ghostron already arrives there, go to a random position.
          */
         protected override Vector3 GenerateWanderingTarget() {

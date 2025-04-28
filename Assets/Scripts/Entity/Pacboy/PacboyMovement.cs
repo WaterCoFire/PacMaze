@@ -42,7 +42,7 @@ namespace Entity.Pacboy {
 
         // Event logic - Crazy Party active/disactive (Double the speed)
         private bool _crazyParty;
-        
+
         // START FUNCTION
         private void Start() {
             Debug.Log("PacboyMovement START");
@@ -72,7 +72,7 @@ namespace Entity.Pacboy {
             if (!_controllable) return;
 
             Move(); // Pacboy movement operation
-            
+
             // Check if currently there is a speed buff
             // If there is, keep updating the timer until it reaches the duration
             if (_speedBuffInEffect) {
@@ -208,11 +208,14 @@ namespace Entity.Pacboy {
         /**
          * Temporarily sets a speed for the Pacboy.
          * Used when Fast Wheel / Slow Wheel is triggered.
+         * Will be temporarily useless when in Crazy Party.
          */
         public void SetSpeedBuff(float buffSpeed) {
+            if (_crazyParty) return;
+            
             // Set speed
             _pacboyMoveSpeed = buffSpeed;
-            
+
             // Reset timer and statue
             _speedBuffTimer = 0f;
             _speedBuffInEffect = true;
@@ -250,11 +253,11 @@ namespace Entity.Pacboy {
             _backwardKeyCode = GetKeyCode("BackwardKeyCode", KeyCode.S);
             _leftwardKeyCode = GetKeyCode("LeftwardKeyCode", KeyCode.A);
             _rightwardKeyCode = GetKeyCode("RightwardKeyCode", KeyCode.D);
-            
+
             // Set cursor
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            
+
             _controllable = true;
         }
 
@@ -265,10 +268,10 @@ namespace Entity.Pacboy {
             // Set cursor
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            
+
             _controllable = false;
         }
-        
+
         /**
          * Sets the status of Crazy Party.
          * Called by EventManager via GhostronManager when the Crazy Party should be on/off.
@@ -290,7 +293,7 @@ namespace Entity.Pacboy {
                     Debug.LogError("Error: Crazy Party is not active!");
                     return;
                 }
-                
+
                 // Set back to normal speed
                 // For both the current speed and the normal speed
                 _crazyParty = false;

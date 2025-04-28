@@ -111,7 +111,6 @@ namespace Entity.Ghostron {
             // Caught logic
             if (_isCaught) {
                 // Set scared status
-                SetOriginalMaterial();
                 if (stateInfo.IsName("anim_close")) {
                     // Caught ghostron has finished the closing animation
                     if (stateInfo.normalizedTime >= 1f) {
@@ -239,7 +238,10 @@ namespace Entity.Ghostron {
                 // This means that the ghostron is caught by the Pacboy
                 if (_isCaught) return; // No action if the ghostron is just caught
                 Debug.Log("Ghostron caught by Pacboy!");
+                
+                // Speed and skin setting
                 _agent.speed = 0f;
+                SetScaredMaterial();
 
                 // Corresponding animation
                 // Ghostron "closes" itself

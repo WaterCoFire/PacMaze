@@ -14,7 +14,7 @@ namespace PlayMap {
      */
     public class EventManager : MonoBehaviour {
         private bool _eventEnabled;
-        private readonly float _eventTriggerProbability = 0.5f;
+        private readonly float _eventTriggerProbability = 0.1f;
         private bool _eventInProcess;
         private float _eventTimer;
         private readonly float _eventDuration = 10.0f;
@@ -88,24 +88,30 @@ namespace PlayMap {
             if (_eventInProcess) return;
 
             // Generate a random number to see if a new event should happen
-            int rand = Random.Range(1, 101);
+            int eventRand = Random.Range(1, 101);
             float eventMax = 100 * _eventTriggerProbability;
-            if (rand > eventMax) return; // No event
+            if (eventRand > eventMax) {
+                // Directly return if no event
+                Debug.Log("Event rand number: " + eventRand + ", no event.");
+                return;
+            }
+            
+            Debug.Log("Event rand number: " + eventRand + ", getting an event.");
 
             // Event should happen
             // Probability of three events:
-            // Super Bonus 40% (index: 1)
+            // Super Bonus 20% (index: 1)
             // Crazy Party 40% (index: 2)
-            // Air Wall 20% (index: 3)
-            rand = Random.Range(1, 101);
+            // Air Wall 40% (index: 3)
+            int typeRand = Random.Range(1, 101);
 
-            if (rand <= 40) {
+            if (typeRand <= 20) {
                 // Super Bonus
                 _currentEventIndex = 1;
                 _eventTimer = 0f;
                 _eventInProcess = true;
                 PlayMapController.Instance.SetSuperBonus(true);
-            } else if (rand <= 80) {
+            } else if (typeRand <= 60) {
                 // Crazy Party
                 _currentEventIndex = 2;
                 _eventTimer = 0f;

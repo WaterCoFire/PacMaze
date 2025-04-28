@@ -1,70 +1,42 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
     public class RedGhostron : Ghostron {
         // Wander interval of the red ghostron
         protected override float WanderInterval {
-            get { return 10.0f; }
+            get { return 20.0f; }
         }
-        
+
         // Scared duration of the red ghostron
         protected override float ScaredDuration {
             get { return 6.0f; }
         }
 
-        // The four corners, as potential positions
-        private readonly Vector3[] _potentialPositions = {
-            new(-15, 0, -15), new(-15, 0, 15), new(15, 0, -15), new(15, 0, 15)
-        };
-
-        private int _positionIndex = -1; // Index of the current target position, 0-3
-
         /**
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Red Ghostron:
-         * Go to the map corner which is the furthest away from the Pacboy.
-         * If the red ghostron already arrives there, go to another random corner.
+         * Go to a random position.
          */
         protected override Vector3 GenerateWanderingTarget() {
-            if (Pacboy != null) {
-                // Find the corner that is the furthest away from the Pacboy
-                Vector3 furthestPosition = _potentialPositions[0];
-                int index = 0;
-                float maxDistance = Vector3.Distance(furthestPosition, Pacboy.transform.position);
+            // Possible x/z axis coordinate values of the target
+            int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
 
-                for (int i = 0; i < 4; i++) {
-                    float distance = Vector3.Distance(_potentialPositions[i], Pacboy.transform.position);
-                    if (distance > maxDistance) {
-                        furthestPosition = _potentialPositions[i];
-                        index = i;
-                        maxDistance = distance;
-                    }
-                }
+            // Generate random x/z axis coordinates
+            int randX = possibleValues[Random.Range(0, possibleValues.Length)];
+            int randZ = possibleValues[Random.Range(0, possibleValues.Length)];
+            Vector3 potentialPosition = new Vector3(randX, 0, randZ);
 
-                // Duplicate target avoiding logic
-                if (index != _positionIndex) {
-                    // If the new position is different, return this position
-                    _positionIndex = index;
-                    return furthestPosition;
-                } else {
-                    // Get another random position at the corner
-                    int randIndex;
-                    while (true) {
-                        var rand = Random.Range(0, 4);
-                        if (rand != _positionIndex) {
-                            randIndex = rand;
-                            break;
-                        }
-                    }
-
-                    _positionIndex = randIndex;
-                    furthestPosition = _potentialPositions[randIndex];
-                    return furthestPosition;
-                }
+            // Check if this location is a valid walkable point
+            if (NavMesh.SamplePosition(potentialPosition, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) {
+                // Return this position if it is valid
+                return hit.position;
             }
 
+            // Return the current position of it is not valid (no moving)
             return transform.position;
         }
+
     }
 }

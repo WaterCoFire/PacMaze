@@ -5,7 +5,7 @@ namespace Entity.Ghostron.GhostronImpl {
     public class GreenGhostron : Ghostron {
         // Wander interval of the green ghostron
         protected override float WanderInterval {
-            get { return 6.0f; }
+            get { return 12.0f; }
         }
         
         // Scared duration of the green ghostron
