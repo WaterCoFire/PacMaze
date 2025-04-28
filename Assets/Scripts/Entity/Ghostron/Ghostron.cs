@@ -110,6 +110,7 @@ namespace Entity.Ghostron {
 
             // Caught logic
             if (_isCaught) {
+                SetScaredMaterial();
                 // Set scared status
                 if (stateInfo.IsName("anim_close")) {
                     // Caught ghostron has finished the closing animation
@@ -291,7 +292,7 @@ namespace Entity.Ghostron {
          * Used in GhostronManager when initializing the map / adding new ghostron due to bad cherry.
          */
         public void SetPacboy(GameObject pacboy) {
-            Debug.LogWarning("NEW GHOSTRON PACBOY SET");
+            Debug.Log("NEW GHOSTRON PACBOY SET");
             Pacboy = pacboy;
         }
 

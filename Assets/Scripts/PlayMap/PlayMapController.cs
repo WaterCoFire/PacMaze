@@ -28,8 +28,10 @@ namespace PlayMap {
         // Pacboy game object
         private GameObject _pacboy;
 
-        // In-game UI
+        // Score Display UI
         public TMP_Text scoreText; // Score text
+        public GameObject superBonusPrompt; // Prompt when Super Bonus is triggered
+
         public GameObject pausePage; // Pause page
         public GameObject winPage; // Game over page: player wins
         public GameObject losePage; // Game over page: player loses
@@ -75,9 +77,11 @@ namespace PlayMap {
             _airWall = false; // By default there is no Air Wall
             _gamePlaying = true;
 
-            // Reset score
+            // Reset score UI
             _currentScore = 0;
             scoreText.text = "Score: " + _currentScore;
+            scoreText.color = Color.white;
+            superBonusPrompt.SetActive(false);
         }
 
         /**
@@ -310,9 +314,33 @@ namespace PlayMap {
          * Called by EventManager when the Super Bonus should be on/off.
          */
         public void SetSuperBonus(bool on) {
-            _superBonus = on;
+            if (on) {
+                if (_superBonus) {
+                    Debug.LogError("Error: Super Bonus is already active!");
+                    return;
+                }
+
+                // Set Super Bonus
+                _superBonus = true;
+
+                // UI Reset
+                scoreText.color = Color.yellow;
+                superBonusPrompt.SetActive(true);
+            } else {
+                if (!_superBonus) {
+                    Debug.LogError("Error: Super Bonus is not active!");
+                    return;
+                }
+
+                // Cancel Super Bonus
+                _superBonus = false;
+
+                // UI Reset
+                scoreText.color = Color.white;
+                superBonusPrompt.SetActive(false);
+            }
         }
-        
+
         /**
          * Sets the status of Air Wall.
          * Called by EventManager when the Air Wall should be on/off.
@@ -326,7 +354,7 @@ namespace PlayMap {
 
                 // Make all the walls invisible
                 _airWall = true;
-                
+
                 // Get all Renderers in children of wall object and disable them
                 Renderer[] renderers = walls.GetComponentsInChildren<Renderer>(true);
                 foreach (var renderer in renderers) {
@@ -337,10 +365,10 @@ namespace PlayMap {
                     Debug.LogError("Error: Air Wall is not active!");
                     return;
                 }
-                
+
                 // Make the walls visible again
                 _airWall = false;
-                
+
                 // Get all Renderers in children of wall object and enable them
                 Renderer[] renderers = walls.GetComponentsInChildren<Renderer>(true);
                 foreach (var renderer in renderers) {
