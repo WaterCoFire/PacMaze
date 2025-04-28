@@ -393,7 +393,7 @@ namespace Entity.Ghostron {
                 _chaseSpeed *= 3;
             } else {
                 if (!_crazyParty) {
-                    Debug.LogError("Error: Crazy Party is not active!");
+                    // Directly return, as there could be some tenacious ghostrons spawned during Crazy Party
                     return;
                 }
                 

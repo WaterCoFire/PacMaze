@@ -100,12 +100,12 @@ namespace PlayMap {
 
             // Event should happen
             // Probability of three events:
-            // Super Bonus 40% (index: 1)
-            // Crazy Party 50% (index: 2)
+            // Super Bonus 50% (index: 1)
+            // Crazy Party 40% (index: 2)
             // Air Wall 10% (index: 3)
             int typeRand = Random.Range(1, 101);
 
-            if (typeRand <= 40) {
+            if (typeRand <= 50) {
                 // Super Bonus
                 _currentEventIndex = 1;
                 _eventTimer = 0f;

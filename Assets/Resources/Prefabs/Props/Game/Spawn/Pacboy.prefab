@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2439281273102616654}
   - component: {fileID: 5456660835750611421}
-  - component: {fileID: 7463585390304040666}
   m_Layer: 0
   m_Name: MapCamera
   m_TagString: Untagged
@@ -84,14 +83,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &7463585390304040666
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000652895119416087}
-  m_Enabled: 1
 --- !u!1 &7081512594042458601
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,15 +218,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1483.3069
+      value: 2293.0776
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 475.84576
+      value: 865.9654
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.469488
+      value: -403.7179
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 07b805cc50f7b21469eb77045e84e87c, type: 3}
       propertyPath: m_LocalRotation.w
