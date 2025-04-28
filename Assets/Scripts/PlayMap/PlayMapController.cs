@@ -107,6 +107,9 @@ namespace PlayMap {
 
             // Update difficulty in GhostronManager to for setting the behaviours of the ghostrons
             GhostronManager.Instance.SetDifficulty(_difficulty);
+            
+            // Set the event status in EventManager (enable/disable event)
+            EventManager.Instance.SetEventStatus(wrapper.eventEnabled);
 
             // Generate walls
             gameObject.GetComponent<WallGenerator>()

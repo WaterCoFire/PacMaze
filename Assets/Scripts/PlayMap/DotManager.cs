@@ -38,6 +38,9 @@ namespace PlayMap {
         private void Update() {
             // Only check if a new dot is eaten
             if (!_newDotEaten) return;
+            
+            // Interact with EventManager (potentially a random event)
+            EventManager.Instance.DotEaten();
 
             if (_dots.Count == 0) {
                 Debug.Log("No dots left, player should win");

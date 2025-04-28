@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Entity.Prop.PropImpl {
     /**
      * BAD CHERRY
-     * Spawns one more ghostron.
-     * (spawns randomly)
+     * Spawns a new tenacious ghostron.
+     * (spawns at randomly position)
      */
     public class BadCherryProp : Prop {
         // Override
