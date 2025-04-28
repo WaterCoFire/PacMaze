@@ -2192,7 +2192,7 @@ GameObject:
   - component: {fileID: 303086612042073553}
   - component: {fileID: 8961510880935814077}
   - component: {fileID: 1920863375400852175}
-  - component: {fileID: 2781995776832906365}
+  - component: {fileID: 3930427219486741411}
   m_Layer: 0
   m_Name: RedGhostron
   m_TagString: Ghostron
@@ -2333,7 +2333,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.14, y: 0.14, z: 0.14}
   m_Center: {x: 0, y: 0.07, z: 0}
---- !u!114 &2781995776832906365
+--- !u!114 &3930427219486741411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2342,7 +2342,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4110096763961454652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d17447a6f7b64772b8ce47338c5a656f, type: 3}
+  m_Script: {fileID: 11500000, guid: b90dd8b10b314520a17c2c229fedc9a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   originalMaterial: {fileID: 2100000, guid: 8bfec5673b600a04496742e055e266b7, type: 2}

@@ -2856,7 +2856,7 @@ GameObject:
   - component: {fileID: 3740258660075786446}
   - component: {fileID: 5100458749940736770}
   - component: {fileID: 4898699754231437365}
-  - component: {fileID: 7979564904276341186}
+  - component: {fileID: 4421562725571111234}
   m_Layer: 0
   m_Name: GreenGhostron
   m_TagString: Ghostron
@@ -2997,7 +2997,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.14, y: 0.14, z: 0.14}
   m_Center: {x: 0, y: 0.07, z: 0}
---- !u!114 &7979564904276341186
+--- !u!114 &4421562725571111234
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3006,7 +3006,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7137096681114650722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d17447a6f7b64772b8ce47338c5a656f, type: 3}
+  m_Script: {fileID: 11500000, guid: ebe9659bb8eb4622bc54abd4ae98f453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   originalMaterial: {fileID: 2100000, guid: a059390ac6ad70e4e837cbfd89ce44ee, type: 2}

@@ -6,8 +6,8 @@ namespace Entity.Ghostron {
     /**
      * Manages the behaviour of the ghost.
      */
-    public class Ghostron : MonoBehaviour {
-        private GameObject _pacboy; // Pacboy game object, what the ghostron is hunting for
+    public abstract class Ghostron : MonoBehaviour {
+        protected GameObject Pacboy; // Pacboy game object, what the ghostron is hunting for
 
         // Normal wandering speed of the ghostron
         private float _normalSpeed;
@@ -56,6 +56,13 @@ namespace Entity.Ghostron {
         private readonly float _normalAnimationSpeed = 0.6f; // Wandering
         private readonly float _chaseAnimationSpeed = 1f; // Chasing Pacboy
         private readonly float _scaredAnimationSpeed = 0.3f; // Scared
+        
+        /**
+         * Generates a position on the map.
+         * Used for getting a target when the ghostron is wandering.
+         * ABSTRACT FUNCTION - Different color ghostrons should have different behaviours
+         */
+        protected abstract Vector3 GenerateWanderingTarget();
 
         // START FUNCTION
         void Start() {
@@ -89,6 +96,8 @@ namespace Entity.Ghostron {
 
             // Caught logic
             if (_isCaught) {
+                // Set scared status
+                SetOriginalMaterial();
                 if (stateInfo.IsName("anim_close")) {
                     // Caught ghostron has finished the closing animation
                     if (stateInfo.normalizedTime >= 1f) {
@@ -107,7 +116,7 @@ namespace Entity.Ghostron {
             if (!stateInfo.IsName("anim_Walk_Loop")) return;
 
             // Check the distance between this ghostron and Pacboy target
-            float distance = Vector3.Distance(gameObject.transform.position, _pacboy.transform.position);
+            float distance = Vector3.Distance(gameObject.transform.position, Pacboy.transform.position);
 
             // Only chases Pacboy if the ghostron is close enough & not scared
             if (distance <= _detectionRadius && !_isScared) {
@@ -124,7 +133,7 @@ namespace Entity.Ghostron {
                 _animator.speed = _chaseAnimationSpeed;
 
                 // Set the chase target (real time position of the Pacboy)
-                _agent.SetDestination(_pacboy.transform.position);
+                _agent.SetDestination(Pacboy.transform.position);
             } else if (!_isCaught) {
                 // Pacboy is out of the chasing detection radius
                 // Impossible if in HARD game mode because the radius is long enough
@@ -255,35 +264,10 @@ namespace Entity.Ghostron {
 
             // Wandering destination setting
             if (!_agent.hasPath || _agent.remainingDistance < 0.5f || _wanderTimer >= _wanderInterval) {
-                Vector3 newDestination = GenerateRandomWanderingTarget();
+                Vector3 newDestination = GenerateWanderingTarget();
                 _agent.SetDestination(newDestination);
                 _wanderTimer = 0f;
             }
-        }
-
-        /**
-         * Generates a random position.
-         * Used for getting a target when the ghostron is wandering.
-         */
-        private Vector3 GenerateRandomWanderingTarget() {
-            // Possible x/z axis coordinate values of the target
-            int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
-
-            // Generate random x/z axis coordinates
-            int randX = possibleValues[Random.Range(0, possibleValues.Length)];
-            int randZ = possibleValues[Random.Range(0, possibleValues.Length)];
-            Vector3 potentialPosition = new Vector3(randX, 0, randZ);
-
-            // Check if this location is a valid walkable point
-            if (NavMesh.SamplePosition(potentialPosition, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) {
-                // Return this position if it is valid
-                return hit.position;
-            }
-
-            // Return the current position of it is not valid (no moving)
-            // ALTHOUGH UNLIKELY
-            Debug.LogError("Invalid wandering target position generated!");
-            return transform.position;
         }
 
         /**
@@ -292,7 +276,7 @@ namespace Entity.Ghostron {
          */
         public void SetPacboy(GameObject pacboy) {
             Debug.LogWarning("NEW GHOSTRON PACBOY SET");
-            _pacboy = pacboy;
+            Pacboy = pacboy;
         }
 
         /**
