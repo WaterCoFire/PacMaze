@@ -30,8 +30,29 @@ namespace Entity.Ghostron {
         private float _wanderTimer; // Timer of the current wandering
 
         // Interval of switching a wandering target
+        // VIRTUAL - different for every implement class (ghostron type)
         protected virtual float WanderInterval {
             get { return 0f; }
+        }
+
+
+        // Minimum wander duration
+        // The ghostron must wander for at least this time for every wander
+        // VIRTUAL - different for every implement class (ghostron type) & DIFFICULTY
+        protected virtual float MinimumWanderDuration {
+            get;
+        }
+
+        private float _chaseTimer; // Timer of the current chase
+
+        private bool
+            _chaseAllowed; // if chasing is allowed or not (should be false when chase timer hits the maximal duration)
+
+        // Maximum chase duration
+        // When the chasing ghostron hits this time, it should begin wandering
+        // VIRTUAL - different for every implement class (ghostron type) & DIFFICULTY
+        protected virtual float MaximalChaseDuration {
+            get;
         }
 
         private NavMeshAgent _agent; // NavMesh agent
@@ -39,10 +60,11 @@ namespace Entity.Ghostron {
         private bool _isChasing; // Status indicating if the ghostron is wandering or chasing Pacboy
 
         // Scared logic variables
-        private bool _isScared; // Status indicating if the Pacboy is scared (when Pacboy eats a power pellet)
+        protected bool IsScared; // Status indicating if the Pacboy is scared (when Pacboy eats a power pellet)
         private float _scaredTimer; // Timer of the ghostron feeling scared
 
         // Duration of the "scared" effect of ghostrons
+        // VIRTUAL - different for every implement class (ghostron type)
         protected virtual float ScaredDuration {
             get { return 0f; }
         }
@@ -88,6 +110,7 @@ namespace Entity.Ghostron {
                 return;
             }
 
+            _chaseAllowed = false; // Let ghostrons wander for a while first when the game starts
             _crazyParty = false; // No Crazy Party event by default
 
             // Set the ghost as a trigger
@@ -101,6 +124,11 @@ namespace Entity.Ghostron {
 
             // Set to the original material
             SetOriginalMaterial();
+
+            // Initialise timers
+            _chaseTimer = 0f;
+            _scaredTimer = 0f;
+            _wanderTimer = 0f;
         }
 
         // UPDATE FUNCTION
@@ -132,8 +160,14 @@ namespace Entity.Ghostron {
             // Check the distance between this ghostron and Pacboy target
             float distance = Vector3.Distance(gameObject.transform.position, Pacboy.transform.position);
 
-            // Only chases Pacboy if the ghostron is close enough & not scared
-            if (distance <= _detectionRadius && !_isScared) {
+            // Only chases Pacboy if the ghostron is:
+            // - Close enough
+            // - Not scared
+            // - Chasing is allowed
+            if (distance <= _detectionRadius && !IsScared && _chaseAllowed) {
+                // Reset the wander timer
+                _wanderTimer = 0f;
+
                 // Chase the Pacboy
                 if (!_isChasing) {
                     _isChasing = true;
@@ -148,9 +182,19 @@ namespace Entity.Ghostron {
 
                 // Set the chase target (real time position of the Pacboy)
                 _agent.SetDestination(Pacboy.transform.position);
+
+                // Update chasing timer
+                _chaseTimer += Time.deltaTime;
+
+                // If chasing time reaches the maximum chasing duration, disallow the chase
+                if (_chaseTimer >= MaximalChaseDuration) {
+                    _chaseTimer = 0f;
+                    _chaseAllowed = false;
+                    _isChasing = false;
+                }
             } else if (!_isCaught) {
                 // Pacboy is out of the chasing detection radius
-                // Impossible if in HARD game mode because the radius is long enough
+                // Start wandering logic
                 if (_isChasing) {
                     _isChasing = false;
                     _agent.ResetPath();
@@ -162,7 +206,7 @@ namespace Entity.Ghostron {
             }
 
             // Update the scared timer if the ghost is currently scared
-            if (_isScared) {
+            if (IsScared) {
                 _scaredTimer += Time.deltaTime;
 
                 // Check if the scared ghostron is in the last two seconds of the scared state
@@ -189,7 +233,7 @@ namespace Entity.Ghostron {
             if (isScared) {
                 // Now the ghostron becomes scared
                 _scaredTimer = 0f;
-                _isScared = true;
+                IsScared = true;
                 // Change skin
                 SetScaredMaterial();
                 // Change movement speed
@@ -199,7 +243,7 @@ namespace Entity.Ghostron {
             } else {
                 // Now the ghostron is no longer scared
                 _scaredTimer = 0f;
-                _isScared = false;
+                IsScared = false;
                 _isCaught = false;
                 // Change back skin
                 SetOriginalMaterial();
@@ -213,7 +257,7 @@ namespace Entity.Ghostron {
          * during the last 2 seconds of the scared state.
          */
         private void SetRandomMaterialDuringScared() {
-            if (!_isScared) {
+            if (!IsScared) {
                 Debug.LogError("Ghostron is not scared but random skin setting function called.");
             }
 
@@ -234,12 +278,12 @@ namespace Entity.Ghostron {
             if (!other.CompareTag("Pacboy")) return;
 
             // It is Pacboy
-            if (_isScared) {
+            if (IsScared) {
                 // The ghostron is scared currently
                 // This means that the ghostron is caught by the Pacboy
                 if (_isCaught) return; // No action if the ghostron is just caught
                 Debug.Log("Ghostron caught by Pacboy!");
-                
+
                 // Speed and skin setting
                 _agent.speed = 0f;
                 SetScaredMaterial();
@@ -268,10 +312,16 @@ namespace Entity.Ghostron {
 
         /**
          * The wandering logic.
-         * (Re)start a wander process.
+         * Operates a wander process.
          */
         private void Wander() {
+            // Update wander timer
             _wanderTimer += Time.deltaTime;
+
+            // If the timer reaches the minimum limit, allow chasing to happen
+            if (_wanderTimer > MinimumWanderDuration) {
+                _chaseAllowed = true;
+            }
 
             // Set wandering speed
             _agent.speed = _normalSpeed;
@@ -396,7 +446,7 @@ namespace Entity.Ghostron {
                     // Directly return, as there could be some tenacious ghostrons spawned during Crazy Party
                     return;
                 }
-                
+
                 // Set back to normal speed
                 _crazyParty = false;
                 _normalSpeed /= 3;

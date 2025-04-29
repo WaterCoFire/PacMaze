@@ -13,11 +13,24 @@ namespace Entity.Ghostron.GhostronImpl {
         protected override float ScaredDuration {
             get { return 0.0f; }
         }
+        
+        // Minimum wander duration of the tenacious ghostron
+        // THE SAME in easy/normal/hard mode
+        protected override float MinimumWanderDuration {
+            get { return 1.0f; }
+        }
+        
+        // Maximum chase duration of the tenacious ghostron
+        // THE SAME in easy/normal/hard mode
+        protected override float MaximalChaseDuration {
+            get { return 10000.0f; }
+        }
 
         /**
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Tenacious Ghostron:
+         * WHEN IN NORMAL WANDER & WHEN SCARED
          * Always go to the position that the Pacboy has been to.
          * As the wander interval is short for tenacious ghostron,
          * this is almost the current location of the Pacboy.

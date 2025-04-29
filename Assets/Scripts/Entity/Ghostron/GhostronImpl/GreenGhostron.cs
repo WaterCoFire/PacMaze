@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayMap;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
@@ -13,6 +14,45 @@ namespace Entity.Ghostron.GhostronImpl {
             get { return 8.0f; }
         }
         
+        // Minimum wander duration of the green ghostron
+        protected override float MinimumWanderDuration {
+            // Easy: 6
+            // Normal: 4
+            // Hard: 3
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 6f;
+                    case 'N':
+                        return 4f;
+                    case 'H':
+                        return 3f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+        
+        // Maximum chase duration of the green ghostron
+        protected override float MaximalChaseDuration {
+            // Easy: 12
+            // Normal, Hard: 18
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 12f;
+                    case 'N':
+                        return 18f;
+                    case 'H':
+                        return 18f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+        
         // The four quadrant middle points, as potential positions
         private readonly Vector3[] _potentialPositions = {
             new(-9, 0, -9), new(-9, 0, 9), new(9, 0, -9), new(9, 0, 9)
@@ -24,12 +64,58 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Green Ghostron:
+         * WHEN IN NORMAL WANDER
          * Go to the middle point of the four quadrants of the map that is the nearest to the Pacboy.
          * If the green ghostron already arrives there, go to another random quadrant middle point.
+         * WHEN SCARED
+         * Go to the point that is the furthest.
          */
         protected override Vector3 GenerateWanderingTarget() {
+            // When scared
+            if (IsScared) {
+                if (Pacboy != null) {
+                    // Find the corner that is the furthest away from the Pacboy
+                    Vector3 furthestPosition = _potentialPositions[0];
+                    int index = 0;
+                    float maxDistance = Vector3.Distance(furthestPosition, Pacboy.transform.position);
+
+                    for (int i = 0; i < 4; i++) {
+                        float distance = Vector3.Distance(_potentialPositions[i], Pacboy.transform.position);
+                        if (distance > maxDistance) {
+                            furthestPosition = _potentialPositions[i];
+                            index = i;
+                            maxDistance = distance;
+                        }
+                    }
+
+                    // Duplicate target avoiding logic
+                    if (index != _positionIndex) {
+                        // If the new position is different, return this position
+                        _positionIndex = index;
+                        return furthestPosition;
+                    } else {
+                        // Get another random position at the corner
+                        int randIndex;
+                        while (true) {
+                            var rand = Random.Range(0, 4);
+                            if (rand != _positionIndex) {
+                                randIndex = rand;
+                                break;
+                            }
+                        }
+
+                        _positionIndex = randIndex;
+                        furthestPosition = _potentialPositions[randIndex];
+                        return furthestPosition;
+                    }
+                }
+
+                return transform.position;
+            }
+
+            // When not scared
             if (Pacboy != null) {
-                // Find the corner that is the furthest away from the Pacboy
+                // Find the corner that is the nearest from the Pacboy
                 Vector3 nearestPosition = _potentialPositions[0];
                 int index = 0;
                 float minDistance = Vector3.Distance(nearestPosition, Pacboy.transform.position);

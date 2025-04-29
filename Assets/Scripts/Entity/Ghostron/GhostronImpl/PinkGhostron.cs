@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayMap;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
@@ -7,22 +8,72 @@ namespace Entity.Ghostron.GhostronImpl {
         protected override float WanderInterval {
             get { return 8.0f; }
         }
-        
+
         // Scared duration of the pink ghostron
         protected override float ScaredDuration {
             get { return 8.0f; }
         }
-        
+
+        // Minimum wander duration of the pink ghostron
+        protected override float MinimumWanderDuration {
+            // Easy: 15
+            // Normal: 10
+            // Hard: 8
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 15f;
+                    case 'N':
+                        return 10f;
+                    case 'H':
+                        return 8f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+
+        // Maximum chase duration of the pink ghostron
+        protected override float MaximalChaseDuration {
+            // Easy: 5
+            // Normal, Hard: 8
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 5f;
+                    case 'N':
+                        return 8f;
+                    case 'H':
+                        return 8f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+
         private bool _isCenterTarget = false; // Status indicating if the last target is center point or not
 
         /**
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Pink Ghostron:
+         * WHEN IN NORMAL WANDER
          * Head towards to the center point.
          * If the pink ghostron already arrives there, go to a random position.
+         * WHEN SCARED
+         * Head towards the center point (And not willing to leave)
          */
         protected override Vector3 GenerateWanderingTarget() {
+            // When scared
+            if (IsScared) {
+                _isCenterTarget = true;
+                Vector3 centerPosition = new(0, 0, 0);
+                return centerPosition;
+            }
+
+            // When not scared
             if (!_isCenterTarget) {
                 // Go to the center
                 _isCenterTarget = true;
@@ -31,7 +82,7 @@ namespace Entity.Ghostron.GhostronImpl {
             } else {
                 // Go to a random position
                 _isCenterTarget = false;
-                
+
                 // Possible x/z axis coordinate values of the target
                 int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
 

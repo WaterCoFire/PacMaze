@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayMap;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
@@ -7,10 +8,49 @@ namespace Entity.Ghostron.GhostronImpl {
         protected override float WanderInterval {
             get { return 15.0f; }
         }
-        
+
         // Scared duration of the blue ghostron
         protected override float ScaredDuration {
             get { return 8.0f; }
+        }
+
+        // Minimum wander duration of the blue ghostron
+        protected override float MinimumWanderDuration {
+            // Easy: 10
+            // Normal: 8
+            // Hard: 7
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 10f;
+                    case 'N':
+                        return 8f;
+                    case 'H':
+                        return 7f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+
+        // Maximum chase duration of the blue ghostron
+        protected override float MaximalChaseDuration {
+            // Easy: 8
+            // Normal, Hard: 12
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 8f;
+                    case 'N':
+                        return 12f;
+                    case 'H':
+                        return 12f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
         }
 
         // The four corners, as potential positions
@@ -24,10 +64,10 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Blue Ghostron:
+         * WHEN IN NORMAL WANDER & WHEN SCARED
          * Go to the map corner which is the furthest away from the Pacboy.
-         * If the red ghostron already arrives there, go to another random corner.
+         * If the blue ghostron already arrives there, go to another random corner.
          */
-         
         protected override Vector3 GenerateWanderingTarget() {
             if (Pacboy != null) {
                 // Find the corner that is the furthest away from the Pacboy

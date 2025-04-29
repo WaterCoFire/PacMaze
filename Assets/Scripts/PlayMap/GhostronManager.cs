@@ -19,9 +19,9 @@ namespace PlayMap {
         private readonly float _ghostronScaredSpeed = 1.0f;
 
         // Chasing speeds of ghostrons, by difficulty
-        private readonly float _ghostronEasyChaseSpeed = 3.0f;
-        private readonly float _ghostronNormalChaseSpeed = 4.0f;
-        private readonly float _ghostronHardChaseSpeed = 5.05f;
+        private readonly float _ghostronEasyChaseSpeed = 3.5f;
+        private readonly float _ghostronNormalChaseSpeed = 4.5f;
+        private readonly float _ghostronHardChaseSpeed = 6f;
 
         // Detection radius of ghostrons, by difficulty
         private readonly float _ghostronEasyDetectionRadius = 10.0f;

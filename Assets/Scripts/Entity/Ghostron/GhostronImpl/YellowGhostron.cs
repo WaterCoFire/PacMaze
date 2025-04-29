@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using PlayMap;
+using UnityEngine;
+using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
     public class YellowGhostron : Ghostron {
@@ -12,13 +14,76 @@ namespace Entity.Ghostron.GhostronImpl {
             get { return 8.0f; }
         }
 
+        // Minimum wander duration of the yellow ghostron
+        protected override float MinimumWanderDuration {
+            // Easy: 10
+            // Normal: 8
+            // Hard: 7
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 10f;
+                    case 'N':
+                        return 8f;
+                    case 'H':
+                        return 7f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+
+        // Maximum chase duration of the yellow ghostron
+        protected override float MaximalChaseDuration {
+            // Easy: 40
+            // Normal, Hard: 50
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 40f;
+                    case 'N':
+                        return 50f;
+                    case 'H':
+                        return 50f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+        
         /**
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Yellow Ghostron:
+         * WHEN IN NORMAL WANDER
          * Always go to the position that the Pacboy has been to.
+         * WHEN SCARED
+         * Go to a random position.
          */
         protected override Vector3 GenerateWanderingTarget() {
+            // When scared
+            if (IsScared) {
+                // Possible x/z axis coordinate values of the target
+                int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
+
+                // Generate random x/z axis coordinates
+                int randX = possibleValues[Random.Range(0, possibleValues.Length)];
+                int randZ = possibleValues[Random.Range(0, possibleValues.Length)];
+                Vector3 potentialPosition = new Vector3(randX, 0, randZ);
+
+                // Check if this location is a valid walkable point
+                if (NavMesh.SamplePosition(potentialPosition, out NavMeshHit hit, 1.0f, NavMesh.AllAreas)) {
+                    // Return this position if it is valid
+                    return hit.position;
+                }
+
+                // Return the current position of it is not valid (no moving)
+                return transform.position;
+            }
+
+            // When not scared
             if (Pacboy != null) {
                 return Pacboy.transform.position;
             }

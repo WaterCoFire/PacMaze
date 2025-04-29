@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using PlayMap;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
@@ -13,10 +14,50 @@ namespace Entity.Ghostron.GhostronImpl {
             get { return 8.0f; }
         }
 
+        // Minimum wander duration of the red ghostron
+        protected override float MinimumWanderDuration {
+            // Easy: 6
+            // Normal: 4
+            // Hard: 3
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 6f;
+                    case 'N':
+                        return 4f;
+                    case 'H':
+                        return 3f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+
+        // Maximum chase duration of the red ghostron
+        protected override float MaximalChaseDuration {
+            // Easy: 25
+            // Normal, Hard: 30
+            get {
+                switch (PlayMapController.Instance.GetDifficulty()) {
+                    case 'E':
+                        return 25f;
+                    case 'N':
+                        return 30f;
+                    case 'H':
+                        return 30f;
+                    default:
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        return 0f;
+                }
+            }
+        }
+
         /**
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Red Ghostron:
+         * WHEN IN NORMAL WANDER & WHEN SCARED
          * Go to a random position.
          */
         protected override Vector3 GenerateWanderingTarget() {
@@ -37,6 +78,5 @@ namespace Entity.Ghostron.GhostronImpl {
             // Return the current position of it is not valid (no moving)
             return transform.position;
         }
-
     }
 }
