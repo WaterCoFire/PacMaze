@@ -10,8 +10,8 @@ namespace PlayMap {
         public GameObject redGhostronPrefab;
         public GameObject blueGhostronPrefab;
         public GameObject yellowGhostronPrefab;
-        public GameObject greenGhostronPrefab;
         public GameObject pinkGhostronPrefab;
+        public GameObject greenGhostronPrefab;
 
         public GameObject powerPelletPrefab;
         public GameObject fastWheelPrefab;
@@ -177,11 +177,11 @@ namespace PlayMap {
                             break;
                         case 3:
                             PlayerPrefs.SetInt("GhostronCount", 4);
-                            newGhostron = Instantiate(greenGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            newGhostron = Instantiate(pinkGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         case 4:
                             PlayerPrefs.SetInt("GhostronCount", 5);
-                            newGhostron = Instantiate(pinkGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            newGhostron = Instantiate(greenGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
                             break;
                         default:
                             Debug.LogError("Invalid ghostrons count when instantiating randomly: " +

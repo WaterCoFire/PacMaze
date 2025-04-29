@@ -16,13 +16,13 @@ namespace Entity.Ghostron.GhostronImpl {
 
         // Minimum wander duration of the pink ghostron
         protected override float MinimumWanderDuration {
-            // Easy: 15
+            // Easy: 14
             // Normal: 10
             // Hard: 8
             get {
                 switch (PlayMapController.Instance.GetDifficulty()) {
                     case 'E':
-                        return 15f;
+                        return 14f;
                     case 'N':
                         return 10f;
                     case 'H':

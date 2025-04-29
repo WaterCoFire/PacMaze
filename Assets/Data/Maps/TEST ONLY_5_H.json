@@ -1,5 +1,5 @@
 {
-    "name": "VERY HARD",
+    "name": "TEST ONLY",
     "difficulty": 72,
     "eventEnabled": true,
     "propPositions": [
@@ -43,12 +43,12 @@
     ],
     "totalPropValues": [
         5,
+        4,
+        1,
+        1,
+        0,
         2,
-        5,
-        0,
-        0,
-        0,
-        0
+        1
     ],
     "hwStatusRow1": [
         false,

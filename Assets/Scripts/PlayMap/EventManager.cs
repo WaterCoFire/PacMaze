@@ -92,7 +92,6 @@ namespace PlayMap {
             float eventMax = 100 * _eventTriggerProbability;
             if (eventRand > eventMax) {
                 // Directly return if no event
-                Debug.Log("Event rand number: " + eventRand + ", no event.");
                 return;
             }
             

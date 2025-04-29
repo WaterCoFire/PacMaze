@@ -227,10 +227,10 @@ namespace Entity.Map {
                             return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/YellowGhostron");
                         case 3:
                             PlayerPrefs.SetInt("GhostronCount", 4);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GreenGhostron");
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/PinkGhostron");
                         case 4:
                             PlayerPrefs.SetInt("GhostronCount", 5);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/PinkGhostron");
+                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GreenGhostron");
                         default:
                             Debug.LogError("Invalid Ghostron Count: " + PlayerPrefs.GetInt("GhostronCount"));
                             return null;

@@ -10,7 +10,7 @@ namespace PlayMap {
      */
     public class GhostronManager : MonoBehaviour {
         // The list of all the active ghostrons
-        private List<GameObject> _ghostrons = new();
+        private readonly List<GameObject> _ghostrons = new();
 
         // Normal wandering speed of ghostrons
         private readonly float _ghostronNormalSpeed = 2.0f;
@@ -26,7 +26,7 @@ namespace PlayMap {
         // Detection radius of ghostrons, by difficulty
         private readonly float _ghostronEasyDetectionRadius = 10.0f;
         private readonly float _ghostronNormalDetectionRadius = 20.0f;
-        private readonly float _ghostronHardDetectionRadius = 30.0f;
+        private readonly float _ghostronHardDetectionRadius = 25.0f;
 
         // Difficulty of the current game
         private char _difficulty;

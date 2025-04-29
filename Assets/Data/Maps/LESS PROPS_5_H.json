@@ -1,6 +1,6 @@
 {
-    "name": "TEST ONLY",
-    "difficulty": 78,
+    "name": "LESS PROPS",
+    "difficulty": 72,
     "eventEnabled": true,
     "propPositions": [
         {
@@ -43,12 +43,12 @@
     ],
     "totalPropValues": [
         5,
-        4,
-        1,
-        1,
-        0,
         2,
-        1
+        5,
+        0,
+        0,
+        0,
+        0
     ],
     "hwStatusRow1": [
         false,
