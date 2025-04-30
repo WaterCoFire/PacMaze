@@ -33,8 +33,14 @@ namespace MapEditor {
         public TMP_Text mapNameText;
         public TMP_Text modePromptText;
 
+        /* Warning UI */
+        // Warning panel: Pacboy spawn point not set
         public GameObject noPacboySpawnWarningPanel;
-        public Button warningPanelCloseButton;
+        public Button noPacboyWarningPanelCloseButton;
+        
+        // Warning panel: Invalid tiles exist
+        public GameObject invalidTilesWarningPanel;
+        public Button invalidTilesPanelCloseButton;
 
         // Current edit mode
         // 0 - Disabled/Default
@@ -61,6 +67,16 @@ namespace MapEditor {
 
             if (!Directory.Exists(_saveDirectory))
                 Directory.CreateDirectory(_saveDirectory);
+            
+            // Mode & UI Reset
+            _mode = 0;
+            gameObject.GetComponent<WallEditor>().QuitWallMode();
+            gameObject.GetComponent<PropEditor>().QuitPropMode();
+            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+            gameObject.GetComponent<EventEditor>().QuitEventMode();
+            TileChecker.Instance.ClearTileDisplay();
+            noPacboySpawnWarningPanel.SetActive(false);
+            invalidTilesWarningPanel.SetActive(false);
 
             SetButtonActionListener();
             LoadMap(); // Load the map to be edited
@@ -258,6 +274,7 @@ namespace MapEditor {
         // Save & Quit button operation
         private void OnSaveAndQuitButtonClick() {
             // Check if the condition is met
+            // 1 - PACBOY SPAWN POINT IS SET
             if (!gameObject.GetComponent<PropEditor>().CheckCondition()) {
                 noPacboySpawnWarningPanel.SetActive(true);
 
@@ -280,6 +297,14 @@ namespace MapEditor {
                 return;
             }
 
+            // 2 - ALL TILES ARE ACCESSIBLE & DISTANCE <= 20 FROM CENTER
+            bool tilesValid = TileChecker.Instance.CheckTileAccessibility(gameObject.GetComponent<WallEditor>().GetWallData());
+
+            if (!tilesValid) {
+                // If invalid tiles exist, directly return
+                return;
+            }
+
             InitUI(_mapName); // Reset this UI as it is being closed
 
             // Save map logic
@@ -290,8 +315,8 @@ namespace MapEditor {
             SceneManager.LoadScene("HomePage");
         }
 
-        // Operations after the close button of the warning panel is clicked
-        private void OnWarningPanelCloseButtonClick() {
+        // Operations after the close button of the No Pacboy warning panel is clicked
+        private void OnNoPacboyPanelCloseButtonClick() {
             noPacboySpawnWarningPanel.SetActive(false);
 
             // Enable all the buttons
@@ -308,6 +333,7 @@ namespace MapEditor {
                     gameObject.GetComponent<WallEditor>().QuitWallMode();
                     gameObject.GetComponent<PropEditor>().QuitPropMode();
                     gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+                    gameObject.GetComponent<EventEditor>().QuitEventMode();
                     break;
                 case 1:
                     // In walls mode
@@ -342,6 +368,26 @@ namespace MapEditor {
                     return;
             }
         }
+        
+        // Operations after the close button of the No Pacboy warning panel is clicked
+        private void OnInvalidTilesPanelCloseButtonClick() {
+            invalidTilesWarningPanel.SetActive(false);
+
+            // Enable all the buttons
+            quitButton.interactable = true;
+            saveButton.interactable = true;
+            propModeButton.interactable = true;
+            wallModeButton.interactable = true;
+            difficultyModeButton.interactable = true;
+            eventModeButton.interactable = true;
+
+            // Automatically go to Edit Walls mode
+            _mode = 1;
+            gameObject.GetComponent<WallEditor>().EnterWallMode();
+            gameObject.GetComponent<PropEditor>().QuitPropMode();
+            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
+            gameObject.GetComponent<EventEditor>().QuitEventMode();
+        }
 
         // Set the color of a button
         private void SetButtonStatus(Button button, bool selected) {
@@ -364,7 +410,8 @@ namespace MapEditor {
             propModeButton.onClick.AddListener(OnEditPropsButtonClick);
             difficultyModeButton.onClick.AddListener(OnDifficultyButtonClick);
             eventModeButton.onClick.AddListener(OnEventButtonClick);
-            warningPanelCloseButton.onClick.AddListener(OnWarningPanelCloseButtonClick);
+            noPacboyWarningPanelCloseButton.onClick.AddListener(OnNoPacboyPanelCloseButtonClick);
+            invalidTilesPanelCloseButton.onClick.AddListener(OnInvalidTilesPanelCloseButtonClick);
         }
 
         // Initializes the map editor UI. 

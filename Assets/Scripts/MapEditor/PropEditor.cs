@@ -2,11 +2,12 @@
 using Entity.Map;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace MapEditor {
     /**
+     * Used for tile & prop edit.
+     * 
      * PacMaze Game Props:
      *
      * BASIC
@@ -116,10 +117,6 @@ namespace MapEditor {
                     Debug.LogError($"WARNING Invalid prop type: {prefab}");
                     return;
                 }
-
-                // if (!_propOnTiles.ContainsKey(kvp.Key)) {
-                //     _propOnTiles[_selectedTileVector3] = new GameObject();
-                // }
 
                 GameObject newProp = Instantiate(prefab, kvp.Key, Quaternion.identity);
                 _propOnTiles[kvp.Key] = newProp;
