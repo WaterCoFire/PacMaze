@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
@@ -30,19 +28,19 @@ namespace HomePage {
         private List<MapInfo> _mapInfos;
 
         private float _cumulativeHeight;
-        private float _prefabHeight = 170f;
-        private float _padding = 1f;
+        private readonly float _prefabHeight = 170f;
+        private readonly float _padding = 1f;
 
-        private string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
-        private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
+        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
 
         private MapInfo _renamedMapOldInfo;
         private string _renamedMapNewName;
 
         // Map difficulty text color
-        private Color _easyTextColor = new Color(65f / 255f, 255f / 255f, 0f / 255f);
-        private Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
-        private Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
+        private readonly Color _easyTextColor = new Color(65f / 255f, 255f / 255f, 0f / 255f);
+        private readonly Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
+        private readonly Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
 
         private void Start() {
             Debug.Log("EditMapPage START");
@@ -59,7 +57,7 @@ namespace HomePage {
             createNewMapButton.onClick.AddListener(OnCreateNewMapButtonClick);
         }
 
-        public bool UpdateEditMapList() {
+        private void UpdateEditMapList() {
             // Empty the whole display list first
             foreach (Transform child in editMapScrollRect.content.transform) {
                 Destroy(child.gameObject);
@@ -76,7 +74,7 @@ namespace HomePage {
             // Check if the directory exists
             if (!Directory.Exists(_saveDirectory)) {
                 Debug.LogError("File location not exist!");
-                return false;
+                return;
             }
 
             // Read all the files in the directory
@@ -106,7 +104,7 @@ namespace HomePage {
             if (_mapInfos.Count == 0) {
                 // No map: Show prompt
                 noMapPrompt.SetActive(true);
-                return true;
+                return;
             }
 
             // There exists at least one map
@@ -148,7 +146,7 @@ namespace HomePage {
                                 break;
                             default:
                                 Debug.LogError("Difficulty error while reading files");
-                                return false;
+                                return;
                         }
                     }
                 }
@@ -196,8 +194,6 @@ namespace HomePage {
                     }
                 }
             }
-
-            return true;
         }
 
         /**
@@ -228,7 +224,7 @@ namespace HomePage {
                 string json = File.ReadAllText(newPath);
 
                 // Replace the old name with the new one
-                string updatedJson = System.Text.RegularExpressions.Regex.Replace(
+                string updatedJson = Regex.Replace(
                     json,
                     "\"name\"\\s*:\\s*\"[^\"]*\"",
                     $"\"name\": \"{newName}\""
@@ -268,7 +264,7 @@ namespace HomePage {
                 string json = File.ReadAllText(defaultMapPath);
 
                 // Replace the default name with the new one
-                string newMapJson = System.Text.RegularExpressions.Regex.Replace(
+                string newMapJson = Regex.Replace(
                     json,
                     "\"name\"\\s*:\\s*\"[^\"]*\"",
                     $"\"name\": \"{newMapName}\""

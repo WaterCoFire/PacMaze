@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Entity.Dot;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace PlayMap {
@@ -11,7 +9,7 @@ namespace PlayMap {
      */
     public class DotManager : MonoBehaviour {
         // List of all the dot index
-        private List<int> _dots = new();
+        private readonly List<int> _dots = new();
 
         // Status indicating a dot is eaten
         // Only check the number of dots if this is true, for better performance
@@ -54,7 +52,7 @@ namespace PlayMap {
 
         /**
          * Resets the dot index list.
-         * Used in PropGenerator when initializing the map.
+         * Used in PropGenerator when initialising the map.
          */
         public void ResetDots() {
             // Empty the index list
@@ -66,7 +64,7 @@ namespace PlayMap {
 
         /**
          * Add a new dot index into the list.
-         * Used in PropGenerator when initializing the map.
+         * Used in PropGenerator when initialising the map.
          */
         public void AddDot(GameObject newDot) {
             // Get the new index of this dot

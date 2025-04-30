@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace HomePage {
     public class PlayMapPage : MonoBehaviour {
@@ -31,16 +28,16 @@ namespace HomePage {
         private List<MapInfo> _mapInfos;
 
         private float _cumulativeHeight;
-        private float _prefabHeight = 170f;
-        private float _padding = 1f;
+        private readonly float _prefabHeight = 170f;
+        private readonly float _padding = 1f;
 
-        private string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
-        private Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
+        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
 
         // Map difficulty text color
-        private Color _easyTextColor = new Color(65f / 255f, 255f / 255f, 0f / 255f);
-        private Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
-        private Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
+        private readonly Color _easyTextColor = new Color(65f / 255f, 255f / 255f, 0f / 255f);
+        private readonly Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
+        private readonly Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
 
         private void Start() {
             Debug.Log("PlayMapPage START");
@@ -56,7 +53,7 @@ namespace HomePage {
             backButton.onClick.AddListener(OnBackButtonClick);
         }
 
-        public bool UpdatePlayMapList() {
+        private void UpdatePlayMapList() {
             // Empty the whole display list first
             foreach (Transform child in playMapScrollRect.content.transform) {
                 Destroy(child.gameObject);
@@ -73,7 +70,7 @@ namespace HomePage {
             // Check if the directory exists
             if (!Directory.Exists(_saveDirectory)) {
                 Debug.LogError("File location not exist!");
-                return false;
+                return;
             }
 
             // Read all the files in the directory
@@ -103,7 +100,7 @@ namespace HomePage {
             if (_mapInfos.Count == 0) {
                 // No map: Show prompt
                 noMapPrompt.SetActive(true);
-                return true;
+                return;
             }
 
             // There exists at least one map
@@ -145,7 +142,7 @@ namespace HomePage {
                                 break;
                             default:
                                 Debug.LogError("Difficulty error while reading files");
-                                return false;
+                                return;
                         }
                     }
                 }
@@ -172,8 +169,6 @@ namespace HomePage {
                     }
                 }
             }
-
-            return true;
         }
 
         /* Button action listeners setting */
