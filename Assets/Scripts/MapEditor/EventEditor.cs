@@ -24,6 +24,15 @@ namespace MapEditor {
         // Enabled/Disabled text prompts
         public GameObject eventEnabledPrompt;
         public GameObject eventDisabledPrompt;
+        
+        public static EventEditor Instance { get; private set; }
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            Debug.Log("TileChecker AWAKE");
+            // Set singleton instance
+            Instance = this;
+        }
 
         // START FUNCTION
         private void Start() {

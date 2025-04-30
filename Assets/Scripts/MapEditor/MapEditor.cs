@@ -70,10 +70,10 @@ namespace MapEditor {
             
             // Mode & UI Reset
             _mode = 0;
-            gameObject.GetComponent<WallEditor>().QuitWallMode();
-            gameObject.GetComponent<PropEditor>().QuitPropMode();
-            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-            gameObject.GetComponent<EventEditor>().QuitEventMode();
+            WallEditor.Instance.QuitWallMode();
+            PropEditor.Instance.QuitPropMode(true);
+            DifficultyEditor.Instance.QuitDifficultyMode();
+            EventEditor.Instance.QuitEventMode();
             TileChecker.Instance.ClearTileDisplay();
             noPacboySpawnWarningPanel.SetActive(false);
             invalidTilesWarningPanel.SetActive(false);
@@ -86,10 +86,10 @@ namespace MapEditor {
          * Saves the map data to .json file.
          */
         private void SaveMapToFile() {
-            WallData wallData = gameObject.GetComponent<WallEditor>().GetWallData();
-            PropData propData = gameObject.GetComponent<PropEditor>().GetPropData();
-            char difficulty = gameObject.GetComponent<DifficultyEditor>().GetDifficultyData();
-            bool eventEnabled = gameObject.GetComponent<EventEditor>().GetEventStatusData();
+            WallData wallData = WallEditor.Instance.GetWallData();
+            PropData propData = PropEditor.Instance.GetPropData();
+            char difficulty = DifficultyEditor.Instance.GetDifficultyData();
+            bool eventEnabled = EventEditor.Instance.GetEventStatusData();
 
             Map map = new(_mapName, difficulty, eventEnabled, wallData, propData);
 
@@ -129,7 +129,7 @@ namespace MapEditor {
 
             // Set map name & difficulty info according to map name
             _mapName = match.Groups[1].Value;
-            gameObject.GetComponent<DifficultyEditor>().SetDifficultyData(match.Groups[3].Value[0]);
+            DifficultyEditor.Instance.SetDifficultyData(match.Groups[3].Value[0]);
 
             // Obtain the file path
             string path = Path.Combine(_saveDirectory, mapFileName + ".json");
@@ -143,16 +143,15 @@ namespace MapEditor {
                 InitUI(_mapName);
 
                 // Set walls
-                gameObject.GetComponent<WallEditor>()
-                    .SetWallData(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
+                WallEditor.Instance.SetWallData(new WallData(wrapper.HorizontalWallStatus, wrapper.VerticalWallStatus));
 
                 // Set props
                 PlayerPrefs.SetString("GameObjectReadMode", "EDITOR");
-                gameObject.GetComponent<PropEditor>().SetPropData(new PropData(wrapper.PropPositions(),
+                PropEditor.Instance.SetPropData(new PropData(wrapper.PropPositions(),
                     wrapper.FixedPropCounts, wrapper.TotalPropCounts));
 
                 // Set event status
-                gameObject.GetComponent<EventEditor>().SetEventStatusData(wrapper.eventEnabled);
+                EventEditor.Instance.SetEventStatusData(wrapper.eventEnabled);
                 Debug.Log("All set");
             } else {
                 Debug.LogError("Load map error: File not found!");
@@ -165,10 +164,10 @@ namespace MapEditor {
             modePromptText.SetText("Editing:\nWalls");
 
             // Mode setting
-            gameObject.GetComponent<PropEditor>().QuitPropMode();
-            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-            gameObject.GetComponent<EventEditor>().QuitEventMode();
-            gameObject.GetComponent<WallEditor>().EnterWallMode();
+            PropEditor.Instance.QuitPropMode(true);
+            DifficultyEditor.Instance.QuitDifficultyMode();
+            EventEditor.Instance.QuitEventMode();
+            WallEditor.Instance.EnterWallMode();
 
             _mode = 1;
 
@@ -191,10 +190,10 @@ namespace MapEditor {
             modePromptText.SetText("Editing:\nProps");
 
             // Mode setting
-            gameObject.GetComponent<WallEditor>().QuitWallMode();
-            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-            gameObject.GetComponent<EventEditor>().QuitEventMode();
-            gameObject.GetComponent<PropEditor>().EnterPropMode();
+            WallEditor.Instance.QuitWallMode();
+            DifficultyEditor.Instance.QuitDifficultyMode();
+            EventEditor.Instance.QuitEventMode();
+            PropEditor.Instance.EnterPropMode();
 
             _mode = 2;
 
@@ -217,10 +216,10 @@ namespace MapEditor {
             modePromptText.SetText("Editing:\nDifficulty");
 
             // Mode setting
-            gameObject.GetComponent<PropEditor>().QuitPropMode();
-            gameObject.GetComponent<WallEditor>().QuitWallMode();
-            gameObject.GetComponent<EventEditor>().QuitEventMode();
-            gameObject.GetComponent<DifficultyEditor>().EnterDifficultyMode();
+            PropEditor.Instance.QuitPropMode(true);
+            WallEditor.Instance.QuitWallMode();
+            EventEditor.Instance.QuitEventMode();
+            DifficultyEditor.Instance.EnterDifficultyMode();
 
             _mode = 3;
 
@@ -243,10 +242,10 @@ namespace MapEditor {
             modePromptText.SetText("Editing:\nEvent Status");
 
             // Mode setting
-            gameObject.GetComponent<PropEditor>().QuitPropMode();
-            gameObject.GetComponent<WallEditor>().QuitWallMode();
-            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-            gameObject.GetComponent<EventEditor>().EnterEventMode();
+            PropEditor.Instance.QuitPropMode(true);
+            WallEditor.Instance.QuitWallMode();
+            DifficultyEditor.Instance.QuitDifficultyMode();
+            EventEditor.Instance.EnterEventMode();
 
             _mode = 4;
 
@@ -275,15 +274,17 @@ namespace MapEditor {
         private void OnSaveAndQuitButtonClick() {
             // Check if the condition is met
             // 1 - PACBOY SPAWN POINT IS SET
-            if (!gameObject.GetComponent<PropEditor>().CheckCondition()) {
+            if (!PropEditor.Instance.CheckCondition()) {
+                // If Pacboy spawn point not set
+                // Show relevant warning
                 noPacboySpawnWarningPanel.SetActive(true);
 
                 // Temporarily disable all modes
                 // (Recovered after the close button is clicked)
-                gameObject.GetComponent<WallEditor>().QuitWallMode();
-                gameObject.GetComponent<PropEditor>().QuitPropMode();
-                gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-                gameObject.GetComponent<EventEditor>().QuitEventMode();
+                WallEditor.Instance.QuitWallMode();
+                PropEditor.Instance.QuitPropMode(true);
+                DifficultyEditor.Instance.QuitDifficultyMode();
+                EventEditor.Instance.QuitEventMode();
 
                 // Temporarily ban all the buttons
                 // (Recovered after the close button is clicked)
@@ -297,11 +298,29 @@ namespace MapEditor {
                 return;
             }
 
-            // 2 - ALL TILES ARE ACCESSIBLE & DISTANCE <= 20 FROM CENTER
-            bool tilesValid = TileChecker.Instance.CheckTileAccessibility(gameObject.GetComponent<WallEditor>().GetWallData());
+            // 2 - ALL TILES ARE ACCESSIBLE & DISTANCE <= 22 FROM CENTER
+            bool tilesValid = TileChecker.Instance.CheckTileAccessibility(WallEditor.Instance.GetWallData());
 
             if (!tilesValid) {
-                // If invalid tiles exist, directly return
+                // If invalid tiles exist
+                // Show relevant warning
+                invalidTilesWarningPanel.SetActive(true);
+                
+                // Temporarily disable all modes
+                // (Automatically go to Wall Mode after the close button is clicked)
+                WallEditor.Instance.QuitWallMode();
+                PropEditor.Instance.QuitPropMode(false); // Note: the param should be false here
+                DifficultyEditor.Instance.QuitDifficultyMode();
+                EventEditor.Instance.QuitEventMode();
+
+                // Temporarily ban all the buttons
+                // (Recovered after the close button is clicked)
+                quitButton.interactable = false;
+                saveButton.interactable = false;
+                propModeButton.interactable = false;
+                wallModeButton.interactable = false;
+                difficultyModeButton.interactable = false;
+                eventModeButton.interactable = false;
                 return;
             }
 
@@ -330,38 +349,38 @@ namespace MapEditor {
             switch (_mode) {
                 case 0:
                     // In none of the modes
-                    gameObject.GetComponent<WallEditor>().QuitWallMode();
-                    gameObject.GetComponent<PropEditor>().QuitPropMode();
-                    gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-                    gameObject.GetComponent<EventEditor>().QuitEventMode();
+                    WallEditor.Instance.QuitWallMode();
+                    PropEditor.Instance.QuitPropMode(true);
+                    DifficultyEditor.Instance.QuitDifficultyMode();
+                    EventEditor.Instance.QuitEventMode();
                     break;
                 case 1:
                     // In walls mode
-                    gameObject.GetComponent<WallEditor>().EnterWallMode();
-                    gameObject.GetComponent<PropEditor>().QuitPropMode();
-                    gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-                    gameObject.GetComponent<EventEditor>().QuitEventMode();
+                    WallEditor.Instance.EnterWallMode();
+                    PropEditor.Instance.QuitPropMode(true);
+                    DifficultyEditor.Instance.QuitDifficultyMode();
+                    EventEditor.Instance.QuitEventMode();
                     break;
                 case 2:
                     // In props mode
-                    gameObject.GetComponent<WallEditor>().QuitWallMode();
-                    gameObject.GetComponent<PropEditor>().EnterPropMode();
-                    gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-                    gameObject.GetComponent<EventEditor>().QuitEventMode();
+                    WallEditor.Instance.QuitWallMode();
+                    PropEditor.Instance.EnterPropMode();
+                    DifficultyEditor.Instance.QuitDifficultyMode();
+                    EventEditor.Instance.QuitEventMode();
                     break;
                 case 3:
                     // In difficulty setting mode
-                    gameObject.GetComponent<WallEditor>().QuitWallMode();
-                    gameObject.GetComponent<PropEditor>().QuitPropMode();
-                    gameObject.GetComponent<DifficultyEditor>().EnterDifficultyMode();
-                    gameObject.GetComponent<EventEditor>().QuitEventMode();
+                    WallEditor.Instance.QuitWallMode();
+                    PropEditor.Instance.QuitPropMode(true);
+                    DifficultyEditor.Instance.EnterDifficultyMode();
+                    EventEditor.Instance.QuitEventMode();
                     break;
                 case 4:
                     // In event setting mode
-                    gameObject.GetComponent<WallEditor>().QuitWallMode();
-                    gameObject.GetComponent<PropEditor>().QuitPropMode();
-                    gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-                    gameObject.GetComponent<EventEditor>().EnterEventMode();
+                    WallEditor.Instance.QuitWallMode();
+                    PropEditor.Instance.QuitPropMode(true);
+                    DifficultyEditor.Instance.QuitDifficultyMode();
+                    EventEditor.Instance.EnterEventMode();
                     break;
                 default:
                     Debug.LogError("Mode error!");
@@ -380,13 +399,33 @@ namespace MapEditor {
             wallModeButton.interactable = true;
             difficultyModeButton.interactable = true;
             eventModeButton.interactable = true;
+            
+            // Set invalid tiles display status
+            TileChecker.Instance.invalidTilesDisplaying = true;
 
             // Automatically go to Edit Walls mode
+            // Update the prompt
+            modePromptText.SetText("Editing:\nWalls");
+
+            // Mode setting
+            PropEditor.Instance.QuitPropMode(false); // Note: the param should be false here
+            DifficultyEditor.Instance.QuitDifficultyMode();
+            EventEditor.Instance.QuitEventMode();
+            WallEditor.Instance.EnterWallMode();
+
             _mode = 1;
-            gameObject.GetComponent<WallEditor>().EnterWallMode();
-            gameObject.GetComponent<PropEditor>().QuitPropMode();
-            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-            gameObject.GetComponent<EventEditor>().QuitEventMode();
+
+            // Buttons color update
+            SetButtonStatus(propModeButton, false);
+            SetButtonStatus(difficultyModeButton, false);
+            SetButtonStatus(eventModeButton, false);
+            SetButtonStatus(wallModeButton, true);
+
+            // Update the setting panel
+            propModeSettingPanel.SetActive(false);
+            difficultySettingPanel.SetActive(false);
+            eventSettingPanel.SetActive(false);
+            wallModeSettingPanel.SetActive(true);
         }
 
         // Set the color of a button
@@ -424,10 +463,10 @@ namespace MapEditor {
             modePromptText.SetText("Click to select what you need to edit!");
 
             // Clear of all the modes
-            gameObject.GetComponent<WallEditor>().QuitWallMode();
-            gameObject.GetComponent<PropEditor>().QuitPropMode();
-            gameObject.GetComponent<DifficultyEditor>().QuitDifficultyMode();
-            gameObject.GetComponent<EventEditor>().QuitEventMode();
+            WallEditor.Instance.QuitWallMode();
+            PropEditor.Instance.QuitPropMode(true);
+            DifficultyEditor.Instance.QuitDifficultyMode();
+            EventEditor.Instance.QuitEventMode();
 
             // Mode index reset (in none of the modes)
             _mode = 0;

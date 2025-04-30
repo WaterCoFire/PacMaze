@@ -12,7 +12,6 @@ namespace Test {
             GetComponent<NavMeshAgent>().SetDestination(obj.transform.position);
         }
 
-        private void Update() {
-        }
+        private void Update() { }
     }
 }

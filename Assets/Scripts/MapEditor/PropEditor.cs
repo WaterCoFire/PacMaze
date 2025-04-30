@@ -98,6 +98,15 @@ namespace MapEditor {
         private readonly Vector3 _gridStart = new(-15, 0, 15); // The top left corner
         private readonly float _gridSpacing = 3.0f; // The length of each tile
         private readonly int _gridSize = 11; // Map grid size
+        
+        public static PropEditor Instance { get; private set; }
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            Debug.Log("TileChecker AWAKE");
+            // Set singleton instance
+            Instance = this;
+        }
 
         /**
          * Sets the prop data. Used in MapEditor class.
@@ -137,12 +146,23 @@ namespace MapEditor {
             PropsButtonInit();
         }
 
-        // Quits the prop editing mode. Used in MapEditor class.
-        public void QuitPropMode() {
+        /**
+         * Quits the prop editing mode. Used in MapEditor class.
+         * PARAM resetSelectedTile:
+         * 
+         * - true (in most cases):
+         * Set the tile that is last selected to normal material, aka cancel the highlight effect.
+         * 
+         * - false (only used when showing invalid tile effect):
+         * Do not do so. This is because this could override the invalid "red" effect
+         * if the last selected tile happens to be invalid.
+         */
+        public void QuitPropMode(bool resetSelectedTile) {
             _propMode = false;
 
             // Change the material of the last tile back to the normal one
-            if (_lastSelectedTile != null) {
+            // ONLY DO SO if resetSelectedTile is true 
+            if (resetSelectedTile && _lastSelectedTile != null) {
                 var renderer = _lastSelectedTile.GetComponent<Renderer>();
                 if (renderer != null) renderer.material = tileNormalMaterial;
             }

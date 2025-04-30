@@ -24,13 +24,13 @@ namespace Test {
 
             if (stateInfo.IsName("anim_close")) {
                 if (stateInfo.normalizedTime >= 1f) {
-                    Debug.Log("anim_close 动画播放完了！");
+                    Debug.Log("anim_close FINISHED!!");
                 }
             }
 
             // if (Input.GetKeyDown(KeyCode.K)) {
             //     if (scaredMaterial == null || normalMaterial == null) {
-            //         Debug.LogWarning("请设置好 normal 和 scared 材质！");
+            //         Debug.LogWarning("Please set normal and scared material");
             //         return;
             //     }
             //
@@ -48,7 +48,7 @@ namespace Test {
             //                 hasChange = true;
             //                 changeCount++;
             //             } else {
-            //                 newMats[i] = originalMats[i]; // 保留原材质
+            //                 newMats[i] = originalMats[i]; // Keep original material
             //             }
             //         }
             //
@@ -58,12 +58,11 @@ namespace Test {
             //         }
             //     }
             //
-            //     Debug.Log($"成功替换了 {count} 个 MeshRenderer，共替换 {changeCount} 个材质槽。");
             // }
             //
             // if (Input.GetKeyDown(KeyCode.L)) {
             //     if (scaredMaterial == null || normalMaterial == null) {
-            //         Debug.LogWarning("请设置好 normal 和 scared 材质！");
+            //         Debug.LogWarning("Please set normal and scared material");
             //         return;
             //     }
             //
@@ -81,7 +80,7 @@ namespace Test {
             //                 hasChange = true;
             //                 changeCount++;
             //             } else {
-            //                 newMats[i] = originalMats[i]; // 保留原材质
+            //                 newMats[i] = originalMats[i]; // Keep original material
             //             }
             //         }
             //
@@ -90,8 +89,6 @@ namespace Test {
             //             count++;
             //         }
             //     }
-            //
-            //     Debug.Log($"成功替换了 {count} 个 MeshRenderer，共替换 {changeCount} 个材质槽。");
             // }
         }
     }

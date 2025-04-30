@@ -7,10 +7,22 @@
             "x": 0.0,
             "y": 0.0,
             "z": -9.0
+        },
+        {
+            "x": 15.0,
+            "y": 0.0,
+            "z": 9.0
+        },
+        {
+            "x": 15.0,
+            "y": 0.0,
+            "z": 12.0
         }
     ],
     "propTypes": [
-        "PacboySpawn(Clone)"
+        "PacboySpawn(Clone)",
+        "FastWheel(Clone)",
+        "PowerPellet(Clone)"
     ],
     "fixedPropKeys": [
         "PacboySpawn",
@@ -25,8 +37,8 @@
     "fixedPropValues": [
         1,
         0,
-        0,
-        0,
+        1,
+        1,
         0,
         0,
         0,
@@ -226,7 +238,7 @@
         false,
         true,
         false,
-        false
+        true
     ],
     "vwStatusRow5": [
         true,

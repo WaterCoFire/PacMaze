@@ -39,6 +39,15 @@ namespace MapEditor {
         private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
 
         private char _difficultySet;
+        
+        public static DifficultyEditor Instance { get; private set; }
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            Debug.Log("TileChecker AWAKE");
+            // Set singleton instance
+            Instance = this;
+        }
 
         // START FUNCTION
         private void Start() {

@@ -29,7 +29,7 @@ namespace MapEditor {
         private readonly List<GameObject[]> _allTiles = new();
 
         public bool invalidTilesDisplaying;
-        
+
         // Singleton instance
         public static TileChecker Instance { get; private set; }
 
@@ -72,21 +72,22 @@ namespace MapEditor {
             bool[,] visited = new bool[11, 11];
             int[,] distance = new int[11, 11]; // Record the shortest distance for each grid
 
-            // Store tiles that are inaccessible or at a distance greater than 20
+            // Store tiles that are inaccessible or at a distance greater than 22
             List<(int, int)> unreachableTiles = new List<(int, int)>();
 
-            // Breadth-first search (BFS) queue, initialised by adding the center (6, 6) to the queue
+            // Breadth-first search (BFS) queue
+            // initialised by adding the center (5, 5) (aka x = 6, y = 6) to the queue
             Queue<(int, int)> queue = new Queue<(int, int)>();
-            queue.Enqueue((6, 6));
-            visited[6, 6] = true;
-            distance[6, 6] = 0;
+            queue.Enqueue((5, 5));
+            visited[5, 5] = true;
+            distance[5, 5] = 0;
 
             // BFS Search
             while (queue.Count > 0) {
                 var (x, y) = queue.Dequeue();
 
-                // If the current distance is greater than 20, it is marked as unreachable
-                if (distance[x, y] > 17) {
+                // If the current distance is greater than 22, it is marked as unreachable
+                if (distance[x, y] > 22) {
                     unreachableTiles.Add((x, y));
                     continue;
                 }
@@ -124,10 +125,10 @@ namespace MapEditor {
             }
 
             // Iterate over all the tiles
-            // and find the ones that are inaccessible or have a distance greater than 20
+            // and find the ones that are inaccessible or have a distance greater than 22
             for (int i = 0; i < 11; i++) {
                 for (int j = 0; j < 11; j++) {
-                    if (!visited[i, j] || distance[i, j] > 17) {
+                    if (!visited[i, j] || distance[i, j] > 22) {
                         unreachableTiles.Add((i, j));
                     }
                 }
@@ -156,10 +157,8 @@ namespace MapEditor {
                 return;
             }
 
-            invalidTilesDisplaying = true;
-
             // For debug use
-            Debug.Log("The following tiles are inaccessible or the path exceeds 20:");
+            Debug.Log("The following tiles are inaccessible or the path exceeds 22:");
             foreach (var tile in invalidTileCoordinates) {
                 Debug.Log($"({tile.Item1}, {tile.Item2})");
             }
@@ -180,6 +179,10 @@ namespace MapEditor {
          * (Set all tiles' materials to normal one)
          */
         public void ClearTileDisplay() {
+            if (!invalidTilesDisplaying) {
+                return;
+            }
+
             foreach (var tileRow in _allTiles) {
                 foreach (var tile in tileRow) {
                     tile.GetComponent<MeshRenderer>().material = tileNormalMaterial;
