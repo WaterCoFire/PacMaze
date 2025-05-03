@@ -61,13 +61,15 @@ namespace MapEditor {
         }
 
         /**
-         * Check the reachability of all the tiles.
+         * Check the legality of all the tiles:
+         * Reachability, Ease of Reachability, No dead end
+         * TODO NO DEAD END
          * Called by MapEditor when the player attempts to Save & Quit.
          * Returns:
          * The list of all invalid tiles.
          * If all tiles are valid, the list is null.
          */
-        public bool CheckTileAccessibility(WallData wallData) {
+        public bool CheckTileLegality(WallData wallData) {
             // Creating an 11x11 array of access states
             bool[,] visited = new bool[11, 11];
             int[,] distance = new int[11, 11]; // Record the shortest distance for each grid
@@ -279,6 +281,6 @@ namespace MapEditor {
         //     WallData test = new WallData(horizontalWalls, verticalWalls);
         //
         //     // Perform check
-        //     CheckTileAccessibility(test);
+        //     CheckTileLegality(test);
     }
 }

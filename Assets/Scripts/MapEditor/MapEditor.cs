@@ -299,7 +299,7 @@ namespace MapEditor {
             }
 
             // 2 - ALL TILES ARE ACCESSIBLE & DISTANCE <= 22 FROM CENTER
-            bool tilesValid = TileChecker.Instance.CheckTileAccessibility(WallEditor.Instance.GetWallData());
+            bool tilesValid = TileChecker.Instance.CheckTileLegality(WallEditor.Instance.GetWallData());
 
             if (!tilesValid) {
                 // If invalid tiles exist
