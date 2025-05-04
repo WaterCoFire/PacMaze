@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entity.Map;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace MapEditor {
     public class TileChecker : MonoBehaviour {

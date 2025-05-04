@@ -87,7 +87,7 @@ namespace MapEditor {
 
         private bool _propMode;
 
-        private Dictionary<Vector3, GameObject> _propOnTiles = new(); // Prop on every tile
+        private readonly Dictionary<Vector3, GameObject> _propOnTiles = new(); // Prop on every tile
 
         // FIXED counts of all the props
         private Dictionary<string, int> _fixedPropCounts;
@@ -253,7 +253,7 @@ namespace MapEditor {
         }
 
         // Prop placement operations
-        public bool PlaceProp(string propType) {
+        private bool PlaceProp(string propType) {
             if (!_tileSelected) return false;
 
             // if (!_propOnTiles.ContainsKey(_selectedTileVector3)) {
@@ -287,7 +287,7 @@ namespace MapEditor {
         }
 
         // Handle removals
-        public bool RemoveProp() {
+        private bool RemoveProp() {
             Debug.Log("Removing");
 
             if (!_tileSelected) {

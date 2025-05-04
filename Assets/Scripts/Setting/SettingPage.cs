@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,7 +40,7 @@ namespace Setting {
         // Invalid operation prompt
         public TMP_Text promptText;
 
-        private List<Button> _settingButtons = new();
+        private readonly List<Button> _settingButtons = new();
         private bool _isListening; // Listening status
         private int _listeningIndex; // 1-9, indicating which operations are being set
 

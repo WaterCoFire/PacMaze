@@ -1,5 +1,4 @@
-﻿using System;
-using Entity.Pacboy;
+﻿using Entity.Pacboy;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

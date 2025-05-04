@@ -1,10 +1,6 @@
-﻿using System;
-using System.Net.Mime;
-using PlayMap;
+﻿using PlayMap;
 using TMPro;
-using TMPro.Examples;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Entity.Pacboy {

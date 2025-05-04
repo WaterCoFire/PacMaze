@@ -7,7 +7,7 @@ namespace Setting {
      */
     public class KeyBindingManager {
         // INFORMATION FILE PATH
-        private static string _filePath = Path.Combine(Application.dataPath, "Data", "key_pref.json");
+        private static readonly string FilePath = Path.Combine(Application.dataPath, "Data", "key_pref.json");
 
         /**
          * Saves key binding information to the file.
@@ -30,8 +30,8 @@ namespace Setting {
             string json = JsonUtility.ToJson(keyBindings, true);
 
             // Write to the file
-            File.WriteAllText(_filePath, json);
-            Debug.Log("KeyBindings saved to " + _filePath);
+            File.WriteAllText(FilePath, json);
+            Debug.Log("KeyBindings saved to " + FilePath);
         }
 
         /**
@@ -39,8 +39,8 @@ namespace Setting {
          */
         public static void LoadInfoFromFile() {
             // Check file path validity
-            if (File.Exists(_filePath)) {
-                string json = File.ReadAllText(_filePath);
+            if (File.Exists(FilePath)) {
+                string json = File.ReadAllText(FilePath);
 
                 KeyBindings keyBindings = JsonUtility.FromJson<KeyBindings>(json);
 
@@ -55,9 +55,9 @@ namespace Setting {
                 PlayerPrefs.SetString("UseNiceBombKeyCode", keyBindings.UseNiceBombKeyCode);
                 PlayerPrefs.SetString("DeployNiceBombKeyCode", keyBindings.DeployNiceBombKeyCode);
 
-                Debug.Log("KeyBindings loaded from " + _filePath);
+                Debug.Log("KeyBindings loaded from " + FilePath);
             } else {
-                Debug.LogError("key_pref.json file not found at " + _filePath);
+                Debug.LogError("key_pref.json file not found at " + FilePath);
             }
         }
     }

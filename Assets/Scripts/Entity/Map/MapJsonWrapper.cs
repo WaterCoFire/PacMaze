@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using MapEditor;
 using UnityEngine;
 
 namespace Entity.Map {

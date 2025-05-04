@@ -1,6 +1,4 @@
-﻿using System;
-using Setting;
-using Unity.VisualScripting;
+﻿using Setting;
 using UnityEngine;
 using UnityEngine.UI;
 

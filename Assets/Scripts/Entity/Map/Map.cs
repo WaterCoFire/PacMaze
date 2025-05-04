@@ -1,13 +1,11 @@
 ﻿using System;
-using UnityEditor.UI;
-using UnityEngine;
 
 namespace Entity.Map {
     public class Map {
         // Basic information
-        public String Name;
-        public char Difficulty;
-        public bool EventEnabled;
+        public readonly String Name;
+        public readonly char Difficulty;
+        public readonly bool EventEnabled;
 
         // Information from map editor
         public PropData PropData;

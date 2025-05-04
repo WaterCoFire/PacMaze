@@ -1,6 +1,5 @@
 ﻿using PlayMap;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Entity.Pacboy {
     /**

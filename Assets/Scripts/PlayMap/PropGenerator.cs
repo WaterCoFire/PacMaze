@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entity.Map;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = System.Random;
 
 namespace PlayMap {
@@ -25,10 +24,10 @@ namespace PlayMap {
         private PropData _propData; // For storing the prop data
 
         // Used for storing all the free tiles
-        private List<Vector3> _freeTiles = new();
+        private readonly List<Vector3> _freeTiles = new();
 
         // Random instance for generating random numbers
-        private Random _random = new();
+        private readonly Random _random = new();
 
         // Pacboy game object (used for setting the chase target of all the ghostrons)
         private GameObject _pacboy;
