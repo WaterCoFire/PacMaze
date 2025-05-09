@@ -1,122 +1,87 @@
-﻿using Entity.Map;
+﻿using System;
+using Entity.Map;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace PlayMap {
     public class WallGenerator : MonoBehaviour {
-        public GameObject[] horizontalWalls1;
-        public GameObject[] horizontalWalls2;
-        public GameObject[] horizontalWalls3;
-        public GameObject[] horizontalWalls4;
-        public GameObject[] horizontalWalls5;
-        public GameObject[] horizontalWalls6;
-        public GameObject[] horizontalWalls7;
-        public GameObject[] horizontalWalls8;
-        public GameObject[] horizontalWalls9;
-        public GameObject[] horizontalWalls10;
-
-        public GameObject[] verticalWalls1;
-        public GameObject[] verticalWalls2;
-        public GameObject[] verticalWalls3;
-        public GameObject[] verticalWalls4;
-        public GameObject[] verticalWalls5;
-        public GameObject[] verticalWalls6;
-        public GameObject[] verticalWalls7;
-        public GameObject[] verticalWalls8;
-        public GameObject[] verticalWalls9;
-        public GameObject[] verticalWalls10;
-        public GameObject[] verticalWalls11;
+        public GameObject[,] HorizontalWalls;
+        public GameObject[,] VerticalWalls;
 
         public GameObject mapFloor;
+        
+        // START FUNCTION
+        private void Start() {
+            // Initialise the two wall game object arrays
+            HorizontalWalls = new GameObject[10, 11];
+            VerticalWalls = new GameObject[11, 10];
+
+            // Find the Walls root game object
+            GameObject wallsRoot = GameObject.Find("Walls");
+            Debug.Log(wallsRoot);
+
+            // Load horizontal walls
+            for (int row = 0; row < 10; row++) {
+                string hRowName = $"HWall_Row_{row + 1}";
+                Transform hRow = wallsRoot.transform.Find(hRowName);
+                if (hRow == null) {
+                    Debug.LogError($"Error: Not found {hRowName}");
+                    continue;
+                }
+
+                for (int col = 0; col < 11; col++) {
+                    string hWallName = $"HWall_{col + 1}";
+                    Transform hWall = hRow.Find(hWallName);
+                    if (hWall == null) {
+                        Debug.LogError($"Error: Not found {hRowName}/{hWallName}");
+                        continue;
+                    }
+
+                    HorizontalWalls[row, col] = hWall.gameObject;
+                }
+            }
+
+            // Load vertical walls
+            for (int col = 0; col < 10; col++) {
+                string vColName = $"VWall_Column_{col + 1}";
+                Transform vCol = wallsRoot.transform.Find(vColName);
+                if (vCol == null) {
+                    Debug.LogError($"Error: Not found {vColName}");
+                    continue;
+                }
+
+                for (int row = 0; row < 11; row++) {
+                    string vWallName = $"VWall_{row + 1}";
+                    Transform vWall = vCol.Find(vWallName);
+                    if (vWall == null) {
+                        Debug.LogError($"Error: Not found {vColName}/{vWallName}");
+                        continue;
+                    }
+
+                    VerticalWalls[row, col] = vWall.gameObject;
+                }
+            }
+        }
 
         /**
+         * Initialise walls, called when starting a game.
          * Sets the walls of the map.
          * Then bakes the map using NavMesh.
          */
         public void InitWalls(WallData wallData) {
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls1[column].SetActive(wallData.HorizontalWallStatus[0, column]);
+            // Horizontal walls
+            for (int row = 0; row < 10; row++) {
+                for (int column = 0; column < 11; column++) {
+                    HorizontalWalls[row, column].SetActive(wallData.HorizontalWallStatus[row, column]);
+                }
             }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls2[column].SetActive(wallData.HorizontalWallStatus[1, column]);
-            }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls3[column].SetActive(wallData.HorizontalWallStatus[2, column]);
-            }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls4[column].SetActive(wallData.HorizontalWallStatus[3, column]);
-            }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls5[column].SetActive(wallData.HorizontalWallStatus[4, column]);
-            }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls6[column].SetActive(wallData.HorizontalWallStatus[5, column]);
-            }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls7[column].SetActive(wallData.HorizontalWallStatus[6, column]);
-            }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls8[column].SetActive(wallData.HorizontalWallStatus[7, column]);
-            }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls9[column].SetActive(wallData.HorizontalWallStatus[8, column]);
-            }
-
-            for (int column = 0; column < 11; column++) {
-                horizontalWalls10[column].SetActive(wallData.HorizontalWallStatus[9, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls1[column].SetActive(wallData.VerticalWallStatus[0, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls2[column].SetActive(wallData.VerticalWallStatus[1, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls3[column].SetActive(wallData.VerticalWallStatus[2, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls4[column].SetActive(wallData.VerticalWallStatus[3, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls5[column].SetActive(wallData.VerticalWallStatus[4, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls6[column].SetActive(wallData.VerticalWallStatus[5, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls7[column].SetActive(wallData.VerticalWallStatus[6, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls8[column].SetActive(wallData.VerticalWallStatus[7, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls9[column].SetActive(wallData.VerticalWallStatus[8, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls10[column].SetActive(wallData.VerticalWallStatus[9, column]);
-            }
-
-            for (int column = 0; column < 10; column++) {
-                verticalWalls11[column].SetActive(wallData.VerticalWallStatus[10, column]);
+           
+            // Vertical walls
+            for (int row = 0; row < 11; row++) {
+                for (int column = 0; column < 10; column++) {
+                    VerticalWalls[row, column].SetActive(wallData.VerticalWallStatus[row, column]);
+                }
             }
 
             // Use collider data to build navigation mesh

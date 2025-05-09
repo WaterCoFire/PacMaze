@@ -2212,6 +2212,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FastWheel
       objectReference: {fileID: 0}
+    - target: {fileID: 4908766425515103001, guid: 878a0cf4055c9104db5e926998493fd2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7052,6 +7057,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: YellowGhostron 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1478234892423364373, guid: 4d995a41157a6974d939b46b64a2a66d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
         type: 3}
@@ -26235,6 +26245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0feb9a6759d34e959a3d72c14597cb2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileNormalMaterial: {fileID: 0}
+  tileErrorMaterial: {fileID: 0}
   tileRow1: []
   tileRow2: []
   tileRow3: []
@@ -26246,6 +26258,7 @@ MonoBehaviour:
   tileRow9: []
   tileRow10: []
   tileRow11: []
+  invalidTilesDisplaying: 0
 --- !u!1001 &1315537847
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30429,6 +30442,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NiceBomb
       objectReference: {fileID: 0}
+    - target: {fileID: 4554726331056008436, guid: 381f783bceee1d44b9322043cd0e4353,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9076800972568151827, guid: 381f783bceee1d44b9322043cd0e4353,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -33794,7 +33812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1728778754
 Transform:
   m_ObjectHideFlags: 0
@@ -34409,6 +34427,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1748880447}
+  - component: {fileID: 1748880448}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -34438,6 +34457,18 @@ Transform:
   - {fileID: 1925071019}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1748880448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1748880446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f87f403b96d146f6acc1931bba54f887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1755040639
 PrefabInstance:
   m_ObjectHideFlags: 0
