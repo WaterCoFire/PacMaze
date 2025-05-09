@@ -210,7 +210,7 @@ namespace Test {
                         }
                         
                         // Valid adjacent non-ideal tiles have a big probability of not being neighbours
-                        if (_random.Next(100) < 75) {
+                        if (_random.Next(100) < 85) {
                             // Disconnect the two tile
                             Disconnect(twoNeighbourTile, adjacentTile);
                             _currentNeighbourCounts[twoNeighbourTile]--;
