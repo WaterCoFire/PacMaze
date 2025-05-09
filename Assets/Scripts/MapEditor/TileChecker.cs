@@ -77,7 +77,7 @@ namespace MapEditor {
             List<(int, int)> unreachableTiles = new List<(int, int)>();
 
             // Breadth-first search (BFS) queue
-            // initialised by adding the center (5, 5) (aka x = 6, y = 6) to the queue
+            // initialised by adding the centre (5, 5) to the queue
             Queue<(int, int)> queue = new Queue<(int, int)>();
             queue.Enqueue((5, 5));
             visited[5, 5] = true;
