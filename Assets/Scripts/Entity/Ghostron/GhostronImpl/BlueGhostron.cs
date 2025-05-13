@@ -5,17 +5,17 @@ using UnityEngine.AI;
 namespace Entity.Ghostron.GhostronImpl {
     public class BlueGhostron : Ghostron {
         // Wander interval of the blue ghostron
-        protected override float WanderInterval {
+        public override float WanderInterval {
             get { return 15.0f; }
         }
 
         // Scared duration of the blue ghostron
-        protected override float ScaredDuration {
+        public override float ScaredDuration {
             get { return 8.0f; }
         }
 
         // Minimum wander duration of the blue ghostron
-        protected override float MinimumWanderDuration {
+        public override float MinimumWanderDuration {
             // Easy: 10
             // Normal: 8
             // Hard: 7
@@ -35,7 +35,7 @@ namespace Entity.Ghostron.GhostronImpl {
         }
 
         // Maximum chase duration of the blue ghostron
-        protected override float MaximalChaseDuration {
+        public override float MaximalChaseDuration {
             // Easy: 8
             // Normal, Hard: 12
             get {
@@ -68,15 +68,15 @@ namespace Entity.Ghostron.GhostronImpl {
          * Go to the map corner which is the furthest away from the Pacboy.
          * If the blue ghostron already arrives there, go to another random corner.
          */
-        protected override Vector3 GenerateWanderingTarget() {
-            if (Pacboy != null) {
+        public override Vector3 GenerateWanderingTarget() {
+            if (pacboy != null) {
                 // Find the corner that is the furthest away from the Pacboy
                 Vector3 furthestPosition = _potentialPositions[0];
                 int index = 0;
-                float maxDistance = Vector3.Distance(furthestPosition, Pacboy.transform.position);
+                float maxDistance = Vector3.Distance(furthestPosition, pacboy.transform.position);
 
                 for (int i = 0; i < 4; i++) {
-                    float distance = Vector3.Distance(_potentialPositions[i], Pacboy.transform.position);
+                    float distance = Vector3.Distance(_potentialPositions[i], pacboy.transform.position);
                     if (distance > maxDistance) {
                         furthestPosition = _potentialPositions[i];
                         index = i;

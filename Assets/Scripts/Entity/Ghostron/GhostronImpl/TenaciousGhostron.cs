@@ -4,25 +4,25 @@ using UnityEngine.AI;
 namespace Entity.Ghostron.GhostronImpl {
     public class TenaciousGhostron : Ghostron {
         // Wander interval of the tenacious ghostron
-        protected override float WanderInterval {
+        public override float WanderInterval {
             get { return 2.0f; }
         }
 
         // Scared duration of the tenacious ghostron
         // TENACIOUS GHOSTRON WILL NOT BE SCARED
-        protected override float ScaredDuration {
+        public override float ScaredDuration {
             get { return 0.0f; }
         }
         
         // Minimum wander duration of the tenacious ghostron
         // THE SAME in easy/normal/hard mode
-        protected override float MinimumWanderDuration {
+        public override float MinimumWanderDuration {
             get { return 1.0f; }
         }
         
         // Maximum chase duration of the tenacious ghostron
         // THE SAME in easy/normal/hard mode
-        protected override float MaximalChaseDuration {
+        public override float MaximalChaseDuration {
             get { return 10000.0f; }
         }
 
@@ -35,7 +35,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * As the wander interval is short for tenacious ghostron,
          * this is almost the current location of the Pacboy.
          */
-        protected override Vector3 GenerateWanderingTarget() {
+        public override Vector3 GenerateWanderingTarget() {
             // Possible x/z axis coordinate values of the target
             int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
 

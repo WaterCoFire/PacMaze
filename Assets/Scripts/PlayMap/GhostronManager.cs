@@ -107,7 +107,7 @@ namespace PlayMap {
         public void ScareAllGhostrons() {
             foreach (var ghostron in _ghostrons) {
                 // Scare each of them
-                ghostron.GetComponent<Ghostron>().SetScared(true);
+                ghostron.GetComponent<Ghostron>().Scare();
             }
         }
 

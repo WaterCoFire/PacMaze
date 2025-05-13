@@ -5,17 +5,17 @@ using UnityEngine.AI;
 namespace Entity.Ghostron.GhostronImpl {
     public class RedGhostron : Ghostron {
         // Wander interval of the red ghostron
-        protected override float WanderInterval {
+        public override float WanderInterval {
             get { return 20.0f; }
         }
 
         // Scared duration of the red ghostron
-        protected override float ScaredDuration {
+        public override float ScaredDuration {
             get { return 8.0f; }
         }
 
         // Minimum wander duration of the red ghostron
-        protected override float MinimumWanderDuration {
+        public override float MinimumWanderDuration {
             // Easy: 6
             // Normal: 4
             // Hard: 3
@@ -35,7 +35,7 @@ namespace Entity.Ghostron.GhostronImpl {
         }
 
         // Maximum chase duration of the red ghostron
-        protected override float MaximalChaseDuration {
+        public override float MaximalChaseDuration {
             // Easy: 25
             // Normal, Hard: 30
             get {
@@ -60,7 +60,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * WHEN IN NORMAL WANDER & WHEN SCARED
          * Go to a random position.
          */
-        protected override Vector3 GenerateWanderingTarget() {
+        public override Vector3 GenerateWanderingTarget() {
             // Possible x/z axis coordinate values of the target
             int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
 

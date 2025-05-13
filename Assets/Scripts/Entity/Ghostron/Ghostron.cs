@@ -1,4 +1,5 @@
-﻿using PlayMap;
+﻿using Entity.Ghostron.State.StateImpl;
+using PlayMap;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,72 +8,53 @@ namespace Entity.Ghostron {
      * Manages the behaviour of the ghost.
      */
     public abstract class Ghostron : MonoBehaviour {
-        protected GameObject Pacboy; // Pacboy game object, what the ghostron is hunting for
+        public GhostronStateMachine StateMachine { get; private set; }
+        
+        public GameObject pacboy; // Pacboy game object, what the ghostron is hunting for
 
         // Normal wandering speed of the ghostron
-        private float _normalSpeed;
+        public float normalWanderSpeed;
 
         // Speed when the ghostron is scared (Pacboy eats a power pellet)
-        private float _scaredSpeed;
+        public float scaredWanderSpeed;
 
         // Chasing Speed
         // This speed varies according to difficulty
         // Specific numbers are set in GhostronManager
-        private float _chaseSpeed;
+        public float chaseSpeed;
 
         // Detection Radius
         // Pacboy will be chased when it is within this distance from a ghostron
         // This distance varies according to difficulty
         // Specific numbers are set in GhostronManager
-        private float _detectionRadius;
-
-        // Wandering logic variables
-        private float _wanderTimer; // Timer of the current wandering
+        public float detectionRadius;
 
         // Interval of switching a wandering target
         // VIRTUAL - different for every implement class (ghostron type)
-        protected virtual float WanderInterval {
+        public virtual float WanderInterval {
             get { return 0f; }
         }
-
 
         // Minimum wander duration
         // The ghostron must wander for at least this time for every wander
         // VIRTUAL - different for every implement class (ghostron type) & DIFFICULTY
-        protected virtual float MinimumWanderDuration {
-            get;
-        }
-
-        private float _chaseTimer; // Timer of the current chase
-
-        private bool
-            _chaseAllowed; // if chasing is allowed or not (should be false when chase timer hits the maximal duration)
+        public virtual float MinimumWanderDuration { get; }
 
         // Maximum chase duration
         // When the chasing ghostron hits this time, it should begin wandering
         // VIRTUAL - different for every implement class (ghostron type) & DIFFICULTY
-        protected virtual float MaximalChaseDuration {
-            get;
-        }
+        public virtual float MaximalChaseDuration { get; }
 
-        private NavMeshAgent _agent; // NavMesh agent
+        public NavMeshAgent agent; // NavMesh agent of the Ghostron
 
-        private bool _isChasing; // Status indicating if the ghostron is wandering or chasing Pacboy
-
-        // Scared logic variables
+        // If the Ghostron is currently scared
         protected bool IsScared; // Status indicating if the Pacboy is scared (when Pacboy eats a power pellet)
-        private float _scaredTimer; // Timer of the ghostron feeling scared
 
         // Duration of the "scared" effect of ghostrons
         // VIRTUAL - different for every implement class (ghostron type)
-        protected virtual float ScaredDuration {
+        public virtual float ScaredDuration {
             get { return 0f; }
         }
-
-        private bool _isCaught; // Status indicating if the Pacboy has caught the ghostron when it is scared
-
-        private readonly float
-            _scaredWarningTime = 2.0f; // The time before the scared state ends to start warning (in secs)
 
         // The original material of the ghostron (the normal color)
         public Material originalMaterial;
@@ -81,12 +63,7 @@ namespace Entity.Ghostron {
         public Material scaredMaterial;
 
         // Ghostron animation logic (walking/spawning animation etc.)
-        private Animator _animator; // Animator
-
-        // Animation speed when the ghostron is in different statuses
-        private readonly float _normalAnimationSpeed = 0.6f; // Wandering
-        private readonly float _chaseAnimationSpeed = 1f; // Chasing Pacboy
-        private readonly float _scaredAnimationSpeed = 0.3f; // Scared
+        public Animator animator; // Animator
 
         // Event logic - Crazy Party active/disactive (Double the speed)
         private bool _crazyParty;
@@ -96,7 +73,7 @@ namespace Entity.Ghostron {
          * Used for getting a target when the ghostron is wandering.
          * ABSTRACT FUNCTION - Different color ghostrons should have different behaviours
          */
-        protected abstract Vector3 GenerateWanderingTarget();
+        public abstract Vector3 GenerateWanderingTarget();
 
         // START FUNCTION
         void Start() {
@@ -110,163 +87,40 @@ namespace Entity.Ghostron {
                 return;
             }
 
-            _chaseAllowed = false; // Let ghostrons wander for a while first when the game starts
             _crazyParty = false; // No Crazy Party event by default
 
             // Set the ghost as a trigger
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
 
             // Bind the NavMeshAgent component
-            _agent = GetComponent<NavMeshAgent>();
+            agent = GetComponent<NavMeshAgent>();
 
             // Bind the animator
-            _animator = gameObject.GetComponent<Animator>();
+            animator = gameObject.GetComponent<Animator>();
 
             // Set to the original material
             SetOriginalMaterial();
-
-            // Initialise timers
-            _chaseTimer = 0f;
-            _scaredTimer = 0f;
-            _wanderTimer = 0f;
+            
+            // Initialise its State Machine
+            StateMachine = new GhostronStateMachine(this);
+            
+            // Enter normal wander state by default
+            StateMachine.ChangeState(new NormalWanderState());
         }
 
         // UPDATE FUNCTION
         void Update() {
-            // Get the animator state info
-            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-
-            // Caught logic
-            if (_isCaught) {
-                SetScaredMaterial();
-                // Set scared status
-                if (stateInfo.IsName("anim_close")) {
-                    // Caught ghostron has finished the closing animation
-                    if (stateInfo.normalizedTime >= 1f) {
-                        Debug.Log("Caught ghostron finished closing animation.");
-
-                        // Let the ghostron play initializing animation there
-                        _animator.SetBool("Open_Anim", true);
-                        _animator.SetBool("Walk_Anim", true);
-                    }
-                }
-            }
-
-            // Check if the ghostron is in initializing (opening itself) animation
-            // Not in walking animation status means that the ghostron is initializing
-            // Directly return if so
-            if (!stateInfo.IsName("anim_Walk_Loop")) return;
-
-            // Check the distance between this ghostron and Pacboy target
-            float distance = Vector3.Distance(gameObject.transform.position, Pacboy.transform.position);
-
-            // Only chases Pacboy if the ghostron is:
-            // - Close enough
-            // - Not scared
-            // - Chasing is allowed
-            if (distance <= _detectionRadius && !IsScared && _chaseAllowed) {
-                // Reset the wander timer
-                _wanderTimer = 0f;
-
-                // Chase the Pacboy
-                if (!_isChasing) {
-                    _isChasing = true;
-                    Debug.Log("Pacboy detected, starting chase!");
-                }
-
-                // Set the chasing speed
-                _agent.speed = _chaseSpeed;
-
-                // Set the animator speed
-                _animator.speed = _chaseAnimationSpeed;
-
-                // Set the chase target (real time position of the Pacboy)
-                _agent.SetDestination(Pacboy.transform.position);
-
-                // Update chasing timer
-                _chaseTimer += Time.deltaTime;
-
-                // If chasing time reaches the maximum chasing duration, disallow the chase
-                if (_chaseTimer >= MaximalChaseDuration) {
-                    _chaseTimer = 0f;
-                    _chaseAllowed = false;
-                    _isChasing = false;
-                }
-            } else if (!_isCaught) {
-                // Pacboy is out of the chasing detection radius
-                // Start wandering logic
-                if (_isChasing) {
-                    _isChasing = false;
-                    _agent.ResetPath();
-                    Debug.Log("Pacboy escaped, now wandering.");
-                }
-
-                // Start to wander
-                Wander();
-            }
-
-            // Update the scared timer if the ghost is currently scared
-            if (IsScared) {
-                _scaredTimer += Time.deltaTime;
-
-                // Check if the scared ghostron is in the last two seconds of the scared state
-                if (_scaredTimer >= ScaredDuration - _scaredWarningTime) {
-                    // Warning player about scared status ending soon
-                    if (_scaredTimer < ScaredDuration) {
-                        Debug.LogWarning("Warning: Ghostron scared state will end soon!");
-                        // Make the skin swap between normal and scared materials
-                        SetRandomMaterialDuringScared();
-                    }
-                }
-
-                // If the timer reaches the scared duration time, stop being scared
-                if (_scaredTimer >= ScaredDuration) {
-                    SetScared(false);
-                }
-            }
+            // Execute the Update() logic in the current state
+            StateMachine.Update();
         }
 
         /**
-         * Sets the scared status of the ghost.
+         * Scare the Ghostron.
          */
-        public void SetScared(bool isScared) {
-            if (isScared) {
-                // Now the ghostron becomes scared
-                _scaredTimer = 0f;
-                IsScared = true;
-                // Change skin
-                SetScaredMaterial();
-                // Change movement speed
-                _agent.speed = _scaredSpeed;
-                // Change animator speed
-                _animator.speed = _scaredAnimationSpeed;
-            } else {
-                // Now the ghostron is no longer scared
-                _scaredTimer = 0f;
-                IsScared = false;
-                _isCaught = false;
-                // Change back skin
-                SetOriginalMaterial();
-                // Change animator speed
-                _animator.speed = _normalAnimationSpeed;
-            }
-        }
-
-        /**
-         * Randomly switch the materials between original and scared materials
-         * during the last 2 seconds of the scared state.
-         */
-        private void SetRandomMaterialDuringScared() {
-            if (!IsScared) {
-                Debug.LogError("Ghostron is not scared but random skin setting function called.");
-            }
-
-            if (_scaredTimer % 0.5f < 0.25f) {
-                // Alternating the material every 0.25 seconds
-                SetOriginalMaterial();
-            } else {
-                SetScaredMaterial();
-            }
+        public void Scare() {
+            IsScared = true;
+            // Enter the scared wander state
+            StateMachine.ChangeState(new ScaredWanderState());
         }
 
         /**
@@ -277,63 +131,15 @@ namespace Entity.Ghostron {
             // If the other game object is not Pacboy then do nothing
             if (!other.CompareTag("Pacboy")) return;
 
-            // It is Pacboy
             if (IsScared) {
-                // The ghostron is scared currently
-                // This means that the ghostron is caught by the Pacboy
-                if (_isCaught) return; // No action if the ghostron is just caught
-                Debug.Log("Ghostron caught by Pacboy!");
-
-                // Speed and skin setting
-                _agent.speed = 0f;
-                SetScaredMaterial();
-
-                // Corresponding animation
-                // Ghostron "closes" itself
-                _animator.speed = _normalAnimationSpeed;
-                _animator.SetBool("Open_Anim", false);
-                _animator.SetBool("Walk_Anim", false);
-
-                _isCaught = true; // Update status
-
-                // Give the Pacboy 200 score points
-                PlayMapController.Instance.AddScore(200);
-
-                // After isCaught is updated:
-                // The Update() function keeps tracking if the "closing" animation of the ghostron is over or not
-                // After that animation is over, ghostron will "open" again
+                // If the Ghostron is scared currently
+                // Pacboy catches it, it should enter stall state
+                StateMachine.ChangeState(new StallState());
             } else {
-                // The ghostron is not currently scared
+                // If the Ghostron is not currently scared
                 // This means the game should be over
                 Debug.LogWarning("Pacboy got caught! GAME OVER!");
                 GhostronManager.Instance.PacboyCaught();
-            }
-        }
-
-        /**
-         * The wandering logic.
-         * Operates a wander process.
-         */
-        private void Wander() {
-            // Update wander timer
-            _wanderTimer += Time.deltaTime;
-
-            // If the timer reaches the minimum limit, allow chasing to happen
-            if (_wanderTimer > MinimumWanderDuration) {
-                _chaseAllowed = true;
-            }
-
-            // Set wandering speed
-            _agent.speed = _normalSpeed;
-
-            // Set animator speed
-            _animator.speed = _normalAnimationSpeed;
-
-            // Wandering destination setting
-            if (!_agent.hasPath || _agent.remainingDistance < 0.5f || _wanderTimer >= WanderInterval) {
-                Vector3 newDestination = GenerateWanderingTarget();
-                _agent.SetDestination(newDestination);
-                _wanderTimer = 0f;
             }
         }
 
@@ -343,7 +149,7 @@ namespace Entity.Ghostron {
          */
         public void SetPacboy(GameObject pacboy) {
             Debug.Log("NEW GHOSTRON PACBOY SET");
-            Pacboy = pacboy;
+            this.pacboy = pacboy;
         }
 
         /**
@@ -351,16 +157,16 @@ namespace Entity.Ghostron {
          * Used in GhostronManager when initializing the map.
          */
         public void SetGhostronParams(float normalSpeed, float scaredSpeed, float chaseSpeed, float detectionRadius) {
-            _normalSpeed = normalSpeed;
-            _scaredSpeed = scaredSpeed;
-            _chaseSpeed = chaseSpeed;
-            _detectionRadius = detectionRadius;
+            normalWanderSpeed = normalSpeed;
+            scaredWanderSpeed = scaredSpeed;
+            this.chaseSpeed = chaseSpeed;
+            this.detectionRadius = detectionRadius;
         }
 
         /**
          * Change the "skin" of the ghostron to purple (scared).
          */
-        private void SetScaredMaterial() {
+        public void SetScaredMaterial() {
             // Check if both materials are properly set
             if (scaredMaterial == null || originalMaterial == null) {
                 Debug.LogError("Error: Original/Scared material not properly set!");
@@ -394,7 +200,7 @@ namespace Entity.Ghostron {
         /**
          * Change the "skin" of the ghostron back to the original one.
          */
-        private void SetOriginalMaterial() {
+        public void SetOriginalMaterial() {
             // Check if both materials are properly set
             if (scaredMaterial == null || originalMaterial == null) {
                 Debug.LogError("Error: Original/Scared material not properly set!");
@@ -438,9 +244,9 @@ namespace Entity.Ghostron {
 
                 // Double the speed
                 _crazyParty = true;
-                _normalSpeed *= 3;
-                _scaredSpeed *= 3;
-                _chaseSpeed *= 3;
+                normalWanderSpeed *= 3;
+                scaredWanderSpeed *= 3;
+                chaseSpeed *= 3;
             } else {
                 if (!_crazyParty) {
                     // Directly return, as there could be some tenacious ghostrons spawned during Crazy Party
@@ -449,10 +255,18 @@ namespace Entity.Ghostron {
 
                 // Set back to normal speed
                 _crazyParty = false;
-                _normalSpeed /= 3;
-                _scaredSpeed /= 3;
-                _chaseSpeed /= 3;
+                normalWanderSpeed /= 3;
+                scaredWanderSpeed /= 3;
+                chaseSpeed /= 3;
             }
+        }
+
+        /**
+         * Update the destination of the ghostron.
+         * Called by multiple state classes.
+         */
+        public void MoveTo(Vector3 target) {
+            agent.SetDestination(target);
         }
     }
 }

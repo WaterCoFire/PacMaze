@@ -5,17 +5,17 @@ using UnityEngine.AI;
 namespace Entity.Ghostron.GhostronImpl {
     public class GreenGhostron : Ghostron {
         // Wander interval of the green ghostron
-        protected override float WanderInterval {
+        public override float WanderInterval {
             get { return 12.0f; }
         }
         
         // Scared duration of the green ghostron
-        protected override float ScaredDuration {
+        public override float ScaredDuration {
             get { return 8.0f; }
         }
         
         // Minimum wander duration of the green ghostron
-        protected override float MinimumWanderDuration {
+        public override float MinimumWanderDuration {
             // Easy: 6
             // Normal: 4
             // Hard: 3
@@ -35,7 +35,7 @@ namespace Entity.Ghostron.GhostronImpl {
         }
         
         // Maximum chase duration of the green ghostron
-        protected override float MaximalChaseDuration {
+        public override float MaximalChaseDuration {
             // Easy: 12
             // Normal, Hard: 18
             get {
@@ -70,17 +70,17 @@ namespace Entity.Ghostron.GhostronImpl {
          * WHEN SCARED
          * Go to the point that is the furthest.
          */
-        protected override Vector3 GenerateWanderingTarget() {
+        public override Vector3 GenerateWanderingTarget() {
             // When scared
             if (IsScared) {
-                if (Pacboy != null) {
+                if (pacboy != null) {
                     // Find the corner that is the furthest away from the Pacboy
                     Vector3 furthestPosition = _potentialPositions[0];
                     int index = 0;
-                    float maxDistance = Vector3.Distance(furthestPosition, Pacboy.transform.position);
+                    float maxDistance = Vector3.Distance(furthestPosition, pacboy.transform.position);
 
                     for (int i = 0; i < 4; i++) {
-                        float distance = Vector3.Distance(_potentialPositions[i], Pacboy.transform.position);
+                        float distance = Vector3.Distance(_potentialPositions[i], pacboy.transform.position);
                         if (distance > maxDistance) {
                             furthestPosition = _potentialPositions[i];
                             index = i;
@@ -114,14 +114,14 @@ namespace Entity.Ghostron.GhostronImpl {
             }
 
             // When not scared
-            if (Pacboy != null) {
+            if (pacboy != null) {
                 // Find the corner that is the nearest from the Pacboy
                 Vector3 nearestPosition = _potentialPositions[0];
                 int index = 0;
-                float minDistance = Vector3.Distance(nearestPosition, Pacboy.transform.position);
+                float minDistance = Vector3.Distance(nearestPosition, pacboy.transform.position);
 
                 for (int i = 0; i < 4; i++) {
-                    float distance = Vector3.Distance(_potentialPositions[i], Pacboy.transform.position);
+                    float distance = Vector3.Distance(_potentialPositions[i], pacboy.transform.position);
                     if (distance < minDistance) {
                         nearestPosition = _potentialPositions[i];
                         index = i;
