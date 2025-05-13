@@ -2,6 +2,7 @@
 using PlayMap;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace Entity.Ghostron {
     /**
@@ -9,7 +10,7 @@ namespace Entity.Ghostron {
      */
     public abstract class Ghostron : MonoBehaviour {
         public GhostronStateMachine StateMachine { get; private set; }
-        
+
         public GameObject pacboy; // Pacboy game object, what the ghostron is hunting for
 
         // Normal wandering speed of the ghostron
@@ -48,7 +49,7 @@ namespace Entity.Ghostron {
         public NavMeshAgent agent; // NavMesh agent of the Ghostron
 
         // If the Ghostron is currently scared
-        protected bool IsScared; // Status indicating if the Pacboy is scared (when Pacboy eats a power pellet)
+        public bool isScared; // Status indicating if the Pacboy is scared (when Pacboy eats a power pellet)
 
         // Duration of the "scared" effect of ghostrons
         // VIRTUAL - different for every implement class (ghostron type)
@@ -100,10 +101,10 @@ namespace Entity.Ghostron {
 
             // Set to the original material
             SetOriginalMaterial();
-            
+
             // Initialise its State Machine
             StateMachine = new GhostronStateMachine(this);
-            
+
             // Enter normal wander state by default
             StateMachine.ChangeState(new NormalWanderState());
         }
@@ -118,7 +119,7 @@ namespace Entity.Ghostron {
          * Scare the Ghostron.
          */
         public void Scare() {
-            IsScared = true;
+            isScared = true;
             // Enter the scared wander state
             StateMachine.ChangeState(new ScaredWanderState());
         }
@@ -130,16 +131,20 @@ namespace Entity.Ghostron {
         private void OnTriggerEnter(Collider other) {
             // If the other game object is not Pacboy then do nothing
             if (!other.CompareTag("Pacboy")) return;
-
-            if (IsScared) {
-                // If the Ghostron is scared currently
-                // Pacboy catches it, it should enter stall state
-                StateMachine.ChangeState(new StallState());
-            } else {
-                // If the Ghostron is not currently scared
-                // This means the game should be over
-                Debug.LogWarning("Pacboy got caught! GAME OVER!");
-                GhostronManager.Instance.PacboyCaught();
+            
+            // The other game object is indeed Pacboy
+            // Check the current state, do nothing if in stall state
+            if (StateMachine.GetCurrentState().GetType() != typeof(StallState)) {
+                if (isScared) {
+                    // If currently: the Ghostron is scared
+                    // It should enter stall state
+                    StateMachine.ChangeState(new StallState());
+                } else {
+                    // If the Ghostron is not currently scared
+                    // This means the game should be over
+                    Debug.LogWarning("Pacboy got caught! GAME OVER!");
+                    GhostronManager.Instance.PacboyCaught();
+                }
             }
         }
 

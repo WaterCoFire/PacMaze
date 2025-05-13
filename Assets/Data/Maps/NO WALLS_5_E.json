@@ -1,7 +1,7 @@
 {
     "name": "NO WALLS",
     "difficulty": 69,
-    "eventEnabled": true,
+    "eventEnabled": false,
     "propPositions": [
         {
             "x": 0.0,
@@ -43,7 +43,7 @@
     ],
     "totalPropValues": [
         5,
-        0,
+        5,
         0,
         0,
         0,

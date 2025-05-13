@@ -11,18 +11,19 @@ namespace Entity.Ghostron.State.StateImpl {
         public float ScaredDuration;
         private float _timer;
 
-        // Animation speed when the ghostron is in scared wandering state
+        // Animation speed when the ghostron is in scared wander state
         private readonly float _normalAnimationSpeed = 0.3f;
 
         private readonly float _warningTime = 2.0f; // The time before the scared state ends to start warning (in secs)
 
         /**
-         * Action when entering scared wandering state.
+         * Action when entering scared wander state.
          */
         public void Enter(Ghostron ghostron) {
             _timer = 0f; // Reset timer
 
             // Set params
+            ghostron.isScared = true;
             ScaredWanderSpeed = ghostron.scaredWanderSpeed;
             ScaredDuration = ghostron.ScaredDuration;
 
@@ -39,7 +40,7 @@ namespace Entity.Ghostron.State.StateImpl {
         }
 
         /**
-         * Update() event when in scared wandering state.
+         * Update() event when in scared wander state.
          */
         public void Update(Ghostron ghostron) {
             // Update timer
@@ -65,7 +66,7 @@ namespace Entity.Ghostron.State.StateImpl {
         }
 
         /**
-         * Action when exiting scared wandering state.
+         * Action when exiting scared wander state.
          */
         public void Exit(Ghostron ghostron) {
             _timer = 0f; // Reset timer

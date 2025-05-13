@@ -67,7 +67,7 @@ namespace Entity.Ghostron.GhostronImpl {
          */
         public override Vector3 GenerateWanderingTarget() {
             // When scared
-            if (IsScared) {
+            if (isScared) {
                 _isCenterTarget = true;
                 Vector3 centerPosition = new(0, 0, 0);
                 return centerPosition;

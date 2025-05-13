@@ -64,7 +64,7 @@ namespace Entity.Ghostron.GhostronImpl {
          */
         public override Vector3 GenerateWanderingTarget() {
             // When scared
-            if (IsScared) {
+            if (isScared) {
                 // Possible x/z axis coordinate values of the target
                 int[] possibleValues = { -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15 };
 

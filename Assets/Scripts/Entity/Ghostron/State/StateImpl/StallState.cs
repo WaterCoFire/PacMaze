@@ -10,7 +10,9 @@ namespace Entity.Ghostron.State.StateImpl {
         // Normal animation speed of Ghostron
         // Ghostron will display closing/opening animation at this speed
         private readonly float _normalAnimationSpeed = 0.6f;
-        
+
+        private bool _closed; // Ghostron has totally stalled, ready to re-open
+
         /**
          * Action when entering stalling state.
          */
@@ -18,6 +20,9 @@ namespace Entity.Ghostron.State.StateImpl {
             // Speed and skin setting
             ghostron.agent.speed = 0f;
             ghostron.SetScaredMaterial();
+
+            // Status setting
+            _closed = false;
 
             // Corresponding animation
             // Ghostron "closes" itself
@@ -36,21 +41,28 @@ namespace Entity.Ghostron.State.StateImpl {
          * Update() event when in stalling state.
          */
         public void Update(Ghostron ghostron) {
-            // Check if the Ghostron "closing" animation has finished
-            // If so, play "opening" animation and enter normal chasing state
             AnimatorStateInfo stateInfo = ghostron.animator.GetCurrentAnimatorStateInfo(0);
+            // Check if the Ghostron "closing" animation has finished
+            // If so, play "opening" animation
             if (stateInfo.IsName("anim_close")) {
                 // Caught ghostron has finished the closing animation
                 if (stateInfo.normalizedTime >= 1f) {
                     Debug.Log("Caught ghostron finished closing animation.");
+                    _closed = true;
 
                     // Let the ghostron play initialising ("opening") animation
                     ghostron.animator.SetBool("Open_Anim", true);
                     ghostron.animator.SetBool("Walk_Anim", true);
-                    
-                    // Enter normal wander state
-                    ghostron.StateMachine.ChangeState(new NormalWanderState());
                 }
+            }
+
+            // Get the animator state info
+            // Check if the Ghostron has finished the "opening animation"
+            // If so, enter normal wander state
+            if (_closed && stateInfo.IsName("anim_Walk_Loop")) {
+                Debug.LogWarning("1111");
+                // Enter normal wander state
+                ghostron.StateMachine.ChangeState(new NormalWanderState());
             }
         }
 
@@ -58,6 +70,9 @@ namespace Entity.Ghostron.State.StateImpl {
          * Action when exiting stalling state.
          */
         public void Exit(Ghostron ghostron) {
+            // Status reset
+            _closed = false;
+            
             // Set to normal material
             ghostron.SetOriginalMaterial();
         }

@@ -72,7 +72,7 @@ namespace Entity.Ghostron.GhostronImpl {
          */
         public override Vector3 GenerateWanderingTarget() {
             // When scared
-            if (IsScared) {
+            if (isScared) {
                 if (pacboy != null) {
                     // Find the corner that is the furthest away from the Pacboy
                     Vector3 furthestPosition = _potentialPositions[0];

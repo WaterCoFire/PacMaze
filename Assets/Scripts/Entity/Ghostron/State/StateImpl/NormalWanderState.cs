@@ -13,16 +13,17 @@ namespace Entity.Ghostron.State.StateImpl {
         private float _timer;
         private bool _chaseAllowed;
         
-        // Animation speed when the ghostron is in normal wandering state
+        // Animation speed when the ghostron is in normal wander state
         private readonly float _normalAnimationSpeed = 0.6f;
 
         /**
-         * Action when entering normal wandering state.
+         * Action when entering normal wander state.
          */
         public void Enter(Ghostron ghostron) {
             _timer = 0f; // Reset timer
             
             // Set params
+            ghostron.isScared = false;
             WanderInterval = ghostron.WanderInterval;
             NormalWanderSpeed = ghostron.normalWanderSpeed;
             DetectionRadius = ghostron.detectionRadius;
@@ -41,12 +42,12 @@ namespace Entity.Ghostron.State.StateImpl {
         }
 
         /**
-         * Update() event when in normal wandering state.
+         * Update() event when in normal wander state.
          */
         public void Update(Ghostron ghostron) {
             // Get the animator state info
             // Check if the ghostron is in initialising (opening itself) animation
-            // Not in walking animation status means that the ghostron is initializing
+            // Not in walking animation status means that the ghostron is initialising
             // Directly return if so
             AnimatorStateInfo stateInfo = ghostron.animator.GetCurrentAnimatorStateInfo(0);
             if (!stateInfo.IsName("anim_Walk_Loop")) return;
@@ -86,7 +87,7 @@ namespace Entity.Ghostron.State.StateImpl {
         }
 
         /**
-         * Action when exiting normal wandering state.
+         * Action when exiting normal wander state.
          */
         public void Exit(Ghostron ghostron) {
             // Reset params

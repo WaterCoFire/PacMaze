@@ -30,6 +30,13 @@ namespace Entity.Ghostron {
         }
 
         /**
+         * Returns the current state the machine is in.
+         */
+        public IGhostronState GetCurrentState() {
+            return _currentState;
+        }
+
+        /**
          * Update() function.
          * Called by the Update() Unity event function in Ghostron script.
          * Calls the Update() in current state class to execute corresponding logic.
