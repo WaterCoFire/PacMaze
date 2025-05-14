@@ -28,7 +28,8 @@ namespace Entity.Ghostron.GhostronImpl {
                     case 'H':
                         return 8f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " +
+                                       PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
@@ -47,7 +48,8 @@ namespace Entity.Ghostron.GhostronImpl {
                     case 'H':
                         return 8f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " +
+                                       PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
@@ -96,6 +98,7 @@ namespace Entity.Ghostron.GhostronImpl {
                     // Return this position if it is valid
                     return hit.position;
                 }
+
 
                 // Return the current position of it is not valid (no moving)
                 return transform.position;

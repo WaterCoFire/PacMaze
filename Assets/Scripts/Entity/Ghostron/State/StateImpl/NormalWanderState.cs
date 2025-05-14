@@ -80,6 +80,7 @@ namespace Entity.Ghostron.State.StateImpl {
             if (!ghostron.agent.hasPath || ghostron.agent.remainingDistance < 0.5f || _timer >= WanderInterval) {
                 // Set a new wandering destination
                 _wanderTarget = ghostron.GenerateWanderingTarget();
+                ghostron.MoveTo(_wanderTarget);
                 
                 // Reset timer
                 _timer = 0f;

@@ -21,37 +21,12 @@
         {
             "x": 0.0,
             "y": 0.0,
-            "z": -12.0
-        },
-        {
-            "x": 9.0,
-            "y": 0.0,
-            "z": -9.0
-        },
-        {
-            "x": -12.0,
-            "y": 0.0,
-            "z": -6.0
-        },
-        {
-            "x": 0.0,
-            "y": 0.0,
             "z": 6.0
         },
         {
             "x": -9.0,
             "y": 0.0,
             "z": 6.0
-        },
-        {
-            "x": 6.0,
-            "y": 0.0,
-            "z": 0.0
-        },
-        {
-            "x": -9.0,
-            "y": 0.0,
-            "z": -3.0
         },
         {
             "x": 12.0,
@@ -64,25 +39,44 @@
             "z": 9.0
         },
         {
-            "x": 12.0,
+            "x": -3.0,
             "y": 0.0,
-            "z": -12.0
+            "z": -9.0
+        },
+        {
+            "x": -6.0,
+            "y": 0.0,
+            "z": -9.0
+        },
+        {
+            "x": -3.0,
+            "y": 0.0,
+            "z": 6.0
+        },
+        {
+            "x": 3.0,
+            "y": 0.0,
+            "z": 6.0
+        },
+        {
+            "x": 9.0,
+            "y": 0.0,
+            "z": 6.0
         }
     ],
     "propTypes": [
         "PacboySpawn(Clone)",
         "GhostronSpawn(Clone)",
         "GhostronSpawn(Clone)",
-        "LuckyDice(Clone)",
-        "BadCherry(Clone)",
-        "NiceBomb(Clone)",
         "FastWheel(Clone)",
         "PowerPellet(Clone)",
-        "SlowWheel(Clone)",
-        "BadCherry(Clone)",
         "GhostronSpawn(Clone)",
         "GhostronSpawn(Clone)",
-        "GhostronSpawn(Clone)"
+        "NiceBomb(Clone)",
+        "NiceBomb(Clone)",
+        "PowerPellet(Clone)",
+        "PowerPellet(Clone)",
+        "PowerPellet(Clone)"
     ],
     "fixedPropKeys": [
         "PacboySpawn",
@@ -96,13 +90,13 @@
     ],
     "fixedPropValues": [
         1,
-        5,
-        1,
-        1,
-        1,
+        4,
+        4,
         1,
         2,
-        1
+        0,
+        0,
+        0
     ],
     "totalPropKeys": [
         "GhostronSpawn",
@@ -114,10 +108,10 @@
         "LuckyDice"
     ],
     "totalPropValues": [
-        5,
+        4,
+        4,
         1,
-        1,
-        1,
+        2,
         1,
         2,
         1
