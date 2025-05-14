@@ -52,6 +52,21 @@
             "x": 9.0,
             "y": 0.0,
             "z": 6.0
+        },
+        {
+            "x": -9.0,
+            "y": 0.0,
+            "z": -9.0
+        },
+        {
+            "x": -9.0,
+            "y": 0.0,
+            "z": -6.0
+        },
+        {
+            "x": -9.0,
+            "y": 0.0,
+            "z": -3.0
         }
     ],
     "propTypes": [
@@ -64,7 +79,10 @@
         "GhostronSpawn(Clone)",
         "NiceBomb(Clone)",
         "NiceBomb(Clone)",
-        "PowerPellet(Clone)"
+        "PowerPellet(Clone)",
+        "NiceBomb(Clone)",
+        "NiceBomb(Clone)",
+        "NiceBomb(Clone)"
     ],
     "fixedPropKeys": [
         "PacboySpawn",
@@ -81,7 +99,7 @@
         4,
         2,
         1,
-        2,
+        5,
         0,
         0,
         0
@@ -99,9 +117,9 @@
         5,
         2,
         1,
-        2,
+        5,
         0,
-        0,
+        5,
         0
     ],
     "hwStatusRow1": [

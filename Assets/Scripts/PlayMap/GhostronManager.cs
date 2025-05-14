@@ -31,9 +31,6 @@ namespace PlayMap {
         // Difficulty of the current game
         private char _difficulty;
 
-        // Tenacious ghostron game object prefab
-        public GameObject tenaciousGhostronPrefab;
-
         // Singleton instance
         public static GhostronManager Instance { get; private set; }
 
@@ -183,7 +180,8 @@ namespace PlayMap {
             }
 
             // Spawn new tenacious ghostron (oh no for Pacboy!)
-            GameObject newTenaciousGhostron = Instantiate(tenaciousGhostronPrefab, randomPosition,
+            GameObject newTenaciousGhostronPrefab = GhostronFactory.Instance.GetGhostron("Tenacious");
+            GameObject newTenaciousGhostron = Instantiate(newTenaciousGhostronPrefab, randomPosition,
                 Quaternion.identity);
 
             // Set its Pacboy target (oh no again!)

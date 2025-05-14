@@ -7,10 +7,28 @@
             "x": 0.0,
             "y": 0.0,
             "z": -9.0
+        },
+        {
+            "x": -3.0,
+            "y": 0.0,
+            "z": -15.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -15.0
+        },
+        {
+            "x": 3.0,
+            "y": 0.0,
+            "z": -15.0
         }
     ],
     "propTypes": [
-        "PacboySpawn(Clone)"
+        "PacboySpawn(Clone)",
+        "GhostronSpawn(Clone)",
+        "GhostronSpawn(Clone)",
+        "GhostronSpawn(Clone)"
     ],
     "fixedPropKeys": [
         "PacboySpawn",
@@ -24,7 +42,7 @@
     ],
     "fixedPropValues": [
         1,
-        0,
+        3,
         0,
         0,
         0,

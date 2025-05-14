@@ -5,13 +5,7 @@ using Random = System.Random;
 
 namespace PlayMap {
     public class PropGenerator : MonoBehaviour {
-        // All prop models (except for Pacboy)
-        public GameObject redGhostronPrefab;
-        public GameObject blueGhostronPrefab;
-        public GameObject yellowGhostronPrefab;
-        public GameObject pinkGhostronPrefab;
-        public GameObject greenGhostronPrefab;
-
+        // All prop models (except for Ghostrons and Pacboy)
         public GameObject powerPelletPrefab;
         public GameObject fastWheelPrefab;
         public GameObject niceBombPrefab;
@@ -67,12 +61,43 @@ namespace PlayMap {
                 }
 
                 if (prefab.name == "Pacboy") {
-                    // Look for the Pacboy game object and store it
-                    Debug.Log("PACBOY FOUND");
+                    // The iterated prop type is Pacboy
+                    // Store it
                     _pacboy = Instantiate(prefab, kvp.Key, Quaternion.identity);
-                } else if (prefab.name.Contains("Ghostron")) {
-                    // Store all the ghostrons in GhostronManager
-                    GameObject newGhostron = Instantiate(prefab, kvp.Key, Quaternion.identity);
+                } else if (prefab.name == "GhostronEmpty") {
+                    // The iterated prop type is Ghostron
+                    // Check how many Ghostrons are there already, use GhostronFactory to get the new Ghostron
+                    GameObject newGhostronPrefab;
+                    switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
+                        case 0:
+                            PlayerPrefs.SetInt("GhostronCount", 1);
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Red");
+                            break;
+                        case 1:
+                            PlayerPrefs.SetInt("GhostronCount", 2);
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Blue");
+                            break;
+                        case 2:
+                            PlayerPrefs.SetInt("GhostronCount", 3);
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Yellow");
+                            break;
+                        case 3:
+                            PlayerPrefs.SetInt("GhostronCount", 4);
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Pink");
+                            break;
+                        case 4:
+                            PlayerPrefs.SetInt("GhostronCount", 5);
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Green");
+                            break;
+                        default:
+                            Debug.LogError("Invalid Ghostron Count: " + PlayerPrefs.GetInt("GhostronCount"));
+                            return;
+                    }
+
+                    // Instantiate the new Ghostron
+                    GameObject newGhostron = Instantiate(newGhostronPrefab, kvp.Key, Quaternion.identity);
+
+                    // Store the new Ghostron in GhostronManager
                     GhostronManager.Instance.AddGhostron(newGhostron);
                 } else {
                     // All other props
@@ -122,8 +147,9 @@ namespace PlayMap {
             // Get the corresponding prefab first
             switch (propName) {
                 case "GhostronSpawn":
+                    // Ghostrons will be spawned using GhostronFactory
+                    // Since there are different types of Ghostrons
                     propObject = null;
-                    // Ghostron spawn prop will be dealt with later for there are different variants
                     break;
                 case "PowerPellet":
                     propObject = powerPelletPrefab;
@@ -158,35 +184,39 @@ namespace PlayMap {
                 int randomIndex = _random.Next(0, freeTilesNum); // Random number
 
                 if (propName != "GhostronSpawn") {
+                    // If the prop type is not Ghostron, directly instantiate it
                     Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
                 } else {
-                    GameObject newGhostron;
+                    // If the prop type is Ghostron
+                    // Check how many Ghostrons are there already, use GhostronFactory to get the new Ghostron
                     switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
                         case 0:
                             PlayerPrefs.SetInt("GhostronCount", 1);
-                            newGhostron = Instantiate(redGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            propObject = GhostronFactory.Instance.GetGhostron("Red");
                             break;
                         case 1:
                             PlayerPrefs.SetInt("GhostronCount", 2);
-                            newGhostron = Instantiate(blueGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            propObject = GhostronFactory.Instance.GetGhostron("Blue");
                             break;
                         case 2:
                             PlayerPrefs.SetInt("GhostronCount", 3);
-                            newGhostron = Instantiate(yellowGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            propObject = GhostronFactory.Instance.GetGhostron("Yellow");
                             break;
                         case 3:
                             PlayerPrefs.SetInt("GhostronCount", 4);
-                            newGhostron = Instantiate(pinkGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            propObject = GhostronFactory.Instance.GetGhostron("Pink");
                             break;
                         case 4:
                             PlayerPrefs.SetInt("GhostronCount", 5);
-                            newGhostron = Instantiate(greenGhostronPrefab, _freeTiles[randomIndex], Quaternion.identity);
+                            propObject = GhostronFactory.Instance.GetGhostron("Green");
                             break;
                         default:
-                            Debug.LogError("Invalid ghostrons count when instantiating randomly: " +
-                                           PlayerPrefs.GetInt("GhostronCount"));
+                            Debug.LogError("Invalid Ghostron Count: " + PlayerPrefs.GetInt("GhostronCount"));
                             return false;
                     }
+                    
+                    // Instantiate it and store it to the GhostronManager
+                    GameObject newGhostron = Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
 
                     // Add the new ghostron to GhostronManager
                     GhostronManager.Instance.AddGhostron(newGhostron);

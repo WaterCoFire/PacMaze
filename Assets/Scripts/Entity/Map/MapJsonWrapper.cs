@@ -213,26 +213,9 @@ namespace Entity.Map {
                 case "PacboySpawn":
                     return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/Pacboy");
                 case "GhostronSpawn":
-                    switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
-                        case 0:
-                            PlayerPrefs.SetInt("GhostronCount", 1);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/RedGhostron");
-                        case 1:
-                            PlayerPrefs.SetInt("GhostronCount", 2);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/BlueGhostron");
-                        case 2:
-                            PlayerPrefs.SetInt("GhostronCount", 3);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/YellowGhostron");
-                        case 3:
-                            PlayerPrefs.SetInt("GhostronCount", 4);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/PinkGhostron");
-                        case 4:
-                            PlayerPrefs.SetInt("GhostronCount", 5);
-                            return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GreenGhostron");
-                        default:
-                            Debug.LogError("Invalid Ghostron Count: " + PlayerPrefs.GetInt("GhostronCount"));
-                            return null;
-                    }
+                    // Ghostrons will be spawned using GhostronFactory
+                    // Since there are different types of Ghostrons
+                    return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GhostronEmpty");
                 case "PowerPellet":
                     return Resources.Load<GameObject>("Prefabs/Props/Game/PowerPellet");
                 case "FastWheel":
