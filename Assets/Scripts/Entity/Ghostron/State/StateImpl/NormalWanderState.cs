@@ -52,6 +52,10 @@ namespace Entity.Ghostron.State.StateImpl {
             AnimatorStateInfo stateInfo = ghostron.animator.GetCurrentAnimatorStateInfo(0);
             if (!stateInfo.IsName("anim_Walk_Loop")) return;
             
+            // Update speed, as an event could just started/ended
+            NormalWanderSpeed = ghostron.normalWanderSpeed;
+            ghostron.agent.speed = NormalWanderSpeed;
+            
             // Move the Ghostron towards its wandering target
             ghostron.MoveTo(_wanderTarget);
             

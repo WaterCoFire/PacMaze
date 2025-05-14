@@ -31,6 +31,10 @@ namespace Entity.Ghostron.State.StateImpl {
          * Update() event when in chase state.
          */
         public void Update(Ghostron ghostron) {
+            // Update speed, as an event could just started/ended
+            ChaseSpeed = ghostron.chaseSpeed;
+            ghostron.agent.speed = ChaseSpeed;
+            
             // Set the chase target (real time position of the Pacboy)
             ghostron.MoveTo(ghostron.pacboy.transform.position);
             

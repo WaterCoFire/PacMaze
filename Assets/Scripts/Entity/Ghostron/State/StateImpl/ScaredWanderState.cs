@@ -43,6 +43,10 @@ namespace Entity.Ghostron.State.StateImpl {
          * Update() event when in scared wander state.
          */
         public void Update(Ghostron ghostron) {
+            // Update speed, as an event could just started/ended
+            ScaredWanderSpeed = ghostron.scaredWanderSpeed;
+            ghostron.agent.speed = ScaredWanderSpeed;
+            
             // Update timer
             _timer += Time.deltaTime;
 

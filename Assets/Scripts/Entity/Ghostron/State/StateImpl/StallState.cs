@@ -47,9 +47,7 @@ namespace Entity.Ghostron.State.StateImpl {
             if (stateInfo.IsName("anim_close")) {
                 // Caught ghostron has finished the closing animation
                 if (stateInfo.normalizedTime >= 1f) {
-                    Debug.Log("Caught ghostron finished closing animation.");
                     _closed = true;
-
                     // Let the ghostron play initialising ("opening") animation
                     ghostron.animator.SetBool("Open_Anim", true);
                     ghostron.animator.SetBool("Walk_Anim", true);
@@ -60,7 +58,6 @@ namespace Entity.Ghostron.State.StateImpl {
             // Check if the Ghostron has finished the "opening animation"
             // If so, enter normal wander state
             if (_closed && stateInfo.IsName("anim_Walk_Loop")) {
-                Debug.LogWarning("1111");
                 // Enter normal wander state
                 ghostron.StateMachine.ChangeState(new NormalWanderState());
             }
