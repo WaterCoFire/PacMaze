@@ -15,7 +15,11 @@ namespace Test {
         private bool[,] _horizontalWallStatus;
         private bool[,] _verticalWallStatus;
 
-        Random _random = new();
+        private readonly Random _random = new();
+
+        /* Probabilities */
+        private readonly int _threeNeighbourTileDisconnectProbability = 10;
+        private readonly int _nonIdealTwoNeighbourTileDisconnectProbability = 85;
 
         // Four directions: up, down, left, right
         private readonly int[] _dx = { -1, 1, 0, 0 };
@@ -91,6 +95,10 @@ namespace Test {
 
             TestInitCurrentNeighbourCounts();
             TestInitPreferredNeighbours();
+            
+            // Generate distributed neighbour nums
+            // DistributionTest distributionGenerator = new DistributionTest();
+            // _distributedNeighbourNums = distributionGenerator.TestGenerateDistributedNeighbourNums();
             TestInitDistributedNums();
 
             Shuffle(_allTiles);
@@ -161,7 +169,7 @@ namespace Test {
                         }
 
                         // Valid adjacent 3-neighbour tiles have only a small probability of not being neighbours
-                        if (_random.Next(100) < 10) {
+                        if (_random.Next(100) < _threeNeighbourTileDisconnectProbability) {
                             // Disconnect the two tile
                             Disconnect(threeNeighbourTile, adjacentTile);
                             _currentNeighbourCounts[threeNeighbourTile]--;
@@ -210,7 +218,7 @@ namespace Test {
                         }
                         
                         // Valid adjacent non-ideal tiles have a big probability of not being neighbours
-                        if (_random.Next(100) < 85) {
+                        if (_random.Next(100) < _nonIdealTwoNeighbourTileDisconnectProbability) {
                             // Disconnect the two tile
                             Disconnect(twoNeighbourTile, adjacentTile);
                             _currentNeighbourCounts[twoNeighbourTile]--;
@@ -685,7 +693,7 @@ namespace Test {
             _distributedNeighbourNums[(10, 3)] = 3;
         }
 
-        public void Shuffle<T>(List<T> list) {
+        private void Shuffle<T>(List<T> list) {
             int n = list.Count;
             while (n > 1) {
                 n--;
