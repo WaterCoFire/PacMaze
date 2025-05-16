@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Entity.Map;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace MapEditor {
@@ -13,14 +14,20 @@ namespace MapEditor {
 
         private readonly bool[,] _horizontalWallStatus = new bool[10, 11];
         private readonly bool[,] _verticalWallStatus = new bool[11, 10];
+        
+        // Random Generation Button
+        public Button randomGenerationButton;
+        
+        // Clear All Walls Button
+        public Button clearAllWallsButton;
 
         public Material normalMaterial; // Existing (physical) wall default material
         public Material highlightMaterial; // Existing wall highlight material
         public Material missingMaterial; // Missing wall default material
         public Material ghostMaterial; // Missing wall highlight material
 
-        public GameObject[,] HorizontalWalls;
-        public GameObject[,] VerticalWalls;
+        private GameObject[,] _horizontalWalls;
+        private GameObject[,] _verticalWalls;
 
         private bool _wallMode;
 
@@ -40,9 +47,12 @@ namespace MapEditor {
         void Start() {
             _wallMode = false;
 
+            // Set button action listeners
+            SetButtonActionListener();
+
             // Initialise the two wall game object arrays
-            HorizontalWalls = new GameObject[10, 11];
-            VerticalWalls = new GameObject[11, 10];
+            _horizontalWalls = new GameObject[10, 11];
+            _verticalWalls = new GameObject[11, 10];
 
             // Find the Walls root game object
             GameObject wallsRoot = GameObject.Find("Walls");
@@ -65,7 +75,7 @@ namespace MapEditor {
                         continue;
                     }
 
-                    HorizontalWalls[row, col] = hWall.gameObject;
+                    _horizontalWalls[row, col] = hWall.gameObject;
                 }
             }
 
@@ -86,7 +96,7 @@ namespace MapEditor {
                         continue;
                     }
 
-                    VerticalWalls[row, col] = vWall.gameObject;
+                    _verticalWalls[row, col] = vWall.gameObject;
                 }
             }
         }
@@ -96,10 +106,10 @@ namespace MapEditor {
             for (int row = 0; row < 10; row++) {
                 for (int column = 0; column < 11; column++) {
                     _horizontalWallStatus[row, column] = wallData.HorizontalWallStatus[row, column];
-                    _wallLookup[HorizontalWalls[row, column]] = (true, row, column);
+                    _wallLookup[_horizontalWalls[row, column]] = (true, row, column);
 
                     // Set the wall material on the map
-                    HorizontalWalls[row, column].GetComponent<MeshRenderer>().material =
+                    _horizontalWalls[row, column].GetComponent<MeshRenderer>().material =
                         _horizontalWallStatus[row, column] ? normalMaterial : missingMaterial;
                 }
             }
@@ -108,10 +118,10 @@ namespace MapEditor {
             for (int row = 0; row < 11; row++) {
                 for (int column = 0; column < 10; column++) {
                     _verticalWallStatus[row, column] = wallData.VerticalWallStatus[row, column];
-                    _wallLookup[VerticalWalls[row, column]] = (false, row, column);
+                    _wallLookup[_verticalWalls[row, column]] = (false, row, column);
 
                     // Set the wall material on the map
-                    VerticalWalls[row, column].GetComponent<MeshRenderer>().material =
+                    _verticalWalls[row, column].GetComponent<MeshRenderer>().material =
                         _verticalWallStatus[row, column] ? normalMaterial : missingMaterial;
                 }
             }
@@ -211,6 +221,45 @@ namespace MapEditor {
          */
         public WallData GetWallData() {
             return new WallData(_horizontalWallStatus, _verticalWallStatus);
+        }
+
+        /**
+         * Sets the action listeners of all the buttons.
+         * (Random Generation & Clear All Walls)
+         */
+        private void SetButtonActionListener() {
+            randomGenerationButton.onClick.AddListener(OnRandomGenerationButtonClick);
+            clearAllWallsButton.onClick.AddListener(OnClearAllWallsButtonClick);
+        }
+        
+        /* Action Listeners */
+        // Random Generation Button
+        private void OnRandomGenerationButtonClick() { }
+
+        // Clear All Walls Button
+        private void OnClearAllWallsButtonClick() {
+            _previousMeshRenderer = null;
+            // Let all walls display the missing material
+            foreach (var horizontalWall in _horizontalWalls) {
+                horizontalWall.GetComponent<MeshRenderer>().material = missingMaterial;
+            }
+            
+            foreach (var verticalWall in _verticalWalls) {
+                verticalWall.GetComponent<MeshRenderer>().material = missingMaterial;
+            }
+            
+            // Set all wall status to false (absent)
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 11; j++) {
+                    _horizontalWallStatus[i, j] = false;
+                }
+            }
+            
+            for (int i = 0; i < 11; i++) {
+                for (int j = 0; j < 10; j++) {
+                    _verticalWallStatus[i, j] = false;
+                }
+            }
         }
     }
 }
