@@ -3,9 +3,9 @@
         public readonly bool[,] HorizontalWallStatus;
         public readonly bool[,] VerticalWallStatus;
         
-        public WallData(bool[,] horizontal, bool[,] vertical) {
-            HorizontalWallStatus = horizontal;
-            VerticalWallStatus = vertical;
+        public WallData(bool[,] horizontalWallStatus, bool[,] verticalWallStatus) {
+            HorizontalWallStatus = horizontalWallStatus;
+            VerticalWallStatus = verticalWallStatus;
         }
     }
 }

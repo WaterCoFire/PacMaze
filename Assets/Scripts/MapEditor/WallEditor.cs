@@ -234,7 +234,13 @@ namespace MapEditor {
         
         /* Action Listeners */
         // Random Generation Button
-        private void OnRandomGenerationButtonClick() { }
+        private void OnRandomGenerationButtonClick() {
+            // Obtain a random wall layout
+            WallData randomWallData = RandomLayoutGenerator.Instance.GenerateWallLayout();
+            
+            // Update the wall data
+            SetWallData(randomWallData);
+        }
 
         // Clear All Walls Button
         private void OnClearAllWallsButtonClick() {
