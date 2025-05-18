@@ -338,8 +338,8 @@ namespace MapEditor {
                 }
 
                 if (_verticalWallStatus[tileA.Item1, y1]) {
-                    // Show error if this wall is already present
-                    Debug.LogError("Error: A present wall is set to be built again!");
+                    Debug.Log(
+                        $"Vertical ({tileA.Item1}, {y1}) and ({tileA.Item1}, {y2}) wall is rebuilt");
                     return;
                 }
 
@@ -357,8 +357,8 @@ namespace MapEditor {
                 }
 
                 if (_horizontalWallStatus[x1, tileA.Item2]) {
-                    // Show error if this wall is already present
-                    Debug.LogError("Error: A present wall is set to be built again!");
+                    Debug.Log(
+                        $"Horizontal ({x1}, {tileA.Item2}) and ({x2}, {tileA.Item2}) wall is rebuilt");
                     return;
                 }
 
