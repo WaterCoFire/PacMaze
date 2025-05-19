@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace MapEditor {
     /**
      * Event editor
-     * Sets whether or not the game events can be triggered
+     * Sets whether the game events can be triggered
      * A game event might be triggered everytime a dot is eaten by Pacboy
      * POSSIBLE EVENTS
      * - Super Bonus (All scores awarded are doubled)

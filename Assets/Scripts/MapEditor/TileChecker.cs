@@ -69,7 +69,7 @@ namespace MapEditor {
          * If all tiles are valid, the list is null.
          */
         public bool CheckTileLegality(WallData wallData) {
-            // Creating an 11x11 array of access states
+            // Creating a 11x11 array of access states
             bool[,] visited = new bool[11, 11];
             int[,] distance = new int[11, 11]; // Record the shortest distance for each grid
 

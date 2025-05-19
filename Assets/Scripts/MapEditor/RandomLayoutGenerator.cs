@@ -33,9 +33,6 @@ namespace MapEditor {
             Instance = this;
         }
 
-        // START FUNCTION
-        private void Start() { }
-
         public WallData GenerateWallLayout() {
             // Initialise all tiles list
             _allTiles = new List<(int, int)>();
