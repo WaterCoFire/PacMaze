@@ -53,6 +53,8 @@ namespace MapEditor {
             // Randomly generate distributed neighbour nums
             _distributedNeighbourNums = DistributionGenerator.GenerateDistributedNeighbourNums();
 
+            DisplayDistribution();
+
             // Shuffle the tiles list
             Shuffle(_allTiles);
 
@@ -581,6 +583,17 @@ namespace MapEditor {
                 int k = _random.Next(n + 1);
                 (list[n], list[k]) = (list[k], list[n]);
             }
+        }
+
+        private void DisplayDistribution() {
+            // for (int x = 0; x < 11; x++) {
+            //     for (int y = 0; y < 11; y++) {
+            //         Console.Write(_distributedNeighbourNums[(x, y)]);
+            //         Console.Write(" ");
+            //     }
+            //
+            //     Console.Write("\n");
+            // }
         }
     }
 }
