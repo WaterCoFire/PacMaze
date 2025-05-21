@@ -16,8 +16,8 @@ namespace MapEditor {
         private readonly Random _random = new();
 
         /* Probabilities */
-        private readonly int _threeNeighbourTileDisconnectProbability = 10;
-        private readonly int _nonIdealTwoNeighbourTileDisconnectProbability = 85;
+        private readonly int _threeNeighbourTileDisconnectProbability = 10; // original 10
+        private readonly int _nonIdealTwoNeighbourTileDisconnectProbability = 85; // original 75
 
         // Four directions: up, down, left, right
         private readonly int[] _dx = { -1, 1, 0, 0 };
@@ -180,33 +180,52 @@ namespace MapEditor {
                 }
 
                 if (_currentNeighbourCounts[twoNeighbourTile] > _distributedNeighbourNums[twoNeighbourTile]) {
-                    // If the current number is still more than its distributed num, sacrifice ideal neighbours
+                    // If the current number is still more than its distributed num, sacrifice random neighbours
                     foreach (var adjacentTile in adjacentTiles) {
                         // Stop if neighbour num is already down to the distributed value
                         if (_currentNeighbourCounts[twoNeighbourTile] <= _distributedNeighbourNums[twoNeighbourTile]) {
                             break;
                         }
 
-                        // Find ideal neighbours
-                        if (_preferredNeighbours[twoNeighbourTile].Contains(adjacentTile)) {
-                            // Case: the iterated adjacent tile is not the ideal neighbour
-                            // Ignore if this adjacent tile cannot lose any more neighbour
-                            if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
-                                continue;
-                            }
+                        // // Find ideal neighbours
+                        // if (_preferredNeighbours[twoNeighbourTile].Contains(adjacentTile)) {
+                        //     // Case: the iterated adjacent tile is not the ideal neighbour
+                        //     // Ignore if this adjacent tile cannot lose any more neighbour
+                        //     if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
+                        //         continue;
+                        //     }
+                        //
+                        //     // Disconnect the two tile
+                        //     Disconnect(twoNeighbourTile, adjacentTile);
+                        //     _currentNeighbourCounts[twoNeighbourTile]--;
+                        //     _currentNeighbourCounts[adjacentTile]--;
+                        //
+                        //     // Check the connectivity of the map
+                        //     if (!Flood()) {
+                        //         // If this disconnection affects the connectivity, undo it
+                        //         Connect(twoNeighbourTile, adjacentTile);
+                        //         _currentNeighbourCounts[twoNeighbourTile]++;
+                        //         _currentNeighbourCounts[adjacentTile]++;
+                        //     }
+                        // }
+                        
+                        // Case: the iterated adjacent tile is not the ideal neighbour
+                        // Ignore if this adjacent tile cannot lose any more neighbour
+                        if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
+                            continue;
+                        }
 
-                            // Disconnect the two tile
-                            Disconnect(twoNeighbourTile, adjacentTile);
-                            _currentNeighbourCounts[twoNeighbourTile]--;
-                            _currentNeighbourCounts[adjacentTile]--;
+                        // Disconnect the two tile
+                        Disconnect(twoNeighbourTile, adjacentTile);
+                        _currentNeighbourCounts[twoNeighbourTile]--;
+                        _currentNeighbourCounts[adjacentTile]--;
 
-                            // Check the connectivity of the map
-                            if (!Flood()) {
-                                // If this disconnection affects the connectivity, undo it
-                                Connect(twoNeighbourTile, adjacentTile);
-                                _currentNeighbourCounts[twoNeighbourTile]++;
-                                _currentNeighbourCounts[adjacentTile]++;
-                            }
+                        // Check the connectivity of the map
+                        if (!Flood()) {
+                            // If this disconnection affects the connectivity, undo it
+                            Connect(twoNeighbourTile, adjacentTile);
+                            _currentNeighbourCounts[twoNeighbourTile]++;
+                            _currentNeighbourCounts[adjacentTile]++;
                         }
                     }
                 }

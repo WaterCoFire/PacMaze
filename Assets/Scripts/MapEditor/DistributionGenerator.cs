@@ -8,29 +8,31 @@ namespace MapEditor {
 
         /* Probabilities */
         private const int OutermostTileThreeNeighbourProbability = 10;
-        private const int ThreeNeighbourPropagationProbability = 40;
+        private const int ThreeNeighbourPropagationProbability = 40; // original 50
+        private const int ThreeNeighbourMaxProbability = 90; // original 75
+        private const int ThreeNeighbourProbabilityDecayRate = 8; // original 12
 
         public static Dictionary<(int, int), int> GenerateDistributedNeighbourNums() {
-            return TestInitDistributedNums();
-            // // Initialise the distributed neighbour nums list
-            // _distributedNeighbourNums = new Dictionary<(int, int), int>();
-            // for (int x = 0; x < 11; x++) {
-            //     for (int y = 0; y < 11; y++) {
-            //         _distributedNeighbourNums.Add((x, y), 0);
-            //     }
-            // }
-            //
-            // // Pattern 1
-            // DetermineOutermostRingTiles();
-            //
-            // // Pattern 2 & 3
-            // DetermineInnerTiles();
-            //
-            // // Pattern 4
-            // PlaceAdjacentFourNeighbourTilesInCentre();
-            //
-            // // Return the final map tile neighbour information
-            // return _distributedNeighbourNums;
+            // return TestInitDistributedNums();
+            // Initialise the distributed neighbour nums list
+            _distributedNeighbourNums = new Dictionary<(int, int), int>();
+            for (int x = 0; x < 11; x++) {
+                for (int y = 0; y < 11; y++) {
+                    _distributedNeighbourNums.Add((x, y), 0);
+                }
+            }
+
+            // Pattern 1
+            DetermineOutermostRingTiles();
+
+            // Pattern 2 & 3
+            DetermineInnerTiles();
+
+            // Pattern 4
+            PlaceAdjacentFourNeighbourTilesInCentre();
+
+            // Return the final map tile neighbour information
+            return _distributedNeighbourNums;
         }
 
         private static void DetermineOutermostRingTiles() {
@@ -73,7 +75,8 @@ namespace MapEditor {
             int distance = Math.Max(Math.Abs(tile.Item1 - 5), Math.Abs(tile.Item2 - 5));
 
             // Return the probability
-            return 100 * Math.Min(0.9, Math.Max(0.1, 0.75 - 0.12 * distance));
+            return Math.Min(90,
+                Math.Max(10, ThreeNeighbourMaxProbability - ThreeNeighbourProbabilityDecayRate * distance));
         }
 
         private static void DetermineInnerTiles() {
