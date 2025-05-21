@@ -8,19 +8,6 @@ namespace MapEditor {
         public Material tileNormalMaterial;
         public Material tileErrorMaterial;
 
-        // All tile game objects
-        public GameObject[] tileRow1;
-        public GameObject[] tileRow2;
-        public GameObject[] tileRow3;
-        public GameObject[] tileRow4;
-        public GameObject[] tileRow5;
-        public GameObject[] tileRow6;
-        public GameObject[] tileRow7;
-        public GameObject[] tileRow8;
-        public GameObject[] tileRow9;
-        public GameObject[] tileRow10;
-        public GameObject[] tileRow11;
-
         private GameObject[,] _allTileGameObjects;
 
         // Four directions: up, down, left, right
@@ -194,7 +181,7 @@ namespace MapEditor {
             }
 
             // For debug use
-            Debug.Log("The following tiles are invalid");
+            Debug.Log("The following tiles are invalid:");
             foreach (var tile in invalidTileCoordinates) {
                 Debug.Log($"({tile.Item1}, {tile.Item2})");
             }
