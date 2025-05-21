@@ -25522,11 +25522,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Pacboy finds some parts of this map too hard to reach!
+  m_text: 'Pacboy finds some parts of this map NOT MEETING ITS REQUIREMENTS!
 
 
-    Pacboy was
-    kind enough to mark them for you. Please do something to make it happy!'
+    Pacboy
+    was kind enough to mark them for you. Please do something to make it happy!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
