@@ -21,11 +21,11 @@ namespace MapEditor {
         public GameObject[] tileRow10;
         public GameObject[] tileRow11;
 
+        private GameObject[,] _allTileGameObjects;
+
         // Four directions: up, down, left, right
         private readonly int[] _dx = { -1, 1, 0, 0 };
         private readonly int[] _dy = { 0, 0, -1, 1 };
-
-        private readonly List<GameObject[]> _allTiles = new();
 
         public bool invalidTilesDisplaying;
 
@@ -43,26 +43,38 @@ namespace MapEditor {
         private void Start() {
             // By default, no invalid tiles are being displayed
             invalidTilesDisplaying = false;
+            
+            // Initialise the tile game object arrays
+            _allTileGameObjects = new GameObject[11, 11];
 
-            // Update the list storing all tile game objects
-            _allTiles.Clear();
-            _allTiles.Add(tileRow1);
-            _allTiles.Add(tileRow2);
-            _allTiles.Add(tileRow3);
-            _allTiles.Add(tileRow4);
-            _allTiles.Add(tileRow5);
-            _allTiles.Add(tileRow6);
-            _allTiles.Add(tileRow7);
-            _allTiles.Add(tileRow8);
-            _allTiles.Add(tileRow9);
-            _allTiles.Add(tileRow10);
-            _allTiles.Add(tileRow11);
+            // Find the Floor root game object
+            GameObject floorRoot = GameObject.Find("Floor");
+            
+            // Load tile game objects
+            for (int column = 0; column < 11; column++) {
+                string tileColumnName = $"FloorColumn{column + 1}";
+                Transform tileColumn = floorRoot.transform.Find(tileColumnName);
+                if (tileColumn == null) {
+                    Debug.LogError($"Error: Not found {tileColumnName}");
+                    continue;
+                }
+
+                for (int row = 0; row < 11; row++) {
+                    string tileName = $"BlockPlane{row + 1}";
+                    Transform tile = tileColumn.Find(tileName);
+                    if (tile == null) {
+                        Debug.LogError($"Error: Not found {tileColumnName}/{tileName}");
+                        continue;
+                    }
+
+                    _allTileGameObjects[row, column] = tile.gameObject;
+                }
+            }
         }
 
         /**
          * Check the legality of all the tiles:
          * Reachability, Ease of Reachability, No dead end
-         * TODO NO DEAD END
          * Called by MapEditor when the player attempts to Save & Quit.
          * Returns:
          * The list of all invalid tiles.
@@ -194,7 +206,7 @@ namespace MapEditor {
                 int column = coordinate.Item2;
 
                 // Change them into error material (red)
-                _allTiles[row][column].GetComponent<MeshRenderer>().material = tileErrorMaterial;
+                _allTileGameObjects[row, column].GetComponent<MeshRenderer>().material = tileErrorMaterial;
             }
         }
 
@@ -207,10 +219,8 @@ namespace MapEditor {
                 return;
             }
 
-            foreach (var tileRow in _allTiles) {
-                foreach (var tile in tileRow) {
-                    tile.GetComponent<MeshRenderer>().material = tileNormalMaterial;
-                }
+            foreach (var tile in _allTileGameObjects) {
+                tile.GetComponent<MeshRenderer>().material = tileNormalMaterial;
             }
 
             invalidTilesDisplaying = false;

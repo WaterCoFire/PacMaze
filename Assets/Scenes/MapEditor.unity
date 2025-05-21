@@ -4325,7 +4325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 147657949}
   m_Layer: 0
-  m_Name: FloorColumnC
+  m_Name: FloorColumn3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12588,7 +12588,7 @@ GameObject:
   m_Component:
   - component: {fileID: 512603165}
   m_Layer: 0
-  m_Name: FloorColumnJ
+  m_Name: FloorColumn10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20339,7 +20339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 896101468}
   m_Layer: 0
-  m_Name: FloorColumnK
+  m_Name: FloorColumn11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20974,7 +20974,7 @@ GameObject:
   m_Component:
   - component: {fileID: 921350114}
   m_Layer: 0
-  m_Name: FloorColumnF
+  m_Name: FloorColumn6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23668,7 +23668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 997907038}
   m_Layer: 0
-  m_Name: FloorColumnI
+  m_Name: FloorColumn9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23791,7 +23791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1002530441}
   m_Layer: 0
-  m_Name: FloorColumnH
+  m_Name: FloorColumn8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28949,7 +28949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1169477152}
   m_Layer: 0
-  m_Name: FloorColumnG
+  m_Name: FloorColumn7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31132,7 +31132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1227666461}
   m_Layer: 0
-  m_Name: FloorColumnA
+  m_Name: FloorColumn1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37866,7 +37866,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1529815892}
   m_Layer: 0
-  m_Name: FloorColumnE
+  m_Name: FloorColumn5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44780,7 +44780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1802169241}
   m_Layer: 0
-  m_Name: FloorColumnD
+  m_Name: FloorColumn4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44903,7 +44903,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1807427460}
   m_Layer: 0
-  m_Name: FloorColumnB
+  m_Name: FloorColumn2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
