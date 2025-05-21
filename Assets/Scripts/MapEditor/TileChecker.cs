@@ -194,7 +194,7 @@ namespace MapEditor {
             }
 
             // For debug use
-            Debug.Log("The following tiles are inaccessible or the path exceeds 22:");
+            Debug.Log("The following tiles are invalid");
             foreach (var tile in invalidTileCoordinates) {
                 Debug.Log($"({tile.Item1}, {tile.Item2})");
             }
