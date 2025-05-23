@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace HomePage {
@@ -39,6 +38,9 @@ namespace HomePage {
 
             // Set button action listeners
             SetButtonActionListener();
+
+            // Enter Pacboy section by default
+            OnPacboyButtonClick();
         }
 
         /**
