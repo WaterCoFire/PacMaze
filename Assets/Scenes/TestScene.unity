@@ -26257,17 +26257,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileNormalMaterial: {fileID: 0}
   tileErrorMaterial: {fileID: 0}
-  tileRow1: []
-  tileRow2: []
-  tileRow3: []
-  tileRow4: []
-  tileRow5: []
-  tileRow6: []
-  tileRow7: []
-  tileRow8: []
-  tileRow9: []
-  tileRow10: []
-  tileRow11: []
   invalidTilesDisplaying: 0
 --- !u!1001 &1315537847
 PrefabInstance:
@@ -33822,7 +33811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1728778754
 Transform:
   m_ObjectHideFlags: 0
@@ -39203,74 +39192,6 @@ Transform:
   - {fileID: 1797961887}
   m_Father: {fileID: 1728778754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &2035126634
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1478234892423364373, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_Name
-      value: TenaciousGhostron
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -29.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.1999989
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -46.74
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5448384357859867548, guid: 4d995a41157a6974d939b46b64a2a66d,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4d995a41157a6974d939b46b64a2a66d, type: 3}
 --- !u!1001 &2042773516
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41385,4 +41306,3 @@ SceneRoots:
   - {fileID: 1567735488}
   - {fileID: 69525938}
   - {fileID: 313925150}
-  - {fileID: 2035126634}
