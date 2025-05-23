@@ -13,12 +13,14 @@ namespace HomePage {
 
         public GameObject playMapsPage; // Play maps view page
         public GameObject editMapsPage; // Edit maps view page
+        public GameObject pacpediaPage; // Pacpedia page
         public GameObject settingPage; // Key binding setting page
         public GameObject creditsPage; // Credits page
 
         /* Buttons */
         public Button playButton;
         public Button editMapsButton;
+        public Button pacpediaButton;
         public Button settingButton;
         public Button creditsButton;
         public Button quitGameButton;
@@ -61,6 +63,7 @@ namespace HomePage {
         private void SetButtonActionListener() {
             playButton.onClick.AddListener(OnPlayButtonClick);
             editMapsButton.onClick.AddListener(OnEditMapsButtonClick);
+            pacpediaButton.onClick.AddListener(OnPacpediaButtonClick);
             settingButton.onClick.AddListener(OnSettingButtonClick);
             creditsButton.onClick.AddListener(OnCreditsButtonClick);
             quitGameButton.onClick.AddListener(OnQuitButtonClick);
@@ -89,6 +92,15 @@ namespace HomePage {
 
             // Open play maps page
             editMapsPage.SetActive(true);
+        }
+        
+        // Pacpedia button
+        private void OnPacpediaButtonClick() {
+            // Close this home page
+            homePage.SetActive(false);
+
+            // Open Pacpedia page
+            pacpediaPage.SetActive(true);
         }
 
         // Setting button
