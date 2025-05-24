@@ -2996,7 +2996,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294921955
-  m_fontColor: {r: 0.8887355, g: 0.3075471, b: 1, a: 1}
+  m_fontColor: {r: 0.90836793, g: 0.42075467, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -9092,7 +9092,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278196968
-  m_fontColor: {r: 0.90943396, g: 0.101391666, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 0, b: 0.07220459, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -12634,7 +12634,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playMapScrollRect: {fileID: 988383207}
   mapInfoPrefab: {fileID: 1587049974}
-  scrollRectContent: {fileID: 84639698}
   backButton: {fileID: 1337976492}
   playMapPage: {fileID: 975596501}
   homePage: {fileID: 313228169}
@@ -19806,7 +19805,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   editMapScrollRect: {fileID: 101401064}
   mapInfoPrefab: {fileID: 128314430}
-  scrollRectContent: {fileID: 368001309}
   backButton: {fileID: 156708631}
   createNewMapButton: {fileID: 1571888227}
   editMapPage: {fileID: 1622098650}
@@ -22561,7 +22559,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278195114
-  m_fontColor: {r: 0.6679245, g: 0.074853614, b: 0, a: 1}
+  m_fontColor: {r: 0.98490566, g: 0.22390772, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
