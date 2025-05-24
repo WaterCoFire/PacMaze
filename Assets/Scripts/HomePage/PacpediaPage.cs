@@ -10,20 +10,22 @@ namespace HomePage {
         public GameObject pacpediaPage;
         public GameObject homePage;
 
-        /* Buttons */
+        /* Buttons - for displaying corresponding section */
         public Button pacboyButton;
         public Button ghostronButton;
         public Button propsButton;
+        public Button randomEventButton;
 
         public Button backButton; // Back to home page
 
         /* Scroll Rect used to display contents */
         public ScrollRect contentScrollRect;
 
-        /* Content prefabs: Pacboy, Ghostron, Props */
+        /* Section Content prefabs: Pacboy, Ghostron, Props, Random Event */
         public GameObject pacboyContentPrefab;
         public GameObject ghostronContentPrefab;
         public GameObject propsContentPrefab;
+        public GameObject randomEventContentPrefab;
 
         // Button Colours
         // Normal color 8C79FF
@@ -77,6 +79,7 @@ namespace HomePage {
             pacboyButton.onClick.AddListener(OnPacboyButtonClick);
             ghostronButton.onClick.AddListener(OnGhostronButtonClick);
             propsButton.onClick.AddListener(OnPropsButtonClick);
+            randomEventButton.onClick.AddListener(OnRandomEventButtonClick);
             backButton.onClick.AddListener(OnBackButtonClick);
         }
 
@@ -86,6 +89,7 @@ namespace HomePage {
             SetButtonStatus(pacboyButton, true);
             SetButtonStatus(ghostronButton, false);
             SetButtonStatus(propsButton, false);
+            SetButtonStatus(randomEventButton, false);
 
             // Update scroll rect content
             EmptyScrollRect();
@@ -100,6 +104,7 @@ namespace HomePage {
             SetButtonStatus(pacboyButton, false);
             SetButtonStatus(ghostronButton, true);
             SetButtonStatus(propsButton, false);
+            SetButtonStatus(randomEventButton, false);
 
             // Update scroll rect content
             EmptyScrollRect();
@@ -114,11 +119,27 @@ namespace HomePage {
             SetButtonStatus(pacboyButton, false);
             SetButtonStatus(ghostronButton, false);
             SetButtonStatus(propsButton, true);
+            SetButtonStatus(randomEventButton, false);
 
             // Update scroll rect content
             EmptyScrollRect();
             GameObject propsContentObject = Instantiate(propsContentPrefab, contentScrollRect.content);
             RectTransform itemTransform = propsContentObject.GetComponent<RectTransform>();
+            itemTransform.anchoredPosition = new Vector2(0f, 0f);
+        }
+        
+        // Random event button clicked
+        private void OnRandomEventButtonClick() {
+            // Set button status
+            SetButtonStatus(pacboyButton, false);
+            SetButtonStatus(ghostronButton, false);
+            SetButtonStatus(propsButton, false);
+            SetButtonStatus(randomEventButton, true);
+            
+            // Update scroll rect content
+            EmptyScrollRect();
+            GameObject randomEventContentObject = Instantiate(randomEventContentPrefab, contentScrollRect.content);
+            RectTransform itemTransform = randomEventContentObject.GetComponent<RectTransform>();
             itemTransform.anchoredPosition = new Vector2(0f, 0f);
         }
 
