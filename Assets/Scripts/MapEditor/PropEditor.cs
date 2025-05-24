@@ -332,8 +332,7 @@ namespace MapEditor {
 
             // Update Count Text
             if (def.countText != null) {
-                def.countText.text = $"Total:{_totalPropCounts[propType]}";
-                // (Fixed:{_fixedPropCounts[propType]})
+                def.countText.text = $"Total:{_totalPropCounts[propType]}\nFixed:{_fixedPropCounts[propType]}";
             }
 
             // Update Add Button
