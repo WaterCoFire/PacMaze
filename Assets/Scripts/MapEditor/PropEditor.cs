@@ -47,48 +47,24 @@ namespace MapEditor {
         public GameObject badCherryPrefab;
         public GameObject luckyDicePrefab;
 
-        // Props buttons
-        public Button ghostronSpawnButton;
-        public Button pacboySpawnButton;
-        public Button powerPelletButton;
-        public Button fastWheelButton;
-        public Button niceBombButton;
-        public Button slowWheelButton;
-        public Button badCherryButton;
-        public Button luckyDiceButton;
+        // Remove fixed prop button
         public Button removeButton;
 
-        // Add/Minus buttons
-        public Button ghostronSpawnAdd;
-        public Button ghostronSpawnMinus;
-        public Button powerPelletAdd;
-        public Button powerPelletMinus;
-        public Button fastWheelAdd;
-        public Button fastWheelMinus;
-        public Button niceBombAdd;
-        public Button niceBombMinus;
-        public Button slowWheelAdd;
-        public Button slowWheelMinus;
-        public Button badCherryAdd;
-        public Button badCherryMinus;
-        public Button luckyDiceAdd;
-        public Button luckyDiceMinus;
+        /* All prop operation UI elements are designed in Prop UI Definitions */
+        // Define UI elements and settings for each prop type
+        public List<PropUIDefinition> propUIDefinitions;
 
-        // Count texts
-        public TMP_Text ghostronCountText;
-        public TMP_Text powerPelletCountText;
-        public TMP_Text fastWheelCountText;
-        public TMP_Text niceBombCountText;
-        public TMP_Text slowWheelCountText;
-        public TMP_Text badCherryCountText;
-        public TMP_Text luckyDiceCountText;
+        // Mapping from PropType to PropUIDefinition
+        private Dictionary<PropType, PropUIDefinition> _propDefinitionsDict;
 
-        public GameObject propEditPanel; // Only active when a tile is selected
+        // The editing panel, active when a tile is selected
+        public GameObject propEditPanel;
+
+        // The prompt shown when currently no tile is selected (when the player just enters this mode)
         public GameObject tileNotSelectedPrompt;
 
-        private bool _propMode;
-
-        private readonly Dictionary<Vector3, GameObject> _propObjectOnTiles = new(); // Prop on every tile
+        // FIXED prop game objects on every tile
+        private readonly Dictionary<Vector3, GameObject> _propObjectOnTiles = new();
 
         // FIXED counts of all the props
         private Dictionary<PropType, int> _fixedPropCounts;
@@ -99,7 +75,9 @@ namespace MapEditor {
         private readonly Vector3 _gridStart = new(-15, 0, 15); // The top left corner
         private readonly float _gridSpacing = 3.0f; // The length of each tile
         private readonly int _gridSize = 11; // Map grid size
+        private bool _propMode;
 
+        // Singleton instance
         public static PropEditor Instance { get; private set; }
 
         // AWAKE FUNCTION
@@ -107,6 +85,9 @@ namespace MapEditor {
             Debug.Log("TileChecker AWAKE");
             // Set singleton instance
             Instance = this;
+
+            // Initialise the Dictionary<PropType, PropUIDefinition>
+            InitPropDefinitionsDict();
         }
 
         /**
@@ -133,8 +114,7 @@ namespace MapEditor {
             }
 
             // UI update
-            LoadPropTotalCount();
-            TotalNumberButtonUpdate();
+            UpdateAllUI();
         }
 
         // Enters the prop editing mode. Used in MapEditor class.
@@ -144,7 +124,9 @@ namespace MapEditor {
 
             propEditPanel.SetActive(false);
             tileNotSelectedPrompt.SetActive(true);
-            PropsButtonInit();
+            // PropsButtonInit();
+
+            InitAllFixedPlacementButtons(); // General init for spawn buttons
         }
 
         /**
@@ -168,33 +150,28 @@ namespace MapEditor {
                 if (renderer != null) renderer.material = tileNormalMaterial;
             }
 
-            PropsButtonInit();
+            // PropsButtonInit();
+
+            InitAllFixedPlacementButtons(); // General init for spawn buttons
         }
 
+        // START FUNCTION
         private void Start() {
             SetButtonActionListener();
         }
 
-        // Load the total count information UI text for all props
-        private void LoadPropTotalCount() {
-            ghostronCountText.text = "Total:" + _totalPropCounts[PropType.Ghostron];
-            powerPelletCountText.text = "Total:" + _totalPropCounts[PropType.PowerPellet];
-            fastWheelCountText.text = "Total:" + _totalPropCounts[PropType.FastWheel];
-            niceBombCountText.text = "Total:" + _totalPropCounts[PropType.NiceBomb];
-            slowWheelCountText.text = "Total:" + _totalPropCounts[PropType.SlowWheel];
-            badCherryCountText.text = "Total:" + _totalPropCounts[PropType.BadCherry];
-            luckyDiceCountText.text = "Total:" + _totalPropCounts[PropType.LuckyDice];
-        }
-
-        // Handle mouse press
+        // UPDATE FUNCTION
         void Update() {
             if (!_propMode) return;
+            // Handle mouse press
             if (Input.GetMouseButtonDown(0)) {
                 SelectTile();
             }
         }
 
-        // Select a tile
+        /**
+         * Handle the tile selection.
+         */
         private void SelectTile() {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit)) {
@@ -205,10 +182,10 @@ namespace MapEditor {
                     return;
                 }
 
-                if (tilePosition != _selectedTileVector3) {
+                if (tilePosition != _selectedTileVector3 || !_tileSelected) {
                     // Display the prop edit panel
                     tileNotSelectedPrompt.SetActive(false);
-                    TotalNumberButtonUpdate();
+                    // TotalNumberButtonUpdate();
                     propEditPanel.SetActive(true);
 
                     _selectedTileVector3 = tilePosition;
@@ -231,18 +208,15 @@ namespace MapEditor {
                     Debug.Log($"Tile Selected: {_selectedTileVector3}");
                 }
 
-                // UI update
-                if (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) || _propObjectOnTiles[_selectedTileVector3] == null) {
-                    Debug.Log("UI: This tile does not have a valid prop.");
-                    PropMissingButtonUpdate();
-                } else {
-                    Debug.Log("UI: This tile have a valid prop.");
-                    PropPlacedButtonUpdate();
-                }
+                // UI update:
+                // Update based on whether selected tile has a prop
+                UpdateFixedPlacementButtonsState();
             }
         }
 
-        // Convert arbitrary coordinates (mouse click) to the nearest grid point
+        /**
+         * Convert arbitrary coordinates (mouse click) to the nearest grid point.
+         */
         private Vector3 SnapToGrid(Vector3 position) {
             int xIndex = Mathf.RoundToInt((position.x - _gridStart.x) / _gridSpacing);
             int zIndex = Mathf.RoundToInt((position.z - _gridStart.z) / -_gridSpacing);
@@ -253,103 +227,224 @@ namespace MapEditor {
             return new Vector3(_gridStart.x + xIndex * _gridSpacing, 0, _gridStart.z - zIndex * _gridSpacing);
         }
 
-        // Prop placement operations
-        private bool PlaceProp(PropType propType) {
-            if (!_tileSelected) return false;
-
-            // if (!_propObjectOnTiles.ContainsKey(_selectedTileVector3)) {
-            //     _propObjectOnTiles[_selectedTileVector3] = new GameObject();
-            // }
-
-            if (propType == PropType.Pacboy && _fixedPropCounts[PropType.Pacboy] >= 1) {
-                Debug.Log("WARNING Only one Pacboy Spawn Point is allowed.");
-                return false;
+        /**
+         * Operation when the player clicks a prop's place button
+         * to set a fixed prop on the currently selected tile.
+         */
+        private void PlaceFixedPropOnSelectedTile(PropType propType) {
+            if (!_tileSelected || !_propDefinitionsDict.TryGetValue(propType, out PropUIDefinition def)) {
+                Debug.LogError("Tile not selected or this prop type does not exist!");
+                return;
             }
 
-            if (propType != PropType.Pacboy && _fixedPropCounts[propType] > _totalPropCounts[propType]) {
-                Debug.Log($"WARNING Maximum of: {propType} reached (defined by the total number).");
-                return false;
+            // Check if tile is already occupied
+            if (_propObjectOnTiles.ContainsKey(_selectedTileVector3) &&
+                _propObjectOnTiles[_selectedTileVector3] != null) {
+                Debug.LogError($"Tile {_selectedTileVector3} is already occupied!");
+                return;
             }
 
-            GameObject prefab = GetPrefabByPropType(propType);
-            if (prefab == null) {
-                Debug.LogError($"WARNING Invalid prop type: {propType}");
-                return false;
+            // Check if this prop is unique (Pacboy Spawn Point)
+            if (def.isUniquePlacement && _fixedPropCounts[propType] >= 1) {
+                Debug.LogError($"Only one {propType} can be placed!");
+                return;
             }
 
-            GameObject newProp = Instantiate(prefab, _selectedTileVector3, Quaternion.identity);
+            // Check if the fixed number of this prop reaches the total number
+            if (!def.isUniquePlacement && _fixedPropCounts[propType] >= _totalPropCounts[propType]) {
+                Debug.LogError(
+                    $"Cannot place more {propType}. Fixed count ({_fixedPropCounts[propType]}) would exceed total count ({_totalPropCounts[propType]}).");
+                return;
+            }
+
+            // Check for undefined prefab
+            if (def.prefab == null) {
+                Debug.LogError($"Prefab for {propType} is missing!");
+                return;
+            }
+
+            GameObject newProp = Instantiate(def.prefab, _selectedTileVector3, Quaternion.identity);
             _propObjectOnTiles[_selectedTileVector3] = newProp;
             _fixedPropCounts[propType]++;
 
-            // UI update
-            PropPlacedButtonUpdate();
-
-            return true;
+            UpdatePropUI(propType); // Update UI for this specific prop
+            UpdateFixedPlacementButtonsState(); // Update general placement buttons (e.g. enable remove)
         }
 
-        // Handle removals
-        private bool RemoveProp() {
-            Debug.Log("Removing");
-
-            if (!_tileSelected) {
-                Debug.LogError("NO TILE SELECTED");
-                return false;
+        /**
+         * Operation when the player clicks the "Remove" button
+         * to remove the currently placed FIXED prop on the selected tile.
+         */
+        private void RemovePropFromSelectedTile() {
+            if (!_tileSelected || !_propObjectOnTiles.TryGetValue(_selectedTileVector3, out GameObject propToRemove) ||
+                propToRemove == null) {
+                Debug.LogError("No prop to remove on selected tile or tile not selected.");
+                return;
             }
 
-            if (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) || _propObjectOnTiles[_selectedTileVector3] == null) {
-                Debug.LogError("TILE CONTAINS NO PROPS OR NULL");
-                return false;
+            PropType removedPropType = GetPropType(propToRemove); // Get the PropType of the fixed prop to be removed
+            Destroy(propToRemove);
+            _propObjectOnTiles[_selectedTileVector3] = null;
+
+            if (removedPropType != PropType.None) {
+                _fixedPropCounts[removedPropType]--;
+                UpdatePropUI(removedPropType);
             }
 
-            GameObject propToRemove = _propObjectOnTiles[_selectedTileVector3];
-            if (propToRemove != null) {
-                Destroy(propToRemove);
-                _propObjectOnTiles[_selectedTileVector3] = null;
+            UpdateFixedPlacementButtonsState(); // Update UI
+        }
 
-                PropType propType = GetPropType(propToRemove);
+        /**
+         * Adjust the total number of a prop.
+         * Called when the player clicks the Add/Subtract button of a prop.
+         */
+        private void AdjustTotalPropCount(PropType propType, int delta) {
+            if (!_propDefinitionsDict.TryGetValue(propType, out PropUIDefinition def)) return;
 
-                Debug.Log("Prop type to be removed: " + propType);
+            int currentTotal = _totalPropCounts[propType];
 
-                // Update the fixed prop counts
-                _fixedPropCounts[propType]--;
+            // Make sure the new total does not exceed the boundaries (although the UI should be able to handle this)
+            int newTotal = Mathf.Clamp(currentTotal + delta, def.minTotalCount, def.maxTotalCount);
 
-                // Enable the corresponding minus button if the fixed count is already less than total number
-                if (propType != PropType.Pacboy && _fixedPropCounts[propType] < _totalPropCounts[propType]) {
-                    switch (propType) {
-                        case PropType.Ghostron:
-                            ghostronSpawnMinus.gameObject.SetActive(true);
-                            break;
-                        case PropType.PowerPellet:
-                            powerPelletMinus.gameObject.SetActive(true);
-                            break;
-                        case PropType.FastWheel:
-                            fastWheelMinus.gameObject.SetActive(true);
-                            break;
-                        case PropType.NiceBomb:
-                            niceBombMinus.gameObject.SetActive(true);
-                            break;
-                        case PropType.SlowWheel:
-                            slowWheelMinus.gameObject.SetActive(true);
-                            break;
-                        case PropType.BadCherry:
-                            badCherryMinus.gameObject.SetActive(true);
-                            break;
-                        case PropType.LuckyDice:
-                            luckyDiceMinus.gameObject.SetActive(true);
-                            break;
-                        default:
-                            Debug.LogError("Invalid prop type: " + propType);
-                            break;
-                    }
+            // Update the new total number of this prop
+            _totalPropCounts[propType] = newTotal;
+
+            UpdatePropUI(propType);
+        }
+
+        /**
+         * Update all UI elements for prop editing.
+         */
+        private void UpdateAllUI() {
+            foreach (PropType type in _propDefinitionsDict.Keys) {
+                UpdatePropUI(type);
+            }
+
+            UpdateFixedPlacementButtonsState(); // For Remove button and overall state
+        }
+
+        /**
+         * Update the UI for a specific prop type.
+         * (Fixed place button, add button, subtract button, total count)
+         */
+        private void UpdatePropUI(PropType propType) {
+            if (!_propDefinitionsDict.TryGetValue(propType, out PropUIDefinition def)) return;
+
+            // Update Count Text
+            if (def.countText != null) {
+                def.countText.text = $"Total:{_totalPropCounts[propType]}";
+                // (Fixed:{_fixedPropCounts[propType]})
+            }
+
+            // Update Add Button
+            if (def.addButton != null) {
+                // Decide if this button is active or not by judging if the total number can be added more
+                bool canAddMore = _totalPropCounts[propType] < def.maxTotalCount;
+                def.addButton.gameObject.SetActive(canAddMore);
+            }
+
+            // Update Minus Button
+            if (def.subtractButton != null) {
+                // Decide if this button is active or not by judging:
+                // - If the total number can be subtracted more (no if it already drops to the minimum number)
+                // - If the total number is already down to the fixed number
+                bool canRemove = _totalPropCounts[propType] > def.minTotalCount;
+                bool totalNotEqualToFixed = _totalPropCounts[propType] > _fixedPropCounts[propType];
+                def.subtractButton.gameObject.SetActive(canRemove && totalNotEqualToFixed);
+            }
+
+            // Update Fixed Place Button interactable state
+            if (def.fixedPlaceButton != null) {
+                if (def.isUniquePlacement) {
+                    // For Pacboy Spawn Point (only a total of one allowed):
+                    def.fixedPlaceButton.interactable = _fixedPropCounts[propType] < 1;
+                } else {
+                    // For all other props
+                    def.fixedPlaceButton.interactable = _fixedPropCounts[propType] < _totalPropCounts[propType];
                 }
-            } else {
-                Debug.LogError("PROP TO REMOVE IS NULL");
+            }
+        }
+
+        /**
+         * Initialise the states of all the fixed prop placing buttons.
+         */
+        private void InitAllFixedPlacementButtons() {
+            foreach (var pair in _propDefinitionsDict) {
+                if (pair.Value.fixedPlaceButton != null) {
+                    // Initially, buttons might be non-interactable until a tile is selected
+                    pair.Value.fixedPlaceButton.interactable = false;
+                }
             }
 
-            // UI update
-            PropMissingButtonUpdate();
+            if (removeButton != null) removeButton.interactable = false;
+        }
 
-            return true;
+        /**
+         * Updates the states of all the fixed prop placing buttons.
+         */
+        private void UpdateFixedPlacementButtonsState() {
+            // Check if currently the selected prop has a fixed prop set on it or not
+            bool tileHasProp = _propObjectOnTiles.ContainsKey(_selectedTileVector3) &&
+                               _propObjectOnTiles[_selectedTileVector3] != null;
+
+            removeButton.interactable = tileHasProp;
+
+            foreach (var pair in _propDefinitionsDict) {
+                PropType type = pair.Key;
+                PropUIDefinition def = pair.Value;
+
+                if (tileHasProp) {
+                    def.fixedPlaceButton.interactable = false; // Can't place on an occupied tile
+                } else {
+                    // Tile is empty, enable spawn if counts allow
+                    bool canPlaceMoreFixed = def.isUniquePlacement
+                        ? _fixedPropCounts[type] < 1
+                        : _fixedPropCounts[type] < _totalPropCounts[type];
+                    def.fixedPlaceButton.interactable = canPlaceMoreFixed;
+                }
+            }
+        }
+
+        /**
+         * Initialises the dictionary mapping PropType to UI definitions.
+         */
+        private void InitPropDefinitionsDict() {
+            _propDefinitionsDict = new Dictionary<PropType, PropUIDefinition>();
+            foreach (var definition in propUIDefinitions) {
+                if (definition.propType != PropType.None && !_propDefinitionsDict.ContainsKey(definition.propType)) {
+                    _propDefinitionsDict.Add(definition.propType, definition);
+                } else {
+                    Debug.LogWarning($"Duplicate or None PropType found in propUIDefinitions: {definition.propType}");
+                }
+            }
+        }
+
+        /**
+         * Sets the Action Listeners for all the UI buttons.
+         */
+        private void SetButtonActionListener() {
+            foreach (var definition in propUIDefinitions) {
+                if (definition.fixedPlaceButton != null) {
+                    definition.fixedPlaceButton.onClick.RemoveAllListeners(); // Clear existing
+                    definition.fixedPlaceButton.onClick.AddListener(() =>
+                        PlaceFixedPropOnSelectedTile(definition.propType));
+                }
+
+                if (definition.addButton != null) {
+                    definition.addButton.onClick.RemoveAllListeners();
+                    definition.addButton.onClick.AddListener(() => AdjustTotalPropCount(definition.propType, 1));
+                }
+
+                if (definition.subtractButton != null) {
+                    definition.subtractButton.onClick.RemoveAllListeners();
+                    definition.subtractButton.onClick.AddListener(() => AdjustTotalPropCount(definition.propType, -1));
+                }
+            }
+
+            if (removeButton != null) {
+                removeButton.onClick.RemoveAllListeners();
+                removeButton.onClick.AddListener(RemovePropFromSelectedTile);
+            }
         }
 
         /**
@@ -369,767 +464,6 @@ namespace MapEditor {
             };
         }
 
-        // Checks if the condition is satisfied for save & quit, returns:
-        // true if all set
-        // false if the Pacboy spawn point is not set
-        public bool CheckCondition() {
-            // Must have a Pacboy spawn point
-            if (_fixedPropCounts[PropType.Pacboy] == 0) return false;
-            return true;
-        }
-
-        /* On click operations */
-        // Props buttons
-        private void OnPacboySpawnButtonClick() {
-            PlaceProp(PropType.Pacboy);
-        }
-
-        private void OnGhostronSpawnButtonClick() {
-            if (!PlaceProp(PropType.Ghostron)) {
-                Debug.LogError("GhostronSpawn place error!");
-                return;
-            }
-
-            // Check if the number of fixed ones has reached the total number
-            // If so, disable the minus button
-            if (_fixedPropCounts[PropType.Ghostron] == _totalPropCounts[PropType.Ghostron]) {
-                ghostronSpawnMinus.gameObject.SetActive(false);
-            }
-        }
-
-        private void OnPowerPelletButtonClick() {
-            if (!PlaceProp(PropType.PowerPellet)) {
-                Debug.LogError("PowerPellet place error!");
-                return;
-            }
-
-            // Check if the number of fixed ones has reached the total number
-            // If so, disable the minus button
-            if (_fixedPropCounts[PropType.PowerPellet] == _totalPropCounts[PropType.PowerPellet]) {
-                powerPelletMinus.gameObject.SetActive(false);
-            }
-        }
-
-        private void OnFastWheelButtonClick() {
-            if (!PlaceProp(PropType.FastWheel)) {
-                Debug.LogError("FastWheel place error!");
-                return;
-            }
-
-            // Check if the number of fixed ones has reached the total number
-            // If so, disable the minus button
-            if (_fixedPropCounts[PropType.FastWheel] == _totalPropCounts[PropType.FastWheel]) {
-                fastWheelMinus.gameObject.SetActive(false);
-            }
-        }
-
-        private void OnNiceBombButtonClick() {
-            if (!PlaceProp(PropType.NiceBomb)) {
-                Debug.LogError("NiceBomb place error!");
-                return;
-            }
-
-            // Check if the number of fixed ones has reached the total number
-            // If so, disable the minus button
-            if (_fixedPropCounts[PropType.NiceBomb] == _totalPropCounts[PropType.NiceBomb]) {
-                niceBombMinus.gameObject.SetActive(false);
-            }
-        }
-
-        private void OnSlowWheelButtonClick() {
-            if (!PlaceProp(PropType.SlowWheel)) {
-                Debug.LogError("SlowWheel place error!");
-                return;
-            }
-
-            // Check if the number of fixed ones has reached the total number
-            // If so, disable the minus button
-            if (_fixedPropCounts[PropType.SlowWheel] == _totalPropCounts[PropType.SlowWheel]) {
-                slowWheelMinus.gameObject.SetActive(false);
-            }
-        }
-
-        private void OnBadCherryButtonClick() {
-            if (!PlaceProp(PropType.BadCherry)) {
-                Debug.LogError("BadCherry place error!");
-                return;
-            }
-
-            // Check if the number of fixed ones has reached the total number
-            // If so, disable the minus button
-            if (_fixedPropCounts[PropType.BadCherry] == _totalPropCounts[PropType.BadCherry]) {
-                badCherryMinus.gameObject.SetActive(false);
-            }
-        }
-
-        private void OnLuckyDiceButtonClick() {
-            if (!PlaceProp(PropType.LuckyDice)) {
-                Debug.LogError("LuckyDice place error!");
-                return;
-            }
-
-            // Check if the number of fixed ones has reached the total number
-            // If so, disable the minus button
-            if (_fixedPropCounts[PropType.LuckyDice] == _totalPropCounts[PropType.LuckyDice]) {
-                luckyDiceMinus.gameObject.SetActive(false);
-            }
-        }
-
-        // Remove operation
-        private void OnRemoveButtonClick() {
-            if (!RemoveProp()) {
-                Debug.LogError("Remove error!");
-            }
-        }
-
-        // Add/minus buttons
-        private void OnGhostronSpawnAddClick() {
-            if (_totalPropCounts[PropType.Ghostron] >= 5) {
-                Debug.LogError("Ghostron add error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.Ghostron]++;
-            ghostronCountText.text = "Total:" + _totalPropCounts[PropType.Ghostron];
-
-            // If the total count is becoming more than the fixed count, enable the prop button
-            if (_totalPropCounts[PropType.Ghostron] > _fixedPropCounts[PropType.Ghostron]) {
-                // ghostronSpawnButton.interactable = true;
-                if (_tileSelected && (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) ||
-                                      _propObjectOnTiles[_selectedTileVector3] == null)) {
-                    ghostronSpawnButton.interactable = true;
-                }
-            }
-
-            // If reaches the maximum number 5, disable the add button
-            if (_totalPropCounts[PropType.Ghostron] == 5) {
-                ghostronSpawnAdd.gameObject.SetActive(false);
-            }
-
-            // If already more than one ghost or the number of fixed ones, enable the minus button
-            if (_totalPropCounts[PropType.Ghostron] == 2 ||
-                _totalPropCounts[PropType.Ghostron] > _fixedPropCounts[PropType.Ghostron]) {
-                ghostronSpawnMinus.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnGhostronSpawnMinusClick() {
-            if (_totalPropCounts[PropType.Ghostron] <= 1) {
-                Debug.LogError("Ghostron minus minus error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.Ghostron]--;
-            ghostronCountText.text = "Total:" + _totalPropCounts[PropType.Ghostron];
-
-            // If the total count is already equal to the fixed count, disable the prop button
-            if (_totalPropCounts[PropType.Ghostron] == _fixedPropCounts[PropType.Ghostron]) {
-                ghostronSpawnButton.interactable = false;
-            }
-
-            // If reaches the minimum number 1 or the number of fixed ones, disable the minus button
-            if (_totalPropCounts[PropType.Ghostron] == 1 ||
-                _totalPropCounts[PropType.Ghostron] == _fixedPropCounts[PropType.Ghostron]) {
-                ghostronSpawnMinus.gameObject.SetActive(false);
-            }
-
-            // If already less than five ghosts, enable the add button
-            if (_totalPropCounts[PropType.Ghostron] == 4) {
-                ghostronSpawnAdd.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnPowerPelletAddClick() {
-            if (_totalPropCounts[PropType.PowerPellet] >= 5) {
-                Debug.LogError("Power pellet add error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.PowerPellet]++;
-            powerPelletCountText.text = "Total:" + _totalPropCounts[PropType.PowerPellet];
-
-            // If the total count is becoming more than the fixed count, enable the prop button
-            if (_totalPropCounts[PropType.PowerPellet] > _fixedPropCounts[PropType.PowerPellet]) {
-                // powerPelletButton.interactable = true;
-                if (_tileSelected && (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) ||
-                                      _propObjectOnTiles[_selectedTileVector3] == null)) {
-                    powerPelletButton.interactable = true;
-                }
-            }
-
-            // If reaches the maximum number 5, disable the add button
-            if (_totalPropCounts[PropType.PowerPellet] == 5) {
-                powerPelletAdd.gameObject.SetActive(false);
-            }
-
-            // If already more than zero power pellet or the number of fixed ones, enable the minus button
-            if (_totalPropCounts[PropType.PowerPellet] == 1 ||
-                _totalPropCounts[PropType.PowerPellet] > _fixedPropCounts[PropType.PowerPellet]) {
-                powerPelletMinus.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnPowerPelletMinusClick() {
-            if (_totalPropCounts[PropType.PowerPellet] <= 0) {
-                Debug.LogError("Power pellet minus error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.PowerPellet]--;
-            powerPelletCountText.text = "Total:" + _totalPropCounts[PropType.PowerPellet];
-
-            // If the total count is already equal to the fixed count, disable the prop button
-            if (_totalPropCounts[PropType.PowerPellet] == _fixedPropCounts[PropType.PowerPellet]) {
-                powerPelletButton.interactable = false;
-            }
-
-            // If reaches the minimum number 0 or the number of fixed ones, disable the minus button
-            if (_totalPropCounts[PropType.PowerPellet] == 0 ||
-                _totalPropCounts[PropType.PowerPellet] == _fixedPropCounts[PropType.PowerPellet]) {
-                powerPelletMinus.gameObject.SetActive(false);
-            }
-
-            // If already less than five power pellets, enable the add button
-            if (_totalPropCounts[PropType.PowerPellet] == 4) {
-                powerPelletAdd.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnFastWheelAddClick() {
-            if (_totalPropCounts[PropType.FastWheel] >= 5) {
-                Debug.LogError("Fast wheel add error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.FastWheel]++;
-            fastWheelCountText.text = "Total:" + _totalPropCounts[PropType.FastWheel];
-
-            // If the total count is becoming more than the fixed count, enable the prop button
-            if (_totalPropCounts[PropType.FastWheel] > _fixedPropCounts[PropType.FastWheel]) {
-                // fastWheelButton.interactable = true;
-                if (_tileSelected && (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) ||
-                                      _propObjectOnTiles[_selectedTileVector3] == null)) {
-                    fastWheelButton.interactable = true;
-                }
-            }
-
-            // If reaches the maximum number 5, disable the add button
-            if (_totalPropCounts[PropType.FastWheel] == 5) {
-                fastWheelAdd.gameObject.SetActive(false);
-            }
-
-            // If already more than zero fast wheel or the number of fixed ones, enable the minus button
-            if (_totalPropCounts[PropType.FastWheel] == 1 || _totalPropCounts[PropType.FastWheel] > _fixedPropCounts[PropType.FastWheel]) {
-                fastWheelMinus.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnFastWheelMinusClick() {
-            if (_totalPropCounts[PropType.FastWheel] <= 0) {
-                Debug.LogError("Fast wheel minus error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.FastWheel]--;
-            fastWheelCountText.text = "Total:" + _totalPropCounts[PropType.FastWheel];
-
-            // If the total count is already equal to the fixed count, disable the prop button
-            if (_totalPropCounts[PropType.FastWheel] == _fixedPropCounts[PropType.FastWheel]) {
-                fastWheelButton.interactable = false;
-            }
-
-            // If reaches the minimum number 0 or the number of fixed ones, disable the minus button
-            if (_totalPropCounts[PropType.FastWheel] == 0 || _totalPropCounts[PropType.FastWheel] == _fixedPropCounts[PropType.FastWheel]) {
-                fastWheelMinus.gameObject.SetActive(false);
-            }
-
-            // If already less than five fast wheels, enable the add button
-            if (_totalPropCounts[PropType.FastWheel] == 4) {
-                fastWheelAdd.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnNiceBombAddClick() {
-            if (_totalPropCounts[PropType.NiceBomb] >= 5) {
-                Debug.LogError("Nice bomb add error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.NiceBomb]++;
-            niceBombCountText.text = "Total:" + _totalPropCounts[PropType.NiceBomb];
-
-            // If the total count is becoming more than the fixed count, enable the prop button
-            if (_totalPropCounts[PropType.NiceBomb] > _fixedPropCounts[PropType.NiceBomb]) {
-                // niceBombButton.interactable = true;
-                if (_tileSelected && (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) ||
-                                      _propObjectOnTiles[_selectedTileVector3] == null)) {
-                    niceBombButton.interactable = true;
-                }
-            }
-
-            // If reaches the maximum number 5, disable the add button
-            if (_totalPropCounts[PropType.NiceBomb] == 5) {
-                niceBombAdd.gameObject.SetActive(false);
-            }
-
-            // If already more than zero nice bomb or the number of fixed ones, enable the minus button
-            if (_totalPropCounts[PropType.NiceBomb] == 1 || _totalPropCounts[PropType.NiceBomb] > _fixedPropCounts[PropType.NiceBomb]) {
-                niceBombMinus.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnNiceBombMinusClick() {
-            if (_totalPropCounts[PropType.NiceBomb] <= 0) {
-                Debug.LogError("Nice bomb minus error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.NiceBomb]--;
-            niceBombCountText.text = "Total:" + _totalPropCounts[PropType.NiceBomb];
-
-            // If the total count is already equal to the fixed count, disable the prop button
-            if (_totalPropCounts[PropType.NiceBomb] == _fixedPropCounts[PropType.NiceBomb]) {
-                niceBombButton.interactable = false;
-            }
-
-            // If reaches the minimum number 0 or the number of fixed ones, disable the minus button
-            if (_totalPropCounts[PropType.NiceBomb] == 0 || _totalPropCounts[PropType.NiceBomb] == _fixedPropCounts[PropType.NiceBomb]) {
-                niceBombMinus.gameObject.SetActive(false);
-            }
-
-            // If already less than five nice bombs, enable the add button
-            if (_totalPropCounts[PropType.NiceBomb] == 4) {
-                niceBombAdd.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnSlowWheelAddClick() {
-            if (_totalPropCounts[PropType.SlowWheel] >= 5) {
-                Debug.LogError("Slow wheel add error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.SlowWheel]++;
-            slowWheelCountText.text = "Total:" + _totalPropCounts[PropType.SlowWheel];
-
-            // If the total count is becoming more than the fixed count, enable the prop button
-            if (_totalPropCounts[PropType.SlowWheel] > _fixedPropCounts[PropType.SlowWheel]) {
-                // slowWheelButton.interactable = true;
-                if (_tileSelected && (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) ||
-                                      _propObjectOnTiles[_selectedTileVector3] == null)) {
-                    slowWheelButton.interactable = true;
-                }
-            }
-
-            // If reaches the maximum number 5, disable the add button
-            if (_totalPropCounts[PropType.SlowWheel] == 5) {
-                slowWheelAdd.gameObject.SetActive(false);
-            }
-
-            // If already more than zero slow wheel or the number of fixed ones, enable the minus button
-            if (_totalPropCounts[PropType.SlowWheel] == 1 || _totalPropCounts[PropType.SlowWheel] > _fixedPropCounts[PropType.SlowWheel]) {
-                slowWheelMinus.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnSlowWheelMinusClick() {
-            if (_totalPropCounts[PropType.SlowWheel] <= 0) {
-                Debug.LogError("Slow wheel minus error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.SlowWheel]--;
-            slowWheelCountText.text = "Total:" + _totalPropCounts[PropType.SlowWheel];
-
-            // If the total count is already equal to the fixed count, disable the prop button
-            if (_totalPropCounts[PropType.SlowWheel] == _fixedPropCounts[PropType.SlowWheel]) {
-                slowWheelButton.interactable = false;
-            }
-
-            // If reaches the minimum number 0 or the number of fixed ones, disable the minus button
-            if (_totalPropCounts[PropType.SlowWheel] == 0 || _totalPropCounts[PropType.SlowWheel] == _fixedPropCounts[PropType.SlowWheel]) {
-                slowWheelMinus.gameObject.SetActive(false);
-            }
-
-            // If already less than five slow wheels, enable the add button
-            if (_totalPropCounts[PropType.SlowWheel] == 4) {
-                slowWheelAdd.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnBadCherryAddClick() {
-            if (_totalPropCounts[PropType.BadCherry] >= 5) {
-                Debug.LogError("Bad cherry add error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.BadCherry]++;
-            badCherryCountText.text = "Total:" + _totalPropCounts[PropType.BadCherry];
-
-            // If the total count is becoming more than the fixed count, enable the prop button
-            if (_totalPropCounts[PropType.BadCherry] > _fixedPropCounts[PropType.BadCherry]) {
-                // badCherryButton.interactable = true;
-                if (_tileSelected && (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) ||
-                                      _propObjectOnTiles[_selectedTileVector3] == null)) {
-                    badCherryButton.interactable = true;
-                }
-            }
-
-            // If reaches the maximum number 5, disable the add button
-            if (_totalPropCounts[PropType.BadCherry] == 5) {
-                badCherryAdd.gameObject.SetActive(false);
-            }
-
-            // If already more than zero bad cherry or the number of fixed ones, enable the minus button
-            if (_totalPropCounts[PropType.BadCherry] == 1 || _totalPropCounts[PropType.BadCherry] > _fixedPropCounts[PropType.BadCherry]) {
-                badCherryMinus.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnBadCherryMinusClick() {
-            if (_totalPropCounts[PropType.BadCherry] <= 0) {
-                Debug.LogError("Bad cherry minus error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.BadCherry]--;
-            badCherryCountText.text = "Total:" + _totalPropCounts[PropType.BadCherry];
-
-            // If the total count is already equal to the fixed count, disable the prop button
-            if (_totalPropCounts[PropType.BadCherry] == _fixedPropCounts[PropType.BadCherry]) {
-                badCherryButton.interactable = false;
-            }
-
-            // If reaches the minimum number 0 or the number of fixed ones, disable the minus button
-            if (_totalPropCounts[PropType.BadCherry] == 0 || _totalPropCounts[PropType.BadCherry] == _fixedPropCounts[PropType.BadCherry]) {
-                badCherryMinus.gameObject.SetActive(false);
-            }
-
-            // If already less than five bad cherries, enable the add button
-            if (_totalPropCounts[PropType.BadCherry] == 4) {
-                badCherryAdd.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnLuckyDiceAddClick() {
-            if (_totalPropCounts[PropType.LuckyDice] >= 5) {
-                Debug.LogError("Lucky dice add error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.LuckyDice]++;
-            luckyDiceCountText.text = "Total:" + _totalPropCounts[PropType.LuckyDice];
-
-            // If the total count is becoming more than the fixed count, enable the prop button
-            if (_totalPropCounts[PropType.LuckyDice] > _fixedPropCounts[PropType.LuckyDice]) {
-                // luckyDiceButton.interactable = true;
-                if (_tileSelected && (!_propObjectOnTiles.ContainsKey(_selectedTileVector3) ||
-                                      _propObjectOnTiles[_selectedTileVector3] == null)) {
-                    luckyDiceButton.interactable = true;
-                }
-            }
-
-            // If reaches the maximum number 5, disable the add button
-            if (_totalPropCounts[PropType.LuckyDice] == 5) {
-                luckyDiceAdd.gameObject.SetActive(false);
-            }
-
-            // If already more than zero lucky dice or the number of fixed ones, enable the minus button
-            if (_totalPropCounts[PropType.LuckyDice] == 1 || _totalPropCounts[PropType.LuckyDice] > _fixedPropCounts[PropType.LuckyDice]) {
-                luckyDiceMinus.gameObject.SetActive(true);
-            }
-        }
-
-        private void OnLuckyDiceMinusClick() {
-            if (_totalPropCounts[PropType.LuckyDice] <= 0) {
-                Debug.LogError("Lucky dice minus error!");
-                return;
-            }
-
-            // Update count
-            _totalPropCounts[PropType.LuckyDice]--;
-            luckyDiceCountText.text = "Total:" + _totalPropCounts[PropType.LuckyDice];
-
-            // If the total count is already equal to the fixed count, disable the prop button
-            if (_totalPropCounts[PropType.LuckyDice] == _fixedPropCounts[PropType.LuckyDice]) {
-                luckyDiceButton.interactable = false;
-            }
-
-            // If reaches the minimum number 0 or the number of fixed ones, disable the minus button
-            if (_totalPropCounts[PropType.LuckyDice] == 0 || _totalPropCounts[PropType.LuckyDice] == _fixedPropCounts[PropType.LuckyDice]) {
-                luckyDiceMinus.gameObject.SetActive(false);
-            }
-
-            // If already less than five lucky dices, enable the add button
-            if (_totalPropCounts[PropType.LuckyDice] == 4) {
-                luckyDiceAdd.gameObject.SetActive(true);
-            }
-        }
-
-        // Button action listener setting
-        private void SetButtonActionListener() {
-            ghostronSpawnButton.onClick.AddListener(OnGhostronSpawnButtonClick);
-            pacboySpawnButton.onClick.AddListener(OnPacboySpawnButtonClick);
-            powerPelletButton.onClick.AddListener(OnPowerPelletButtonClick);
-            fastWheelButton.onClick.AddListener(OnFastWheelButtonClick);
-            niceBombButton.onClick.AddListener(OnNiceBombButtonClick);
-            slowWheelButton.onClick.AddListener(OnSlowWheelButtonClick);
-            badCherryButton.onClick.AddListener(OnBadCherryButtonClick);
-            luckyDiceButton.onClick.AddListener(OnLuckyDiceButtonClick);
-
-            removeButton.onClick.AddListener(OnRemoveButtonClick);
-
-            ghostronSpawnAdd.onClick.AddListener(OnGhostronSpawnAddClick);
-            ghostronSpawnMinus.onClick.AddListener(OnGhostronSpawnMinusClick);
-            powerPelletAdd.onClick.AddListener(OnPowerPelletAddClick);
-            powerPelletMinus.onClick.AddListener(OnPowerPelletMinusClick);
-            fastWheelAdd.onClick.AddListener(OnFastWheelAddClick);
-            fastWheelMinus.onClick.AddListener(OnFastWheelMinusClick);
-            niceBombAdd.onClick.AddListener(OnNiceBombAddClick);
-            niceBombMinus.onClick.AddListener(OnNiceBombMinusClick);
-            slowWheelAdd.onClick.AddListener(OnSlowWheelAddClick);
-            slowWheelMinus.onClick.AddListener(OnSlowWheelMinusClick);
-            badCherryAdd.onClick.AddListener(OnBadCherryAddClick);
-            badCherryMinus.onClick.AddListener(OnBadCherryMinusClick);
-            luckyDiceAdd.onClick.AddListener(OnLuckyDiceAddClick);
-            luckyDiceMinus.onClick.AddListener(OnLuckyDiceMinusClick);
-        }
-
-        // When a prop is placed on a block:
-        // Disable all props button, enable the remove button
-        private void PropPlacedButtonUpdate() {
-            ghostronSpawnButton.interactable = false;
-            pacboySpawnButton.interactable = false;
-            powerPelletButton.interactable = false;
-            fastWheelButton.interactable = false;
-            niceBombButton.interactable = false;
-            slowWheelButton.interactable = false;
-            badCherryButton.interactable = false;
-            luckyDiceButton.interactable = false;
-
-            removeButton.interactable = true;
-
-            Debug.Log("UI updated: Only remove button available");
-        }
-
-        // When a prop is removed/missing on a block:
-        // Disable the remove button, enable all props button
-        private void PropMissingButtonUpdate() {
-            // Disable the remove button
-            removeButton.interactable = false;
-
-            // Check every prop except for Pacboy spawn:
-            // Only if its current total count is more than the fixed count can its button be enabled
-            if (_totalPropCounts[PropType.Ghostron] > _fixedPropCounts[PropType.Ghostron]) {
-                ghostronSpawnButton.interactable = true;
-            }
-
-            if (_totalPropCounts[PropType.PowerPellet] > _fixedPropCounts[PropType.PowerPellet]) {
-                powerPelletButton.interactable = true;
-            }
-
-            if (_totalPropCounts[PropType.FastWheel] > _fixedPropCounts[PropType.FastWheel]) {
-                fastWheelButton.interactable = true;
-            }
-
-            if (_totalPropCounts[PropType.NiceBomb] > _fixedPropCounts[PropType.NiceBomb]) {
-                niceBombButton.interactable = true;
-            }
-
-            if (_totalPropCounts[PropType.SlowWheel] > _fixedPropCounts[PropType.SlowWheel]) {
-                slowWheelButton.interactable = true;
-            }
-
-            if (_totalPropCounts[PropType.BadCherry] > _fixedPropCounts[PropType.BadCherry]) {
-                badCherryButton.interactable = true;
-            }
-
-            if (_totalPropCounts[PropType.LuckyDice] > _fixedPropCounts[PropType.LuckyDice]) {
-                luckyDiceButton.interactable = true;
-            }
-
-            // Pacboy spawn button logic
-            if (_fixedPropCounts[PropType.Pacboy] == 0) {
-                pacboySpawnButton.interactable = true;
-            }
-
-            Debug.Log("UI updated: Only prop buttons available");
-        }
-
-        // Update the status of the total number add/minus buttons
-        private void TotalNumberButtonUpdate() {
-            // 1 Add buttons
-            // Reaching the maximum number 5
-
-            if (_totalPropCounts[PropType.Ghostron] == 5) {
-                ghostronSpawnAdd.gameObject.SetActive(false);
-            } else {
-                ghostronSpawnAdd.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.PowerPellet] == 5) {
-                powerPelletAdd.gameObject.SetActive(false);
-            } else {
-                powerPelletAdd.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.FastWheel] == 5) {
-                fastWheelAdd.gameObject.SetActive(false);
-            } else {
-                fastWheelAdd.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.NiceBomb] == 5) {
-                niceBombAdd.gameObject.SetActive(false);
-            } else {
-                niceBombAdd.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.SlowWheel] == 5) {
-                slowWheelAdd.gameObject.SetActive(false);
-            } else {
-                slowWheelAdd.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.BadCherry] == 5) {
-                badCherryAdd.gameObject.SetActive(false);
-            } else {
-                badCherryAdd.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.LuckyDice] == 5) {
-                luckyDiceAdd.gameObject.SetActive(false);
-            } else {
-                luckyDiceAdd.gameObject.SetActive(true);
-            }
-
-            // 2 Minus buttons
-            // 2.1 At their minimum numbers (1 for ghost spawn and 0 for others)
-
-            if (_totalPropCounts[PropType.Ghostron] == 1) {
-                ghostronSpawnMinus.gameObject.SetActive(false);
-            }
-
-            if (_totalPropCounts[PropType.PowerPellet] == 0) {
-                powerPelletMinus.gameObject.SetActive(false);
-            }
-
-            if (_totalPropCounts[PropType.FastWheel] == 0) {
-                fastWheelMinus.gameObject.SetActive(false);
-            }
-
-            if (_totalPropCounts[PropType.NiceBomb] == 0) {
-                niceBombMinus.gameObject.SetActive(false);
-            }
-
-            if (_totalPropCounts[PropType.SlowWheel] == 0) {
-                slowWheelMinus.gameObject.SetActive(false);
-            }
-
-            if (_totalPropCounts[PropType.BadCherry] == 0) {
-                badCherryMinus.gameObject.SetActive(false);
-            }
-
-            if (_totalPropCounts[PropType.LuckyDice] == 0) {
-                luckyDiceMinus.gameObject.SetActive(false);
-            }
-
-            // 2.2 Equal to their fixed prop numbers
-
-            if (_totalPropCounts[PropType.Ghostron] == _fixedPropCounts[PropType.Ghostron]) {
-                ghostronSpawnMinus.gameObject.SetActive(false);
-            } else {
-                ghostronSpawnMinus.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.PowerPellet] == _fixedPropCounts[PropType.PowerPellet]) {
-                powerPelletMinus.gameObject.SetActive(false);
-            } else {
-                powerPelletMinus.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.FastWheel] == _fixedPropCounts[PropType.FastWheel]) {
-                fastWheelMinus.gameObject.SetActive(false);
-            } else {
-                fastWheelMinus.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.NiceBomb] == _fixedPropCounts[PropType.NiceBomb]) {
-                niceBombMinus.gameObject.SetActive(false);
-            } else {
-                niceBombMinus.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.SlowWheel] == _fixedPropCounts[PropType.SlowWheel]) {
-                slowWheelMinus.gameObject.SetActive(false);
-            } else {
-                slowWheelMinus.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.BadCherry] == _fixedPropCounts[PropType.BadCherry]) {
-                badCherryMinus.gameObject.SetActive(false);
-            } else {
-                badCherryMinus.gameObject.SetActive(true);
-            }
-
-            if (_totalPropCounts[PropType.LuckyDice] == _fixedPropCounts[PropType.LuckyDice]) {
-                luckyDiceMinus.gameObject.SetActive(false);
-            } else {
-                luckyDiceMinus.gameObject.SetActive(true);
-            }
-        }
-
-        // Remove the "(Clone)" at the end of the game object Name if it exists
-        // Used when trying to destroy an object
-        private string CleanName(string nameToBeCleaned) {
-            const string cloneTag = "(Clone)";
-            return nameToBeCleaned.EndsWith(cloneTag)
-                ? nameToBeCleaned.Remove(nameToBeCleaned.Length - 7)
-                : nameToBeCleaned;
-        }
-
-        // Initial setting: Disable all the props buttons (including remove) at the beginning
-        private void PropsButtonInit() {
-            ghostronSpawnButton.interactable = false;
-            pacboySpawnButton.interactable = false;
-            powerPelletButton.interactable = false;
-            fastWheelButton.interactable = false;
-            niceBombButton.interactable = false;
-            slowWheelButton.interactable = false;
-            badCherryButton.interactable = false;
-            luckyDiceButton.interactable = false;
-            removeButton.interactable = false;
-        }
-
-        /**
-         * Obtains the data about the props.
-         * Called in MapEditor.
-         */
-        public PropData GetPropData() {
-            // Transform from Dictionary<Vector3, GameObject> to Dictionary<Vector3, PropType>
-            Dictionary<Vector3, PropType> propOnTiles = new Dictionary<Vector3, PropType>();
-
-            foreach (var kvp in _propObjectOnTiles) {
-                propOnTiles.Add(kvp.Key, GetPropType(kvp.Value));
-            }
-            
-            // Construct a new PropData
-            return new PropData(propOnTiles, _fixedPropCounts, _totalPropCounts);
-        }
-        
         /**
          * Obtains the corresponding PropType name by GameObject name.
          */
@@ -1147,5 +481,64 @@ namespace MapEditor {
             Debug.LogError($"PropType not found for GameObject name: {propName}. Returning None.");
             return PropType.None;
         }
+
+        /**
+         * Checks if the condition is satisfied for save & quit, returns:
+         * - true if all set
+         * - false if the Pacboy spawn point is not set
+         */
+        public bool CheckCondition() {
+            // Must have a Pacboy spawn point
+            if (_fixedPropCounts[PropType.Pacboy] == 0) return false;
+            return true;
+        }
+
+        /**
+         * Remove the "(Clone)" at the end of the game object name if it exists.
+         * Used when trying to destroy an object.
+         */
+        private string CleanName(string nameToBeCleaned) {
+            const string cloneTag = "(Clone)";
+            return nameToBeCleaned.EndsWith(cloneTag)
+                ? nameToBeCleaned.Remove(nameToBeCleaned.Length - 7)
+                : nameToBeCleaned;
+        }
+
+        /**
+         * Obtains the data about the props.
+         * Called in MapEditor.
+         */
+        public PropData GetPropData() {
+            // Transform from Dictionary<Vector3, GameObject> to Dictionary<Vector3, PropType>
+            Dictionary<Vector3, PropType> propOnTiles = new Dictionary<Vector3, PropType>();
+
+            foreach (var kvp in _propObjectOnTiles) {
+                propOnTiles.Add(kvp.Key, GetPropType(kvp.Value));
+            }
+
+            // Construct a new PropData
+            return new PropData(propOnTiles, _fixedPropCounts, _totalPropCounts);
+        }
+    }
+
+
+    /**
+     * The UI setting unit for each prop.
+     */
+    [System.Serializable]
+    public class PropUIDefinition {
+        public PropType propType;
+
+        [Tooltip("Prefab to instantiate when placing this prop.")]
+        public GameObject prefab;
+
+        [Header("UI Elements")] public Button fixedPlaceButton;
+        public Button addButton;
+        public Button subtractButton;
+        public TMP_Text countText;
+
+        [Header("Count Configuration")] public int minTotalCount;
+        public int maxTotalCount;
+        public bool isUniquePlacement; // e.g., Pacboy can only be placed once
     }
 }
