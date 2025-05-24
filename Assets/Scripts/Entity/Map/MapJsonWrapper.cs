@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Entity.Prop;
 using UnityEngine;
 
 namespace Entity.Map {
@@ -9,10 +11,10 @@ namespace Entity.Map {
         public bool eventEnabled;
 
         public List<Vector3> propPositions;
-        public List<string> propTypes;
-        public List<string> fixedPropKeys;
+        public List<PropType> propTypes;
+        public List<PropType> fixedPropKeys;
         public List<int> fixedPropValues;
-        public List<string> totalPropKeys;
+        public List<PropType> totalPropKeys;
         public List<int> totalPropValues;
 
         public List<bool> hwStatusRow1;
@@ -46,18 +48,16 @@ namespace Entity.Map {
             eventEnabled = map.EventEnabled;
 
             propPositions = new List<Vector3>();
-            propTypes = new List<string>();
+            propTypes = new List<PropType>();
             foreach (var kvp in map.PropData.PropOnTiles) {
                 // Add prop position and type information to Json
-                if (kvp.Value != null) {
-                    propPositions.Add(kvp.Key);
-                    propTypes.Add(kvp.Value.name); // Use the name of the prop to identify its type
-                }
+                propPositions.Add(kvp.Key);
+                propTypes.Add(kvp.Value); // Use PropType to identify its type
             }
 
-            fixedPropKeys = new List<string>(map.PropData.FixedPropCounts.Keys);
+            fixedPropKeys = new List<PropType>(map.PropData.FixedPropCounts.Keys);
             fixedPropValues = new List<int>(map.PropData.FixedPropCounts.Values);
-            totalPropKeys = new List<string>(map.PropData.TotalPropCounts.Keys);
+            totalPropKeys = new List<PropType>(map.PropData.TotalPropCounts.Keys);
             totalPropValues = new List<int>(map.PropData.TotalPropCounts.Values);
 
             hwStatusRow1 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 0));
@@ -86,15 +86,15 @@ namespace Entity.Map {
 
         // Used to convert to the format required by PropData when deserializing
         // Check the player preferences to judge if the prefabs for editor or the prefabs for map play should be obtained
-        public Dictionary<Vector3, GameObject> PropPositions() {
-            var dict = new Dictionary<Vector3, GameObject>();
+        public Dictionary<Vector3, PropType> PropPositions() {
+            var dict = new Dictionary<Vector3, PropType>();
             switch (PlayerPrefs.GetString("GameObjectReadMode", "NOT DEFINED")) {
                 case "EDITOR":
                     // The game object prefabs to be obtained should be the ones for the editor
                     for (int i = 0; i < propPositions.Count; i++) {
                         Vector3 pos = propPositions[i];
-                        string type = propTypes[i];
-                        dict[pos] = GetCorrespondingEditorGameObject(type);
+                        PropType type = propTypes[i];
+                        dict[pos] = type;
                     }
 
                     return dict;
@@ -102,8 +102,8 @@ namespace Entity.Map {
                     // The game object prefabs to be obtained should be the ones for map play
                     for (int i = 0; i < propPositions.Count; i++) {
                         Vector3 pos = propPositions[i];
-                        string type = propTypes[i];
-                        dict[pos] = GetCorrespondingPlayGameObject(type);
+                        PropType type = propTypes[i];
+                        dict[pos] = type;
                     }
 
                     return dict;
@@ -113,9 +113,9 @@ namespace Entity.Map {
             }
         }
 
-        public Dictionary<string, int> FixedPropCounts {
+        public Dictionary<PropType, int> FixedPropCounts {
             get {
-                var dict = new Dictionary<string, int>();
+                var dict = new Dictionary<PropType, int>();
                 for (int i = 0; i < fixedPropKeys.Count; i++) {
                     dict[fixedPropKeys[i]] = fixedPropValues[i];
                 }
@@ -124,9 +124,9 @@ namespace Entity.Map {
             }
         }
 
-        public Dictionary<string, int> TotalPropCounts {
+        public Dictionary<PropType, int> TotalPropCounts {
             get {
-                var dict = new Dictionary<string, int>();
+                var dict = new Dictionary<PropType, int>();
                 for (int i = 0; i < totalPropKeys.Count; i++) {
                     dict[totalPropKeys[i]] = totalPropValues[i];
                 }
@@ -176,71 +176,71 @@ namespace Entity.Map {
             }
         }
 
-        /**
-         * Obtains the corresponding game object based on the prop type given.
-         * The prefabs are used for map editor.
-         */
-        private GameObject GetCorrespondingEditorGameObject(string propName) {
-            switch (CleanName(propName)) {
-                case "PacboySpawn":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/PacboySpawn");
-                case "GhostronSpawn":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/GhostronSpawn");
-                case "PowerPellet":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/PowerPellet");
-                case "FastWheel":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/FastWheel");
-                case "NiceBomb":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/NiceBomb");
-                case "SlowWheel":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/SlowWheel");
-                case "BadCherry":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/BadCherry");
-                case "LuckyDice":
-                    return Resources.Load<GameObject>("Prefabs/Props/Editor/LuckyDice");
-                default:
-                    Debug.LogError("Get corresponding game object error: " + CleanName(propName));
-                    return null;
-            }
-        }
-
-        /**
-         * Obtains the corresponding game object based on the prop type given.
-         * The prefabs are used for the map to be played.
-         */
-        private GameObject GetCorrespondingPlayGameObject(string propName) {
-            switch (CleanName(propName)) {
-                case "PacboySpawn":
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/Pacboy");
-                case "GhostronSpawn":
-                    // Ghostrons will be spawned using GhostronFactory
-                    // Since there are different types of Ghostrons
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GhostronEmpty");
-                case "PowerPellet":
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/PowerPellet");
-                case "FastWheel":
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/FastWheel");
-                case "NiceBomb":
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/NiceBomb");
-                case "SlowWheel":
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/SlowWheel");
-                case "BadCherry":
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/BadCherry");
-                case "LuckyDice":
-                    return Resources.Load<GameObject>("Prefabs/Props/Game/LuckyDice");
-                default:
-                    Debug.LogError("Get corresponding game object error: " + CleanName(propName));
-                    return null;
-            }
-        }
+        // /**
+        //  * Obtains the corresponding game object based on the prop type given.
+        //  * The prefabs are used for map editor.
+        //  */
+        // private PropType GetCorrespondingEditorGameObject(string propName) {
+        //     switch (CleanName(propName)) {
+        //         case "PacboySpawn":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/PacboySpawn");
+        //         case "GhostronSpawn":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/GhostronSpawn");
+        //         case "PowerPellet":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/PowerPellet");
+        //         case "FastWheel":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/FastWheel");
+        //         case "NiceBomb":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/NiceBomb");
+        //         case "SlowWheel":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/SlowWheel");
+        //         case "BadCherry":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/BadCherry");
+        //         case "LuckyDice":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/LuckyDice");
+        //         default:
+        //             Debug.LogError("Get corresponding game object error: " + CleanName(propName));
+        //             return null;
+        //     }
+        // }
+        //
+        // /**
+        //  * Obtains the corresponding game object based on the prop type given.
+        //  * The prefabs are used for the map to be played.
+        //  */
+        // private GameObject GetCorrespondingPlayGameObject(string propName) {
+        //     switch (CleanName(propName)) {
+        //         case "PacboySpawn":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/Pacboy");
+        //         case "GhostronSpawn":
+        //             // Ghostrons will be spawned using GhostronFactory
+        //             // Since there are different types of Ghostrons
+        //             return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GhostronEmpty");
+        //         case "PowerPellet":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Game/PowerPellet");
+        //         case "FastWheel":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Game/FastWheel");
+        //         case "NiceBomb":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Game/NiceBomb");
+        //         case "SlowWheel":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Game/SlowWheel");
+        //         case "BadCherry":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Game/BadCherry");
+        //         case "LuckyDice":
+        //             return Resources.Load<GameObject>("Prefabs/Props/Game/LuckyDice");
+        //         default:
+        //             Debug.LogError("Get corresponding game object error: " + CleanName(propName));
+        //             return null;
+        //     }
+        // }
 
         // Remove the "(Clone)" at the end of the game object Name if it exists
-        private string CleanName(string nameToBeCleaned) {
-            const string cloneTag = "(Clone)";
-            return nameToBeCleaned.EndsWith(cloneTag)
-                ? nameToBeCleaned.Remove(nameToBeCleaned.Length - 7)
-                : nameToBeCleaned;
-        }
+        // private string CleanName(string nameToBeCleaned) {
+        //     const string cloneTag = "(Clone)";
+        //     return nameToBeCleaned.EndsWith(cloneTag)
+        //         ? nameToBeCleaned.Remove(nameToBeCleaned.Length - 7)
+        //         : nameToBeCleaned;
+        // }
 
         // For wall data: convert all the elements in the given row of the bool[,] array to List<bool>
         private List<bool> ConvertBoolArrayToList(bool[,] array, int row) {

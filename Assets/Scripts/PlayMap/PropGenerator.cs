@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using Entity.Ghostron;
 using Entity.Map;
+using Entity.Prop;
 using UnityEngine;
 using Random = System.Random;
 
 namespace PlayMap {
     public class PropGenerator : MonoBehaviour {
-        // All prop models (except for Ghostrons and Pacboy)
+        // All prop models (except for Ghostrons)
+        public GameObject pacboyPrefab;
         public GameObject powerPelletPrefab;
         public GameObject fastWheelPrefab;
         public GameObject niceBombPrefab;
@@ -53,41 +56,36 @@ namespace PlayMap {
 
             // Place all FIXED props on the map
             foreach (var kvp in _propData.PropOnTiles) {
-                GameObject prefab = kvp.Value;
+                GameObject prefab = GetGameObjectByPropType(kvp.Value);
 
-                if (prefab == null) {
-                    Debug.LogError($"Error: Invalid prop type: {prefab}");
-                    return;
-                }
-
-                if (prefab.name == "Pacboy") {
+                if (kvp.Value == PropType.Pacboy) {
                     // The iterated prop type is Pacboy
                     // Store it
                     _pacboy = Instantiate(prefab, kvp.Key, Quaternion.identity);
-                } else if (prefab.name == "GhostronEmpty") {
+                } else if (kvp.Value == PropType.Ghostron) {
                     // The iterated prop type is Ghostron
                     // Check how many Ghostrons are there already, use GhostronFactory to get the new Ghostron
                     GameObject newGhostronPrefab;
                     switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
                         case 0:
                             PlayerPrefs.SetInt("GhostronCount", 1);
-                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Red");
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Red);
                             break;
                         case 1:
                             PlayerPrefs.SetInt("GhostronCount", 2);
-                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Blue");
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Blue);
                             break;
                         case 2:
                             PlayerPrefs.SetInt("GhostronCount", 3);
-                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Yellow");
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Yellow);
                             break;
                         case 3:
                             PlayerPrefs.SetInt("GhostronCount", 4);
-                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Pink");
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Pink);
                             break;
                         case 4:
                             PlayerPrefs.SetInt("GhostronCount", 5);
-                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron("Green");
+                            newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Green);
                             break;
                         default:
                             Debug.LogError("Invalid Ghostron Count: " + PlayerPrefs.GetInt("GhostronCount"));
@@ -109,19 +107,19 @@ namespace PlayMap {
             }
 
             // Place the RANDOM props on the map
-            if (!PlaceRandomProps("GhostronSpawn"))
-                Debug.LogError("Error occurred when setting random ghostrons");
-            if (!PlaceRandomProps("PowerPellet"))
+            if (!PlaceRandomProps(PropType.Ghostron))
+                Debug.LogError("Error occurred when setting random Ghostrons");
+            if (!PlaceRandomProps(PropType.PowerPellet))
                 Debug.LogError("Error occurred when setting random power pellets");
-            if (!PlaceRandomProps("FastWheel"))
+            if (!PlaceRandomProps(PropType.FastWheel))
                 Debug.LogError("Error occurred when setting random fast wheels");
-            if (!PlaceRandomProps("NiceBomb"))
+            if (!PlaceRandomProps(PropType.NiceBomb))
                 Debug.LogError("Error occurred when setting random nice bombs");
-            if (!PlaceRandomProps("SlowWheel"))
+            if (!PlaceRandomProps(PropType.SlowWheel))
                 Debug.LogError("Error occurred when setting random slow wheels");
-            if (!PlaceRandomProps("BadCherry"))
+            if (!PlaceRandomProps(PropType.BadCherry))
                 Debug.LogError("Error occurred when setting random bad cherries");
-            if (!PlaceRandomProps("LuckyDice"))
+            if (!PlaceRandomProps(PropType.LuckyDice))
                 Debug.LogError("Error occurred when setting random lucky dices");
 
             // Place dots at all the remaining free tile
@@ -142,40 +140,40 @@ namespace PlayMap {
             _freeTiles.Clear();
         }
 
-        private bool PlaceRandomProps(string propName) {
+        private bool PlaceRandomProps(PropType propType) {
             GameObject propObject;
             // Get the corresponding prefab first
-            switch (propName) {
-                case "GhostronSpawn":
+            switch (propType) {
+                case PropType.Ghostron:
                     // Ghostrons will be spawned using GhostronFactory
                     // Since there are different types of Ghostrons
                     propObject = null;
                     break;
-                case "PowerPellet":
+                case PropType.PowerPellet:
                     propObject = powerPelletPrefab;
                     break;
-                case "FastWheel":
+                case PropType.FastWheel:
                     propObject = fastWheelPrefab;
                     break;
-                case "NiceBomb":
+                case PropType.NiceBomb:
                     propObject = niceBombPrefab;
                     break;
-                case "SlowWheel":
+                case PropType.SlowWheel:
                     propObject = slowWheelPrefab;
                     break;
-                case "BadCherry":
+                case PropType.BadCherry:
                     propObject = badCherryPrefab;
                     break;
-                case "LuckyDice":
+                case PropType.LuckyDice:
                     propObject = luckyDicePrefab;
                     break;
                 default:
-                    Debug.LogError("Invalid prop name when setting random props: " + propName);
+                    Debug.LogError("Invalid prop name when setting random props: " + propType);
                     return false;
             }
 
             // Get the count of the random ones required for this type of prop
-            int randomCount = _propData.TotalPropCounts[propName] - _propData.FixedPropCounts[propName];
+            int randomCount = _propData.TotalPropCounts[propType] - _propData.FixedPropCounts[propType];
             int freeTilesNum;
 
             // Generate prop logic
@@ -183,7 +181,7 @@ namespace PlayMap {
                 freeTilesNum = _freeTiles.Count;
                 int randomIndex = _random.Next(0, freeTilesNum); // Random number
 
-                if (propName != "GhostronSpawn") {
+                if (propType != PropType.Ghostron) {
                     // If the prop type is not Ghostron, directly instantiate it
                     Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
                 } else {
@@ -192,29 +190,29 @@ namespace PlayMap {
                     switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
                         case 0:
                             PlayerPrefs.SetInt("GhostronCount", 1);
-                            propObject = GhostronFactory.Instance.GetGhostron("Red");
+                            propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Red);
                             break;
                         case 1:
                             PlayerPrefs.SetInt("GhostronCount", 2);
-                            propObject = GhostronFactory.Instance.GetGhostron("Blue");
+                            propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Blue);
                             break;
                         case 2:
                             PlayerPrefs.SetInt("GhostronCount", 3);
-                            propObject = GhostronFactory.Instance.GetGhostron("Yellow");
+                            propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Yellow);
                             break;
                         case 3:
                             PlayerPrefs.SetInt("GhostronCount", 4);
-                            propObject = GhostronFactory.Instance.GetGhostron("Pink");
+                            propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Pink);
                             break;
                         case 4:
                             PlayerPrefs.SetInt("GhostronCount", 5);
-                            propObject = GhostronFactory.Instance.GetGhostron("Green");
+                            propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Green);
                             break;
                         default:
                             Debug.LogError("Invalid Ghostron Count: " + PlayerPrefs.GetInt("GhostronCount"));
                             return false;
                     }
-                    
+
                     // Instantiate it and store it to the GhostronManager
                     GameObject newGhostron = Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
 
@@ -226,6 +224,23 @@ namespace PlayMap {
             }
 
             return true;
+        }
+        
+        /**
+         * Obtains the corresponding GameObject by PropType.
+         * (Pacboy/Ghostron are not dealt here)
+         */
+        private GameObject GetGameObjectByPropType(PropType propType) {
+            return propType switch {
+                PropType.Pacboy => pacboyPrefab,
+                PropType.PowerPellet => powerPelletPrefab,
+                PropType.FastWheel => fastWheelPrefab,
+                PropType.NiceBomb => niceBombPrefab,
+                PropType.SlowWheel => slowWheelPrefab,
+                PropType.BadCherry => badCherryPrefab,
+                PropType.LuckyDice => luckyDicePrefab,
+                _ => null
+            };
         }
     }
 }

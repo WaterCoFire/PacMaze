@@ -1,5 +1,5 @@
 {
-    "name": "DEFAULT MAP",
+    "name": "1112",
     "difficulty": 69,
     "eventEnabled": true,
     "propPositions": [
@@ -17,11 +17,41 @@
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
+        },
+        {
+            "x": 3.0,
+            "y": 0.0,
+            "z": -6.0
+        },
+        {
+            "x": 3.0,
+            "y": 0.0,
+            "z": -12.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -12.0
+        },
+        {
+            "x": -3.0,
+            "y": 0.0,
+            "z": -9.0
+        },
+        {
+            "x": 9.0,
+            "y": 0.0,
+            "z": -9.0
         }
     ],
     "propTypes": [
         1,
         2,
+        2,
+        5,
+        6,
+        8,
+        4,
         2
     ],
     "fixedPropKeys": [
@@ -36,31 +66,31 @@
     ],
     "fixedPropValues": [
         1,
-        2,
+        3,
         0,
+        1,
+        1,
+        1,
         0,
-        0,
-        0,
-        0,
-        0
+        1
     ],
     "totalPropKeys": [
-        "Ghostron",
-        "PowerPellet",
-        "FastWheel",
-        "NiceBomb",
-        "SlowWheel",
-        "BadCherry",
-        "LuckyDice"
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
     ],
     "totalPropValues": [
+        5,
         2,
+        4,
+        3,
         2,
         1,
-        1,
-        1,
-        1,
-        1
+        3
     ],
     "hwStatusRow1": [
         false,

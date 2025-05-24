@@ -14707,17 +14707,17 @@ MonoBehaviour:
     He is very keen
     to make his way in the world and you can use the key W,A,S,D (default) to help
     him. You can also find out what''s going on around Pacboy on the map by using
-    the key M.
+    the key M (default).
 
 
-    By default, you''ll experience the world Pacboy is in from a
-    third person perspective. Of course you can also use the key V (default) to experience
-    the world as it is seen by him.
+    By default, you''ll experience the world Pacboy is
+    in from a third person perspective. Of course you can also use the key V (default)
+    to experience the world as it is seen by him.
 
 
-    In first person view, use the key Q (default)
-    to turn back QUICKLY in case a Ghostron gives you a big surprise in front of
-    you.'
+    In first person view, use
+    the key Q (default) to turn back QUICKLY in case a Ghostron gives you a big surprise
+    in front of you.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}

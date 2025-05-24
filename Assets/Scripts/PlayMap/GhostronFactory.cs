@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Entity.Ghostron;
+using UnityEngine;
 
 namespace PlayMap {
     public class GhostronFactory : MonoBehaviour {
@@ -19,22 +20,22 @@ namespace PlayMap {
             Instance = this;
         }
 
-        public GameObject GetGhostron(string type) {
-            switch (type) {
-                case "Red":
+        public GameObject GetGhostron(GhostronType ghostronType) {
+            switch (ghostronType) {
+                case GhostronType.Red:
                     return redGhostronPrefab;
-                case "Blue":
+                case GhostronType.Blue:
                     return blueGhostronPrefab;
-                case "Yellow":
+                case GhostronType.Yellow:
                     return yellowGhostronPrefab;
-                case "Pink":
+                case GhostronType.Pink:
                     return pinkGhostronPrefab;
-                case "Green":
+                case GhostronType.Green:
                     return greenGhostronPrefab;
-                case "Tenacious":
+                case GhostronType.Tenacious:
                     return tenaciousGhostronPrefab;
                 default:
-                    Debug.LogError("Invalid Ghostron type name: " + type);
+                    Debug.LogError("Invalid Ghostron type name: " + ghostronType);
                     return null;
             }
         }

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
+using Entity.Prop;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -94,7 +95,7 @@ namespace MapEditor {
             Map map = new(_mapName, difficulty, eventEnabled, wallData, propData);
 
             // Get the number of total ghostrons (will be part of the file name)
-            int totalGhostrons = propData.TotalPropCounts["GhostronSpawn"];
+            int totalGhostrons = propData.TotalPropCounts[PropType.Ghostron];
 
             // Find the origin file to delete it
             string originMapFile = _saveDirectory + "/" + PlayerPrefs.GetString("EditMapFileToLoad") + ".json";

@@ -40380,6 +40380,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f9980cb79d4253aada30a9da930322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pacboyPrefab: {fileID: 4887355432709199903, guid: 73f1374fff6298c4185294c79dfbd947,
+    type: 3}
   powerPelletPrefab: {fileID: 7060741750217758432, guid: fb7d3f5ea65ead44f9cf402b19c779f3,
     type: 3}
   fastWheelPrefab: {fileID: 4908766425515103001, guid: 878a0cf4055c9104db5e926998493fd2,

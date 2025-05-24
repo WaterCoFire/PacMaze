@@ -180,7 +180,7 @@ namespace PlayMap {
             }
 
             // Spawn new tenacious ghostron (oh no for Pacboy!)
-            GameObject newTenaciousGhostronPrefab = GhostronFactory.Instance.GetGhostron("Tenacious");
+            GameObject newTenaciousGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Tenacious);
             GameObject newTenaciousGhostron = Instantiate(newTenaciousGhostronPrefab, randomPosition,
                 Quaternion.identity);
 
