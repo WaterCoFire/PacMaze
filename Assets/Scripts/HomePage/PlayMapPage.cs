@@ -9,9 +9,7 @@ using UnityEngine.SceneManagement;
 namespace HomePage {
     public class PlayMapPage : MonoBehaviour {
         public ScrollRect playMapScrollRect;
-
         public GameObject mapInfoPrefab;
-        public Transform scrollRectContent;
 
         // Buttons at the top
         public Button backButton;
@@ -108,7 +106,7 @@ namespace HomePage {
 
             // UI update
             foreach (var mapInfo in _mapInfos) {
-                GameObject mapInfoObject = Instantiate(mapInfoPrefab, scrollRectContent);
+                GameObject mapInfoObject = Instantiate(mapInfoPrefab, playMapScrollRect.content);
                 RectTransform itemTransform = mapInfoObject.GetComponent<RectTransform>();
                 itemTransform.anchoredPosition = new Vector2(0f, -_cumulativeHeight);
                 _cumulativeHeight += _prefabHeight + _padding;

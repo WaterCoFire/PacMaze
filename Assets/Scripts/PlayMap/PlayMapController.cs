@@ -192,10 +192,9 @@ namespace PlayMap {
             _gamePlaying = false;
 
             // Disable Pacboy control
-            GameObject pacboy = GameObject.FindGameObjectWithTag("Pacboy");
-            pacboy.GetComponent<PacboyMovement>().DisableMovement();
-            pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
-            pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
+            _pacboy.GetComponent<PacboyMovement>().DisableMovement();
+            _pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
+            _pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
             Time.timeScale = 0f; // Stop the time scale
 
@@ -212,10 +211,9 @@ namespace PlayMap {
             _gamePlaying = false;
 
             // Disable Pacboy control
-            GameObject pacboy = GameObject.FindGameObjectWithTag("Pacboy");
-            pacboy.GetComponent<PacboyMovement>().DisableMovement();
-            pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
-            pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
+            _pacboy.GetComponent<PacboyMovement>().DisableMovement();
+            _pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
+            _pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
             Time.timeScale = 0f; // Stop the time scale
 

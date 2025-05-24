@@ -10,7 +10,6 @@ namespace HomePage {
     public class EditMapPage : MonoBehaviour {
         public ScrollRect editMapScrollRect;
         public GameObject mapInfoPrefab;
-        public Transform scrollRectContent;
 
         // Buttons at the top
         public Button backButton;
@@ -112,7 +111,7 @@ namespace HomePage {
 
             // UI update
             foreach (var mapInfo in _mapInfos) {
-                GameObject mapInfoObject = Instantiate(mapInfoPrefab, scrollRectContent);
+                GameObject mapInfoObject = Instantiate(mapInfoPrefab, editMapScrollRect.content);
                 RectTransform itemTransform = mapInfoObject.GetComponent<RectTransform>();
                 itemTransform.anchoredPosition = new Vector2(0f, -_cumulativeHeight);
                 _cumulativeHeight += _prefabHeight + _padding;
