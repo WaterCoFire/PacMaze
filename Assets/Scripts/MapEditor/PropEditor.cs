@@ -284,7 +284,7 @@ namespace MapEditor {
 
             PropType removedPropType = GetPropType(propToRemove); // Get the PropType of the fixed prop to be removed
             Destroy(propToRemove);
-            _propObjectOnTiles[_selectedTileVector3] = null;
+            _propObjectOnTiles.Remove(_selectedTileVector3);
 
             if (removedPropType != PropType.None) {
                 _fixedPropCounts[removedPropType]--;
