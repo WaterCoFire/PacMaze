@@ -4,7 +4,7 @@ using Entity.Prop;
 using UnityEngine;
 
 namespace Entity.Map {
-    [System.Serializable]
+    [Serializable]
     public class MapJsonWrapper {
         public string name;
         public char difficulty;

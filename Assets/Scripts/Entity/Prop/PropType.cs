@@ -1,7 +1,7 @@
 ﻿namespace Entity.Prop {
     /**
      * Prop type enum
-     * Pacboy/Ghostron/Dot are all seen as special props
+     * Pacboy/Ghostron are all seen as special props
      * (as they are "placed" like any other props during game initialisation)
      */
     public enum PropType {
@@ -13,7 +13,6 @@
         NiceBomb,
         SlowWheel,
         BadCherry,
-        LuckyDice,
-        Dot
+        LuckyDice
     }
 }

@@ -1136,7 +1136,7 @@ namespace MapEditor {
         private PropType GetPropType(GameObject prop) {
             string propName = CleanName(prop.name);
             if (propName.Contains(nameof(PropType.Pacboy))) return PropType.Pacboy;
-            if (propName.Contains(nameof(PropType.Ghostron))) return PropType.Ghostron; // Or a more specific Ghostron type
+            if (propName.Contains(nameof(PropType.Ghostron))) return PropType.Ghostron;
             if (propName.Contains(nameof(PropType.PowerPellet))) return PropType.PowerPellet;
             if (propName.Contains(nameof(PropType.FastWheel))) return PropType.FastWheel;
             if (propName.Contains(nameof(PropType.NiceBomb))) return PropType.NiceBomb;
