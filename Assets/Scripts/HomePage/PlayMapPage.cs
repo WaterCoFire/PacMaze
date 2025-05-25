@@ -77,7 +77,7 @@ namespace HomePage {
             string[] files = Directory.GetFiles(_saveDirectory, "*.json");
 
             // The format of the file
-            // MAP NAME + GHOSTRONS (NUM) + DIFFICULTY (LETTER)
+            // MAP NAME + GHOSTRONS (NUM) + DIFFICULTY (NUM)
 
             // Read all file names
             foreach (var filePath in files) {
@@ -129,21 +129,20 @@ namespace HomePage {
                         // Set the text content and color
                         switch (mapInfo.Difficulty) {
                             case DifficultyType.Easy:
-                                text.text = "EASY";
                                 text.color = _easyTextColor;
                                 break;
                             case DifficultyType.Normal:
-                                text.text = "NORMAL";
                                 text.color = _normalTextColor;
                                 break;
                             case DifficultyType.Hard:
-                                text.text = "HARD";
                                 text.color = _hardTextColor;
                                 break;
                             default:
                                 Debug.LogError("Difficulty error while reading files");
                                 return;
                         }
+
+                        text.text = mapInfo.Difficulty.ToString();
                     }
                 }
 
@@ -157,12 +156,12 @@ namespace HomePage {
                         // Go to the map scene
                         button.onClick.AddListener(() => {
                             Debug.Log("Play clicked!");
-                            
+
                             // Get the map file name
                             // And set the play reference
                             PlayerPrefs.SetString("PlayMapFileToLoad",
                                 mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + (int)mapInfo.Difficulty);
-                            
+
                             // Load the map scene
                             SceneManager.LoadScene("PlayMap");
                         });
@@ -176,7 +175,7 @@ namespace HomePage {
         private void OnBackButtonClick() {
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 0);
-            
+
             // Disable this page
             playMapPage.SetActive(false);
 

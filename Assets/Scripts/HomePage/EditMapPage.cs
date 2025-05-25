@@ -82,7 +82,7 @@ namespace HomePage {
             string[] files = Directory.GetFiles(_saveDirectory, "*.json");
 
             // The format of the file
-            // MAP NAME + GHOSTRONS (NUM) + DIFFICULTY (LETTER)
+            // MAP NAME + GHOSTRONS (NUM) + DIFFICULTY (NUM)
 
             // Read all file names
             foreach (var filePath in files) {
@@ -134,21 +134,20 @@ namespace HomePage {
                         // Set the text content and color
                         switch (mapInfo.Difficulty) {
                             case DifficultyType.Easy:
-                                text.text = "EASY";
                                 text.color = _easyTextColor;
                                 break;
                             case DifficultyType.Normal:
-                                text.text = "NORMAL";
                                 text.color = _normalTextColor;
                                 break;
                             case DifficultyType.Hard:
-                                text.text = "HARD";
                                 text.color = _hardTextColor;
                                 break;
                             default:
                                 Debug.LogError("Difficulty error while reading files");
                                 return;
                         }
+                        
+                        text.text = mapInfo.Difficulty.ToString();
                     }
                 }
 
