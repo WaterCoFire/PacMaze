@@ -65,11 +65,7 @@ namespace PlayMap {
                 return;
             }
 
-            InitMap(mapFileName); // Initialize the map
-            // UI initialization
-            pausePage.SetActive(false);
-            winPage.SetActive(false);
-            losePage.SetActive(false);
+            InitMap(mapFileName); // Initialise the map
 
             Time.timeScale = 1f; // Reset time scale
             _gameTimer = 0f; // Reset timer
@@ -77,15 +73,12 @@ namespace PlayMap {
             _airWall = false; // By default there is no Air Wall
             _gamePlaying = true;
 
-            // Reset score UI
+            // Reset score
             _currentScore = 0;
-            scoreText.text = "Score: " + _currentScore;
-            scoreText.color = Color.white;
-            superBonusPrompt.SetActive(false);
         }
 
         /**
-         * Initializes the map:
+         * Initialises the map:
          * - Generates the wall according to file data
          * - Places all the fixed props
          * - Randomly places the remaining props (num for each prop: total - fixed)
@@ -166,7 +159,8 @@ namespace PlayMap {
             Time.timeScale = 0f; // Stop the time scale
             _gamePlaying = false;
 
-            pausePage.SetActive(true); // Display the pause page
+            // Display the pause page
+            GamePlayUI.Instance.SetPausePage(true);
         }
 
         /**
@@ -181,7 +175,8 @@ namespace PlayMap {
             Time.timeScale = 1f; // Resume the time scale
             _gamePlaying = true;
 
-            pausePage.SetActive(false); // Close the pause page
+            // Hide the pause page
+            GamePlayUI.Instance.SetPausePage(false);
         }
 
         /**
@@ -199,8 +194,7 @@ namespace PlayMap {
             Time.timeScale = 0f; // Stop the time scale
 
             // Display win page
-            winPage.SetActive(true);
-            winPage.GetComponent<WinPage>().UpdateText();
+            GamePlayUI.Instance.DisplayWinPage();
         }
 
         /**
@@ -218,7 +212,7 @@ namespace PlayMap {
             Time.timeScale = 0f; // Stop the time scale
 
             // Display lose page
-            losePage.SetActive(true);
+            GamePlayUI.Instance.DisplayLosePage();
         }
 
         /**
@@ -272,8 +266,9 @@ namespace PlayMap {
                 // No Super Bonus - Normal
                 _currentScore += score;
             }
-
-            scoreText.text = "Score: " + _currentScore;
+        
+            // UI update
+            GamePlayUI.Instance.UpdateScoreText(_currentScore);
         }
 
         /**
@@ -290,7 +285,9 @@ namespace PlayMap {
             _currentScore -= score;
             // Cap the score to 0 if it is less than 0
             if (_currentScore < 0) _currentScore = 0;
-            scoreText.text = "Score: " + _currentScore;
+            
+            // UI update
+            GamePlayUI.Instance.UpdateScoreText(_currentScore);
         }
 
         /**
@@ -321,9 +318,8 @@ namespace PlayMap {
                 // Set Super Bonus
                 _superBonus = true;
 
-                // UI Reset
-                scoreText.color = Color.yellow;
-                superBonusPrompt.SetActive(true);
+                // UI update
+                GamePlayUI.Instance.SetSuperBonusEffect(true);
             } else {
                 if (!_superBonus) {
                     Debug.LogError("Error: Super Bonus is not active!");
@@ -333,9 +329,8 @@ namespace PlayMap {
                 // Cancel Super Bonus
                 _superBonus = false;
 
-                // UI Reset
-                scoreText.color = Color.white;
-                superBonusPrompt.SetActive(false);
+                // UI update
+                GamePlayUI.Instance.SetSuperBonusEffect(false);
             }
         }
 

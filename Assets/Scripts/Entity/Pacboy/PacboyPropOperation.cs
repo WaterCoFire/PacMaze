@@ -1,7 +1,6 @@
 ﻿using PlayMap;
-using TMPro;
+using PlayMap.UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Entity.Pacboy {
     /**
@@ -26,15 +25,6 @@ namespace Entity.Pacboy {
         private KeyCode _useNiceBombKeyCode; // Use (default: E)
         private KeyCode _deployNiceBombKeyCode; // Deploy (default: F)
 
-        // UI elements
-        private Button
-            _niceBombButton; // Displayed when the player has nice bombs (Note: this button cannot be actually clicked)
-
-        private TMP_Text _niceBombNumText; // Inside the button, shows the number of nice bombs the player currently has
-        private TMP_Text _cooldownPromptText; // Inside the button, shows the cooldown status
-        private TMP_Text _useNiceBombKeyPrompt; // Prompt indicating which key to press to use the nice bomb
-        private TMP_Text _deployNiceBombKeyPrompt; // Prompt indicating which key to press to deploy the nice bomb
-
         // Disabled when game is not in normal process (e.g. paused)
         private bool _controllable;
 
@@ -42,24 +32,12 @@ namespace Entity.Pacboy {
         private void Start() {
             Debug.Log("PacboyPropOperation START");
 
+            // Initialisation
             _niceBombs = 0;
             _controllable = true;
             _cooldownTimer = 0f;
-
-            // UI initialization
-            GameObject niceBombButton = GameObject.Find("NiceBombButton");
-            _niceBombButton = niceBombButton.GetComponent<Button>();
-            _niceBombNumText = GameObject.Find("NiceBombNum").GetComponent<TMP_Text>();
-            _cooldownPromptText = GameObject.Find("CooldownPrompt").GetComponent<TMP_Text>();
-            _useNiceBombKeyPrompt = GameObject.Find("UseNiceBombKeyPrompt").GetComponent<TMP_Text>();
-            _deployNiceBombKeyPrompt = GameObject.Find("DeployNiceBombKeyPrompt").GetComponent<TMP_Text>();
-
-            _niceBombNumText.text = "0";
-            _cooldownPromptText.gameObject.SetActive(false);
-            _niceBombButton.gameObject.SetActive(false);
-
-            // KeyCode setting and prompt updating
-            UpdateOperationKey();
+            
+            UpdateKeyCodes(); // Update key binding information
         }
 
         // UPDATE FUNCTION
@@ -76,9 +54,8 @@ namespace Entity.Pacboy {
                     _cooldownTimer = 0f;
                     _onCooldown = false;
 
-                    // UI update
-                    _cooldownPromptText.gameObject.SetActive(false);
-                    _niceBombButton.interactable = true;
+                    // UI update (Now the Nice Bomb is available again)
+                    GamePlayUI.Instance.SetNiceBombCooldown(false);
                 }
 
                 return; // No operation during cooldown
@@ -118,16 +95,15 @@ namespace Entity.Pacboy {
             _cooldownTimer = 0f;
             _onCooldown = true;
 
-            // UI update
-            _cooldownPromptText.gameObject.SetActive(true);
-            _niceBombButton.interactable = false;
+            // UI update (Now the Nice Bomb should be temporarily banned for cooldown)
+            GamePlayUI.Instance.SetNiceBombCooldown(true);
 
             // Make the button disappear if no more bombs
             // Update display num otherwise
             if (_niceBombs == 0) {
-                _niceBombButton.gameObject.SetActive(false);
+                GamePlayUI.Instance.SetNiceBombPrompt(false);
             } else {
-                _niceBombNumText.text = _niceBombs.ToString();
+                GamePlayUI.Instance.UpdateNiceBombNum(_niceBombs);
             }
         }
 
@@ -148,16 +124,15 @@ namespace Entity.Pacboy {
             _cooldownTimer = 0f;
             _onCooldown = true;
 
-            // UI update
-            _cooldownPromptText.gameObject.SetActive(true);
-            _niceBombButton.interactable = false;
+            // UI update (Now the Nice Bomb should be temporarily banned for cooldown)
+            GamePlayUI.Instance.SetNiceBombCooldown(true);
 
             // Make the button disappear if no more bombs
             // Update display num otherwise
             if (_niceBombs == 0) {
-                _niceBombButton.gameObject.SetActive(false);
+                GamePlayUI.Instance.SetNiceBombPrompt(false);
             } else {
-                _niceBombNumText.text = _niceBombs.ToString();
+                GamePlayUI.Instance.UpdateNiceBombNum(_niceBombs);
             }
         }
 
@@ -170,20 +145,19 @@ namespace Entity.Pacboy {
             _niceBombs++;
 
             // UI update
-            _niceBombNumText.text = _niceBombs.ToString();
-            _niceBombButton.gameObject.SetActive(true);
+            GamePlayUI.Instance.UpdateNiceBombNum(_niceBombs);
+            GamePlayUI.Instance.SetNiceBombPrompt(true);
         }
-        
+
         /**
-         * Update the key binding and prompts.
-         * Let the player know which key to press to use/deploy nice bombs.
+         * Updates the KeyCode setting (Nice Bomb Use/Deploy).
          */
-        private void UpdateOperationKey() {
+        private void UpdateKeyCodes() {
             _useNiceBombKeyCode = GetKeyCode("UseNiceBombKeyCode", KeyCode.E);
             _deployNiceBombKeyCode = GetKeyCode("DeployNiceBombKeyCode", KeyCode.F);
 
-            _useNiceBombKeyPrompt.text = "Use    " + _useNiceBombKeyCode;
-            _deployNiceBombKeyPrompt.text = "Deploy " + _deployNiceBombKeyCode;
+            // UI prompt update
+            GamePlayUI.Instance.UpdateNiceBombOperationKeyPrompts(_useNiceBombKeyCode, _deployNiceBombKeyCode);
         }
 
         /**
@@ -207,7 +181,7 @@ namespace Entity.Pacboy {
          */
         public void EnablePropOperation() {
             _controllable = true;
-            UpdateOperationKey(); // Update key binding information
+            UpdateKeyCodes(); // Update key binding information
         }
 
         /**

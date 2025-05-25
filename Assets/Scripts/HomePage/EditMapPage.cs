@@ -246,7 +246,7 @@ namespace HomePage {
         public void CreateMap(string newMapName) {
             // Create new map file
             // BY DEFAULT, THE MAP:
-            // Number of ghostrons: 5 Ghostrons
+            // Number of Ghostrons: 5 Ghostrons
             // Difficulty: Easy
             string mapFileName = newMapName + "_5_0";
 

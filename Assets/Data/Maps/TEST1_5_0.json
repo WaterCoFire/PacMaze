@@ -1,0 +1,357 @@
+{
+    "name": "TEST1",
+    "difficulty": 0,
+    "eventEnabled": true,
+    "propPositions": [
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -9.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -3.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "x": -3.0,
+            "y": 0.0,
+            "z": -9.0
+        },
+        {
+            "x": 3.0,
+            "y": 0.0,
+            "z": -9.0
+        },
+        {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -12.0
+        },
+        {
+            "x": -3.0,
+            "y": 0.0,
+            "z": -12.0
+        },
+        {
+            "x": 3.0,
+            "y": 0.0,
+            "z": -12.0
+        }
+    ],
+    "propTypes": [
+        1,
+        2,
+        2,
+        5,
+        5,
+        5,
+        5,
+        5
+    ],
+    "fixedPropKeys": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+    ],
+    "fixedPropValues": [
+        1,
+        2,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0
+    ],
+    "totalPropKeys": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+    ],
+    "totalPropValues": [
+        5,
+        2,
+        1,
+        5,
+        1,
+        1,
+        1
+    ],
+    "hwStatusRow1": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        true,
+        false
+    ],
+    "hwStatusRow2": [
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+    ],
+    "hwStatusRow3": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+    ],
+    "hwStatusRow4": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        true,
+        false
+    ],
+    "hwStatusRow5": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false
+    ],
+    "hwStatusRow6": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+    ],
+    "hwStatusRow7": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+    ],
+    "hwStatusRow8": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false
+    ],
+    "hwStatusRow9": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+    ],
+    "hwStatusRow10": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        true,
+        false
+    ],
+    "vwStatusRow1": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+    ],
+    "vwStatusRow2": [
+        true,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        false,
+        true
+    ],
+    "vwStatusRow3": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true
+    ],
+    "vwStatusRow4": [
+        false,
+        false,
+        true,
+        false,
+        true,
+        true,
+        false,
+        true,
+        false,
+        false
+    ],
+    "vwStatusRow5": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        true
+    ],
+    "vwStatusRow6": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        true,
+        true
+    ],
+    "vwStatusRow7": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+    ],
+    "vwStatusRow8": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        true
+    ],
+    "vwStatusRow9": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+    ],
+    "vwStatusRow10": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true
+    ],
+    "vwStatusRow11": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+    ]
+}
