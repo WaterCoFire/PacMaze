@@ -163,7 +163,7 @@ namespace HomePage {
                         button.onClick.AddListener(() => {
                             Debug.Log("Delete clicked!");
                             string path = Path.Combine(_saveDirectory,
-                                $"{mapInfo.Name}_{mapInfo.GhostronNum}_{mapInfo.Difficulty}.json");
+                                $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.json");
                             if (File.Exists(path)) {
                                 File.Delete(path);
                             } else {
