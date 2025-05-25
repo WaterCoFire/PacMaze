@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Entity.Map;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace MapEditor {
@@ -37,7 +38,7 @@ namespace MapEditor {
         private readonly Color _normalColor = new(140f / 255f, 121f / 255f, 255f / 255f);
         private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
 
-        private char _difficultySet;
+        private DifficultyType _difficultySet;
         
         public static DifficultyEditor Instance { get; private set; }
 
@@ -57,7 +58,7 @@ namespace MapEditor {
          * Obtains the difficulty data.
          * Used by Map Editor when saving the map data.
          */
-        public char GetDifficultyData() {
+        public DifficultyType GetDifficultyData() {
             return _difficultySet;
         }
 
@@ -65,7 +66,7 @@ namespace MapEditor {
          * Sets the difficulty data.
          * Used by Map Editor when entering the difficulty setting mode.
          */
-        public void SetDifficultyData(char difficulty) {
+        public void SetDifficultyData(DifficultyType difficulty) {
             _difficultySet = difficulty;
         }
 
@@ -76,13 +77,13 @@ namespace MapEditor {
         public void EnterDifficultyMode() {
             // Update UI based on the difficulty level
             switch (_difficultySet) {
-                case 'E':
+                case DifficultyType.Easy:
                     OnEasyButtonClick();
                     break;
-                case 'N':
+                case DifficultyType.Normal:
                     OnNormalButtonClick();
                     break;
-                case 'H':
+                case DifficultyType.Hard:
                     OnHardButtonClick();
                     break;
             }
@@ -129,7 +130,7 @@ namespace MapEditor {
             hardModePrompt.SetActive(false);
 
             // Set difficulty data
-            _difficultySet = 'E';
+            _difficultySet = DifficultyType.Easy;
         }
 
         private void OnNormalButtonClick() {
@@ -144,7 +145,7 @@ namespace MapEditor {
             hardModePrompt.SetActive(false);
 
             // Set difficulty data
-            _difficultySet = 'N';
+            _difficultySet = DifficultyType.Normal;
         }
 
         private void OnHardButtonClick() {
@@ -159,7 +160,7 @@ namespace MapEditor {
             hardModePrompt.SetActive(true);
 
             // Set difficulty data
-            _difficultySet = 'H';
+            _difficultySet = DifficultyType.Hard;
         }
     }
 }

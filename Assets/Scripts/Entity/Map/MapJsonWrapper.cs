@@ -7,7 +7,7 @@ namespace Entity.Map {
     [Serializable]
     public class MapJsonWrapper {
         public string name;
-        public char difficulty;
+        public DifficultyType difficulty;
         public bool eventEnabled;
 
         public List<Vector3> propPositions;
@@ -175,72 +175,6 @@ namespace Entity.Map {
                 return result;
             }
         }
-
-        // /**
-        //  * Obtains the corresponding game object based on the prop type given.
-        //  * The prefabs are used for map editor.
-        //  */
-        // private PropType GetCorrespondingEditorGameObject(string propName) {
-        //     switch (CleanName(propName)) {
-        //         case "PacboySpawn":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/PacboySpawn");
-        //         case "GhostronSpawn":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/Spawn/GhostronSpawn");
-        //         case "PowerPellet":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/PowerPellet");
-        //         case "FastWheel":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/FastWheel");
-        //         case "NiceBomb":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/NiceBomb");
-        //         case "SlowWheel":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/SlowWheel");
-        //         case "BadCherry":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/BadCherry");
-        //         case "LuckyDice":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Editor/LuckyDice");
-        //         default:
-        //             Debug.LogError("Get corresponding game object error: " + CleanName(propName));
-        //             return null;
-        //     }
-        // }
-        //
-        // /**
-        //  * Obtains the corresponding game object based on the prop type given.
-        //  * The prefabs are used for the map to be played.
-        //  */
-        // private GameObject GetCorrespondingPlayGameObject(string propName) {
-        //     switch (CleanName(propName)) {
-        //         case "PacboySpawn":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/Pacboy");
-        //         case "GhostronSpawn":
-        //             // Ghostrons will be spawned using GhostronFactory
-        //             // Since there are different types of Ghostrons
-        //             return Resources.Load<GameObject>("Prefabs/Props/Game/Spawn/GhostronEmpty");
-        //         case "PowerPellet":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Game/PowerPellet");
-        //         case "FastWheel":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Game/FastWheel");
-        //         case "NiceBomb":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Game/NiceBomb");
-        //         case "SlowWheel":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Game/SlowWheel");
-        //         case "BadCherry":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Game/BadCherry");
-        //         case "LuckyDice":
-        //             return Resources.Load<GameObject>("Prefabs/Props/Game/LuckyDice");
-        //         default:
-        //             Debug.LogError("Get corresponding game object error: " + CleanName(propName));
-        //             return null;
-        //     }
-        // }
-
-        // Remove the "(Clone)" at the end of the game object Name if it exists
-        // private string CleanName(string nameToBeCleaned) {
-        //     const string cloneTag = "(Clone)";
-        //     return nameToBeCleaned.EndsWith(cloneTag)
-        //         ? nameToBeCleaned.Remove(nameToBeCleaned.Length - 7)
-        //         : nameToBeCleaned;
-        // }
 
         // For wall data: convert all the elements in the given row of the bool[,] array to List<bool>
         private List<bool> ConvertBoolArrayToList(bool[,] array, int row) {

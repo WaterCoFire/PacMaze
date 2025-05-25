@@ -1,4 +1,5 @@
-﻿using PlayMap;
+﻿using Entity.Map;
+using PlayMap;
 using UnityEngine;
 
 namespace Entity.Pacboy {
@@ -147,7 +148,7 @@ namespace Entity.Pacboy {
          */
         private void SetMapView(bool open) {
             // Operation is not allowed in hard mode
-            if (PlayMapController.Instance.GetDifficulty() == 'H') {
+            if (PlayMapController.Instance.GetDifficulty() == DifficultyType.Hard) {
                 Debug.LogWarning("Map cannot be shown in hard mode.");
                 return;
             }

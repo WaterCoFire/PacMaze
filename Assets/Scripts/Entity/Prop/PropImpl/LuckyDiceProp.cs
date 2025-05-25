@@ -1,4 +1,5 @@
-﻿using PlayMap;
+﻿using Entity.Map;
+using PlayMap;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -55,24 +56,24 @@ namespace Entity.Prop.PropImpl {
          */
         private int RandomPropType() {
             // Get the difficulty
-            char difficulty = PlayMapController.Instance.GetDifficulty();
+            DifficultyType difficulty = PlayMapController.Instance.GetDifficulty();
 
             // Random number from 1 to 100
             int rand = Random.Range(1, 101);
             switch (difficulty) {
-                case 'E':
+                case DifficultyType.Easy:
                     // EASY
                     if (rand <= 25) return 0;
                     if (rand <= 75) return 1;
                     return 2;
-                case 'N':
+                case DifficultyType.Normal:
                     // NORMAL
                     if (rand <= 20) return 0;
                     if (rand <= 40) return 1;
                     if (rand <= 60) return 2;
                     if (rand <= 80) return 3;
                     return 4;
-                case 'H':
+                case DifficultyType.Hard:
                     // HARD
                     if (rand <= 15) return 0;
                     if (rand <= 35) return 1;

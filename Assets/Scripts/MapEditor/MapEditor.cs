@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
 using Entity.Prop;
@@ -54,7 +55,7 @@ namespace MapEditor {
 
         // Map data save directory
         private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
-        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)");
 
         // Prompt Text
         // Default: Click to select what you need to edit!
@@ -89,7 +90,7 @@ namespace MapEditor {
         private void SaveMapToFile() {
             WallData wallData = WallEditor.Instance.GetWallData();
             PropData propData = PropEditor.Instance.GetPropData();
-            char difficulty = DifficultyEditor.Instance.GetDifficultyData();
+            DifficultyType difficulty = DifficultyEditor.Instance.GetDifficultyData();
             bool eventEnabled = EventEditor.Instance.GetEventStatusData();
 
             Map map = new(_mapName, difficulty, eventEnabled, wallData, propData);
@@ -109,7 +110,7 @@ namespace MapEditor {
             // Save to a new file in .json
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
             File.WriteAllText(
-                Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + difficulty + ".json"),
+                Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + (int)difficulty + ".json"),
                 json);
             Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
         }
@@ -130,7 +131,7 @@ namespace MapEditor {
 
             // Set map name & difficulty info according to map name
             _mapName = match.Groups[1].Value;
-            DifficultyEditor.Instance.SetDifficultyData(match.Groups[3].Value[0]);
+            DifficultyEditor.Instance.SetDifficultyData(Enum.Parse<DifficultyType>(match.Groups[3].Value));
 
             // Obtain the file path
             string path = Path.Combine(_saveDirectory, mapFileName + ".json");

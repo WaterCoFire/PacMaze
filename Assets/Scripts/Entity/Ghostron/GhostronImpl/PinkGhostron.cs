@@ -1,4 +1,5 @@
-﻿using PlayMap;
+﻿using Entity.Map;
+using PlayMap;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,11 +22,11 @@ namespace Entity.Ghostron.GhostronImpl {
             // Hard: 8
             get {
                 switch (PlayMapController.Instance.GetDifficulty()) {
-                    case 'E':
+                    case DifficultyType.Easy:
                         return 14f;
-                    case 'N':
+                    case DifficultyType.Normal:
                         return 10f;
-                    case 'H':
+                    case DifficultyType.Hard:
                         return 8f;
                     default:
                         Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " +
@@ -41,11 +42,11 @@ namespace Entity.Ghostron.GhostronImpl {
             // Normal, Hard: 8
             get {
                 switch (PlayMapController.Instance.GetDifficulty()) {
-                    case 'E':
+                    case DifficultyType.Easy:
                         return 5f;
-                    case 'N':
+                    case DifficultyType.Normal:
                         return 8f;
-                    case 'H':
+                    case DifficultyType.Hard:
                         return 8f;
                     default:
                         Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " +

@@ -17,7 +17,7 @@ namespace PlayMap {
         private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
 
-        private char _difficulty; // Difficulty of the current game
+        private DifficultyType _difficulty; // Difficulty of the current game
         private int _currentScore; // Current game score
 
         private bool _gamePlaying; // Status telling if the game is currently in progress or not
@@ -157,11 +157,11 @@ namespace PlayMap {
         /**
          * Pauses the game.
          */
-        public void PauseGame() {
-            GameObject pacboy = GameObject.FindGameObjectWithTag("Pacboy");
-            pacboy.GetComponent<PacboyMovement>().DisableMovement();
-            pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
-            pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
+        private void PauseGame() {
+            // Disable Pacboy control
+            _pacboy.GetComponent<PacboyMovement>().DisableMovement();
+            _pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
+            _pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
             Time.timeScale = 0f; // Stop the time scale
             _gamePlaying = false;
@@ -173,10 +173,10 @@ namespace PlayMap {
          * Resumes the game.
          */
         public void ResumeGame() {
-            GameObject pacboy = GameObject.FindGameObjectWithTag("Pacboy");
-            pacboy.GetComponent<PacboyMovement>().EnableMovement();
-            pacboy.GetComponent<PacboyCamera>().EnableCameraOperation();
-            pacboy.GetComponent<PacboyPropOperation>().EnablePropOperation();
+            // Enable Pacboy control
+            _pacboy.GetComponent<PacboyMovement>().EnableMovement();
+            _pacboy.GetComponent<PacboyCamera>().EnableCameraOperation();
+            _pacboy.GetComponent<PacboyPropOperation>().EnablePropOperation();
 
             Time.timeScale = 1f; // Resume the time scale
             _gamePlaying = true;
@@ -224,7 +224,7 @@ namespace PlayMap {
         /**
          * Returns the difficulty of the current game.
          */
-        public char GetDifficulty() {
+        public DifficultyType GetDifficulty() {
             return _difficulty;
         }
 

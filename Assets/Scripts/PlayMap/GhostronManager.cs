@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entity.Ghostron;
+using Entity.Map;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -29,7 +30,7 @@ namespace PlayMap {
         private readonly float _ghostronHardDetectionRadius = 25.0f;
 
         // Difficulty of the current game
-        private char _difficulty;
+        private DifficultyType _difficulty;
 
         // Singleton instance
         public static GhostronManager Instance { get; private set; }
@@ -50,7 +51,7 @@ namespace PlayMap {
          * Sets the difficulty of the current game.
          * Decides the chasing speed and detection radius of the ghostrons.
          */
-        public void SetDifficulty(char difficulty) {
+        public void SetDifficulty(DifficultyType difficulty) {
             _difficulty = difficulty;
         }
 
@@ -69,19 +70,19 @@ namespace PlayMap {
         public void AddGhostron(GameObject newGhostron) {
             // Set the params of the ghostron according to difficulty
             switch (_difficulty) {
-                case 'E':
+                case DifficultyType.Easy:
                     // EASY
                     newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
                         _ghostronEasyChaseSpeed,
                         _ghostronEasyDetectionRadius);
                     break;
-                case 'N':
+                case DifficultyType.Normal:
                     // NORMAL
                     newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
                         _ghostronNormalChaseSpeed,
                         _ghostronNormalDetectionRadius);
                     break;
-                case 'H':
+                case DifficultyType.Hard:
                     // HARD
                     newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
                         _ghostronHardChaseSpeed,

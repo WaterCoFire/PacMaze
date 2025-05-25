@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using Entity.Map;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -31,7 +33,7 @@ namespace HomePage {
         private readonly float _padding = 1f;
 
         private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
-        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])\.json$");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.json$");
 
         private MapInfo _renamedMapOldInfo;
         private string _renamedMapNewName;
@@ -91,7 +93,7 @@ namespace HomePage {
                 if (match.Success) {
                     string mapName = match.Groups[1].Value;
                     int ghostrons = int.Parse(match.Groups[2].Value);
-                    char difficulty = match.Groups[3].Value[0];
+                    DifficultyType difficulty = Enum.Parse<DifficultyType>(match.Groups[3].Value);
 
                     MapInfo mapInfo = new MapInfo(mapName, ghostrons, difficulty);
                     Debug.Log("Edit Matched: Map info " + mapName + ", " + ghostrons + ", " + difficulty);
@@ -131,15 +133,15 @@ namespace HomePage {
                         // Map difficulty
                         // Set the text content and color
                         switch (mapInfo.Difficulty) {
-                            case 'E':
+                            case DifficultyType.Easy:
                                 text.text = "EASY";
                                 text.color = _easyTextColor;
                                 break;
-                            case 'N':
+                            case DifficultyType.Normal:
                                 text.text = "NORMAL";
                                 text.color = _normalTextColor;
                                 break;
-                            case 'H':
+                            case DifficultyType.Hard:
                                 text.text = "HARD";
                                 text.color = _hardTextColor;
                                 break;
@@ -251,7 +253,8 @@ namespace HomePage {
             string defaultMapPath = _saveDirectory + "/Default/DEFAULT_MAP.json";
 
             // Path of the map to be created
-            string targetMapPath = _saveDirectory + "/" + newMapName + "_2_E.json";
+            string mapFileName = newMapName + "_2_0";
+            string targetMapPath = _saveDirectory + "/" + mapFileName + ".json";
 
             if (!File.Exists(defaultMapPath)) {
                 Debug.LogError("Default map file does not exist!");
@@ -277,7 +280,7 @@ namespace HomePage {
             }
 
             // Player preference setting: the file name to load
-            PlayerPrefs.SetString("EditMapFileToLoad", newMapName + "_2_E");
+            PlayerPrefs.SetString("EditMapFileToLoad", mapFileName);
 
             // Jump to Map Editor
             SceneManager.LoadScene("MapEditor");
