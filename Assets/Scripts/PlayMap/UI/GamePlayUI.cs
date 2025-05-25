@@ -68,9 +68,6 @@ namespace PlayMap.UI {
             pausePage.SetActive(false);
             winPage.SetActive(false);
             losePage.SetActive(false);
-            
-            // TEST ONLY
-            // StartCoroutine(TestMessages());
         }
 
         /**
@@ -204,16 +201,6 @@ namespace PlayMap.UI {
          */
         public void DisplayLosePage() {
             losePage.SetActive(true);
-        }
-
-        /* TEST ONLY */
-        private IEnumerator TestMessages() {
-            yield return new WaitForSeconds(2f);
-            NewInfo("Boom! A Ghostron stepped on the bomb you deployed and two Ghostrons are gone!", Color.green);
-            yield return new WaitForSeconds(1.5f);
-            NewInfo("2222 Warning Yellow", Color.yellow);
-            yield return new WaitForSeconds(3f);
-            NewInfo("3333 Serious Warning Red", Color.red);
         }
     }
 }
