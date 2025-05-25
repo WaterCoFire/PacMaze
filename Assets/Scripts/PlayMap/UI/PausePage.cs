@@ -1,4 +1,5 @@
-﻿using Setting;
+﻿using System;
+using Setting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ namespace PlayMap.UI {
         public GameObject settingPage;
         
         // Buttons
-        public Button backToGameButton;
+        public Button backToGameButton; // Or pressing ESC
         public Button settingButton;
         public Button quitButton;
         
@@ -23,6 +24,14 @@ namespace PlayMap.UI {
             
             // Set button action listeners
             AddButtonActionListener();
+        }
+        
+        // UPDATE FUNCTION
+        private void Update() {
+            // Listening for ESC (alternative of pressing the Back to Game button)
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                OnBackToGameButtonClick();
+            }
         }
 
         /**
