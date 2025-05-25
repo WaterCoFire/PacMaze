@@ -16,13 +16,14 @@ namespace Entity.Prop.PropImpl {
         public override void OnPicked(GameObject pacboy) {
             Debug.Log("SLOW WHEEL picked");
             // Pacboy now has slower speed
-            pacboy.GetComponent<PacboyMovement>().SetSpeedBuff(_slowSpeed);
-            
-            // Reduce 10 score points
-            PlayMapController.Instance.DeductScore(10);
-            
-            // Prompt the player
-            GamePlayUI.Instance.NewInfo("Oh no! Slow Wheel is making you like a turtle!", Color.red);
+            if (pacboy.GetComponent<PacboyMovement>().SetSpeedBuff(_slowSpeed)) {
+                // Speed debuff is valid (currently no Crazy Party event)
+                // Reduce 10 score points
+                PlayMapController.Instance.DeductScore(10);
+
+                // Prompt the player
+                GamePlayUI.Instance.NewInfo("Oh no! Slow Wheel is making you like a turtle!", Color.red);
+            }
         }
     }
 }

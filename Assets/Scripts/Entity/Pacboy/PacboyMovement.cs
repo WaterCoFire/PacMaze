@@ -208,10 +208,10 @@ namespace Entity.Pacboy {
         /**
          * Temporarily sets a speed for the Pacboy.
          * Used when Fast Wheel / Slow Wheel is triggered.
-         * Will be temporarily useless when in Crazy Party.
+         * Will be temporarily useless when in Crazy Party (Return false if that is the case).
          */
-        public void SetSpeedBuff(float buffSpeed) {
-            if (_crazyParty) return;
+        public bool SetSpeedBuff(float buffSpeed) {
+            if (_crazyParty) return false;
             
             // Set speed
             _pacboyMoveSpeed = buffSpeed;
@@ -219,6 +219,8 @@ namespace Entity.Pacboy {
             // Reset timer and statue
             _speedBuffTimer = 0f;
             _speedBuffInEffect = true;
+
+            return true;
         }
 
         /**
