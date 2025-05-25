@@ -1,5 +1,4 @@
-﻿using System;
-using Entity.Map;
+﻿using Entity.Map;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
