@@ -1,4 +1,5 @@
 ﻿using PlayMap;
+using PlayMap.UI;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -16,6 +17,9 @@ namespace Entity.Prop.PropImpl {
             
             // Give the pacboy 50 score points
             PlayMapController.Instance.AddScore(50);
+            
+            // Prompt the player
+            GamePlayUI.Instance.NewInfo("Ghostrons are scared! Go get them!", Color.cyan);
         }
     }
 }

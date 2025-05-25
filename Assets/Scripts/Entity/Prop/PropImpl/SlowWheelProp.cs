@@ -1,5 +1,6 @@
 ﻿using Entity.Pacboy;
 using PlayMap;
+using PlayMap.UI;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -19,6 +20,9 @@ namespace Entity.Prop.PropImpl {
             
             // Reduce 10 score points
             PlayMapController.Instance.DeductScore(10);
+            
+            // Prompt the player
+            GamePlayUI.Instance.NewInfo("Oh no! Slow Wheel is making you like a turtle!", Color.red);
         }
     }
 }

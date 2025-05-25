@@ -1,4 +1,5 @@
 ﻿using Entity.Pacboy;
+using PlayMap.UI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -109,6 +110,9 @@ namespace PlayMap {
                 _eventTimer = 0f;
                 _eventInProcess = true;
                 PlayMapController.Instance.SetSuperBonus(true);
+                
+                // Prompt the player
+                GamePlayUI.Instance.NewInfo("Super Bonus! Try getting more points!", Color.yellow);
             } else if (typeRand <= 90) {
                 // Crazy Party
                 _currentEventIndex = 2;
@@ -116,12 +120,18 @@ namespace PlayMap {
                 _eventInProcess = true;
                 GhostronManager.Instance.SetCrazyParty(true);
                 PlayMapController.Instance.GetPacboy().GetComponent<PacboyMovement>().SetCrazyParty(true);
+                
+                // Prompt the player
+                GamePlayUI.Instance.NewInfo("Crazy Party! Enjoy the chaos!", Color.yellow);
             } else {
                 // Air Wall
                 _currentEventIndex = 3;
                 _eventTimer = 0f;
                 _eventInProcess = true;
                 PlayMapController.Instance.SetAirWall(true);
+                
+                // Prompt the player
+                GamePlayUI.Instance.NewInfo("Air Wall! Good luck finding your way!", Color.yellow);
             }
         }
 

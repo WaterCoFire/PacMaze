@@ -89,6 +89,9 @@ namespace Entity.Pacboy {
             if (GhostronManager.Instance.KillNearestGhostron(gameObject.transform.position)) {
                 // Give the Pacboy 200 score points if killing is successful
                 PlayMapController.Instance.AddScore(200);
+                
+                // Prompt the player
+                GamePlayUI.Instance.NewInfo("Boom! You killed a Ghostron!", Color.green);
             }
 
             // Update cooldown status
@@ -116,6 +119,9 @@ namespace Entity.Pacboy {
             Debug.Log("NiceBomb DEPLOY");
             // Reduce the number
             _niceBombs--;
+            
+            // Prompt the player
+            GamePlayUI.Instance.NewInfo("Nice Bomb deployed!", Color.cyan);
 
             // Place the deployed bomb at the current location of the Pacboy
             Instantiate(deployedNiceBombPrefab, transform.position, Quaternion.identity);

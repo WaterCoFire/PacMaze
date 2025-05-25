@@ -1,5 +1,6 @@
 ﻿using Entity.Pacboy;
 using PlayMap;
+using PlayMap.UI;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -19,6 +20,9 @@ namespace Entity.Prop.PropImpl {
             
             // Add 10 score points
             PlayMapController.Instance.AddScore(10);
+            
+            // Prompt the player
+            GamePlayUI.Instance.NewInfo("Fast Wheel is making you fly!", Color.cyan);
         }
     }
 }

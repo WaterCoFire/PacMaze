@@ -1,4 +1,5 @@
 ﻿using PlayMap;
+using PlayMap.UI;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -16,6 +17,9 @@ namespace Entity.Prop.PropImpl {
             
             // Reduce 50 score points
             PlayMapController.Instance.DeductScore(50);
+            
+            // Prompt the player
+            GamePlayUI.Instance.NewInfo("Oh no! A Tenacious Ghostron is coming!", Color.red);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,6 +23,13 @@ namespace PlayMap.UI {
         public TMP_Text useNiceBombKeyPrompt; // Prompt indicating which key to press to use the nice bomb
         public TMP_Text deployNiceBombKeyPrompt; // Prompt indicating which key to press to deploy the nice bomb
 
+        /* Info Panel */
+        public GameObject infoPanel; // The panel container
+        public GameObject messagePrefab; // The prefab for each message prefab
+
+        private const float DisplayDuration = 5f; // The display duration for each message
+        private const float FadeOutDuration = 0.5f; // The fade out duration for each message
+
         /* Other UI Pages */
         public GameObject pausePage; // Pause page
         public GameObject winPage; // Game over page: player wins
@@ -44,6 +52,8 @@ namespace PlayMap.UI {
         // START FUNCTION
         // UI initialisation
         private void Start() {
+            Debug.Log("GamePlayUI START");
+
             // Reset score UI
             scoreText.text = "Score: 0";
             scoreText.color = Color.white;
@@ -53,12 +63,68 @@ namespace PlayMap.UI {
             niceBombNumText.text = "0";
             cooldownPromptText.gameObject.SetActive(false);
             niceBombButton.gameObject.SetActive(false);
-            // UpdateNiceBombOperationKeyPrompts(); // KeyCode prompt UI updating
 
             // Set status of other pages
             pausePage.SetActive(false);
             winPage.SetActive(false);
             losePage.SetActive(false);
+            
+            // TEST ONLY
+            // StartCoroutine(TestMessages());
+        }
+
+        /**
+         * Display a new message in info panel (bottom left).
+         */
+        public void NewInfo(string message, Color textColor) {
+            // Instantiate the message prefab
+            GameObject newMessageObj = Instantiate(messagePrefab, infoPanel.transform);
+            newMessageObj.transform.SetAsLastSibling(); // Make sure the new bottom is at the bottom
+
+            // Set text content and color
+            TextMeshProUGUI textComponent = newMessageObj.GetComponent<TextMeshProUGUI>();
+            if (textComponent != null) {
+                textComponent.text = message;
+                textComponent.color = textColor;
+            } else {
+                Debug.LogError("Message prefab does not have a TextMeshProUGUI component!");
+                Destroy(newMessageObj);
+                return;
+            }
+
+            // Start a coroutine to handle the lifecycle of the message (display, fade, destroy)
+            StartCoroutine(MessageLifecycleCoroutine(newMessageObj, textComponent));
+        }
+
+        /**
+         * The coroutine of an info message lifecycle.
+         */
+        private IEnumerator MessageLifecycleCoroutine(GameObject messageObject, TextMeshProUGUI textComponent) {
+            // Wait for a fixed amount of time for the display
+            // (the fade-out time is subtracted, as the fade-out counts as part of the display)
+            yield return new WaitForSeconds(DisplayDuration - FadeOutDuration);
+
+            // Start fading out
+            float timer = 0f;
+            Color originalColor = textComponent.color;
+            Color transparentColor = new Color(originalColor.r, originalColor.g, originalColor.b, 0f);
+
+            while (timer < FadeOutDuration) {
+                if (textComponent == null) yield break;
+
+                timer += Time.deltaTime;
+                textComponent.color = Color.Lerp(originalColor, transparentColor, timer / FadeOutDuration);
+                yield return null; // Wait for the next frame
+            }
+
+            // Ensure complete transparent, and then destroy the message object
+            if (textComponent != null) {
+                textComponent.color = transparentColor;
+            }
+
+            if (messageObject != null) {
+                Destroy(messageObject);
+            }
         }
 
         /**
@@ -138,6 +204,16 @@ namespace PlayMap.UI {
          */
         public void DisplayLosePage() {
             losePage.SetActive(true);
+        }
+
+        /* TEST ONLY */
+        private IEnumerator TestMessages() {
+            yield return new WaitForSeconds(2f);
+            NewInfo("Boom! A Ghostron stepped on the bomb you deployed and two Ghostrons are gone!", Color.green);
+            yield return new WaitForSeconds(1.5f);
+            NewInfo("2222 Warning Yellow", Color.yellow);
+            yield return new WaitForSeconds(3f);
+            NewInfo("3333 Serious Warning Red", Color.red);
         }
     }
 }

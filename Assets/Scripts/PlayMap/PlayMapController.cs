@@ -75,6 +75,9 @@ namespace PlayMap {
 
             // Reset score
             _currentScore = 0;
+            
+            // Prompt the player that the game begins
+            GamePlayUI.Instance.NewInfo("Game Start! You got this!", Color.cyan);
         }
 
         /**

@@ -1,4 +1,5 @@
 ﻿using PlayMap;
+using PlayMap.UI;
 using UnityEngine;
 
 namespace Entity.Prop.DeployedProp {
@@ -45,11 +46,19 @@ namespace Entity.Prop.DeployedProp {
                     // Only one ghostron killed
                     // Give the Pacboy 200 score points
                     PlayMapController.Instance.AddScore(200);
+                    
+                    // Prompt the player
+                    GamePlayUI.Instance.NewInfo("Boom! A Ghostron stepped on the bomb you deployed and disappeared!", Color.green);
+                    
                     break;
                 case 2:
                     // Two ghostrons killed
                     // Give the Pacboy 500 score points
                     PlayMapController.Instance.AddScore(500);
+                    
+                    // Prompt the player
+                    GamePlayUI.Instance.NewInfo("Boom! A Ghostron stepped on the bomb you deployed and two Ghostrons are gone!", Color.green);
+
                     break;
                 default:
                     Debug.LogError("Unexpected amount of ghostrons killed by deployed bomb: " + ghostronsKilled);
