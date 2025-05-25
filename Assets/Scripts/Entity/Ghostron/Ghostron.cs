@@ -1,5 +1,6 @@
 ﻿using Entity.Ghostron.State.StateImpl;
 using PlayMap;
+using PlayMap.UI;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -138,10 +139,12 @@ namespace Entity.Ghostron {
                     // If currently: the Ghostron is scared
                     // It should enter stall state
                     StateMachine.ChangeState(new StallState());
+                    
+                    // Prompt the player (Pacboy catches the Ghostron)
+                    GamePlayUI.Instance.NewInfo("You caught a Ghostron! Look how messed up it is!", Color.green);
                 } else {
                     // If the Ghostron is not currently scared
                     // This means the game should be over
-                    Debug.LogWarning("Pacboy got caught! GAME OVER!");
                     GhostronManager.Instance.PacboyCaught();
                 }
             }
