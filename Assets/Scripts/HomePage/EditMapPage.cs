@@ -246,14 +246,14 @@ namespace HomePage {
         public void CreateMap(string newMapName) {
             // Create new map file
             // BY DEFAULT, THE MAP:
-            // Number of ghostrons: 2 Ghostrons
+            // Number of ghostrons: 5 Ghostrons
             // Difficulty: Easy
+            string mapFileName = newMapName + "_5_0";
 
             // Default map path
             string defaultMapPath = _saveDirectory + "/Default/DEFAULT_MAP.json";
 
             // Path of the map to be created
-            string mapFileName = newMapName + "_2_0";
             string targetMapPath = _saveDirectory + "/" + mapFileName + ".json";
 
             if (!File.Exists(defaultMapPath)) {
