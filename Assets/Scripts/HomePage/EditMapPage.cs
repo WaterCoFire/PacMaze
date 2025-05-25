@@ -189,7 +189,7 @@ namespace HomePage {
                         button.onClick.AddListener(() => {
                             Debug.Log("Edit clicked!");
                             PlayerPrefs.SetString("EditMapFileToLoad",
-                                mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + mapInfo.Difficulty);
+                                mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + (int)mapInfo.Difficulty);
                             SceneManager.LoadScene("MapEditor");
                         });
                     }

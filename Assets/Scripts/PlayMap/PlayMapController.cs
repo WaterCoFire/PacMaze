@@ -15,7 +15,7 @@ namespace PlayMap {
     public class PlayMapController : MonoBehaviour {
         // Map data save directory
         private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
-        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_([A-Za-z])");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)");
 
         private DifficultyType _difficulty; // Difficulty of the current game
         private int _currentScore; // Current game score

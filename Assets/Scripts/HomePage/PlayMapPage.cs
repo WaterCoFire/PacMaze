@@ -161,7 +161,7 @@ namespace HomePage {
                             // Get the map file name
                             // And set the play reference
                             PlayerPrefs.SetString("PlayMapFileToLoad",
-                                mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + mapInfo.Difficulty);
+                                mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + (int)mapInfo.Difficulty);
                             
                             // Load the map scene
                             SceneManager.LoadScene("PlayMap");
