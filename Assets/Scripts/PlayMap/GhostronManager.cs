@@ -90,7 +90,7 @@ namespace PlayMap {
                     break;
                 default:
                     // INVALID DIFFICULTY - PROMPT ERROR
-                    Debug.LogError("Invalid difficulty when adding ghostron information: " + _difficulty);
+                    Debug.LogError("Invalid difficulty when adding Ghostron information: " + _difficulty);
                     return;
             }
 
@@ -124,14 +124,13 @@ namespace PlayMap {
          */
         public bool KillNearestGhostron(Vector3 position) {
             if (_ghostrons.Count == 0) {
-                Debug.LogWarning("Killing the nearest ghostron: NO GHOSTRON LEFT!");
                 return false;
             }
 
             GameObject nearest = null;
             float minDist = float.MaxValue;
 
-            // Check for the nearest ghostron
+            // Check for the nearest Ghostron
             foreach (var ghost in _ghostrons) {
                 float dist = Vector3.Distance(position, ghost.transform.position);
                 if (dist < minDist) {
@@ -144,20 +143,19 @@ namespace PlayMap {
             if (nearest != null) {
                 _ghostrons.Remove(nearest);
                 Destroy(nearest);
-                Debug.Log("Nearest ghostron destroyed!");
                 return true;
             }
 
-            Debug.LogError("An error occurred when killing the nearest ghostron! (nearest = null)");
+            Debug.LogError("An error occurred when killing the nearest Ghostron! (nearest = null)");
             return false;
         }
 
         /**
-         * Spawns the tenacious ghostron at random place.
-         * Called when a bad cherry is picked by the Pacboy.
+         * Spawns the Tenacious Ghostron at random place.
+         * Called when a Bad Cherry is picked by the Pacboy.
          */
         public void SpawnTenaciousGhostron() {
-            // Generate random position for the tenacious ghostron to spawn
+            // Generate random position for the Tenacious Ghostron to spawn
             Vector3 randomPosition;
 
             // Generate random position
@@ -180,7 +178,7 @@ namespace PlayMap {
                 return;
             }
 
-            // Spawn new tenacious ghostron (oh no for Pacboy!)
+            // Spawn new Tenacious Ghostron (oh no for Pacboy!)
             GameObject newTenaciousGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Tenacious);
             GameObject newTenaciousGhostron = Instantiate(newTenaciousGhostronPrefab, randomPosition,
                 Quaternion.identity);
@@ -188,12 +186,12 @@ namespace PlayMap {
             // Set its Pacboy target (oh no again!)
             newTenaciousGhostron.GetComponent<Ghostron>().SetPacboy(PlayMapController.Instance.GetPacboy());
             
-            // Add the tenacious ghostron to the list
+            // Add the Tenacious Ghostron to the list
             AddGhostron(newTenaciousGhostron);
         }
 
         /**
-         * Sets the Pacboy info that all the ghostrons chase.
+         * Sets the Pacboy info that all the Ghostrons chase.
          */
         public void SetPacboy(GameObject pacboy) {
             foreach (var ghostron in _ghostrons) {
@@ -202,7 +200,7 @@ namespace PlayMap {
         }
 
         /**
-         * Action when a ghostron catches the pacboy.
+         * Action when a Ghostron catches the pacboy.
          * Make the game over (and the player loses).
          */
         public void PacboyCaught() {
@@ -215,7 +213,7 @@ namespace PlayMap {
          */
         public void SetCrazyParty(bool on) {
             foreach (var ghostron in _ghostrons) {
-                // Set the status of all the ghostrons
+                // Set the status of all the Ghostrons
                 ghostron.GetComponent<Ghostron>().SetCrazyParty(on);
             }
         }

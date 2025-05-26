@@ -50,7 +50,7 @@ namespace Entity.Ghostron.State.StateImpl {
             // Update timer
             _timer += Time.deltaTime;
 
-            // Check if the scared ghostron is in the last two seconds of the scared state
+            // Check if the scared Ghostron is in the last two seconds of the scared state
             if (_timer >= ScaredDuration - _warningTime) {
                 // Warn player that the scared status will end soon
                 // Make the skin swap between normal and scared materials

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Entity.Prop.PropImpl {
     /**
      * POWER PELLET
-     * Scares all ghostrons.
+     * Scares all Ghostrons.
      * (Slows them down, and they are temporarily "frozen" when pacboy catches them)
      */
     public class PowerPelletProp : Prop {

@@ -58,10 +58,6 @@ namespace Entity.Prop.DeployedProp {
                     
                     // Prompt the player
                     GamePlayUI.Instance.NewInfo("Boom! A Ghostron stepped on the bomb you deployed and two Ghostrons are gone!", Color.green);
-
-                    break;
-                default:
-                    Debug.LogError("Unexpected amount of ghostrons killed by deployed bomb: " + ghostronsKilled);
                     break;
             }
         }

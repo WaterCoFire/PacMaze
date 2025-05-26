@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Tutorial.Entities {
     /**
      * Bad Cherry in tutorial
+     * Still implementing Prop abstract class, like the normal one
      */
     public class TutorialBadCherry : Prop {
         // Override

@@ -16,11 +16,11 @@ namespace Tutorial.Entities.TutorialPacboy {
         private KeyCode _leftwardKeyCode = KeyCode.A;
         private KeyCode _rightwardKeyCode = KeyCode.D;
 
-        // Status indicating if the Pacboy is controllable
-        // Should be false: when e.g. game paused, game ended
+        // Whether the Pacboy is controllable
+        // Should be false: when e.g. tutorial paused, tutorial ended
         private bool _controllable;
 
-        // Status indicating if the player is in third person view
+        // Whether the player is in Third Person View
         private bool _inThirdPersonView;
 
         private float _mouseX;
@@ -32,12 +32,10 @@ namespace Tutorial.Entities.TutorialPacboy {
         // Speed buff logic variables
         private float _speedBuffTimer; // The timer of a speed buff
         private readonly float _speedBuffDuration = 3.0f; // Duration that a speed buff lasts (Slightly smaller than normal game)
-        private bool _speedBuffInEffect; // Status telling whether currently there is a speed buff or not
+        private bool _speedBuffInEffect; // Whether currently there is a speed buff or not
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacboyMovement START");
-
             Cursor.lockState = CursorLockMode.Locked; // Lock mouse
             Cursor.visible = false;
 

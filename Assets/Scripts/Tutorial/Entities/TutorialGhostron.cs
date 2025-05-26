@@ -4,6 +4,7 @@ using UnityEngine.AI;
 namespace Tutorial.Entities {
     /**
      * Ghostron in tutorial
+     * Note: Not using FSM mechanism as Ghostrons in tutorial have much easier behaviours
      */
     public class TutorialGhostron : MonoBehaviour {
         public GameObject pacboy; // Pacboy game object, what the Ghostron should chase

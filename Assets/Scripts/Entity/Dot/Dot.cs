@@ -8,7 +8,7 @@ namespace Entity.Dot {
     public class Dot : MonoBehaviour {
         // The index of this dot
         private int _index;
-        
+
         // The dot manager component (should in the Map game object)
         private DotManager _dotManager;
 
@@ -20,7 +20,7 @@ namespace Entity.Dot {
             if (mapObject != null) {
                 _dotManager = DotManager.Instance;
             }
-            
+
             // Check if the DotManager is set
             if (_dotManager == null) {
                 Debug.LogError("Error when initialising dots: DotManager not found!");
@@ -30,19 +30,19 @@ namespace Entity.Dot {
             if (gameObject.GetComponent<BoxCollider>() == null) {
                 Debug.LogError("Error when initialising dots: Dot has no BoxCollider!");
             }
-            
+
             // Enable isTrigger of this dot
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
         }
 
         /**
          * Sets the index of this dot.
-         * Used when initializing this dot in DotManager.
+         * Used when initialising this dot in DotManager.
          */
         public void SetIndex(int index) {
             _index = index;
         }
-        
+
         /**
          * Event when the dot collides with other game objects
          * (All objects except Pacboy should be ignored)
@@ -59,7 +59,7 @@ namespace Entity.Dot {
 
             // Remove this dot in DotManager
             _dotManager.RemoveDot(_index);
-            
+
             // Give the Pacboy 10 score points
             PlayMapController.Instance.AddScore(10);
 

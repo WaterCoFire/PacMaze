@@ -30,8 +30,6 @@ namespace Entity.Pacboy {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacboyPropOperation START");
-
             // Initialisation
             _niceBombs = 0;
             _controllable = true;
@@ -61,23 +59,23 @@ namespace Entity.Pacboy {
                 return; // No operation during cooldown
             }
 
-            // No operation if no nice bombs currently obtained
+            // No operation if no Nice Bombs currently obtained
             if (_niceBombs == 0) return;
 
-            // Use nice bomb
+            // Use Nice Bomb
             if (Input.GetKeyDown(_useNiceBombKeyCode)) {
                 UseNiceBomb();
                 return;
             }
 
-            // Deploy nice bomb
+            // Deploy Nice Bomb
             if (Input.GetKeyDown(_deployNiceBombKeyCode)) {
                 DeployNiceBomb();
             }
         }
 
         /**
-         * Pacboy uses a nice bomb (default key code E).
+         * Pacboy uses a Nice Bomb (default key code E).
          * Directly kills the Ghostron nearest to the Pacboy.
          */
         private void UseNiceBomb() {

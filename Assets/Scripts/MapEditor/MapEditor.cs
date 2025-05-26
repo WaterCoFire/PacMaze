@@ -112,7 +112,6 @@ namespace MapEditor {
             File.WriteAllText(
                 Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + (int)difficulty + ".json"),
                 json);
-            Debug.Log("Map saved successfully: " + _mapName + ", location: " + _saveDirectory);
         }
 
         /**

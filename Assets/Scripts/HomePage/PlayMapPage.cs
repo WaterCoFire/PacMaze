@@ -113,7 +113,7 @@ namespace HomePage {
                 itemTransform.anchoredPosition = new Vector2(0f, -_cumulativeHeight);
                 _cumulativeHeight += _prefabHeight + _padding;
 
-                // Find the map name TMP_Text and the ghostron number TMP_Text in the prefab
+                // Find the map name TMP_Text and the Ghostron number TMP_Text in the prefab
                 TMP_Text[] objectTexts = mapInfoObject.GetComponentsInChildren<TMP_Text>();
                 foreach (var text in objectTexts) {
                     string objName = text.gameObject.name;
@@ -122,7 +122,7 @@ namespace HomePage {
                         // Map name
                         text.text = mapInfo.Name;
                     } else if (objName == "TotalGhostronNumText") {
-                        // Number of ghostrons
+                        // Number of Ghostrons
                         text.text = mapInfo.GhostronNum.ToString();
                     } else if (objName == "DifficultyText") {
                         // Map difficulty

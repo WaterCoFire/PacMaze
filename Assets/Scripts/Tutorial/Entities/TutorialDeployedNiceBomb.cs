@@ -13,12 +13,12 @@ namespace Tutorial.Entities {
         private void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Ghostron")) {
                 GhostronHit();
-                Destroy(gameObject); // Destroy this deployed bomb
+                Destroy(gameObject); // Destroy this Deployed Nice Bomb
             }
         }
 
         /**
-         * A ghostron hits this deployed nice bomb
+         * A Ghostron hits this Deployed Nice Bomb.
          */
         private void GhostronHit() {
             TutorialController.Instance.KillDemoTwoGhostrons();

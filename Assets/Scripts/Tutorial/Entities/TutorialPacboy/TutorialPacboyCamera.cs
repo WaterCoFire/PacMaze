@@ -42,8 +42,6 @@ namespace Tutorial.Entities.TutorialPacboy {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacboyCamera START");
-
             // Set the camera game and Pacboy movement object
             _camera = gameObject.GetComponentInChildren<Camera>();
             _pacboyMovement = gameObject.GetComponent<TutorialPacboyMovement>();

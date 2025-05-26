@@ -45,10 +45,10 @@ namespace Entity.Ghostron.State.StateImpl {
             // Check if the Ghostron "closing" animation has finished
             // If so, play "opening" animation
             if (stateInfo.IsName("anim_close")) {
-                // Caught ghostron has finished the closing animation
+                // Caught Ghostron has finished the closing animation
                 if (stateInfo.normalizedTime >= 1f) {
                     _closed = true;
-                    // Let the ghostron play initialising ("opening") animation
+                    // Let the Ghostron play initialising ("opening") animation
                     ghostron.animator.SetBool("Open_Anim", true);
                     ghostron.animator.SetBool("Walk_Anim", true);
                 }

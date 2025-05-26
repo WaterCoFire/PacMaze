@@ -21,8 +21,6 @@ namespace Tutorial.Entities.TutorialPacboy {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacboyPropOperation START");
-
             // Initialisation
             _niceBombs = 0;
             _controllable = true;
@@ -33,23 +31,23 @@ namespace Tutorial.Entities.TutorialPacboy {
             // No operation if not controllable
             if (!_controllable) return;
 
-            // No operation if no nice bombs currently obtained
+            // No operation if no Nice Bombs currently obtained
             if (_niceBombs == 0) return;
 
-            // Use nice bomb
+            // Use Nice Bomb
             if (Input.GetKeyDown(_useNiceBombKeyCode)) {
                 UseNiceBomb();
                 return;
             }
 
-            // Deploy nice bomb
+            // Deploy Nice Bomb
             if (Input.GetKeyDown(_deployNiceBombKeyCode)) {
                 DeployNiceBomb();
             }
         }
 
         /**
-         * Pacboy uses a nice bomb (default key code E).
+         * Pacboy uses a Nice Bomb (default key code E).
          * Directly kills the Ghostron nearest to the Pacboy.
          */
         private void UseNiceBomb() {
@@ -69,9 +67,9 @@ namespace Tutorial.Entities.TutorialPacboy {
         }
 
         /**
-         * Pacboy deploys a nice bomb (default key code F).
-         * Places the deployed bomb at the current position.
-         * Two ghostrons nearest to it will be killed when a ghostron hits the deployed bomb.
+         * Pacboy deploys a Nice Bomb (default key code F).
+         * Places the Deployed Nice Bomb at the current position.
+         * Two Ghostrons nearest to it will be killed when a Ghostron hits the deployed bomb.
          */
         private void DeployNiceBomb() {
             // Reduce the number

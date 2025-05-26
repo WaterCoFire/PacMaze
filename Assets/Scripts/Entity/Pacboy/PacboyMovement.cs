@@ -22,11 +22,11 @@ namespace Entity.Pacboy {
         private KeyCode _leftwardKeyCode;
         private KeyCode _rightwardKeyCode;
 
-        // Status indicating if the Pacboy is controllable
+        // Whether the Pacboy is controllable
         // Should be false: when e.g. game paused, game ended
         private bool _controllable;
 
-        // Status indicating if the player is in third person view
+        // Whether the player is in Third Person View
         private bool _inThirdPersonView;
 
         private float _mouseX;
@@ -38,7 +38,7 @@ namespace Entity.Pacboy {
         // Speed buff logic variables
         private float _speedBuffTimer; // The timer of a speed buff
         private readonly float _speedBuffDuration = 5.0f; // Duration that a speed buff lasts
-        private bool _speedBuffInEffect; // Status telling whether currently there is a speed buff or not
+        private bool _speedBuffInEffect; // Whether currently there is a speed buff or not
 
         // Event logic - Crazy Party active/disactive (Double the speed)
         private bool _crazyParty;

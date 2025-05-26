@@ -2,7 +2,7 @@
 
 namespace Tutorial.Entities {
     /**
-     * Manages the Dot game object in tutorial scene.
+     * Dot in tutorial
      */
     public class TutorialDot : MonoBehaviour {
         /**

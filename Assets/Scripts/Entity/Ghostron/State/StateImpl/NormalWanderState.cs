@@ -59,7 +59,7 @@ namespace Entity.Ghostron.State.StateImpl {
             // Move the Ghostron towards its wandering target
             ghostron.MoveTo(_wanderTarget);
             
-            // Check the distance between this ghostron and Pacboy target
+            // Check the distance between this Ghostron and Pacboy target
             float distance = Vector3.Distance(ghostron.gameObject.transform.position, ghostron.pacboy.transform.position);
 
             // Check if the Ghostron should enter chase state (to start chasing)

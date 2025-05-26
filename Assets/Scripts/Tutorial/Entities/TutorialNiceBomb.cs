@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Tutorial.Entities {
     /**
      * Nice Bomb in tutorial
+     * Still implementing Prop abstract class, like the normal one
      */
     public class TutorialNiceBomb : Prop {
         // Override
