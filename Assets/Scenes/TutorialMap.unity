@@ -19474,11 +19474,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 975372736}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72cf66a82fcc4a53aff1c8c332160243, type: 3}
+  m_Script: {fileID: 11500000, guid: c35803940775438caceb39dab30b0568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   homePageButton: {fileID: 1643240904}
-  winText: {fileID: 2132948452}
 --- !u!1001 &975673657
 PrefabInstance:
   m_ObjectHideFlags: 0
