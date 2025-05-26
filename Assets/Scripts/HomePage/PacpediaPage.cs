@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace HomePage {
@@ -17,6 +18,8 @@ namespace HomePage {
         public Button randomEventButton;
 
         public Button backButton; // Back to home page
+
+        public Button tutorialButton; // Button to enter tutorial
 
         /* Scroll Rect used to display contents */
         public ScrollRect contentScrollRect;
@@ -81,6 +84,7 @@ namespace HomePage {
             propsButton.onClick.AddListener(OnPropsButtonClick);
             randomEventButton.onClick.AddListener(OnRandomEventButtonClick);
             backButton.onClick.AddListener(OnBackButtonClick);
+            tutorialButton.onClick.AddListener(OnTutorialButtonClick);
         }
 
         // Pacboy button clicked
@@ -146,8 +150,16 @@ namespace HomePage {
         // Back button clicked: Return to the home page
         private void OnBackButtonClick() {
             pacpediaPage.SetActive(false);
-            PlayerPrefs.SetInt("MainPageAt", 0);
             homePage.SetActive(true);
+        }
+        
+        // Tutorial button clicked: Enter the tutorial scene
+        private void OnTutorialButtonClick() {
+            pacpediaPage.SetActive(false);
+            // Update played status
+            PlayerPrefs.SetInt("PlayedBefore", 1);
+            // Load tutorial scene
+            SceneManager.LoadScene("TutorialMap");
         }
     }
 }

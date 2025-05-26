@@ -81,7 +81,6 @@ namespace HomePage {
         /* Back button: back to the home page */
         private void OnBackButtonClick() {
             creditsPage.SetActive(false);
-            PlayerPrefs.SetInt("MainPageAt", 0);
             homePage.SetActive(true);
         }
     }

@@ -1,5 +1,7 @@
-﻿using Setting;
+﻿using System;
+using Setting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace HomePage {
@@ -17,13 +19,27 @@ namespace HomePage {
         public GameObject settingPage; // Key binding setting page
         public GameObject creditsPage; // Credits page
 
+        // Window to be shown if the player has never played PacMaze before
+        public GameObject tutorialPromptWindow;
+
         /* Buttons */
+        // In home page
         public Button playButton;
         public Button editMapsButton;
         public Button pacpediaButton;
         public Button settingButton;
         public Button creditsButton;
         public Button quitGameButton;
+
+        // In tutorial prompt window
+        public Button enterTutorialButton; // Enter tutorial
+        public Button skipButton; // No thanks, no tutorial
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            /* For test purpose only - PlayedBefore manual setting */
+            PlayerPrefs.SetInt("PlayedBefore", 0);
+        }
 
         // START FUNCTION
         private void Start() {
@@ -41,14 +57,11 @@ namespace HomePage {
 
             switch (uiLocation) {
                 case 0:
-                    Debug.Log("Stays in home page");
                     break;
                 case 1:
-                    Debug.Log("Going to play map page");
                     OnPlayButtonClick();
                     break;
                 case 2:
-                    Debug.Log("Going to edit map page");
                     OnEditMapsButtonClick();
                     break;
                 default:
@@ -58,7 +71,7 @@ namespace HomePage {
         }
 
         /**
-         * Set the action listeners for all the buttons
+         * Set the action listeners for all the buttons.
          */
         private void SetButtonActionListener() {
             playButton.onClick.AddListener(OnPlayButtonClick);
@@ -67,33 +80,45 @@ namespace HomePage {
             settingButton.onClick.AddListener(OnSettingButtonClick);
             creditsButton.onClick.AddListener(OnCreditsButtonClick);
             quitGameButton.onClick.AddListener(OnQuitButtonClick);
+            enterTutorialButton.onClick.AddListener(OnEnterTutorialButtonClick);
+            skipButton.onClick.AddListener(OnSkipButtonClick);
         }
 
         /* Button action listeners */
         // Play button
         private void OnPlayButtonClick() {
-            // Set the UI location information
-            PlayerPrefs.SetInt("MainPageAt", 1);
-            
             // Close this home page
             homePage.SetActive(false);
 
-            // Open play maps page
-            playMapsPage.SetActive(true);
+            // Check if the player has played PacMaze before
+            bool playedBefore = PlayerPrefs.GetInt("PlayedBefore", 0) == 1;
+
+            if (playedBefore) {
+                // Played Before
+                // Set the UI location information
+                PlayerPrefs.SetInt("MainPageAt", 1);
+
+                // Open play maps page
+                playMapsPage.SetActive(true);
+            } else {
+                // First Time Playing PacMaze
+                // Display tutorial prompt window
+                tutorialPromptWindow.SetActive(true);
+            }
         }
 
         // Edit maps button
         private void OnEditMapsButtonClick() {
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 2);
-            
+
             // Close this home page
             homePage.SetActive(false);
 
-            // Open play maps page
+            // Open edit maps page
             editMapsPage.SetActive(true);
         }
-        
+
         // Pacpedia button
         private void OnPacpediaButtonClick() {
             // Close this home page
@@ -112,7 +137,7 @@ namespace HomePage {
             settingPage.SetActive(true);
             settingPage.GetComponent<SettingPage>().InitUI();
         }
-        
+
         // Credits button
         private void OnCreditsButtonClick() {
             // Close this home page
@@ -124,5 +149,29 @@ namespace HomePage {
 
         // Quit game button
         private void OnQuitButtonClick() { }
+
+        // Tutorial prompt window - Enter tutorial button
+        private void OnEnterTutorialButtonClick() {
+            // Update played status
+            PlayerPrefs.SetInt("PlayedBefore", 1);
+            
+            // Close the tutorial prompt window
+            tutorialPromptWindow.SetActive(false);
+
+            // Enter tutorial scene
+            SceneManager.LoadScene("TutorialMap");
+        }
+
+        // Tutorial prompt window - Skip button
+        private void OnSkipButtonClick() {
+            // Update played status
+            PlayerPrefs.SetInt("PlayedBefore", 1);
+            
+            // Close the tutorial prompt window
+            tutorialPromptWindow.SetActive(false);
+
+            // Open play maps page
+            playMapsPage.SetActive(true);
+        }
     }
 }
