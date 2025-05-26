@@ -53,7 +53,6 @@ namespace Tutorial.Entities.TutorialPacboy {
          * Directly kills the Ghostron nearest to the Pacboy.
          */
         private void UseNiceBomb() {
-            Debug.Log("NiceBomb USE");
             // Reduce the number
             _niceBombs--;
             
@@ -75,7 +74,6 @@ namespace Tutorial.Entities.TutorialPacboy {
          * Two ghostrons nearest to it will be killed when a ghostron hits the deployed bomb.
          */
         private void DeployNiceBomb() {
-            Debug.Log("NiceBomb DEPLOY");
             // Reduce the number
             _niceBombs--;
 

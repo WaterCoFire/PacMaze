@@ -2917,7 +2917,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 0.2
   m_BaseOffset: 0
@@ -3010,8 +3010,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pacboy: {fileID: 0}
-  originalMaterial: {fileID: 0}
-  scaredMaterial: {fileID: 0}
+  originalMaterial: {fileID: 2100000, guid: a059390ac6ad70e4e837cbfd89ce44ee, type: 2}
+  scaredMaterial: {fileID: 2100000, guid: 33b84c27bdd3bd648b7196e2f80fc198, type: 2}
 --- !u!1 &7298558447280918224
 GameObject:
   m_ObjectHideFlags: 0

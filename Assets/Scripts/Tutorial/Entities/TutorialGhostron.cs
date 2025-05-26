@@ -29,7 +29,7 @@ namespace Tutorial.Entities {
         private bool _scared;
 
         // START FUNCTION
-        void Start() {
+        private void Start() {
             Debug.Log("Ghostron START");
 
             // Check if the Ghostron has all necessary components
@@ -87,6 +87,9 @@ namespace Tutorial.Entities {
                 _agent.angularSpeed = 0f;
                 _animator.SetBool("Open_Anim", false);
                 _animator.SetBool("Walk_Anim", false);
+            
+                // Close action prompt as task (catch a scared Ghostron) is completed
+                TutorialUI.Instance.CloseActionPrompt();
             }
         }
 

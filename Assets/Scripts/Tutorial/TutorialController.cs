@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Tutorial.Entities;
 using Tutorial.Entities.TutorialPacboy;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace Tutorial {
         // Checkpoints (Display corresponding tips when Pacboy is close to one)
         public List<GameObject> checkpoints; // All the checkpoints
         private bool[] _checkpointStatus; // The status of all checkpoints (triggered/not triggered)
-        private const float TipTriggerDistance = 3f; // The trigger distance of displaying a tip
+        private const float TipTriggerDistance = 1.5f; // The trigger distance of displaying a tip
 
         private bool _tutorialInProgress; // Whether the tutorial is currently in progress or not
 
@@ -28,7 +29,7 @@ namespace Tutorial {
         // The Tenacious Ghostron for demonstrating Bad Cherry
         public GameObject tenaciousGhostron;
 
-        private bool _firstNiceBombPicked; // Whether the first Nice Bomb is picked
+        private bool _firstNiceBombUsed; // Whether the first Nice Bomb has been used
 
         // Singleton instance
         public static TutorialController Instance { get; private set; }
@@ -45,10 +46,13 @@ namespace Tutorial {
             Debug.Log("TutorialController START");
 
             _tutorialInProgress = true;
-            _firstNiceBombPicked = false;
+            _firstNiceBombUsed = false;
 
             // Initialise the checkpoint status array
             _checkpointStatus = new bool[checkpoints.Count];
+            
+            // Hide the Tenacious Ghostron
+            tenaciousGhostron.SetActive(false);
 
             // Display the first tip (start tip)
             TutorialUI.Instance.DisplayTip(-1);
@@ -96,12 +100,11 @@ namespace Tutorial {
          * - Make the Pink and Blue Ghostrons chase Pacboy.
          */
         public void NiceBombPicked() {
-            if (!_firstNiceBombPicked) {
-                // First time
+            if (!_firstNiceBombUsed) {
+                // First time (using tutorial)
                 niceBombUseGhostron.GetComponent<TutorialGhostron>().EnableChase();
-                _firstNiceBombPicked = true;
             } else {
-                // Second time
+                // Second time (deploying tutorial)
                 niceBombDeployGhostronLeft.GetComponent<TutorialGhostron>().EnableChase();
                 niceBombDeployGhostronRight.GetComponent<TutorialGhostron>().EnableChase();
             }
@@ -110,18 +113,29 @@ namespace Tutorial {
         /**
          * Kills the Ghostron for demonstrating Nice Bomb (Green).
          * Called by TutorialPacboyPropOperation when Pacboy uses the Nice Bomb.
+         * Return true if successful
+         * Return false if player is doing this operation at the wrong time
          */
         public void KillDemoGhostron() {
+            _firstNiceBombUsed = true;
             Destroy(niceBombUseGhostron);
+            
+            // Close action prompt as task (kill a Ghostron using Nice Bomb) is completed
+            TutorialUI.Instance.CloseActionPrompt();
         }
 
         /**
          * Kills the two Ghostrons for demonstrating Deployed Nice Bomb (Pink and Blue).
          * Called by TutorialDeployedNiceBomb when one of the two Ghostrons steps on the Deployed Nice Bomb.
+         * Return true if successful
+         * Return false if player is doing this operation at the wrong time
          */
         public void KillDemoTwoGhostrons() {
             Destroy(niceBombDeployGhostronLeft);
             Destroy(niceBombDeployGhostronRight);
+            
+            // Close action prompt as task (kill two Ghostrons using Deployed Nice Bomb) is completed
+            TutorialUI.Instance.CloseActionPrompt();
         }
 
         /**
@@ -130,6 +144,8 @@ namespace Tutorial {
          */
         public void SpawnDemoTenaciousGhostron() {
             tenaciousGhostron.SetActive(true);
+            // Let it chase Pacboy
+            tenaciousGhostron.GetComponent<TutorialGhostron>().EnableChase();
         }
 
         /**
@@ -141,7 +157,7 @@ namespace Tutorial {
             pacboy.GetComponent<TutorialPacboyCamera>().DisableCameraOperation();
             pacboy.GetComponent<TutorialPacboyPropOperation>().DisablePropOperation();
 
-            Time.timeScale = 0f; // Stop the time scale
+            Time.timeScale = 0f; // Stop the timescale
             _tutorialInProgress = false;
 
             // Display the pause page
@@ -157,7 +173,7 @@ namespace Tutorial {
             pacboy.GetComponent<TutorialPacboyCamera>().EnableCameraOperation();
             pacboy.GetComponent<TutorialPacboyPropOperation>().EnablePropOperation();
 
-            Time.timeScale = 1f; // Resume the time scale
+            Time.timeScale = 1f; // Resume the timescale
             _tutorialInProgress = true;
 
             // Hide the pause page

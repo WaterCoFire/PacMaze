@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Tutorial {
@@ -11,6 +12,7 @@ namespace Tutorial {
         /* Tip UI */
         public GameObject tipPanel; // The panel used for displaying tips
         public TMP_Text tipText; // The TextMeshPro tip text area
+        public TMP_Text actionPromptText; // The separate text area prompting the action the player should do now
 
         private List<List<string>> _allTips; // The tips displayed at all checkpoints
 
@@ -82,6 +84,9 @@ namespace Tutorial {
                     "Warning: A tip is being displayed while another tip is set to be displayed. Overriding.");
             }
 
+            // Close the action prompt area
+            CloseActionPrompt();
+
             // Temporarily stop the timescale
             Time.timeScale = 0f;
 
@@ -90,9 +95,10 @@ namespace Tutorial {
             _tipDisplaying = true;
             _currentTipPage = 0;
 
-            // UI setting
+            // UI initialise setting
             tipText.text = _currentTip[_currentTipPage];
             tipPanel.SetActive(true);
+            actionPromptText.gameObject.SetActive(false);
         }
 
         /**
@@ -105,25 +111,46 @@ namespace Tutorial {
                 return;
             }
 
-            // Check if the current page is the last page of the tip
-            if (_currentTipPage == _currentTip.Count - 1) {
-                // If so, close the tip panel
-                tipPanel.SetActive(false);
-                _tipDisplaying = false;
-                Time.timeScale = 1f; // Resume the timescale
+            if (_currentTipIndex != _allTips.Count - 1) {
+                // For all tips except for the last (finish) tip:
+                // The last text of the tip should be displayed in the action area (to better prompt the player)
+                // The tip panel should also be closed
+                if (_currentTipPage == _currentTip.Count - 2) {
+                    tipPanel.SetActive(false);
+                    _tipDisplaying = false;
+                    Time.timeScale = 1f; // Resume the timescale
 
-                // Check if this is the last tip (Pacboy already finishes at this point)
-                if (_currentTipIndex == _allTips.Count - 1) {
-                    // Finish the tutorial if so
-                    TutorialController.Instance.Finish();
+                    // Update the action prompt area
+                    actionPromptText.gameObject.SetActive(true);
+                    actionPromptText.text = _currentTip[_currentTipPage + 1];
+
+                    return;
                 }
+            } else {
+                // For the last tip:
+                // Check if the current page is the last page
+                if (_currentTipPage == _currentTip.Count - 1) {
+                    // If so, close the tip panel
+                    tipPanel.SetActive(false);
+                    _tipDisplaying = false;
 
-                return;
+                    TutorialController.Instance.Finish(); // Last page of the last tip - finish the tutorial
+
+                    return;
+                }
             }
 
             // Display the next page
             _currentTipPage++;
             tipText.text = _currentTip[_currentTipPage];
+        }
+
+        /**
+         * Hides the action prompt.
+         * Called everytime the expected action is completed by the player.
+         */
+        public void CloseActionPrompt() {
+            actionPromptText.gameObject.SetActive(false);
         }
 
         /**

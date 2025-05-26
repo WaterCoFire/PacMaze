@@ -14,6 +14,9 @@ namespace Tutorial.Entities {
         public override void OnPicked(GameObject pacboy) {
             // Set speed buff
             pacboy.GetComponent<TutorialPacboyMovement>().SetSpeedBuff(_fastSpeed);
+            
+            // Close action prompt as task (pick up Fast Wheel) is completed
+            TutorialUI.Instance.CloseActionPrompt();
         }
     }
 }
