@@ -36879,7 +36879,7 @@ MonoBehaviour:
   niceBombUseTips:
   - And here we have a Nice Bomb!
   - Pick it up and you become Ghostrons' nightmare!
-  - When possessing a Nice Bomb,<br>press E to use it and kill the nearest Ghostron!
+  - When possessing a Nice Bomb,<br>press 'E' to use it and kill the nearest Ghostron!
   - Pick up the Nice Bomb and press 'E'<br>to kill the Ghostron!
   niceBombDeployTips:
   - And here we have another Nice Bomb<br>(and two Ghostrons)!
@@ -36887,6 +36887,7 @@ MonoBehaviour:
     it, rather than simply use it.
   - When a Ghostron steps on a Deployed Nice Bomb, both it and the other nearest
     Ghostron go away with a boom!
+  - Press 'F' to deploy a Nice Bomb at Pacboy's current location!
   - Try deploying the Nice Bomb by pressing 'F'<br>and lure a Ghostron into it!
   badCherryTips:
   - Oh, a Bad Cherry!
