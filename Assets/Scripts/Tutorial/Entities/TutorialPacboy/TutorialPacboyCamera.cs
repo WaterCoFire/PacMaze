@@ -1,25 +1,20 @@
-﻿using Entity.Map;
-using PlayMap;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Entity.Pacboy {
+namespace Tutorial.Entities.TutorialPacboy {
     /**
-     * Manages the camera of the Pacboy.
-     * - Initialisation
-     * - "Turn Back" operation (Default key: Q, only works in FPV)
-     * - Switch View operation (Default key: V)
+     * Manages the camera of the Pacboy in tutorial.
      */
-    public class PacboyCamera : MonoBehaviour {
+    public class TutorialPacboyCamera : MonoBehaviour {
         // The camera game object
         private Camera _camera;
 
         // The mini map panel on the top right
         private GameObject _mapPanel;
 
-        // Key code for camera operation (B/V/M by default, they can be customized in Setting)
-        private KeyCode _turnBackKeyCode;
-        private KeyCode _switchViewKeyCode;
-        private KeyCode _openMapKeyCode;
+        // Key code for camera operation (B/V/M by default, not changeable in tutorial)
+        private KeyCode _turnBackKeyCode = KeyCode.B;
+        private KeyCode _switchViewKeyCode = KeyCode.V;
+        private KeyCode _openMapKeyCode = KeyCode.M;
 
         // Status indicating if the Pacboy camera is controllable
         private bool _controllable;
@@ -43,7 +38,7 @@ namespace Entity.Pacboy {
         private bool _inThirdPersonView;
 
         // Pacboy movement component
-        private PacboyMovement _pacboyMovement;
+        private TutorialPacboyMovement _pacboyMovement;
 
         // START FUNCTION
         private void Start() {
@@ -51,12 +46,7 @@ namespace Entity.Pacboy {
 
             // Set the camera game and Pacboy movement object
             _camera = gameObject.GetComponentInChildren<Camera>();
-            _pacboyMovement = gameObject.GetComponent<PacboyMovement>();
-
-            // Get the keycode set for look back & switch view operations
-            _turnBackKeyCode = GetKeyCode("TurnBackKeyCode", KeyCode.Q);
-            _switchViewKeyCode = GetKeyCode("SwitchViewKeyCode", KeyCode.V);
-            _openMapKeyCode = GetKeyCode("OpenMapKeyCode", KeyCode.M);
+            _pacboyMovement = gameObject.GetComponent<TutorialPacboyMovement>();
 
             _currentOffset = _thirdPersonOffset;
             _camera.transform.localPosition = _currentOffset;
@@ -64,7 +54,7 @@ namespace Entity.Pacboy {
 
             _controllable = true;
             _inThirdPersonView = true;
-            
+
             // By default, the map is not displayed
             _mapPanel = GameObject.Find("MapPanel");
             _mapPanel.SetActive(false);
@@ -135,7 +125,7 @@ namespace Entity.Pacboy {
                 // Instantly turn the camera around
                 _yaw += 180f;
             }
-            
+
             // Map logic
             // Open/Close the map
             if (Input.GetKeyDown(_openMapKeyCode)) {
@@ -144,42 +134,16 @@ namespace Entity.Pacboy {
         }
 
         /**
-         * Sets the open/close status of the map in game.
+         * Sets the open/close status of the map in tutorial.
          */
         private void SetMapView(bool open) {
-            // Operation is not allowed in hard mode
-            if (PlayMapController.Instance.GetDifficulty() == DifficultyType.Hard) {
-                Debug.LogWarning("Map cannot be shown in hard mode.");
-                return;
-            }
-            
             _mapPanel.SetActive(open); // Display/Hide the map camera
-        }
-
-        /**
-         * Trys to obtain the corresponding key code in player preferences.
-         * If failed, a warning is shown.
-         */
-        private KeyCode GetKeyCode(string key, KeyCode defaultKeyCode) {
-            string keyString = PlayerPrefs.GetString(key, defaultKeyCode.ToString());
-            if (System.Enum.TryParse(keyString, out KeyCode result)) {
-                return result;
-            } else {
-                // Default key code logic due to failure in parsing
-                Debug.LogWarning(
-                    $"The key value in player preferences {keyString} cannot be transformed to KeyCode, using default KeyCode: {defaultKeyCode}");
-                return defaultKeyCode;
-            }
         }
 
         /**
          * Allows the player to control the camera of the Pacboy.
          */
         public void EnableCameraOperation() {
-            // Update KeyCode
-            _turnBackKeyCode = GetKeyCode("TurnBackKeyCode", KeyCode.Q);
-            _switchViewKeyCode = GetKeyCode("SwitchViewKeyCode", KeyCode.V);
-            
             _controllable = true;
         }
 

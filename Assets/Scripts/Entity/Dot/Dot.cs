@@ -23,12 +23,12 @@ namespace Entity.Dot {
             
             // Check if the DotManager is set
             if (_dotManager == null) {
-                Debug.LogError("Error when initializing dots: DotManager not found!");
+                Debug.LogError("Error when initialising dots: DotManager not found!");
             }
 
             // Check if the dot has Box Collider
             if (gameObject.GetComponent<BoxCollider>() == null) {
-                Debug.LogError("Error when initializing dots: Dot has no BoxCollider!");
+                Debug.LogError("Error when initialising dots: Dot has no BoxCollider!");
             }
             
             // Enable isTrigger of this dot

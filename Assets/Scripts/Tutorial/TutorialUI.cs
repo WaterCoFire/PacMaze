@@ -17,7 +17,7 @@ namespace Tutorial {
         /* Nice Bomb UI */
         // Displayed when the player has nice bombs (This button cannot be actually clicked)
         public Button niceBombButton;
-        
+
         public TMP_Text niceBombNumText; // Inside the button, shows the number of nice bombs the player currently has
 
         /* Other UI Pages */
@@ -35,7 +35,8 @@ namespace Tutorial {
 
         private bool _tipDisplaying; // Whether a tip is currently being displayed
         private List<string> _currentTip; // The current tip being displayed
-        private int _currentTipPageIndex; // The index (Page No.) currently displayed
+        private int _currentTipIndex; // The index of the current tip
+        private int _currentTipPage; // The current page No. of the tip
 
         // Singleton instance
         public static TutorialUI Instance { get; private set; }
@@ -83,12 +84,16 @@ namespace Tutorial {
                     "Warning: A tip is being displayed while another tip is set to be displayed. Overriding.");
             }
 
-            _currentTip = _allTips[index + 1]; // Plus 1 as the Start Tip does not belong to a checkpoint
+            // Temporarily stop the timescale
+            Time.timeScale = 0f;
+
+            _currentTipIndex = index + 1; // Plus 1 as the Start Tip does not belong to a checkpoint
+            _currentTip = _allTips[_currentTipIndex];
             _tipDisplaying = true;
-            _currentTipPageIndex = 0;
-            
+            _currentTipPage = 0;
+
             // UI setting
-            tipText.text = _currentTip[_currentTipPageIndex];
+            tipText.text = _currentTip[_currentTipPage];
             tipPanel.SetActive(true);
         }
 
@@ -101,18 +106,26 @@ namespace Tutorial {
                 Debug.LogError("Error: Tip is not being displayed!");
                 return;
             }
-            
+
             // Check if the current page is the last page of the tip
-            if (_currentTipPageIndex == _currentTip.Count - 1) {
+            if (_currentTipPage == _currentTip.Count - 1) {
                 // If so, close the tip panel
                 tipPanel.SetActive(false);
                 _tipDisplaying = false;
+                Time.timeScale = 1f; // Resume the timescale
+
+                // Check if this is the last tip (Pacboy already finishes at this point)
+                if (_currentTipIndex == _allTips.Count - 1) {
+                    // Finish the tutorial if so
+                    TutorialController.Instance.Finish();
+                }
+
                 return;
             }
-            
+
             // Display the next page
-            _currentTipPageIndex++;
-            tipText.text = _currentTip[_currentTipPageIndex];
+            _currentTipPage++;
+            tipText.text = _currentTip[_currentTipPage];
         }
 
         /**
@@ -130,7 +143,7 @@ namespace Tutorial {
         public void UpdateNiceBombNum(int num) {
             niceBombNumText.text = num.ToString();
         }
-        
+
         /**
          * Displays/Hides the pause page.
          * Called by TutorialController when the tutorial pauses/resumes.

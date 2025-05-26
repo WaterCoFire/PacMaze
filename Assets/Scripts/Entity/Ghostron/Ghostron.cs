@@ -90,7 +90,7 @@ namespace Entity.Ghostron {
 
             _crazyParty = false; // No Crazy Party event by default
 
-            // Set the ghost as a trigger
+            // Set the Ghostron as a trigger
             gameObject.GetComponent<BoxCollider>().isTrigger = true;
 
             // Bind the NavMeshAgent component
