@@ -19,7 +19,7 @@ namespace PlayMap {
         private DifficultyType _difficulty; // Difficulty of the current game
         private int _currentScore; // Current game score
 
-        private bool _gamePlaying; // Status telling if the game is currently in progress or not
+        private bool _gamePlaying; // Whether the game is currently in progress or not
 
         // GAME TIMER
         private float _gameTimer;
@@ -45,7 +45,7 @@ namespace PlayMap {
         /**
          * THE START FUNCTION
          * Get the file name of the map to be played
-         * and call InitMap() to initialize the map
+         * and call InitMap() to initialise the map
          */
         private void Start() {
             Debug.Log("MapController START");
@@ -128,7 +128,7 @@ namespace PlayMap {
 
         // UPDATE FUNCTION
         private void Update() {
-            // No action is game is currently paused
+            // No action if game is currently paused
             if (!_gamePlaying) return;
 
             // Update timer
