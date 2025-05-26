@@ -5,7 +5,6 @@ using Entity.Pacboy;
 using Newtonsoft.Json;
 using PlayMap.UI;
 using Setting;
-using TMPro;
 using UnityEngine;
 
 namespace PlayMap {
@@ -27,14 +26,6 @@ namespace PlayMap {
 
         // Pacboy game object
         private GameObject _pacboy;
-
-        // Score Display UI
-        public TMP_Text scoreText; // Score text
-        public GameObject superBonusPrompt; // Prompt when Super Bonus is triggered
-
-        public GameObject pausePage; // Pause page
-        public GameObject winPage; // Game over page: player wins
-        public GameObject losePage; // Game over page: player loses
 
         // Event logic - Super Bonus active/disactive (Double the score obtained)
         private bool _superBonus;
