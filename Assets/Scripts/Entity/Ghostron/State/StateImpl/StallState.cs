@@ -33,8 +33,8 @@ namespace Entity.Ghostron.State.StateImpl {
             // Give the Pacboy 200 score points
             PlayMapController.Instance.AddScore(200);
 
-            // The Update() function keeps tracking if the "closing" animation of the ghostron is over or not
-            // After that animation is over, ghostron will "open" again
+            // The Update() function keeps tracking if the "closing" animation of the Ghostron is over or not
+            // After that animation is over, Ghostron will "open" again
         }
 
         /**

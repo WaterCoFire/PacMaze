@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Entity.Ghostron.GhostronImpl {
     public class GreenGhostron : Ghostron {
-        // Wander interval of the green ghostron
+        // Wander interval of the green Ghostron
         public override float WanderInterval {
             get { return 12.0f; }
         }
         
-        // Scared duration of the green ghostron
+        // Scared duration of the green Ghostron
         public override float ScaredDuration {
             get { return 8.0f; }
         }
         
-        // Minimum wander duration of the green ghostron
+        // Minimum wander duration of the green Ghostron
         public override float MinimumWanderDuration {
             // Easy: 6
             // Normal: 4
@@ -28,13 +28,13 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 3f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " + PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
         }
         
-        // Maximum chase duration of the green ghostron
+        // Maximum chase duration of the green Ghostron
         public override float MaximalChaseDuration {
             // Easy: 12
             // Normal, Hard: 18
@@ -47,7 +47,7 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 18f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " + PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
@@ -66,7 +66,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * Green Ghostron:
          * WHEN IN NORMAL WANDER
          * Go to the middle point of the four quadrants of the map that is the nearest to the Pacboy.
-         * If the green ghostron already arrives there, go to another random quadrant middle point.
+         * If the green Ghostron already arrives there, go to another random quadrant middle point.
          * WHEN SCARED
          * Go to the point that is the furthest.
          */

@@ -5,17 +5,17 @@ using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
     public class PinkGhostron : Ghostron {
-        // Wander interval of the pink ghostron
+        // Wander interval of the pink Ghostron
         public override float WanderInterval {
             get { return 20.0f; }
         }
 
-        // Scared duration of the pink ghostron
+        // Scared duration of the pink Ghostron
         public override float ScaredDuration {
             get { return 8.0f; }
         }
 
-        // Minimum wander duration of the pink ghostron
+        // Minimum wander duration of the pink Ghostron
         public override float MinimumWanderDuration {
             // Easy: 14
             // Normal: 10
@@ -29,14 +29,14 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 8f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " +
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " +
                                        PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
         }
 
-        // Maximum chase duration of the pink ghostron
+        // Maximum chase duration of the pink Ghostron
         public override float MaximalChaseDuration {
             // Easy: 5
             // Normal, Hard: 8
@@ -49,14 +49,14 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 8f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " +
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " +
                                        PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
         }
 
-        private bool _isCenterTarget = false; // Status indicating if the last target is center point or not
+        private bool _isCenterTarget; // Status indicating if the last target is center point or not
 
         /**
          * OVERRIDE
@@ -64,7 +64,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * Pink Ghostron:
          * WHEN IN NORMAL WANDER
          * Head towards to the center point.
-         * If the pink ghostron already arrives there, go to a random position.
+         * If the pink Ghostron already arrives there, go to a random position.
          * WHEN SCARED
          * Head towards the center point (And not willing to leave)
          */

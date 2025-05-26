@@ -9,11 +9,11 @@ namespace Entity.Ghostron.State.StateImpl {
         public float WanderInterval;
         public float NormalWanderSpeed;
         public float DetectionRadius;
-        public float MinimumWanderDuration; // The ghostron must wander for at least this time for every wander
+        public float MinimumWanderDuration; // The Ghostron must wander for at least this time for every wander
         private float _timer;
         private bool _chaseAllowed;
         
-        // Animation speed when the ghostron is in normal wander state
+        // Animation speed when the Ghostron is in normal wander state
         private readonly float _normalAnimationSpeed = 0.6f;
 
         /**
@@ -46,8 +46,8 @@ namespace Entity.Ghostron.State.StateImpl {
          */
         public void Update(Ghostron ghostron) {
             // Get the animator state info
-            // Check if the ghostron is in initialising (opening itself) animation
-            // Not in walking animation status means that the ghostron is initialising
+            // Check if the Ghostron is in initialising (opening itself) animation
+            // Not in walking animation status means that the Ghostron is initialising
             // Directly return if so
             AnimatorStateInfo stateInfo = ghostron.animator.GetCurrentAnimatorStateInfo(0);
             if (!stateInfo.IsName("anim_Walk_Loop")) return;

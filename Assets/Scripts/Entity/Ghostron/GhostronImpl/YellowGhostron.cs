@@ -5,17 +5,17 @@ using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
     public class YellowGhostron : Ghostron {
-        // Wander interval of the yellow ghostron
+        // Wander interval of the yellow Ghostron
         public override float WanderInterval {
             get { return 30.0f; }
         }
 
-        // Scared duration of the yellow ghostron
+        // Scared duration of the yellow Ghostron
         public override float ScaredDuration {
             get { return 8.0f; }
         }
 
-        // Minimum wander duration of the yellow ghostron
+        // Minimum wander duration of the yellow Ghostron
         public override float MinimumWanderDuration {
             // Easy: 10
             // Normal: 8
@@ -29,13 +29,13 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 7f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " + PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
         }
 
-        // Maximum chase duration of the yellow ghostron
+        // Maximum chase duration of the yellow Ghostron
         public override float MaximalChaseDuration {
             // Easy: 40
             // Normal, Hard: 50
@@ -48,7 +48,7 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 50f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " + PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }

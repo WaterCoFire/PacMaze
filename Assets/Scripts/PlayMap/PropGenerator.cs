@@ -26,18 +26,18 @@ namespace PlayMap {
         // Random instance for generating random numbers
         private readonly Random _random = new();
 
-        // Pacboy game object (used for setting the chase target of all the ghostrons)
+        // Pacboy game object (used for setting the chase target of all the Ghostrons)
         private GameObject _pacboy;
 
         /**
-         * Places all the FIXED props (including Pacboy, fixed ghostrons) on the map.
-         * Randomly places all the RANDOM props (including ghostrons) on the map.
+         * Places all the FIXED props (including Pacboy, fixed Ghostrons) on the map.
+         * Randomly places all the RANDOM props (including Ghostrons) on the map.
          * Places dots on all the remaining tiles.
          */
         public void InitProps(PropData propData) {
             _propData = propData;
 
-            // Initialize the list storing all the free tiles
+            // Initialise the list storing all the free tiles
             // (should be all the tiles at the beginning)
             _freeTiles.Clear();
             float z, x;
@@ -50,7 +50,7 @@ namespace PlayMap {
                 }
             }
 
-            // Resets all the infos in ghostron and dot manager
+            // Resets all the infos in Ghostron and dot manager
             GhostronManager.Instance.ResetGhostrons();
             DotManager.Instance.ResetDots();
 
@@ -128,7 +128,7 @@ namespace PlayMap {
                 DotManager.Instance.AddDot(newDot); // Add to the dot manager
             }
 
-            // Set the Pacboy target for all the ghostrons
+            // Set the Pacboy target for all the Ghostrons
             if (_pacboy == null) {
                 Debug.LogError("Error: Pacboy not found!");
             } else {
@@ -216,7 +216,7 @@ namespace PlayMap {
                     // Instantiate it and store it to the GhostronManager
                     GameObject newGhostron = Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
 
-                    // Add the new ghostron to GhostronManager
+                    // Add the new Ghostron to GhostronManager
                     GhostronManager.Instance.AddGhostron(newGhostron);
                 }
 

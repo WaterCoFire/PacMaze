@@ -3,7 +3,7 @@
 namespace HomePage {
     /**
      * The struct used for map view function.
-     * Displays: the name of the map, how many ghostrons are there in total
+     * Displays: the name of the map, how many Ghostrons are there in total, map difficulty
      */
     public struct MapInfo {
         public readonly string Name;

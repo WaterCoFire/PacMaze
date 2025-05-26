@@ -5,14 +5,14 @@ using UnityEngine;
 namespace Entity.Prop.PropImpl {
     /**
      * BAD CHERRY
-     * Spawns a new tenacious ghostron.
+     * Spawns a new Tenacious Ghostron.
      * (spawns at randomly position)
      */
     public class BadCherryProp : Prop {
         // Override
         public override void OnPicked(GameObject pacboy) {
             Debug.Log("BAD CHERRY picked");
-            // Spawn a new ghostron at random place
+            // Spawn a new Ghostron at random place
             GhostronManager.Instance.SpawnTenaciousGhostron();
             
             // Reduce 50 score points

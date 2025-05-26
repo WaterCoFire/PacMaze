@@ -39,7 +39,7 @@ namespace PlayMap.UI {
 
             // Text update
             string winPrompt =
-                $"Pacboy has successfully eaten all the dots in {finalTime}.\n\nThe maze is clean, your appetite is legendary, and the ghostrons are off filing emotional damage claims.\n\nYour game score: {gameScore}\n";
+                $"Pacboy has successfully eaten all the dots in {finalTime}.\n\nThe maze is clean, your appetite is legendary, and the Ghostrons are off filing emotional damage claims.\n\nYour game score: {gameScore}\n";
 
             winText.text = winPrompt;
         }

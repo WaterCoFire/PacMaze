@@ -3,24 +3,24 @@ using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
     public class TenaciousGhostron : Ghostron {
-        // Wander interval of the tenacious ghostron
+        // Wander interval of the Tenacious Ghostron
         public override float WanderInterval {
             get { return 2.0f; }
         }
 
-        // Scared duration of the tenacious ghostron
+        // Scared duration of the Tenacious Ghostron
         // TENACIOUS GHOSTRON WILL NOT BE SCARED
         public override float ScaredDuration {
             get { return 0.0f; }
         }
         
-        // Minimum wander duration of the tenacious ghostron
+        // Minimum wander duration of the Tenacious Ghostron
         // THE SAME in easy/normal/hard mode
         public override float MinimumWanderDuration {
             get { return 1.0f; }
         }
         
-        // Maximum chase duration of the tenacious ghostron
+        // Maximum chase duration of the Tenacious Ghostron
         // THE SAME in easy/normal/hard mode
         public override float MaximalChaseDuration {
             get { return 10000.0f; }
@@ -32,7 +32,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * Tenacious Ghostron:
          * WHEN IN NORMAL WANDER & WHEN SCARED
          * Always go to the position that the Pacboy has been to.
-         * As the wander interval is short for tenacious ghostron,
+         * As the wander interval is short for Tenacious Ghostron,
          * this is almost the current location of the Pacboy.
          */
         public override Vector3 GenerateWanderingTarget() {

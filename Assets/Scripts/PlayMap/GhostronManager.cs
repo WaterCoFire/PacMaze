@@ -7,24 +7,24 @@ using Random = UnityEngine.Random;
 
 namespace PlayMap {
     /**
-     * Manages all the ghostrons in each game.
+     * Manages all the Ghostrons in each game.
      */
     public class GhostronManager : MonoBehaviour {
-        // The list of all the active ghostrons
+        // The list of all the active Ghostrons
         private readonly List<GameObject> _ghostrons = new();
 
-        // Normal wandering speed of ghostrons
+        // Normal wandering speed of Ghostrons
         private readonly float _ghostronNormalSpeed = 2.0f;
 
-        // Scared speed of ghostrons (when Pacboy eats a power pellet)
+        // Scared speed of Ghostrons (when Pacboy eats a power pellet)
         private readonly float _ghostronScaredSpeed = 1.0f;
 
-        // Chasing speeds of ghostrons, by difficulty
+        // Chasing speeds of Ghostrons, by difficulty
         private readonly float _ghostronEasyChaseSpeed = 3.5f;
         private readonly float _ghostronNormalChaseSpeed = 4.5f;
         private readonly float _ghostronHardChaseSpeed = 6f;
 
-        // Detection radius of ghostrons, by difficulty
+        // Detection radius of Ghostrons, by difficulty
         private readonly float _ghostronEasyDetectionRadius = 10.0f;
         private readonly float _ghostronNormalDetectionRadius = 20.0f;
         private readonly float _ghostronHardDetectionRadius = 25.0f;
@@ -49,26 +49,26 @@ namespace PlayMap {
 
         /**
          * Sets the difficulty of the current game.
-         * Decides the chasing speed and detection radius of the ghostrons.
+         * Decides the chasing speed and detection radius of the Ghostrons.
          */
         public void SetDifficulty(DifficultyType difficulty) {
             _difficulty = difficulty;
         }
 
         /**
-         * Resets the ghostrons list.
-         * Used in PropGenerator when initializing the map.
+         * Resets the Ghostrons list.
+         * Used in PropGenerator when initialising the map.
          */
         public void ResetGhostrons() {
-            // Empty the ghostron list
+            // Empty the Ghostron list
             _ghostrons.Clear();
         }
 
         /**
-         * Add a new ghostron information.
+         * Add a new Ghostron information.
          */
         public void AddGhostron(GameObject newGhostron) {
-            // Set the params of the ghostron according to difficulty
+            // Set the params of the Ghostron according to difficulty
             switch (_difficulty) {
                 case DifficultyType.Easy:
                     // EASY
@@ -94,12 +94,12 @@ namespace PlayMap {
                     return;
             }
 
-            // Add to the ghostron list
+            // Add to the Ghostron list
             _ghostrons.Add(newGhostron);
         }
 
         /**
-         * Scares all the ghostrons.
+         * Scares all the Ghostrons.
          * Called when the Pacboy eats a power pellet.
          */
         public void ScareAllGhostrons() {
@@ -110,17 +110,17 @@ namespace PlayMap {
         }
 
         /**
-         * Kills the nearest ghostron to the position given.
-         * Used when a nice bomb is used OR deployed and then hit by a ghostron:
+         * Kills the nearest Ghostron to the position given.
+         * Used when a Nice Bomb is used OR deployed and then hit by a Ghostron:
          * - USED:
-         * Obtain the nearest ghostron to the Pacboy and kill it
+         * Obtain the nearest Ghostron to the Pacboy and kill it
          * - DEPLOYED & HIT:
-         * Obtain the two nearest ghostron to the deployed bomb and kill them
-         * (which means the ghostron hitting the deployed bomb & another nearest ghostron)
+         * Obtain the two nearest Ghostrons to the deployed bomb and kill them
+         * (which means the Ghostron hitting the deployed bomb & another nearest Ghostron)
          *
          * RETURNS:
-         * - true if a ghostron is successfully killed
-         * - false otherwise (when there is no ghostron left / unexpected things happen)
+         * - true if a Ghostron is successfully killed
+         * - false otherwise (when there is no Ghostron left / unexpected things happen)
          */
         public bool KillNearestGhostron(Vector3 position) {
             if (_ghostrons.Count == 0) {

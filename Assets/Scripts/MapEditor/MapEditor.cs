@@ -95,7 +95,7 @@ namespace MapEditor {
 
             Map map = new(_mapName, difficulty, eventEnabled, wallData, propData);
 
-            // Get the number of total ghostrons (will be part of the file name)
+            // Get the number of total Ghostrons (will be part of the file name)
             int totalGhostrons = propData.TotalPropCounts[PropType.Ghostron];
 
             // Find the origin file to delete it
@@ -141,7 +141,7 @@ namespace MapEditor {
                 string json = File.ReadAllText(path);
                 MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
 
-                // Initialize UI (set names etc.)
+                // Initialise UI (set names etc.)
                 InitUI(_mapName);
 
                 // Set walls
@@ -455,7 +455,7 @@ namespace MapEditor {
             invalidTilesPanelCloseButton.onClick.AddListener(OnInvalidTilesPanelCloseButtonClick);
         }
 
-        // Initializes the map editor UI. 
+        // Initialises the map editor UI. 
         private void InitUI(string mapName) {
             // Map Name setting
             _mapName = mapName;

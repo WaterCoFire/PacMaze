@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Entity.Ghostron.GhostronImpl {
     public class BlueGhostron : Ghostron {
-        // Wander interval of the blue ghostron
+        // Wander interval of the blue Ghostron
         public override float WanderInterval {
             get { return 15.0f; }
         }
 
-        // Scared duration of the blue ghostron
+        // Scared duration of the blue Ghostron
         public override float ScaredDuration {
             get { return 8.0f; }
         }
 
-        // Minimum wander duration of the blue ghostron
+        // Minimum wander duration of the blue Ghostron
         public override float MinimumWanderDuration {
             // Easy: 10
             // Normal: 8
@@ -28,13 +28,13 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 7f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " + PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
         }
 
-        // Maximum chase duration of the blue ghostron
+        // Maximum chase duration of the blue Ghostron
         public override float MaximalChaseDuration {
             // Easy: 8
             // Normal, Hard: 12
@@ -47,7 +47,7 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 12f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " + PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
@@ -66,7 +66,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * Blue Ghostron:
          * WHEN IN NORMAL WANDER & WHEN SCARED
          * Go to the map corner which is the furthest away from the Pacboy.
-         * If the blue ghostron already arrives there, go to another random corner.
+         * If the blue Ghostron already arrives there, go to another random corner.
          */
         public override Vector3 GenerateWanderingTarget() {
             if (pacboy != null) {

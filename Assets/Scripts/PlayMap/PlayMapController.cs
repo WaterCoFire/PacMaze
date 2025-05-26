@@ -76,8 +76,8 @@ namespace PlayMap {
          * - Generates the wall according to file data
          * - Places all the fixed props
          * - Randomly places the remaining props (num for each prop: total - fixed)
-         * - Places the ghostrons at their fixed spawn point
-         * - Randomly generates the remaining ghostrons (num: total - fixed)
+         * - Places the Ghostrons at their fixed spawn point
+         * - Randomly generates the remaining Ghostrons (num: total - fixed)
          * - Generates dots for all the spare tiles
          * - Generates the Pacboy
          */
@@ -106,7 +106,7 @@ namespace PlayMap {
             // Difficulty setting
             _difficulty = wrapper.difficulty;
 
-            // Update difficulty in GhostronManager to for setting the behaviours of the ghostrons
+            // Update difficulty in GhostronManager to for setting the behaviours of the Ghostrons
             GhostronManager.Instance.SetDifficulty(_difficulty);
 
             // Set the event status in EventManager (enable/disable event)
@@ -193,7 +193,7 @@ namespace PlayMap {
 
         /**
          * The player loses the game.
-         * Called when a ghostron catches the Pacboy.
+         * Called when a Ghostron catches the Pacboy.
          */
         public void Lose() {
             _gamePlaying = false;

@@ -84,6 +84,7 @@ namespace Tutorial.Entities {
                 // Stall the Ghostron if the Ghostron is scared
                 _animator.speed = 0.7f;
                 _agent.speed = 0f;
+                _agent.angularSpeed = 0f;
                 _animator.SetBool("Open_Anim", false);
                 _animator.SetBool("Walk_Anim", false);
             }

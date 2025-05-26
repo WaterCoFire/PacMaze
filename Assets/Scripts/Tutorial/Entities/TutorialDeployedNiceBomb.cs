@@ -7,7 +7,7 @@ namespace Tutorial.Entities {
     public class TutorialDeployedNiceBomb : MonoBehaviour {
         /**
          * Unity event: When the deployed bomb collides with a game object
-         * Checks if the game object is a ghostron
+         * Checks if the game object is a Ghostron
          * If so, call the GhostronHit() function
          */
         private void OnTriggerEnter(Collider other) {

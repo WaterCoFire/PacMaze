@@ -6,8 +6,8 @@ namespace Entity.Pacboy {
     /**
      * Manages the prop operation of the Pacboy.
      * In the current game design, when the Pacboy has picked up a nice bomb,
-     * The player can press E (default) to directly use it (kills the nearest ghostron)
-     * or press F (default) to deploy it, and kills two ghostrons when a ghostron hits it
+     * The player can press E (default) to directly use it (kills the nearest Ghostron)
+     * or press F (default) to deploy it, and kills two Ghostrons when a Ghostron hits it
      */
     public class PacboyPropOperation : MonoBehaviour {
         // The game object prefab of the deployed nice bomb
@@ -17,7 +17,7 @@ namespace Entity.Pacboy {
         // The number of nice bombs that the Pacboy has
         private int _niceBombs;
 
-        private bool _onCooldown; // Status indicating if a prop is just being used
+        private bool _onCooldown; // Whether a prop is just being used
         private readonly float _cooldownDuration = 5.0f; // The duration between two consecutive use/deployment, 5 secs
         private float _cooldownTimer; // Cooldown timer
 
@@ -78,14 +78,14 @@ namespace Entity.Pacboy {
 
         /**
          * Pacboy uses a nice bomb (default key code E).
-         * Directly kills the ghostron nearest to the Pacboy.
+         * Directly kills the Ghostron nearest to the Pacboy.
          */
         private void UseNiceBomb() {
             Debug.Log("NiceBomb USE");
             // Reduce the number
             _niceBombs--;
 
-            // Kill the ghostron nearest to the Pacboy
+            // Kill the Ghostron nearest to the Pacboy
             if (GhostronManager.Instance.KillNearestGhostron(gameObject.transform.position)) {
                 // Give the Pacboy 200 score points if killing is successful
                 PlayMapController.Instance.AddScore(200);
@@ -111,9 +111,9 @@ namespace Entity.Pacboy {
         }
 
         /**
-         * Pacboy deploys a nice bomb (default key code F).
-         * Places the deployed bomb at the current position.
-         * Two ghostrons nearest to it will be killed when a ghostron hits the deployed bomb.
+         * Pacboy deploys a Nice Bomb (default key code F).
+         * Places the Deployed Nice Bomb at the current position.
+         * Two Ghostrons nearest to it will be killed when a Ghostron hits the Deployed Nice Bomb.
          */
         private void DeployNiceBomb() {
             Debug.Log("NiceBomb DEPLOY");

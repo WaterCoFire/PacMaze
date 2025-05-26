@@ -5,17 +5,17 @@ using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
     public class RedGhostron : Ghostron {
-        // Wander interval of the red ghostron
+        // Wander interval of the red Ghostron
         public override float WanderInterval {
             get { return 20.0f; }
         }
 
-        // Scared duration of the red ghostron
+        // Scared duration of the red Ghostron
         public override float ScaredDuration {
             get { return 8.0f; }
         }
 
-        // Minimum wander duration of the red ghostron
+        // Minimum wander duration of the red Ghostron
         public override float MinimumWanderDuration {
             // Easy: 6
             // Normal: 4
@@ -29,13 +29,13 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 3f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " + PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }
         }
 
-        // Maximum chase duration of the red ghostron
+        // Maximum chase duration of the red Ghostron
         public override float MaximalChaseDuration {
             // Easy: 25
             // Normal, Hard: 30
@@ -48,7 +48,7 @@ namespace Entity.Ghostron.GhostronImpl {
                     case DifficultyType.Hard:
                         return 30f;
                     default:
-                        Debug.LogError("Error: Invalid difficulty when initialising ghostrons: " + PlayMapController.Instance.GetDifficulty());
+                        Debug.LogError("Error: Invalid difficulty when initialising Ghostrons: " + PlayMapController.Instance.GetDifficulty());
                         return 0f;
                 }
             }

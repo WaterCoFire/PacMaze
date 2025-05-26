@@ -6,10 +6,10 @@ namespace Entity.Ghostron.State.StateImpl {
      */
     public class ChaseState : IGhostronState {
         public float ChaseSpeed;
-        public float MaximalChaseDuration; // When the chasing ghostron hits this time, it should begin wandering
+        public float MaximalChaseDuration; // When the chasing Ghostron hits this time, it should begin wandering
         private float _timer;
 
-        // Animation speed when the ghostron is in chase state
+        // Animation speed when the Ghostron is in chase state
         private readonly float _chaseAnimationSpeed = 1f;
 
         /**

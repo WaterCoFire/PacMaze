@@ -11,7 +11,7 @@ namespace Entity.Ghostron.State.StateImpl {
         public float ScaredDuration;
         private float _timer;
 
-        // Animation speed when the ghostron is in scared wander state
+        // Animation speed when the Ghostron is in scared wander state
         private readonly float _normalAnimationSpeed = 0.3f;
 
         private readonly float _warningTime = 2.0f; // The time before the scared state ends to start warning (in secs)
