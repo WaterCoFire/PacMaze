@@ -2794,7 +2794,7 @@ Animator:
   m_GameObject: {fileID: 6125660947299160975}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: bff429107601444d59c67940e6ad78c4, type: 3}
-  m_Controller: {fileID: 9100000, guid: 8df5b386369d54778a922298504d1aba, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2d89d9e2e55d1e449a672ae74ed32431, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2913,8 +2913,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c158d6a4726a4997922ee67867210f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pacboy: {fileID: 0}
+  normalWanderSpeed: 0
+  scaredWanderSpeed: 0
+  chaseSpeed: 0
+  detectionRadius: 0
+  agent: {fileID: 0}
+  isScared: 0
   originalMaterial: {fileID: 2100000, guid: 1b3a3a5aadd1aab45968c6a4923174ec, type: 2}
   scaredMaterial: {fileID: 2100000, guid: 33b84c27bdd3bd648b7196e2f80fc198, type: 2}
+  animator: {fileID: 0}
 --- !u!1 &6288889736372339964
 GameObject:
   m_ObjectHideFlags: 0

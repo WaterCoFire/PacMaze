@@ -65,11 +65,9 @@ namespace Tutorial {
 
         // UPDATE FUNCTION
         private void Update() {
-            // Do nothing if currently no tip is being displayed
-            if (!_tipDisplaying) return;
-
+            // When displaying a tip
             // Check if the "Enter" key is pressed (Go to the next page)
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {
+            if (_tipDisplaying && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))) {
                 NextPage();
             }
         }

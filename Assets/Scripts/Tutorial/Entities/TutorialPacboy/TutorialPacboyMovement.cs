@@ -31,7 +31,7 @@ namespace Tutorial.Entities.TutorialPacboy {
 
         // Speed buff logic variables
         private float _speedBuffTimer; // The timer of a speed buff
-        private readonly float _speedBuffDuration = 5.0f; // Duration that a speed buff lasts
+        private readonly float _speedBuffDuration = 3.0f; // Duration that a speed buff lasts (Slightly smaller than normal game)
         private bool _speedBuffInEffect; // Status telling whether currently there is a speed buff or not
 
         // START FUNCTION
@@ -193,15 +193,13 @@ namespace Tutorial.Entities.TutorialPacboy {
          * Temporarily sets a speed for the Pacboy.
          * Used when Fast Wheel / Slow Wheel is triggered.
          */
-        public bool SetSpeedBuff(float buffSpeed) {
+        public void SetSpeedBuff(float buffSpeed) {
             // Set speed
             _pacboyMoveSpeed = buffSpeed;
 
             // Reset timer and statue
             _speedBuffTimer = 0f;
             _speedBuffInEffect = true;
-
-            return true;
         }
 
         /**

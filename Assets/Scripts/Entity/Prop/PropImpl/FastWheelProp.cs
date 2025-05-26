@@ -9,7 +9,7 @@ namespace Entity.Prop.PropImpl {
      * Pacboy becomes faster for 5 secs.
      */
     public class FastWheelProp : Prop {
-        // Fast wheel speed
+        // Fast Wheel speed
         private readonly float _fastSpeed = 7f;
 
         // Override

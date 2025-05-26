@@ -7,6 +7,7 @@ namespace Tutorial {
     public class TutorialController : MonoBehaviour {
         // Checkpoints (Display corresponding tips when Pacboy is close to one)
         public List<GameObject> checkpoints; // All the checkpoints
+        private bool[] _checkpointStatus; // The status of all checkpoints (triggered/not triggered)
         private const float TipTriggerDistance = 3f; // The trigger distance of displaying a tip
 
         private bool _tutorialInProgress; // Whether the tutorial is currently in progress or not
@@ -27,6 +28,8 @@ namespace Tutorial {
         // The Tenacious Ghostron for demonstrating Bad Cherry
         public GameObject tenaciousGhostron;
 
+        private bool _firstNiceBombPicked; // Whether the first Nice Bomb is picked
+
         // Singleton instance
         public static TutorialController Instance { get; private set; }
 
@@ -42,7 +45,11 @@ namespace Tutorial {
             Debug.Log("TutorialController START");
 
             _tutorialInProgress = true;
-            
+            _firstNiceBombPicked = false;
+
+            // Initialise the checkpoint status array
+            _checkpointStatus = new bool[checkpoints.Count];
+
             // Display the first tip (start tip)
             TutorialUI.Instance.DisplayTip(-1);
         }
@@ -59,21 +66,45 @@ namespace Tutorial {
 
             // Compute the distance between Pacboy and all checkpoints (for displaying tips)
             for (int i = 0; i < checkpoints.Count; i++) {
+                // Ignore if the iterated checkpoint is already triggered
+                if (_checkpointStatus[i]) continue;
+
                 float distance = Vector3.Distance(checkpoints[i].transform.position, pacboy.transform.position);
                 if (distance < TipTriggerDistance) {
                     // The corresponding tip should be displayed
                     TutorialUI.Instance.DisplayTip(i);
+                    _checkpointStatus[i] = true;
                     break;
                 }
             }
         }
 
         /**
-         * Scares the Ghostron for demonstrating Power Pellet (Red) by changing its skin.
+         * Scares the Ghostron for demonstrating Power Pellet (Red).
          * Called by TutorialPowerPellet when Power Pellet is picked up.
          */
         public void ScareDemoGhostron() {
-            powerPelletGhostron.GetComponent<TutorialGhostron>().SetScaredMaterial();
+            powerPelletGhostron.GetComponent<TutorialGhostron>().SetScared();
+        }
+
+        /**
+         * Action when a Nice Bomb is clicked.
+         * If this is the first time (for demonstrating using a Nice Bomb):
+         * - Make the Green Ghostron chase Pacboy.
+         *
+         * If this is the second time (for demonstrating deploying a Nice Bomb):
+         * - Make the Pink and Blue Ghostrons chase Pacboy.
+         */
+        public void NiceBombPicked() {
+            if (!_firstNiceBombPicked) {
+                // First time
+                niceBombUseGhostron.GetComponent<TutorialGhostron>().EnableChase();
+                _firstNiceBombPicked = true;
+            } else {
+                // Second time
+                niceBombDeployGhostronLeft.GetComponent<TutorialGhostron>().EnableChase();
+                niceBombDeployGhostronRight.GetComponent<TutorialGhostron>().EnableChase();
+            }
         }
 
         /**

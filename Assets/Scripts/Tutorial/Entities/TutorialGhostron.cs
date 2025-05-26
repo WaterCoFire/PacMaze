@@ -21,9 +21,12 @@ namespace Tutorial.Entities {
 
         // Animator
         private Animator _animator;
-        
+
         // Whether the Ghostron is chasing or not
         private bool _chasing;
+        
+        // Whether the Ghostron is scared or not
+        private bool _scared;
 
         // START FUNCTION
         void Start() {
@@ -48,21 +51,42 @@ namespace Tutorial.Entities {
 
             // Set to the original material
             SetOriginalMaterial();
-            
+
             // Initialise the Ghostron animator (Make it open and stalled)
             _animator.speed = 0f;
-            
-            // Do not chase (stall) by default
+
+            // Do not chase (stall) and not be scared by default
             _chasing = false;
+            _scared = false;
         }
 
         // UPDATE FUNCTION
         private void Update() {
             // No action if not chasing
             if (!_chasing) return;
-            
+
             // Set the chase target (real time position of the Pacboy)
             _agent.SetDestination(pacboy.transform.position);
+        }
+        
+        /**
+         * Unity event: When Ghostron collides with another game object
+         * Only Pacboy is cared here
+         * If Ghostron is scared: Stall it.
+         * If Ghostron is NOT scared: Do nothing. This is tutorial so player won't lose.
+         */
+        private void OnTriggerEnter(Collider other) {
+            // If the other game object is not Pacboy then do nothing
+            if (!other.CompareTag("Pacboy")) return;
+            
+            // The other game object is indeed Pacboy
+            if (_scared) {
+                // Stall the Ghostron if the Ghostron is scared
+                _animator.speed = 0.7f;
+                _agent.speed = 0f;
+                _animator.SetBool("Open_Anim", false);
+                _animator.SetBool("Walk_Anim", false);
+            }
         }
 
         /**
@@ -71,14 +95,18 @@ namespace Tutorial.Entities {
         public void EnableChase() {
             _chasing = true;
             // Set Ghostron animator and agent speed
-            _animator.speed = 1f;
+            _animator.speed = 0.6f;
             _agent.speed = _chaseSpeed;
         }
 
         /**
+         * Set the scared status of the Ghostron.
          * Change the "skin" of the Ghostron to purple (scared).
          */
-        public void SetScaredMaterial() {
+        public void SetScared() {
+            _scared = true;
+            EnableChase();
+            
             // Check if both materials are properly set
             if (scaredMaterial == null || originalMaterial == null) {
                 Debug.LogError("Error: Original/Scared material not properly set!");
