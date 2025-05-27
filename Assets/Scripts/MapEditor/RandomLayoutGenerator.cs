@@ -187,46 +187,45 @@ namespace MapEditor {
                             break;
                         }
 
-                        // // Find ideal neighbours
-                        // if (_preferredNeighbours[twoNeighbourTile].Contains(adjacentTile)) {
-                        //     // Case: the iterated adjacent tile is not the ideal neighbour
-                        //     // Ignore if this adjacent tile cannot lose any more neighbour
-                        //     if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
-                        //         continue;
-                        //     }
-                        //
-                        //     // Disconnect the two tile
-                        //     Disconnect(twoNeighbourTile, adjacentTile);
-                        //     _currentNeighbourCounts[twoNeighbourTile]--;
-                        //     _currentNeighbourCounts[adjacentTile]--;
-                        //
-                        //     // Check the connectivity of the map
-                        //     if (!Flood()) {
-                        //         // If this disconnection affects the connectivity, undo it
-                        //         Connect(twoNeighbourTile, adjacentTile);
-                        //         _currentNeighbourCounts[twoNeighbourTile]++;
-                        //         _currentNeighbourCounts[adjacentTile]++;
-                        //     }
-                        // }
+                        // Find ideal neighbours
+                        if (_preferredNeighbours[twoNeighbourTile].Contains(adjacentTile)) {
+                            // Case: the iterated adjacent tile is not the ideal neighbour
+                            // Ignore if this adjacent tile cannot lose any more neighbour
+                            if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
+                                continue;
+                            }
                         
-                        // Case: the iterated adjacent tile is not the ideal neighbour
-                        // Ignore if this adjacent tile cannot lose any more neighbour
-                        if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
-                            continue;
+                            // Disconnect the two tile
+                            Disconnect(twoNeighbourTile, adjacentTile);
+                            _currentNeighbourCounts[twoNeighbourTile]--;
+                            _currentNeighbourCounts[adjacentTile]--;
+                        
+                            // Check the connectivity of the map
+                            if (!Flood()) {
+                                // If this disconnection affects the connectivity, undo it
+                                Connect(twoNeighbourTile, adjacentTile);
+                                _currentNeighbourCounts[twoNeighbourTile]++;
+                                _currentNeighbourCounts[adjacentTile]++;
+                            }
                         }
 
-                        // Disconnect the two tile
-                        Disconnect(twoNeighbourTile, adjacentTile);
-                        _currentNeighbourCounts[twoNeighbourTile]--;
-                        _currentNeighbourCounts[adjacentTile]--;
-
-                        // Check the connectivity of the map
-                        if (!Flood()) {
-                            // If this disconnection affects the connectivity, undo it
-                            Connect(twoNeighbourTile, adjacentTile);
-                            _currentNeighbourCounts[twoNeighbourTile]++;
-                            _currentNeighbourCounts[adjacentTile]++;
-                        }
+                        // // Ignore if this adjacent tile cannot lose any more neighbour
+                        // if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
+                        //     continue;
+                        // }
+                        //
+                        // // Disconnect the two tile
+                        // Disconnect(twoNeighbourTile, adjacentTile);
+                        // _currentNeighbourCounts[twoNeighbourTile]--;
+                        // _currentNeighbourCounts[adjacentTile]--;
+                        //
+                        // // Check the connectivity of the map
+                        // if (!Flood()) {
+                        //     // If this disconnection affects the connectivity, undo it
+                        //     Connect(twoNeighbourTile, adjacentTile);
+                        //     _currentNeighbourCounts[twoNeighbourTile]++;
+                        //     _currentNeighbourCounts[adjacentTile]++;
+                        // }
                     }
                 }
             }
@@ -605,14 +604,18 @@ namespace MapEditor {
         }
 
         private void DisplayDistribution() {
-            // for (int x = 0; x < 11; x++) {
-            //     for (int y = 0; y < 11; y++) {
-            //         Console.Write(_distributedNeighbourNums[(x, y)]);
-            //         Console.Write(" ");
-            //     }
-            //
-            //     Console.Write("\n");
-            // }
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            for (int x = 0; x < 11; x++) {
+                for (int y = 0; y < 11; y++) {
+                    sb.Append(_distributedNeighbourNums[(x, y)]);
+                    sb.Append(" ");
+                }
+
+                sb.AppendLine(); // New Line
+            }
+
+            Debug.Log(sb.ToString());
         }
     }
 }

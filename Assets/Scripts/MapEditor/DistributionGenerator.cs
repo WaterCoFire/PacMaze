@@ -88,6 +88,7 @@ namespace MapEditor {
                     }
 
                     // Obtain the 3-neighbour probability of the current tile
+                    // And determine if this tile should be 3-neighbour
                     if (Random.Next(100) < WeightedThreeNeighbourProb((x, y))) {
                         _distributedNeighbourNums[(x, y)] = 3;
 
@@ -113,6 +114,8 @@ namespace MapEditor {
                         } else {
                             _distributedNeighbourNums[(x, y)] = 2;
                         }
+                    } else {
+                        _distributedNeighbourNums[(x, y)] = 2;
                     }
                 }
             }
