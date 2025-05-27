@@ -1,4 +1,5 @@
 ﻿using Setting;
+using Sound;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -42,6 +43,9 @@ namespace HomePage {
         private void Start() {
             Debug.Log("HomePage START");
             SetButtonActionListener(); // Set button action listeners
+            
+            // Play background music
+            SoundManager.Instance.PlayBackgroundMusic(false);
 
             // Obtain the UI page that the player last left from
             // If it is the first time the player starts the game, it will be at default 0 (main page)

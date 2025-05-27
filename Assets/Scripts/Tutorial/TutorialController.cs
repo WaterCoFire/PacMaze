@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using Sound;
 using Tutorial.Entities;
 using Tutorial.Entities.TutorialPacboy;
 using UnityEngine;
@@ -47,6 +48,9 @@ namespace Tutorial {
 
             _tutorialInProgress = true;
             _firstNiceBombUsed = false;
+            
+            // Play background music
+            SoundManager.Instance.PlayBackgroundMusic(true);
 
             // Initialise the checkpoint status array
             _checkpointStatus = new bool[checkpoints.Count];

@@ -5,6 +5,7 @@ using Entity.Pacboy;
 using Newtonsoft.Json;
 using PlayMap.UI;
 using Setting;
+using Sound;
 using UnityEngine;
 
 namespace PlayMap {
@@ -49,7 +50,8 @@ namespace PlayMap {
          */
         private void Start() {
             Debug.Log("MapController START");
-
+            
+            // Get map file name
             string mapFileName = PlayerPrefs.GetString("PlayMapFileToLoad", null);
             if (mapFileName == null) {
                 Debug.LogError("Play map: File name not properly set!");
@@ -63,6 +65,9 @@ namespace PlayMap {
             _superBonus = false; // By default there is no Super Bonus
             _airWall = false; // By default there is no Air Wall
             _gamePlaying = true;
+            
+            // Play background music
+            SoundManager.Instance.PlayBackgroundMusic(true);
 
             // Reset score
             _currentScore = 0;

@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
+using Sound;
 using UnityEngine.SceneManagement;
 
 namespace MapEditor {
@@ -33,6 +34,13 @@ namespace MapEditor {
         public GameObject eventSettingPanel;
 
         public TMP_Text mapNameText;
+        
+        // Prompt Text
+        // Default: Click to select what you need to edit!
+        // Wall Mode: Editing Walls
+        // Prop Mode: Editing Props
+        // Difficulty Mode: Editing Difficulty
+        // Event Mode: Editing Event Status
         public TMP_Text modePromptText;
 
         /* Warning UI */
@@ -57,16 +65,14 @@ namespace MapEditor {
         private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)");
 
-        // Prompt Text
-        // Default: Click to select what you need to edit!
-        // Wall Mode: Editing Walls
-        // Prop Mode: Editing Props
-        // Difficulty Mode: Editing Difficulty
-        // Event Mode: Editing Event Status
-
+        // START FUNCTION
         private void Start() {
             Debug.Log("MapEditor START");
 
+            // Play background music
+            SoundManager.Instance.PlayBackgroundMusic(false);
+            
+            // Create map data directory, if it does not exist
             if (!Directory.Exists(_saveDirectory))
                 Directory.CreateDirectory(_saveDirectory);
             
