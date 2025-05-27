@@ -16,8 +16,8 @@ namespace MapEditor {
         private readonly Random _random = new();
 
         /* Probabilities */
-        private readonly int _threeNeighbourTileDisconnectProbability = 10; // original 10
-        private readonly int _nonIdealTwoNeighbourTileDisconnectProbability = 85; // original 75
+        private const int ThreeNeighbourTileDisconnectProbability = 10; // original 10
+        private const int NonIdealTwoNeighbourTileDisconnectProbability = 85; // original 75
 
         // Four directions: up, down, left, right
         private readonly int[] _dx = { -1, 1, 0, 0 };
@@ -113,7 +113,7 @@ namespace MapEditor {
                         }
 
                         // Valid adjacent 3-neighbour tiles have only a small probability of not being neighbours
-                        if (_random.Next(100) < _threeNeighbourTileDisconnectProbability) {
+                        if (_random.Next(100) < ThreeNeighbourTileDisconnectProbability) {
                             // Disconnect the two tile
                             Disconnect(threeNeighbourTile, adjacentTile);
                             _currentNeighbourCounts[threeNeighbourTile]--;
@@ -162,7 +162,7 @@ namespace MapEditor {
                         }
 
                         // Valid adjacent non-ideal tiles have a big probability of not being neighbours
-                        if (_random.Next(100) < _nonIdealTwoNeighbourTileDisconnectProbability) {
+                        if (_random.Next(100) < NonIdealTwoNeighbourTileDisconnectProbability) {
                             // Disconnect the two tile
                             Disconnect(twoNeighbourTile, adjacentTile);
                             _currentNeighbourCounts[twoNeighbourTile]--;

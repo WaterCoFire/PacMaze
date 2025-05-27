@@ -8,8 +8,8 @@ namespace MapEditor {
 
         /* Probabilities */
         private const int OutermostTileThreeNeighbourProbability = 10;
-        private const int ThreeNeighbourPropagationProbability = 40; // original 50
-        private const int ThreeNeighbourMaxProbability = 90; // original 75
+        private const int ThreeNeighbourPropagationProbability = 50; // original 50
+        private const int ThreeNeighbourMaxProbability = 60; // original 75
         private const int ThreeNeighbourProbabilityDecayRate = 8; // original 12
 
         public static Dictionary<(int, int), int> GenerateDistributedNeighbourNums() {
