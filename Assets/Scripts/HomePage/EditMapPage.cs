@@ -209,9 +209,9 @@ namespace HomePage {
         public void RenameMap(string newName) {
             // Get file paths
             string oldPath = Path.Combine(_saveDirectory,
-                $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostronNum}_{_renamedMapOldInfo.Difficulty}.json");
+                $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostronNum}_{(int)_renamedMapOldInfo.Difficulty}.json");
             string newPath = Path.Combine(_saveDirectory,
-                $"{newName}_{_renamedMapOldInfo.GhostronNum}_{_renamedMapOldInfo.Difficulty}.json");
+                $"{newName}_{_renamedMapOldInfo.GhostronNum}_{(int)_renamedMapOldInfo.Difficulty}.json");
 
             if (File.Exists(oldPath)) {
                 // File operation

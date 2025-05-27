@@ -66,25 +66,21 @@ namespace PlayMap {
                     // The iterated prop type is Ghostron
                     // Check how many Ghostrons are there already, use GhostronFactory to get the new Ghostron
                     GameObject newGhostronPrefab;
-                    switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
+                    int currentGhostronCount = PlayerPrefs.GetInt("GhostronCount", -1);
+                    switch (currentGhostronCount) {
                         case 0:
-                            PlayerPrefs.SetInt("GhostronCount", 1);
                             newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Red);
                             break;
                         case 1:
-                            PlayerPrefs.SetInt("GhostronCount", 2);
                             newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Blue);
                             break;
                         case 2:
-                            PlayerPrefs.SetInt("GhostronCount", 3);
                             newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Yellow);
                             break;
                         case 3:
-                            PlayerPrefs.SetInt("GhostronCount", 4);
                             newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Pink);
                             break;
                         case 4:
-                            PlayerPrefs.SetInt("GhostronCount", 5);
                             newGhostronPrefab = GhostronFactory.Instance.GetGhostron(GhostronType.Green);
                             break;
                         default:
@@ -94,6 +90,9 @@ namespace PlayMap {
 
                     // Instantiate the new Ghostron
                     GameObject newGhostron = Instantiate(newGhostronPrefab, kvp.Key, Quaternion.identity);
+                    
+                    // Update the current number of Ghostrons
+                    PlayerPrefs.SetInt("GhostronCount", currentGhostronCount + 1);
 
                     // Store the new Ghostron in GhostronManager
                     GhostronManager.Instance.AddGhostron(newGhostron);
@@ -187,25 +186,21 @@ namespace PlayMap {
                 } else {
                     // If the prop type is Ghostron
                     // Check how many Ghostrons are there already, use GhostronFactory to get the new Ghostron
-                    switch (PlayerPrefs.GetInt("GhostronCount", -1)) {
+                    int currentGhostronCount = PlayerPrefs.GetInt("GhostronCount", -1);
+                    switch (currentGhostronCount) {
                         case 0:
-                            PlayerPrefs.SetInt("GhostronCount", 1);
                             propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Red);
                             break;
                         case 1:
-                            PlayerPrefs.SetInt("GhostronCount", 2);
                             propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Blue);
                             break;
                         case 2:
-                            PlayerPrefs.SetInt("GhostronCount", 3);
                             propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Yellow);
                             break;
                         case 3:
-                            PlayerPrefs.SetInt("GhostronCount", 4);
                             propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Pink);
                             break;
                         case 4:
-                            PlayerPrefs.SetInt("GhostronCount", 5);
                             propObject = GhostronFactory.Instance.GetGhostron(GhostronType.Green);
                             break;
                         default:
@@ -215,6 +210,9 @@ namespace PlayMap {
 
                     // Instantiate it and store it to the GhostronManager
                     GameObject newGhostron = Instantiate(propObject, _freeTiles[randomIndex], Quaternion.identity);
+                    
+                    // Update the current number of Ghostrons
+                    PlayerPrefs.SetInt("GhostronCount", currentGhostronCount + 1);
 
                     // Add the new Ghostron to GhostronManager
                     GhostronManager.Instance.AddGhostron(newGhostron);
