@@ -1,5 +1,4 @@
-﻿using System;
-using Setting;
+﻿using Setting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,7 +16,6 @@ namespace HomePage {
         public GameObject editMapsPage; // Edit maps view page
         public GameObject pacpediaPage; // Pacpedia page
         public GameObject settingPage; // Key binding setting page
-        public GameObject creditsPage; // Credits page
 
         // Window to be shown if the player has never played PacMaze before
         public GameObject tutorialPromptWindow;
@@ -28,7 +26,6 @@ namespace HomePage {
         public Button editMapsButton;
         public Button pacpediaButton;
         public Button settingButton;
-        public Button creditsButton;
         public Button quitGameButton;
 
         // In tutorial prompt window
@@ -78,7 +75,6 @@ namespace HomePage {
             editMapsButton.onClick.AddListener(OnEditMapsButtonClick);
             pacpediaButton.onClick.AddListener(OnPacpediaButtonClick);
             settingButton.onClick.AddListener(OnSettingButtonClick);
-            creditsButton.onClick.AddListener(OnCreditsButtonClick);
             quitGameButton.onClick.AddListener(OnQuitButtonClick);
             enterTutorialButton.onClick.AddListener(OnEnterTutorialButtonClick);
             skipButton.onClick.AddListener(OnSkipButtonClick);
@@ -136,15 +132,6 @@ namespace HomePage {
             // Open setting page
             settingPage.SetActive(true);
             settingPage.GetComponent<SettingPage>().InitUI();
-        }
-
-        // Credits button
-        private void OnCreditsButtonClick() {
-            // Close this home page
-            homePage.SetActive(false);
-
-            // Open credits page
-            creditsPage.SetActive(true);
         }
 
         // Quit game button
