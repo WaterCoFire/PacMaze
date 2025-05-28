@@ -37,12 +37,7 @@ namespace MapEditor {
         private readonly Color _normalColor = new(140f / 255f, 121f / 255f, 255f / 255f);
         private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
 
-        // Prompt Text
-        // Default: Click to select what you need to edit!
-        // Wall Mode: Editing Walls
-        // Prop Mode: Editing Props
-        // Difficulty Mode: Editing Difficulty
-        // Event Mode: Editing Event Status
+        // Prompt Text (Tells player what mode it currently is, e.g., "Editing: Walls")
         public TMP_Text modePromptText;
 
         /* Warning UI */

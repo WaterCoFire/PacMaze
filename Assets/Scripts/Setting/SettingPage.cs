@@ -116,7 +116,7 @@ namespace Setting {
         }
 
         /**
-         * Initializes the UI.
+         * Initialises the UI.
          * Should be called every time this setting page is opened
          * and every time a new key code is set.
          */
