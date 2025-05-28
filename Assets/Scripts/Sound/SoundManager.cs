@@ -30,8 +30,8 @@ namespace Sound {
         public AudioClip clickSound;
         public AudioClip warningSound;
 
-        // Store all sound effects (not including two background musics)
-        private List<AudioClip> _allSounds;
+        // Store all sound effect types and corresponding sound clips (not including two background musics)
+        private Dictionary<SoundType, AudioClip> _allSounds;
 
         // AWAKE FUNCTION
         private void Awake() {
@@ -43,20 +43,19 @@ namespace Sound {
                 Destroy(gameObject);
             }
             
-            // Store all sounds to the list
-            // By the order set
-            _allSounds = new List<AudioClip>();
-            _allSounds.Add(playerWinSound);
-            _allSounds.Add(playerLoseSound);
-            _allSounds.Add(eatDotSound);
-            _allSounds.Add(pickUpGoodPropSound);
-            _allSounds.Add(pickUpBadPropSound);
-            _allSounds.Add(deployNiceBombSound);
-            _allSounds.Add(niceBombExplodeSound);
-            _allSounds.Add(ghostronCaughtSound);
-            _allSounds.Add(eventTriggeredSound);
-            _allSounds.Add(clickSound);
-            _allSounds.Add(warningSound);
+            // Store all sounds to the dictionary
+            _allSounds = new Dictionary<SoundType, AudioClip>();
+            _allSounds.Add(SoundType.PlayerWin, playerWinSound);
+            _allSounds.Add(SoundType.PlayerLose, playerLoseSound);
+            _allSounds.Add(SoundType.EatDot, eatDotSound);
+            _allSounds.Add(SoundType.PickUpGoodProp, pickUpGoodPropSound);
+            _allSounds.Add(SoundType.PickUpBadProp, pickUpBadPropSound);
+            _allSounds.Add(SoundType.DeployNiceBomb, deployNiceBombSound);
+            _allSounds.Add(SoundType.NiceBombExplode, niceBombExplodeSound);
+            _allSounds.Add(SoundType.GhostronCaught, ghostronCaughtSound);
+            _allSounds.Add(SoundType.EventTriggered, eventTriggeredSound);
+            _allSounds.Add(SoundType.Click, clickSound);
+            _allSounds.Add(SoundType.Warning, warningSound);
         }
 
         /* Play audio functions */
@@ -87,20 +86,9 @@ namespace Sound {
         
 
         // Play a sound once
-        // Param - soundIndex:
-        // 0 - Player win
-        // 1 - Player lose
-        // 2 - Eat dot
-        // 3 - Pick up good prop
-        // 4 - Pick up bad prop
-        // 5 - Deploy Nice Bomb
-        // 6 - Nice Bomb explode
-        // 7 - Ghostron caught
-        // 8 - Event triggered
-        // 9 - Click
-        // 10 - Warning
-        public void PlaySoundOnce(int soundIndex) {
-            audioSource.PlayOneShot(_allSounds[soundIndex]);
+        // Param - the type of the sound to be played
+        public void PlaySoundOnce(SoundType soundType) {
+            audioSource.PlayOneShot(_allSounds[soundType]);
         }
     }
 }
