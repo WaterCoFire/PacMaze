@@ -1,5 +1,6 @@
 ﻿using PlayMap;
 using PlayMap.UI;
+using Sound;
 using UnityEngine;
 
 namespace Entity.Prop.DeployedProp {
@@ -17,6 +18,9 @@ namespace Entity.Prop.DeployedProp {
          */
         private void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Ghostron")) {
+                // Play explode sound
+                SoundManager.Instance.PlaySoundOnce(SoundType.NiceBombExplode);
+                
                 GhostronHit();
                 Destroy(gameObject); // Destroy this deployed bomb
             }

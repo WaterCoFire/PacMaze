@@ -1,4 +1,5 @@
 ﻿using Entity.Prop;
+using Sound;
 using UnityEngine;
 
 namespace Tutorial.Entities {
@@ -9,6 +10,9 @@ namespace Tutorial.Entities {
     public class TutorialPowerPellet : Prop {
         // Override
         public override void OnPicked(GameObject pacboy) {
+            // Play pick up sound (good prop)
+            SoundManager.Instance.PlaySoundOnce(SoundType.PickUpGoodProp);
+            
             // Scare the Ghostron in front of the Power Pellet
             TutorialController.Instance.ScareDemoGhostron();
         }

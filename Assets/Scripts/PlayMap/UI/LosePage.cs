@@ -17,6 +17,9 @@ namespace PlayMap.UI {
             
             // Stop the background music
             SoundManager.Instance.StopBackgroundMusic();
+            
+            // Play lose sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.PlayerLose);
         }
 
         /* Action when the home page button is clicked */

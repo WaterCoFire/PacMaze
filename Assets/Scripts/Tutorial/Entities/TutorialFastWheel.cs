@@ -1,4 +1,5 @@
 ﻿using Entity.Prop;
+using Sound;
 using Tutorial.Entities.TutorialPacboy;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ namespace Tutorial.Entities {
         
         // Override
         public override void OnPicked(GameObject pacboy) {
+            // Play pick up sound (good prop)
+            SoundManager.Instance.PlaySoundOnce(SoundType.PickUpGoodProp);
+            
             // Set speed buff
             pacboy.GetComponent<TutorialPacboyMovement>().SetSpeedBuff(_fastSpeed);
             

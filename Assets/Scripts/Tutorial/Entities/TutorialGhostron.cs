@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sound;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Tutorial.Entities {
@@ -81,8 +82,13 @@ namespace Tutorial.Entities {
             if (!other.CompareTag("Pacboy")) return;
             
             // The other game object is indeed Pacboy
-            if (_scared) {
-                // Stall the Ghostron if the Ghostron is scared
+            // Check if the Ghostron is currently scared & not stalling
+            if (_scared && _agent.speed != 0f) {
+                // If Ghostron is currently scared, then Pacboy catches the Ghostron
+                // Play Ghostron caught sound
+                SoundManager.Instance.PlaySoundOnce(SoundType.GhostronCaught);
+                
+                // Stall the Ghostron
                 _animator.speed = 0.7f;
                 _agent.speed = 0f;
                 _agent.angularSpeed = 0f;
@@ -92,6 +98,7 @@ namespace Tutorial.Entities {
                 // Close action prompt as task (catch a scared Ghostron) is completed
                 TutorialUI.Instance.CloseActionPrompt();
             }
+            // Note: no action if Ghostron is not scared. This is tutorial!
         }
 
         /**

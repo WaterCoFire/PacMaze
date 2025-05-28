@@ -1,5 +1,6 @@
 ﻿using PlayMap;
 using PlayMap.UI;
+using Sound;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -11,7 +12,9 @@ namespace Entity.Prop.PropImpl {
     public class BadCherryProp : Prop {
         // Override
         public override void OnPicked(GameObject pacboy) {
-            Debug.Log("BAD CHERRY picked");
+            // Play pick up sound (bad prop)
+            SoundManager.Instance.PlaySoundOnce(SoundType.PickUpBadProp);
+            
             // Spawn a new Ghostron at random place
             GhostronManager.Instance.SpawnTenaciousGhostron();
             

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sound;
+using UnityEngine;
 
 namespace Tutorial.Entities.TutorialPacboy {
     /**
@@ -13,8 +14,8 @@ namespace Tutorial.Entities.TutorialPacboy {
         private int _niceBombs;
 
         // Nice bomb operation KeyCodes (not changeable in tutorial)
-        private KeyCode _useNiceBombKeyCode = KeyCode.E; // Use
-        private KeyCode _deployNiceBombKeyCode = KeyCode.F; // Deploy
+        private const KeyCode UseNiceBombKeyCode = KeyCode.E; // Use
+        private const KeyCode DeployNiceBombKeyCode = KeyCode.F; // Deploy
 
         // Disabled when game is not in normal process (e.g. paused)
         private bool _controllable;
@@ -34,23 +35,26 @@ namespace Tutorial.Entities.TutorialPacboy {
             // No operation if no Nice Bombs currently obtained
             if (_niceBombs == 0) return;
 
-            // Use Nice Bomb
-            if (Input.GetKeyDown(_useNiceBombKeyCode)) {
-                UseNiceBomb();
+            // Use Nice Bomb (demo)
+            if (Input.GetKeyDown(UseNiceBombKeyCode)) {
+                UseDemoNiceBomb();
                 return;
             }
 
-            // Deploy Nice Bomb
-            if (Input.GetKeyDown(_deployNiceBombKeyCode)) {
-                DeployNiceBomb();
+            // Deploy Nice Bomb (demo)
+            if (Input.GetKeyDown(DeployNiceBombKeyCode)) {
+                DeployDemoNiceBomb();
             }
         }
 
         /**
          * Pacboy uses a Nice Bomb (default key code E).
-         * Directly kills the Ghostron nearest to the Pacboy.
+         * Directly kills the Ghostron for demonstrating this.
          */
-        private void UseNiceBomb() {
+        private void UseDemoNiceBomb() {
+            // Play explode sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.NiceBombExplode);
+            
             // Reduce the number
             _niceBombs--;
             
@@ -69,9 +73,12 @@ namespace Tutorial.Entities.TutorialPacboy {
         /**
          * Pacboy deploys a Nice Bomb (default key code F).
          * Places the Deployed Nice Bomb at the current position.
-         * Two Ghostrons nearest to it will be killed when a Ghostron hits the deployed bomb.
+         * Two Ghostrons for demonstrating this will be killed when one of them steps on the deployed bomb.
          */
-        private void DeployNiceBomb() {
+        private void DeployDemoNiceBomb() {
+            // Play deploy sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.DeployNiceBomb);
+            
             // Reduce the number
             _niceBombs--;
 

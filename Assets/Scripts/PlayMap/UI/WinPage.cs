@@ -19,6 +19,9 @@ namespace PlayMap.UI {
             
             // Stop the background music
             SoundManager.Instance.StopBackgroundMusic();
+            
+            // Play win sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.PlayerWin);
         }
 
         /* Action when the home page button is clicked */

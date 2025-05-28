@@ -1,5 +1,6 @@
 ﻿using PlayMap;
 using PlayMap.UI;
+using Sound;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -11,7 +12,9 @@ namespace Entity.Prop.PropImpl {
     public class PowerPelletProp : Prop {
         // Override
         public override void OnPicked(GameObject pacboy) {
-            Debug.Log("POWER PELLET picked");
+            // Play pick up sound (good prop)
+            SoundManager.Instance.PlaySoundOnce(SoundType.PickUpGoodProp);
+            
             // Scare all the ghosts
             GhostronManager.Instance.ScareAllGhostrons();
             

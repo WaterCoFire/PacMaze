@@ -1,6 +1,7 @@
 ﻿using Entity.Pacboy;
 using PlayMap;
 using PlayMap.UI;
+using Sound;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -17,7 +18,8 @@ namespace Entity.Prop.PropImpl {
     public class NiceBombProp : Prop {
         // Override
         public override void OnPicked(GameObject pacboy) {
-            Debug.Log("NICE BOMB picked");
+            // Play pick up sound (good prop)
+            SoundManager.Instance.PlaySoundOnce(SoundType.PickUpGoodProp);
             
             // Give the pacboy one more bomb
             pacboy.GetComponent<PacboyPropOperation>().GetNiceBomb();

@@ -11,10 +11,10 @@ namespace Tutorial.Entities.TutorialPacboy {
         private float _pacboyNormalMoveSpeed = 5.0f;
 
         // Key code for moving (WASD by default, not changeable in tutorial)
-        private KeyCode _forwardKeyCode = KeyCode.W;
-        private KeyCode _backwardKeyCode = KeyCode.S;
-        private KeyCode _leftwardKeyCode = KeyCode.A;
-        private KeyCode _rightwardKeyCode = KeyCode.D;
+        private const KeyCode ForwardKeyCode = KeyCode.W;
+        private const KeyCode BackwardKeyCode = KeyCode.S;
+        private const KeyCode LeftwardKeyCode = KeyCode.A;
+        private const KeyCode RightwardKeyCode = KeyCode.D;
 
         // Whether the Pacboy is controllable
         // Should be false: when e.g. tutorial paused, tutorial ended
@@ -81,10 +81,10 @@ namespace Tutorial.Entities.TutorialPacboy {
             float h = 0f, v = 0f;
 
             // Capture directional input
-            if (Input.GetKey(_forwardKeyCode)) v += 1f;
-            if (Input.GetKey(_backwardKeyCode)) v -= 1f;
-            if (Input.GetKey(_rightwardKeyCode)) h += 1f;
-            if (Input.GetKey(_leftwardKeyCode)) h -= 1f;
+            if (Input.GetKey(ForwardKeyCode)) v += 1f;
+            if (Input.GetKey(BackwardKeyCode)) v -= 1f;
+            if (Input.GetKey(RightwardKeyCode)) h += 1f;
+            if (Input.GetKey(LeftwardKeyCode)) h -= 1f;
 
             Vector3 inputDir = new Vector3(h, 0, v);
 

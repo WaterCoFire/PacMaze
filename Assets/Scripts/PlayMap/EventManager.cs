@@ -1,5 +1,6 @@
 ﻿using Entity.Pacboy;
 using PlayMap.UI;
+using Sound;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -84,7 +85,7 @@ namespace PlayMap {
             // No action if event disabled
             if (!_eventEnabled) return;
 
-            // No action if a event is currently in process
+            // No action if an event is currently in process
             if (_eventInProcess) return;
 
             // Generate a random number to see if a new event should happen
@@ -98,6 +99,9 @@ namespace PlayMap {
             Debug.Log("Event rand number: " + eventRand + ", getting an event.");
 
             // Event should happen
+            // Play event triggered sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.EventTriggered);
+            
             // Probability of three events:
             // Super Bonus 50% (index: 1)
             // Crazy Party 40% (index: 2)

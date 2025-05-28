@@ -6,8 +6,8 @@
         PlayerWin,
         PlayerLose,
         EatDot,
-        PickUpGoodProp,
-        PickUpBadProp,
+        PickUpGoodProp, // Power Pellet, Fast Wheel, Nice Bomb
+        PickUpBadProp, // Slow Wheel, Bad Cherry
         DeployNiceBomb,
         NiceBombExplode,
         GhostronCaught,

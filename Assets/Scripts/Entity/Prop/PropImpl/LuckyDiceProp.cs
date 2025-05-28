@@ -14,7 +14,6 @@ namespace Entity.Prop.PropImpl {
     public class LuckyDiceProp : Prop {
         // Override
         public override void OnPicked(GameObject pacboy) {
-            Debug.Log("LUCKY DICE picked");
             // Get a random prop type
             int propType = RandomPropType();
 

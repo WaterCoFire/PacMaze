@@ -1,5 +1,6 @@
 ﻿using PlayMap;
 using PlayMap.UI;
+using Sound;
 using UnityEngine;
 
 namespace Entity.Pacboy {
@@ -79,13 +80,16 @@ namespace Entity.Pacboy {
          * Directly kills the Ghostron nearest to the Pacboy.
          */
         private void UseNiceBomb() {
-            Debug.Log("NiceBomb USE");
             // Reduce the number
             _niceBombs--;
 
             // Kill the Ghostron nearest to the Pacboy
             if (GhostronManager.Instance.KillNearestGhostron(gameObject.transform.position)) {
-                // Give the Pacboy 200 score points if killing is successful
+                // Killing is successful
+                // Play explode sound
+                SoundManager.Instance.PlaySoundOnce(SoundType.NiceBombExplode);
+                
+                // Give the Pacboy 200 score points 
                 PlayMapController.Instance.AddScore(200);
                 
                 // Prompt the player
@@ -114,7 +118,9 @@ namespace Entity.Pacboy {
          * Two Ghostrons nearest to it will be killed when a Ghostron hits the Deployed Nice Bomb.
          */
         private void DeployNiceBomb() {
-            Debug.Log("NiceBomb DEPLOY");
+            // Play deploy sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.DeployNiceBomb);
+            
             // Reduce the number
             _niceBombs--;
             

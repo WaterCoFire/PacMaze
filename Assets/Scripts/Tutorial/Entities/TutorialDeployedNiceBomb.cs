@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sound;
+using UnityEngine;
 
 namespace Tutorial.Entities {
     /**
@@ -12,6 +13,9 @@ namespace Tutorial.Entities {
          */
         private void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Ghostron")) {
+                // Play explode sound
+                SoundManager.Instance.PlaySoundOnce(SoundType.NiceBombExplode);
+                
                 GhostronHit();
                 Destroy(gameObject); // Destroy this Deployed Nice Bomb
             }

@@ -1,4 +1,5 @@
 ﻿using Entity.Prop;
+using Sound;
 using Tutorial.Entities.TutorialPacboy;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ namespace Tutorial.Entities {
     public class TutorialNiceBomb : Prop {
         // Override
         public override void OnPicked(GameObject pacboy) {
+            // Play pick up sound (good prop)
+            SoundManager.Instance.PlaySoundOnce(SoundType.PickUpGoodProp);
+            
             // Give Pacboy the Nice Bomb
             pacboy.GetComponent<TutorialPacboyPropOperation>().GetNiceBomb();
             

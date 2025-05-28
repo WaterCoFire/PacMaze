@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sound;
+using UnityEngine;
 
 namespace Tutorial.Entities {
     /**
@@ -13,9 +14,12 @@ namespace Tutorial.Entities {
             // If the other object is not Pacboy, ignore it
             if (!other.CompareTag("Pacboy")) return;
             
+            // Play dot eaten sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.EatDot);
+            
             // Destroy the game object of this dot
             // So that it disappears from the scene
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

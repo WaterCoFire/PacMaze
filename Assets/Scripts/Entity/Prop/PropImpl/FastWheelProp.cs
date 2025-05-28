@@ -1,6 +1,7 @@
 ﻿using Entity.Pacboy;
 using PlayMap;
 using PlayMap.UI;
+using Sound;
 using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
@@ -14,10 +15,12 @@ namespace Entity.Prop.PropImpl {
 
         // Override
         public override void OnPicked(GameObject pacboy) {
-            Debug.Log("FAST WHEEL picked");
             // Pacboy now has faster speed
             if (pacboy.GetComponent<PacboyMovement>().SetSpeedBuff(_fastSpeed)) {
                 // Speed buff is valid (currently no Crazy Party event)
+                // Play pick up sound (good prop)
+                SoundManager.Instance.PlaySoundOnce(SoundType.PickUpGoodProp);
+                
                 // Add 10 score points
                 PlayMapController.Instance.AddScore(10);
 

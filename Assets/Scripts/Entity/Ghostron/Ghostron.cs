@@ -1,6 +1,7 @@
 ﻿using Entity.Ghostron.State.StateImpl;
 using PlayMap;
 using PlayMap.UI;
+using Sound;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -136,7 +137,10 @@ namespace Entity.Ghostron {
             // Check the current state, do nothing if in stall state
             if (StateMachine.GetCurrentState().GetType() != typeof(StallState)) {
                 if (isScared) {
-                    // If currently: the Ghostron is scared
+                    // If currently: the Ghostron is scared, then Pacboy catches the Ghostron
+                    // Play Ghostron caught sound
+                    SoundManager.Instance.PlaySoundOnce(SoundType.GhostronCaught);
+                    
                     // It should enter stall state
                     StateMachine.ChangeState(new StallState());
                     
@@ -154,20 +158,20 @@ namespace Entity.Ghostron {
          * Sets the Pacboy game object.
          * Used in GhostronManager when initialising the map / adding new Ghostron due to bad cherry.
          */
-        public void SetPacboy(GameObject pacboy) {
+        public void SetPacboy(GameObject setPacboy) {
             Debug.Log("NEW GHOSTRON PACBOY SET");
-            this.pacboy = pacboy;
+            pacboy = setPacboy;
         }
 
         /**
          * Sets the normal speed, scared speed, chasing speed and detection radius of the Ghostron.
          * Used in GhostronManager when initialising the map.
          */
-        public void SetGhostronParams(float normalSpeed, float scaredSpeed, float chaseSpeed, float detectionRadius) {
-            normalWanderSpeed = normalSpeed;
-            scaredWanderSpeed = scaredSpeed;
-            this.chaseSpeed = chaseSpeed;
-            this.detectionRadius = detectionRadius;
+        public void SetGhostronParams(float setNormalSpeed, float setScaredSpeed, float setChaseSpeed, float setDetectionRadius) {
+            normalWanderSpeed = setNormalSpeed;
+            scaredWanderSpeed = setScaredSpeed;
+            chaseSpeed = setChaseSpeed;
+            detectionRadius = setDetectionRadius;
         }
 
         /**

@@ -1,4 +1,5 @@
 ﻿using PlayMap;
+using Sound;
 using UnityEngine;
 
 namespace Entity.Dot {
@@ -56,6 +57,9 @@ namespace Entity.Dot {
                 Debug.LogWarning("No DotManager, can't remove dot");
                 return;
             }
+            
+            // Play dot eaten sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.EatDot);
 
             // Remove this dot in DotManager
             _dotManager.RemoveDot(_index);
@@ -65,7 +69,7 @@ namespace Entity.Dot {
 
             // Destroy the game object of this dot
             // So that it disappears from the scene
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }
