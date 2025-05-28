@@ -62,7 +62,7 @@
         1,
         1
     ],
-    "hwStatusRow1": [
+    "horizontalWallStatus": [
         false,
         true,
         false,
@@ -73,22 +73,18 @@
         false,
         false,
         true,
-        false
-    ],
-    "hwStatusRow2": [
-        false,
-        false,
-        true,
-        true,
         false,
         false,
         false,
         true,
         true,
         false,
-        false
-    ],
-    "hwStatusRow3": [
+        false,
+        false,
+        true,
+        true,
+        false,
+        false,
         false,
         false,
         false,
@@ -99,22 +95,18 @@
         true,
         false,
         false,
-        false
-    ],
-    "hwStatusRow4": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
         false,
         true,
         false,
         false,
         true,
         false,
-        true,
-        false,
-        false,
-        true,
-        false
-    ],
-    "hwStatusRow5": [
         false,
         false,
         false,
@@ -125,9 +117,6 @@
         false,
         false,
         false,
-        false
-    ],
-    "hwStatusRow6": [
         false,
         false,
         false,
@@ -138,9 +127,8 @@
         false,
         false,
         false,
-        false
-    ],
-    "hwStatusRow7": [
+        false,
+        false,
         false,
         false,
         false,
@@ -151,9 +139,7 @@
         false,
         false,
         false,
-        false
-    ],
-    "hwStatusRow8": [
+        false,
         false,
         false,
         false,
@@ -164,9 +150,7 @@
         true,
         false,
         false,
-        false
-    ],
-    "hwStatusRow9": [
+        false,
         false,
         false,
         true,
@@ -177,9 +161,7 @@
         true,
         true,
         false,
-        false
-    ],
-    "hwStatusRow10": [
+        false,
         false,
         true,
         true,
@@ -192,7 +174,7 @@
         true,
         false
     ],
-    "vwStatusRow1": [
+    "verticalWallStatus": [
         false,
         false,
         true,
@@ -202,9 +184,7 @@
         false,
         true,
         false,
-        false
-    ],
-    "vwStatusRow2": [
+        false,
         true,
         false,
         false,
@@ -214,9 +194,7 @@
         false,
         false,
         false,
-        true
-    ],
-    "vwStatusRow3": [
+        true,
         true,
         true,
         false,
@@ -226,9 +204,7 @@
         false,
         false,
         true,
-        true
-    ],
-    "vwStatusRow4": [
+        true,
         false,
         false,
         true,
@@ -238,45 +214,7 @@
         false,
         true,
         false,
-        false
-    ],
-    "vwStatusRow5": [
-        true,
         false,
-        true,
-        false,
-        false,
-        false,
-        false,
-        true,
-        false,
-        true
-    ],
-    "vwStatusRow6": [
-        true,
-        true,
-        false,
-        true,
-        false,
-        false,
-        true,
-        false,
-        true,
-        true
-    ],
-    "vwStatusRow7": [
-        true,
-        true,
-        true,
-        true,
-        false,
-        false,
-        true,
-        true,
-        true,
-        true
-    ],
-    "vwStatusRow8": [
         true,
         false,
         true,
@@ -286,33 +224,57 @@
         false,
         true,
         false,
-        true
-    ],
-    "vwStatusRow9": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        false,
+        false,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
         true,
         true,
         false,
         false,
-        false,
-        false,
-        false,
-        false,
         true,
-        true
-    ],
-    "vwStatusRow10": [
+        true,
+        true,
+        true,
+        true,
+        false,
         true,
         false,
         false,
         false,
         false,
+        true,
+        false,
+        true,
+        true,
+        true,
         false,
         false,
         false,
         false,
-        true
-    ],
-    "vwStatusRow11": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
         false,
         false,
         false,

@@ -17,28 +17,8 @@ namespace Entity.Map {
         public List<PropType> totalPropKeys;
         public List<int> totalPropValues;
 
-        public List<bool> hwStatusRow1;
-        public List<bool> hwStatusRow2;
-        public List<bool> hwStatusRow3;
-        public List<bool> hwStatusRow4;
-        public List<bool> hwStatusRow5;
-        public List<bool> hwStatusRow6;
-        public List<bool> hwStatusRow7;
-        public List<bool> hwStatusRow8;
-        public List<bool> hwStatusRow9;
-        public List<bool> hwStatusRow10;
-
-        public List<bool> vwStatusRow1;
-        public List<bool> vwStatusRow2;
-        public List<bool> vwStatusRow3;
-        public List<bool> vwStatusRow4;
-        public List<bool> vwStatusRow5;
-        public List<bool> vwStatusRow6;
-        public List<bool> vwStatusRow7;
-        public List<bool> vwStatusRow8;
-        public List<bool> vwStatusRow9;
-        public List<bool> vwStatusRow10;
-        public List<bool> vwStatusRow11;
+        public List<bool> horizontalWallStatus;
+        public List<bool> verticalWallStatus;
 
         public MapJsonWrapper() { }
 
@@ -60,28 +40,19 @@ namespace Entity.Map {
             totalPropKeys = new List<PropType>(map.PropData.TotalPropCounts.Keys);
             totalPropValues = new List<int>(map.PropData.TotalPropCounts.Values);
 
-            hwStatusRow1 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 0));
-            hwStatusRow2 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 1));
-            hwStatusRow3 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 2));
-            hwStatusRow4 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 3));
-            hwStatusRow5 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 4));
-            hwStatusRow6 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 5));
-            hwStatusRow7 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 6));
-            hwStatusRow8 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 7));
-            hwStatusRow9 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 8));
-            hwStatusRow10 = new List<bool>(ConvertBoolArrayToList(map.WallData.HorizontalWallStatus, 9));
-
-            vwStatusRow1 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 0));
-            vwStatusRow2 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 1));
-            vwStatusRow3 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 2));
-            vwStatusRow4 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 3));
-            vwStatusRow5 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 4));
-            vwStatusRow6 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 5));
-            vwStatusRow7 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 6));
-            vwStatusRow8 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 7));
-            vwStatusRow9 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 8));
-            vwStatusRow10 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 9));
-            vwStatusRow11 = new List<bool>(ConvertBoolArrayToList(map.WallData.VerticalWallStatus, 10));
+            horizontalWallStatus = new List<bool>();
+            for (int i = 0; i < 10; i++) {
+                foreach (var horizontalWall in map.WallData.HorizontalWallStatus) {
+                    horizontalWallStatus.Add(horizontalWall);
+                }
+            }
+            
+            verticalWallStatus = new List<bool>();
+            for (int i = 0; i < 11; i++) {
+                foreach (var verticalWall in map.WallData.VerticalWallStatus) {
+                    verticalWallStatus.Add(verticalWall);
+                }
+            }
         }
 
         // Used to convert to the format required by PropData when deserializing
@@ -139,16 +110,16 @@ namespace Entity.Map {
             get {
                 bool[,] result = new bool[10, 11];
                 for (int column = 0; column < 11; column++) {
-                    result[0, column] = hwStatusRow1[column];
-                    result[1, column] = hwStatusRow2[column];
-                    result[2, column] = hwStatusRow3[column];
-                    result[3, column] = hwStatusRow4[column];
-                    result[4, column] = hwStatusRow5[column];
-                    result[5, column] = hwStatusRow6[column];
-                    result[6, column] = hwStatusRow7[column];
-                    result[7, column] = hwStatusRow8[column];
-                    result[8, column] = hwStatusRow9[column];
-                    result[9, column] = hwStatusRow10[column];
+                    result[0, column] = horizontalWallStatus[column];
+                    result[1, column] = horizontalWallStatus[column + 11];
+                    result[2, column] = horizontalWallStatus[column + 22];
+                    result[3, column] = horizontalWallStatus[column + 33];
+                    result[4, column] = horizontalWallStatus[column + 44];
+                    result[5, column] = horizontalWallStatus[column + 55];
+                    result[6, column] = horizontalWallStatus[column + 66];
+                    result[7, column] = horizontalWallStatus[column + 77];
+                    result[8, column] = horizontalWallStatus[column + 88];
+                    result[9, column] = horizontalWallStatus[column + 99];
                 }
 
                 return result;
@@ -159,17 +130,17 @@ namespace Entity.Map {
             get {
                 bool[,] result = new bool[11, 10];
                 for (int column = 0; column < 10; column++) {
-                    result[0, column] = vwStatusRow1[column];
-                    result[1, column] = vwStatusRow2[column];
-                    result[2, column] = vwStatusRow3[column];
-                    result[3, column] = vwStatusRow4[column];
-                    result[4, column] = vwStatusRow5[column];
-                    result[5, column] = vwStatusRow6[column];
-                    result[6, column] = vwStatusRow7[column];
-                    result[7, column] = vwStatusRow8[column];
-                    result[8, column] = vwStatusRow9[column];
-                    result[9, column] = vwStatusRow10[column];
-                    result[10, column] = vwStatusRow11[column];
+                    result[0, column] = verticalWallStatus[column];
+                    result[1, column] = verticalWallStatus[column + 10];
+                    result[2, column] = verticalWallStatus[column + 20];
+                    result[3, column] = verticalWallStatus[column + 30];
+                    result[4, column] = verticalWallStatus[column + 40];
+                    result[5, column] = verticalWallStatus[column + 50];
+                    result[6, column] = verticalWallStatus[column + 60];
+                    result[7, column] = verticalWallStatus[column + 70];
+                    result[8, column] = verticalWallStatus[column + 80];
+                    result[9, column] = verticalWallStatus[column + 90];
+                    result[10, column] = verticalWallStatus[column + 100];
                 }
 
                 return result;
