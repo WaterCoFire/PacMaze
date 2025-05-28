@@ -66,3 +66,4 @@ Specifically:
 - **Ghostron caught:** "Winning a coin, video game"
 - **Event triggered:** "Player Boost Recharging"
 - **UI button click:** "Video game retro click"
+- **Error Warning:** "Wrong electricity buzz"
