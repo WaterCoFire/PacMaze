@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using Sound;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Tutorial {
@@ -83,6 +83,9 @@ namespace Tutorial {
                 Debug.LogWarning(
                     "Warning: A tip is being displayed while another tip is set to be displayed. Overriding.");
             }
+            
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
             // Close the action prompt area
             CloseActionPrompt();
@@ -110,6 +113,9 @@ namespace Tutorial {
                 Debug.LogError("Error: Tip is not being displayed!");
                 return;
             }
+            
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
             if (_currentTipIndex != _allTips.Count - 1) {
                 // For all tips except for the last (finish) tip:
