@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,10 +34,19 @@ namespace HomePage {
         }
 
         private void OnCreateConfirmButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
+            // Get the name
             string newNameInput = createInputField.text;
             
             // Check name validity
             if (!CheckNameValidity(newNameInput)) {
+                // If the name is invalid
+                // Play warning sound
+                SoundManager.Instance.PlaySoundOnce(SoundType.Warning);
+                
+                // Display warning prompt
                 createWarningPrompt.SetActive(true);
                 return;
             }
@@ -55,6 +65,9 @@ namespace HomePage {
         }
 
         private void OnCreateCloseButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Disable the warning prompt
             createWarningPrompt.SetActive(false);
 

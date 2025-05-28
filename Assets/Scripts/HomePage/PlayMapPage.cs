@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using Entity.Map;
+using Sound;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -155,7 +156,8 @@ namespace HomePage {
                         // PLAY THIS MAP
                         // Go to the map scene
                         button.onClick.AddListener(() => {
-                            Debug.Log("Play clicked!");
+                            // Play click sound
+                            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
                             // Get the map file name
                             // And set the play reference
@@ -173,6 +175,9 @@ namespace HomePage {
         /* Button action listeners setting */
         // Back button: back to home page
         private void OnBackButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 0);
 

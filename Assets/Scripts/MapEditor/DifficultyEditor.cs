@@ -1,4 +1,5 @@
 ﻿using Entity.Map;
+using Sound;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -121,6 +122,9 @@ namespace MapEditor {
 
         /* Difficulty button operations */
         private void OnEasyButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // UI update
             SetButtonStatus(easyButton, true);
             SetButtonStatus(normalButton, false);
@@ -136,6 +140,9 @@ namespace MapEditor {
         }
 
         private void OnNormalButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // UI update
             SetButtonStatus(easyButton, false);
             SetButtonStatus(normalButton, true);
@@ -151,6 +158,9 @@ namespace MapEditor {
         }
 
         private void OnHardButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // UI update
             SetButtonStatus(easyButton, false);
             SetButtonStatus(normalButton, false);

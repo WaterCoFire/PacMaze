@@ -87,6 +87,9 @@ namespace HomePage {
         /* Button action listeners */
         // Play button
         private void OnPlayButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Close this home page
             homePage.SetActive(false);
 
@@ -109,6 +112,9 @@ namespace HomePage {
 
         // Edit maps button
         private void OnEditMapsButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 2);
 
@@ -121,6 +127,9 @@ namespace HomePage {
 
         // Pacpedia button
         private void OnPacpediaButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Close this home page
             homePage.SetActive(false);
 
@@ -130,6 +139,9 @@ namespace HomePage {
 
         // Setting button
         private void OnSettingButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Close this home page
             homePage.SetActive(false);
 
@@ -143,6 +155,9 @@ namespace HomePage {
 
         // Tutorial prompt window - Enter tutorial button
         private void OnEnterTutorialButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Update played status
             PlayerPrefs.SetInt("PlayedBefore", 1);
             
@@ -155,6 +170,9 @@ namespace HomePage {
 
         // Tutorial prompt window - Skip button
         private void OnSkipButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Update played status
             PlayerPrefs.SetInt("PlayedBefore", 1);
             

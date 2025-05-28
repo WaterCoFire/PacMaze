@@ -167,6 +167,9 @@ namespace MapEditor {
 
         // Edit Walls button operation
         private void OnEditWallsButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Update the prompt
             modePromptText.SetText("Editing:\nWalls");
 
@@ -193,6 +196,9 @@ namespace MapEditor {
 
         // Edit Props button operation
         private void OnEditPropsButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Update the prompt
             modePromptText.SetText("Editing:\nProps");
 
@@ -219,6 +225,9 @@ namespace MapEditor {
 
         // Difficulty setting button operation
         private void OnDifficultyButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Update the prompt
             modePromptText.SetText("Editing:\nDifficulty");
 
@@ -245,6 +254,9 @@ namespace MapEditor {
 
         // Event setting button operation
         private void OnEventButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Update the prompt
             modePromptText.SetText("Editing:\nEvent Status");
 
@@ -271,6 +283,9 @@ namespace MapEditor {
 
         // Quit (directly) button operation
         private void OnQuitButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             InitUI(_mapName); // Reset this UI as it is being closed
 
             // Load HomePage UI
@@ -279,6 +294,9 @@ namespace MapEditor {
 
         // Save & Quit button operation
         private void OnSaveAndQuitButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Check if the condition is met
             // 1 - PACBOY SPAWN POINT IS SET
             if (!PropEditor.Instance.CheckCondition()) {
@@ -310,7 +328,10 @@ namespace MapEditor {
 
             if (!tilesValid) {
                 // If invalid tiles exist
-                // Show relevant warning
+                // Play warning sound
+                SoundManager.Instance.PlaySoundOnce(SoundType.Warning);
+                
+                // Show invalid tiles warning
                 invalidTilesWarningPanel.SetActive(true);
                 
                 // Temporarily disable all modes
@@ -343,6 +364,9 @@ namespace MapEditor {
 
         // Operations after the close button of the No Pacboy warning panel is clicked
         private void OnNoPacboyPanelCloseButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             noPacboySpawnWarningPanel.SetActive(false);
 
             // Enable all the buttons
@@ -397,6 +421,9 @@ namespace MapEditor {
         
         // Operations after the close button of the No Pacboy warning panel is clicked
         private void OnInvalidTilesPanelCloseButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             invalidTilesWarningPanel.SetActive(false);
 
             // Enable all the buttons

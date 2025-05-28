@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sound;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace MapEditor {
@@ -97,6 +98,9 @@ namespace MapEditor {
 
         /* Event status button operations */
         private void OnEventEnabledButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // UI update
             SetButtonStatus(enableEventButton, true);
             SetButtonStatus(disableEventButton, false);
@@ -110,6 +114,9 @@ namespace MapEditor {
         }
 
         private void OnEventDisabledButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // UI update
             SetButtonStatus(disableEventButton, true);
             SetButtonStatus(enableEventButton, false);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Entity.Map;
+using Sound;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -152,6 +153,10 @@ namespace MapEditor {
             HandleMouseInput();
         }
 
+        /**
+         * Monitors the mouse behaviours.
+         * For updating wall highlight effects or layout setting.
+         */
         private void HandleMouseInput() {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit)) {
@@ -170,6 +175,9 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Sets the highlight effect of a wall.
+         */
         private void SetWallHighlight(GameObject wall, bool isHorizontal, int row, int column) {
             MeshRenderer renderer = wall.GetComponent<MeshRenderer>();
 
@@ -192,7 +200,14 @@ namespace MapEditor {
             _previousMeshRenderer = renderer;
         }
 
+        /**
+         * Action when player left-clicks on a wall.
+         * Updates its status.
+         */
         private void ToggleWall(GameObject wall, bool isHorizontal, int row, int column) {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Reset all tile materials if currently some invalid (unreachable) tiles are being displayed
             if (TileChecker.Instance.invalidTilesDisplaying) {
                 TileChecker.Instance.ClearTileDisplay();
@@ -235,6 +250,9 @@ namespace MapEditor {
         /* Action Listeners */
         // Random Generation Button
         private void OnRandomGenerationButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Obtain a random wall layout
             WallData randomWallData = RandomLayoutGenerator.Instance.GenerateWallLayout();
             
@@ -244,6 +262,9 @@ namespace MapEditor {
 
         // Clear All Walls Button
         private void OnClearAllWallsButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             _previousMeshRenderer = null;
             // Let all walls display the missing material
             foreach (var horizontalWall in _horizontalWalls) {

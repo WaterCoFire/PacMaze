@@ -1,4 +1,5 @@
 ﻿using Setting;
+using Sound;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -45,12 +46,18 @@ namespace PlayMap.UI {
         /* Button action listeners */
         // Back to game button
         private void OnBackToGameButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Resume the game
             PlayMapController.Instance.ResumeGame();
         }
         
         // Setting button
         private void OnSettingButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Close this page
             pausePage.SetActive(false);
             
@@ -61,6 +68,9 @@ namespace PlayMap.UI {
         
         // Quit button
         private void OnQuitButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Quit the game
             SceneManager.LoadScene("HomePage");
         }

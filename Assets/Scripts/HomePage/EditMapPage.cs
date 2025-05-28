@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using Entity.Map;
+using Sound;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -160,7 +161,10 @@ namespace HomePage {
                         // DELETE THIS MAP OPERATION
                         // Delete this map (.json file)
                         button.onClick.AddListener(() => {
-                            Debug.Log("Delete clicked!");
+                            // Play click sound
+                            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+                            
+                            // Get the file name and delete this map file
                             string path = Path.Combine(_saveDirectory,
                                 $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.json");
                             if (File.Exists(path)) {
@@ -177,16 +181,21 @@ namespace HomePage {
                     } else if (objName == "RenameButton") {
                         // RENAME THIS MAP OPERATION
                         button.onClick.AddListener(() => {
-                            Debug.Log("Rename clicked!");
+                            // Play click sound
+                            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+                            
                             _renamedMapOldInfo = mapInfo;
-                            ShowRenameWindow(mapInfo.Name); // Show rename window
+                            ShowRenameWindow(mapInfo.Name); // Show rename map name window
                         });
                     } else if (objName == "EditButton") {
                         // EDIT THIS MAP
                         // Enter the map editor interface for this map
                         // Set the player preferences string "EditMapToLoad" to the map name (mapInfo.Name) and switch to MapEditor scene
                         button.onClick.AddListener(() => {
-                            Debug.Log("Edit clicked!");
+                            // Play click sound
+                            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+                            
+                            // Go to Map Editor scene
                             PlayerPrefs.SetString("EditMapFileToLoad",
                                 mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + (int)mapInfo.Difficulty);
                             SceneManager.LoadScene("MapEditor");
@@ -288,6 +297,9 @@ namespace HomePage {
         /* Button action listeners setting */
         // Back button: back to home page
         private void OnBackButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 0);
             
@@ -300,6 +312,10 @@ namespace HomePage {
 
         // Create new map button: Enters the create window
         private void OnCreateNewMapButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
+            // Display create map window
             gameObject.GetComponent<EditMapCreateWindow>().ShowCreateWindow();
         }
 

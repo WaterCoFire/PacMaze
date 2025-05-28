@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -59,7 +60,7 @@ namespace Setting {
 
             _isListening = false;
 
-            AddButtonActionListener(); // Set button action listeners
+            SetButtonActionListener(); // Set button action listeners
         }
 
         // UPDATE FUNCTION
@@ -75,7 +76,10 @@ namespace Setting {
                         // Check the validity of the key code
                         if (!CheckValidity(keyCode)) {
                             // Warn the player if not valid
-                            Debug.LogWarning("Invalid key pressed: " + keyCode);
+                            // Play warning sound
+                            SoundManager.Instance.PlaySoundOnce(SoundType.Warning);
+                            
+                            // Update prompt
                             promptText.text = "Invalid key! Only alphabetic keys allowed.";
                             promptText.gameObject.SetActive(true);
 
@@ -87,7 +91,11 @@ namespace Setting {
                         // Key is valid
                         // Check for conflict
                         if (CheckConflict(_listeningIndex, keyCode)) {
-                            Debug.LogWarning("Conflict detected: " + keyCode);
+                            // Conflict detected
+                            // Play warning sound
+                            SoundManager.Instance.PlaySoundOnce(SoundType.Warning);
+                            
+                            // Update prompt
                             promptText.text = "This key conflicts with another one!";
                             promptText.gameObject.SetActive(true);
 
@@ -96,6 +104,7 @@ namespace Setting {
                             return;
                         }
 
+                        // All valid
                         // Set the key code
                         SetKeyCode(_listeningIndex, keyCode);
                         KeyBindingManager.SaveInfoToFile(); // Update in the file
@@ -208,7 +217,7 @@ namespace Setting {
         /**
          * Sets the action listeners for all the buttons.
          */
-        private void AddButtonActionListener() {
+        private void SetButtonActionListener() {
             moveForwardSettingButton.onClick.AddListener(OnMoveForwardSettingButtonClick);
             moveBackwardSettingButton.onClick.AddListener(OnMoveBackwardSettingButtonClick);
             moveLeftwardSettingButton.onClick.AddListener(OnMoveLeftwardSettingButtonClick);
@@ -334,9 +343,15 @@ namespace Setting {
         // Action when the back button is clicked.
         // Returns to the previous page.
         private void OnBackButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
+            // Reset UI
             _isListening = false;
             promptText.text = "";
             promptText.gameObject.SetActive(false);
+            
+            // Back to the previous page
             settingPage.SetActive(false);
             previousPage.SetActive(true);
         }

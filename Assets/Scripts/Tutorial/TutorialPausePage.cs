@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sound;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -38,12 +39,18 @@ namespace Tutorial {
         /* Button action listeners */
         // Back to tutorial button
         private void OnBackToTutorialButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Resume the tutorial
             TutorialController.Instance.ResumeTutorial();
         }
         
         // Quit button
         private void OnQuitButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Quit the tutorial and go back to the Home Page
             SceneManager.LoadScene("HomePage");
         }

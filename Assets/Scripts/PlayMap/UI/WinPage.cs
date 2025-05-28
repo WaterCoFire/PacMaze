@@ -26,6 +26,9 @@ namespace PlayMap.UI {
 
         /* Action when the home page button is clicked */
         private void OnHomePageButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Back to play map view
             SceneManager.LoadScene("HomePage");
 

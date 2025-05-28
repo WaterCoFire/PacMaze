@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sound;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -89,6 +90,9 @@ namespace HomePage {
 
         // Pacboy button clicked
         private void OnPacboyButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Set button status
             SetButtonStatus(pacboyButton, true);
             SetButtonStatus(ghostronButton, false);
@@ -104,6 +108,9 @@ namespace HomePage {
 
         // Ghostron button clicked
         private void OnGhostronButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Set button status
             SetButtonStatus(pacboyButton, false);
             SetButtonStatus(ghostronButton, true);
@@ -119,6 +126,9 @@ namespace HomePage {
 
         // Props button clicked
         private void OnPropsButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Set button status
             SetButtonStatus(pacboyButton, false);
             SetButtonStatus(ghostronButton, false);
@@ -134,6 +144,9 @@ namespace HomePage {
         
         // Random event button clicked
         private void OnRandomEventButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
             // Set button status
             SetButtonStatus(pacboyButton, false);
             SetButtonStatus(ghostronButton, false);
@@ -149,12 +162,20 @@ namespace HomePage {
 
         // Back button clicked: Return to the home page
         private void OnBackButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
+            // Go to home page
             pacpediaPage.SetActive(false);
             homePage.SetActive(true);
         }
         
         // Tutorial button clicked: Enter the tutorial scene
         private void OnTutorialButtonClick() {
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
+            
+            // Go to tutorial
             pacpediaPage.SetActive(false);
             // Update played status
             PlayerPrefs.SetInt("PlayedBefore", 1);

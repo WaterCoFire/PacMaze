@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Entity.Map;
 using Entity.Prop;
+using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -173,19 +174,23 @@ namespace MapEditor {
          * Handle the tile selection.
          */
         private void SelectTile() {
+            // Compute the target tile
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit)) {
                 Vector3 tilePosition = SnapToGrid(hit.point);
 
+                // Check if any tile is successfully clicked
                 if (!hit.collider.CompareTag("Tile")) {
                     Debug.Log("Warning: Clicked but not found a tile!");
                     return;
                 }
+                
+                // Play click sound
+                SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
                 if (tilePosition != _selectedTileVector3 || !_tileSelected) {
                     // Display the prop edit panel
                     tileNotSelectedPrompt.SetActive(false);
-                    // TotalNumberButtonUpdate();
                     propEditPanel.SetActive(true);
 
                     _selectedTileVector3 = tilePosition;
@@ -262,7 +267,12 @@ namespace MapEditor {
                 Debug.LogError($"Prefab for {propType} is missing!");
                 return;
             }
+            
+            // All valid
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
+            // Place fixed prop on the tile
             GameObject newProp = Instantiate(def.prefab, _selectedTileVector3, Quaternion.identity);
             _propObjectOnTiles[_selectedTileVector3] = newProp;
             _fixedPropCounts[propType]++;
@@ -281,6 +291,9 @@ namespace MapEditor {
                 Debug.LogError("No prop to remove on selected tile or tile not selected.");
                 return;
             }
+            
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
             PropType removedPropType = GetPropType(propToRemove); // Get the PropType of the fixed prop to be removed
             Destroy(propToRemove);
@@ -300,7 +313,11 @@ namespace MapEditor {
          */
         private void AdjustTotalPropCount(PropType propType, int delta) {
             if (!_propDefinitionsDict.TryGetValue(propType, out PropUIDefinition def)) return;
+            
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
+            // Get the current total number of this type of prop
             int currentTotal = _totalPropCounts[propType];
 
             // Make sure the new total does not exceed the boundaries (although the UI should be able to handle this)
