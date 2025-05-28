@@ -31,7 +31,7 @@ namespace HomePage {
 
         // In tutorial prompt window
         public Button enterTutorialButton; // Enter tutorial
-        public Button skipButton; // No thanks, no tutorial
+        public Button skipButton; // Skip tutorial
 
         // AWAKE FUNCTION
         private void Awake() {
@@ -160,6 +160,8 @@ namespace HomePage {
             
             // Update played status
             PlayerPrefs.SetInt("PlayedBefore", 1);
+            // Set the UI location information
+            PlayerPrefs.SetInt("MainPageAt", 1);
             
             // Close the tutorial prompt window
             tutorialPromptWindow.SetActive(false);
@@ -175,6 +177,8 @@ namespace HomePage {
             
             // Update played status
             PlayerPrefs.SetInt("PlayedBefore", 1);
+            // Set the UI location information
+            PlayerPrefs.SetInt("MainPageAt", 1);
             
             // Close the tutorial prompt window
             tutorialPromptWindow.SetActive(false);
