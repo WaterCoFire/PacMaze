@@ -9496,7 +9496,6 @@ MonoBehaviour:
   homePageBackgroundMusic: {fileID: 8300000, guid: 67ba428379d21a8428dd6d47f2d8df47,
     type: 3}
   gameBackgroundMusic: {fileID: 8300000, guid: 54e5e92d5a6fd0541b97e57f4badb434, type: 3}
-  clickSound: {fileID: 8300000, guid: faccdd14dbc4bad48b7857118f469d12, type: 3}
   playerWinSound: {fileID: 8300000, guid: 6a7b5e13b92d3e04482db48c2d7513f1, type: 3}
   playerLoseSound: {fileID: 8300000, guid: 21e2a0317167a764a80dd5ab6a5fe2c1, type: 3}
   eatDotSound: {fileID: 8300000, guid: 68203849c6380064b81e0c4a8b0fcd3c, type: 3}
@@ -9507,6 +9506,8 @@ MonoBehaviour:
     type: 3}
   ghostronCaughtSound: {fileID: 8300000, guid: 75bcd492abef9294b85818d5ab561de8, type: 3}
   eventTriggeredSound: {fileID: 8300000, guid: dfdd1b9b13b017b429691cd9d1365178, type: 3}
+  clickSound: {fileID: 8300000, guid: faccdd14dbc4bad48b7857118f469d12, type: 3}
+  warningSound: {fileID: 8300000, guid: f86369c5990483046a7436f130a9c48b, type: 3}
 --- !u!1 &692990995
 GameObject:
   m_ObjectHideFlags: 0

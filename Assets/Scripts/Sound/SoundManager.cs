@@ -18,7 +18,6 @@ namespace Sound {
         public AudioClip gameBackgroundMusic;
 
         // Sound effects
-        public AudioClip clickSound;
         public AudioClip playerWinSound;
         public AudioClip playerLoseSound;
         public AudioClip eatDotSound;
@@ -28,6 +27,8 @@ namespace Sound {
         public AudioClip niceBombExplodeSound;
         public AudioClip ghostronCaughtSound;
         public AudioClip eventTriggeredSound;
+        public AudioClip clickSound;
+        public AudioClip warningSound;
 
         // Store all sound effects (not including two background musics)
         private List<AudioClip> _allSounds;
@@ -43,8 +44,8 @@ namespace Sound {
             }
             
             // Store all sounds to the list
+            // By the order set
             _allSounds = new List<AudioClip>();
-            _allSounds.Add(clickSound);
             _allSounds.Add(playerWinSound);
             _allSounds.Add(playerLoseSound);
             _allSounds.Add(eatDotSound);
@@ -54,6 +55,8 @@ namespace Sound {
             _allSounds.Add(niceBombExplodeSound);
             _allSounds.Add(ghostronCaughtSound);
             _allSounds.Add(eventTriggeredSound);
+            _allSounds.Add(clickSound);
+            _allSounds.Add(warningSound);
         }
 
         /* Play audio functions */
@@ -74,19 +77,28 @@ namespace Sound {
                 audioSource.Play();
             }
         }
+        
+        // Stop playing background music
+        // Called when player wins/loses a game
+        public void StopBackgroundMusic() {
+            // Stop the music
+            audioSource.Pause();
+        }
+        
 
         // Play a sound once
         // Param - soundIndex:
-        // 0 - Click
-        // 1 - Player win
-        // 2 - Player lose
-        // 3 - Eat dot
-        // 4 - Pick up good prop
-        // 5 - Pick up bad prop
-        // 6 - Deploy Nice Bomb
-        // 7 - Nice Bomb explode
-        // 8 - Ghostron caught
-        // 9 - Event triggered
+        // 0 - Player win
+        // 1 - Player lose
+        // 2 - Eat dot
+        // 3 - Pick up good prop
+        // 4 - Pick up bad prop
+        // 5 - Deploy Nice Bomb
+        // 6 - Nice Bomb explode
+        // 7 - Ghostron caught
+        // 8 - Event triggered
+        // 9 - Click
+        // 10 - Warning
         public void PlaySoundOnce(int soundIndex) {
             audioSource.PlayOneShot(_allSounds[soundIndex]);
         }
