@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sound;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -13,12 +14,14 @@ namespace PlayMap.UI {
         private void Start() {
             // Set the action listener for the button
             homePageButton.onClick.AddListener(OnHomePageButtonClick);
+            
+            // Stop the background music
+            SoundManager.Instance.StopBackgroundMusic();
         }
 
         /* Action when the home page button is clicked */
         private void OnHomePageButtonClick() {
             // Back to play map view
-            PlayerPrefs.SetInt("MainPageAt", 1);
             SceneManager.LoadScene("HomePage");
             
             // Close this page

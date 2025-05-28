@@ -7,9 +7,6 @@ namespace Tutorial {
      * Manages the pause page in tutorial.
      */
     public class TutorialPausePage : MonoBehaviour {
-        // This pause page
-        public GameObject pausePage;
-        
         // Buttons
         public Button backToTutorialButton; // Or pressing ESC
         public Button quitButton;
@@ -48,7 +45,6 @@ namespace Tutorial {
         // Quit button
         private void OnQuitButtonClick() {
             // Quit the tutorial and go back to the Home Page
-            PlayerPrefs.SetInt("MainPageAt", 0);
             SceneManager.LoadScene("HomePage");
         }
     }

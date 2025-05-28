@@ -62,7 +62,6 @@ namespace PlayMap.UI {
         // Quit button
         private void OnQuitButtonClick() {
             // Quit the game
-            PlayerPrefs.SetInt("MainPageAt", 1);
             SceneManager.LoadScene("HomePage");
         }
     }

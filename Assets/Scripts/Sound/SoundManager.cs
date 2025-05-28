@@ -78,7 +78,7 @@ namespace Sound {
         }
         
         // Stop playing background music
-        // Called when player wins/loses a game
+        // Called when player wins/loses a game (or finishes the tutorial)
         public void StopBackgroundMusic() {
             // Stop the music
             audioSource.Pause();
