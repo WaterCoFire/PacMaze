@@ -25220,7 +25220,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Every time a dot is eaten by Pacboy, there is a 10 percent chance that
+  m_text: 'Every time a dot is eaten by Pacboy, there is a 5 percent chance that
     a random event is triggered.
 
 
