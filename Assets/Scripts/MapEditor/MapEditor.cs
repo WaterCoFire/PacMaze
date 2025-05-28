@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
@@ -12,20 +13,17 @@ using UnityEngine.SceneManagement;
 
 namespace MapEditor {
     public class MapEditor : MonoBehaviour {
-        public Button quitButton; // No saving
-        public Button saveButton; // Save map and close
-
-        // Button Colours
-        // Normal color 8C79FF
-        // Highlight color 634AFC
-        // Selected color E4FF49
-        private readonly Color _normalColor = new(140f / 255f, 121f / 255f, 255f / 255f);
-        private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
+        /* Buttons */
+        public Button quitButton; // Directly quit, no saving
+        public Button saveButton; // Save map and quit
 
         public Button wallModeButton; // Editing wall mode
         public Button propModeButton; // Editing prop mode
         public Button difficultyModeButton; // Difficulty setting mode
         public Button eventModeButton; // Event status setting mode
+
+        // Map name
+        public TMP_Text mapNameText;
 
         // UI panels
         public GameObject wallModeSettingPanel;
@@ -33,8 +31,12 @@ namespace MapEditor {
         public GameObject difficultySettingPanel;
         public GameObject eventSettingPanel;
 
-        public TMP_Text mapNameText;
-        
+        // Button Colours
+        // Normal color 8C79FF
+        // Selected color E4FF49
+        private readonly Color _normalColor = new(140f / 255f, 121f / 255f, 255f / 255f);
+        private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
+
         // Prompt Text
         // Default: Click to select what you need to edit!
         // Wall Mode: Editing Walls
@@ -47,23 +49,23 @@ namespace MapEditor {
         // Warning panel: Pacboy spawn point not set
         public GameObject noPacboySpawnWarningPanel;
         public Button noPacboyWarningPanelCloseButton;
-        
+
         // Warning panel: Invalid tiles exist
         public GameObject invalidTilesWarningPanel;
         public Button invalidTilesPanelCloseButton;
 
         // Current edit mode
-        // 0 - Disabled/Default
-        // 1 - Walls
-        // 2 - Props
-        // 3 - Difficulty
-        // 4 - Event
-        private int _mode;
+        // Disabled/Default, Wall, Prop, Difficulty, Event
+        private MapEditorMode _mode;
         private string _mapName;
 
         // Map data save directory
         private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)");
+        
+        // Dictionaries mapping Map Editor mode to buttons/setting panels
+        private Dictionary<MapEditorMode, Button> _buttons;
+        private Dictionary<MapEditorMode, GameObject> _panels;
 
         // START FUNCTION
         private void Start() {
@@ -71,20 +73,26 @@ namespace MapEditor {
 
             // Play background music
             SoundManager.Instance.PlayBackgroundMusic(false);
-            
+
             // Create map data directory, if it does not exist
             if (!Directory.Exists(_saveDirectory))
                 Directory.CreateDirectory(_saveDirectory);
             
-            // Mode & UI Reset
-            _mode = 0;
-            WallEditor.Instance.QuitWallMode();
-            PropEditor.Instance.QuitPropMode(true);
-            DifficultyEditor.Instance.QuitDifficultyMode();
-            EventEditor.Instance.QuitEventMode();
-            TileChecker.Instance.ClearTileDisplay();
-            noPacboySpawnWarningPanel.SetActive(false);
-            invalidTilesWarningPanel.SetActive(false);
+            // Initialise dictionaries
+            _buttons = new Dictionary<MapEditorMode, Button>();
+            _buttons.Add(MapEditorMode.Wall, wallModeButton);
+            _buttons.Add(MapEditorMode.Prop, propModeButton);
+            _buttons.Add(MapEditorMode.Difficulty, difficultyModeButton);
+            _buttons.Add(MapEditorMode.Event, eventModeButton);
+            
+            _panels = new Dictionary<MapEditorMode, GameObject>();
+            _panels.Add(MapEditorMode.Wall, wallModeSettingPanel);
+            _panels.Add(MapEditorMode.Prop, propModeSettingPanel);
+            _panels.Add(MapEditorMode.Difficulty, difficultySettingPanel);
+            _panels.Add(MapEditorMode.Event, eventSettingPanel);
+
+            // Mode initialising
+            SwitchMode(MapEditorMode.None, true);
 
             SetButtonActionListener();
             LoadMap(); // Load the map to be edited
@@ -169,123 +177,55 @@ namespace MapEditor {
         private void OnEditWallsButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Update the prompt
             modePromptText.SetText("Editing:\nWalls");
 
-            // Mode setting
-            PropEditor.Instance.QuitPropMode(true);
-            DifficultyEditor.Instance.QuitDifficultyMode();
-            EventEditor.Instance.QuitEventMode();
-            WallEditor.Instance.EnterWallMode();
-
-            _mode = 1;
-
-            // Buttons color update
-            SetButtonStatus(propModeButton, false);
-            SetButtonStatus(difficultyModeButton, false);
-            SetButtonStatus(eventModeButton, false);
-            SetButtonStatus(wallModeButton, true);
-
-            // Update the setting panel
-            propModeSettingPanel.SetActive(false);
-            difficultySettingPanel.SetActive(false);
-            eventSettingPanel.SetActive(false);
-            wallModeSettingPanel.SetActive(true);
+            // Mode switching
+            SwitchMode(MapEditorMode.Wall, true);
         }
 
         // Edit Props button operation
         private void OnEditPropsButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Update the prompt
             modePromptText.SetText("Editing:\nProps");
 
-            // Mode setting
-            WallEditor.Instance.QuitWallMode();
-            DifficultyEditor.Instance.QuitDifficultyMode();
-            EventEditor.Instance.QuitEventMode();
-            PropEditor.Instance.EnterPropMode();
-
-            _mode = 2;
-
-            // Buttons color update
-            SetButtonStatus(wallModeButton, false);
-            SetButtonStatus(difficultyModeButton, false);
-            SetButtonStatus(eventModeButton, false);
-            SetButtonStatus(propModeButton, true);
-
-            // Update the setting panel
-            wallModeSettingPanel.SetActive(false);
-            difficultySettingPanel.SetActive(false);
-            eventSettingPanel.SetActive(false);
-            propModeSettingPanel.SetActive(true);
+            // Mode switching
+            SwitchMode(MapEditorMode.Prop, true);
         }
 
         // Difficulty setting button operation
         private void OnDifficultyButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Update the prompt
             modePromptText.SetText("Editing:\nDifficulty");
 
-            // Mode setting
-            PropEditor.Instance.QuitPropMode(true);
-            WallEditor.Instance.QuitWallMode();
-            EventEditor.Instance.QuitEventMode();
-            DifficultyEditor.Instance.EnterDifficultyMode();
-
-            _mode = 3;
-
-            // Buttons color update
-            SetButtonStatus(wallModeButton, false);
-            SetButtonStatus(propModeButton, false);
-            SetButtonStatus(eventModeButton, false);
-            SetButtonStatus(difficultyModeButton, true);
-
-            // Update the setting panel
-            wallModeSettingPanel.SetActive(false);
-            propModeSettingPanel.SetActive(false);
-            eventSettingPanel.SetActive(false);
-            difficultySettingPanel.SetActive(true);
+            // Mode switching
+            SwitchMode(MapEditorMode.Difficulty, true);
         }
 
         // Event setting button operation
         private void OnEventButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Update the prompt
             modePromptText.SetText("Editing:\nEvent Status");
 
-            // Mode setting
-            PropEditor.Instance.QuitPropMode(true);
-            WallEditor.Instance.QuitWallMode();
-            DifficultyEditor.Instance.QuitDifficultyMode();
-            EventEditor.Instance.EnterEventMode();
-
-            _mode = 4;
-
-            // Buttons color update
-            SetButtonStatus(wallModeButton, false);
-            SetButtonStatus(propModeButton, false);
-            SetButtonStatus(difficultyModeButton, false);
-            SetButtonStatus(eventModeButton, true);
-
-            // Update the setting panel
-            wallModeSettingPanel.SetActive(false);
-            propModeSettingPanel.SetActive(false);
-            difficultySettingPanel.SetActive(false);
-            eventSettingPanel.SetActive(true);
+            // Mode switching
+            SwitchMode(MapEditorMode.Event, true);
         }
 
         // Quit (directly) button operation
         private void OnQuitButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             InitUI(_mapName); // Reset this UI as it is being closed
 
             // Load HomePage UI
@@ -300,25 +240,17 @@ namespace MapEditor {
                 // If Pacboy spawn point not set
                 // Play warning sound
                 SoundManager.Instance.PlaySoundOnce(SoundType.Warning);
-                
+
                 // Show relevant warning
                 noPacboySpawnWarningPanel.SetActive(true);
 
                 // Temporarily disable all modes
                 // (Recovered after the close button is clicked)
-                WallEditor.Instance.QuitWallMode();
-                PropEditor.Instance.QuitPropMode(true);
-                DifficultyEditor.Instance.QuitDifficultyMode();
-                EventEditor.Instance.QuitEventMode();
+                SwitchMode(MapEditorMode.None, true);
 
                 // Temporarily ban all the buttons
                 // (Recovered after the close button is clicked)
-                quitButton.interactable = false;
-                saveButton.interactable = false;
-                propModeButton.interactable = false;
-                wallModeButton.interactable = false;
-                difficultyModeButton.interactable = false;
-                eventModeButton.interactable = false;
+                SetButtonsAvailability(false);
 
                 return;
             }
@@ -330,28 +262,20 @@ namespace MapEditor {
                 // If invalid tiles exist
                 // Play warning sound
                 SoundManager.Instance.PlaySoundOnce(SoundType.Warning);
-                
+
                 // Show invalid tiles warning
                 invalidTilesWarningPanel.SetActive(true);
-                
+
                 // Temporarily disable all modes
                 // (Automatically go to Wall Mode after the close button is clicked)
-                WallEditor.Instance.QuitWallMode();
-                PropEditor.Instance.QuitPropMode(false); // Note: the param should be false here
-                DifficultyEditor.Instance.QuitDifficultyMode();
-                EventEditor.Instance.QuitEventMode();
+                SwitchMode(MapEditorMode.None, false); // Do not reset the selected tile
 
                 // Temporarily ban all the buttons
                 // (Recovered after the close button is clicked)
-                quitButton.interactable = false;
-                saveButton.interactable = false;
-                propModeButton.interactable = false;
-                wallModeButton.interactable = false;
-                difficultyModeButton.interactable = false;
-                eventModeButton.interactable = false;
+                SetButtonsAvailability(false);
                 return;
             }
-            
+
             // The map is valid
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
@@ -370,103 +294,85 @@ namespace MapEditor {
         private void OnNoPacboyPanelCloseButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             noPacboySpawnWarningPanel.SetActive(false);
 
             // Enable all the buttons
-            quitButton.interactable = true;
-            saveButton.interactable = true;
-            propModeButton.interactable = true;
-            wallModeButton.interactable = true;
-            difficultyModeButton.interactable = true;
-            eventModeButton.interactable = true;
-
-            switch (_mode) {
-                case 0:
-                    // In none of the modes
-                    WallEditor.Instance.QuitWallMode();
-                    PropEditor.Instance.QuitPropMode(true);
-                    DifficultyEditor.Instance.QuitDifficultyMode();
-                    EventEditor.Instance.QuitEventMode();
-                    break;
-                case 1:
-                    // In walls mode
-                    WallEditor.Instance.EnterWallMode();
-                    PropEditor.Instance.QuitPropMode(true);
-                    DifficultyEditor.Instance.QuitDifficultyMode();
-                    EventEditor.Instance.QuitEventMode();
-                    break;
-                case 2:
-                    // In props mode
-                    WallEditor.Instance.QuitWallMode();
-                    PropEditor.Instance.EnterPropMode();
-                    DifficultyEditor.Instance.QuitDifficultyMode();
-                    EventEditor.Instance.QuitEventMode();
-                    break;
-                case 3:
-                    // In difficulty setting mode
-                    WallEditor.Instance.QuitWallMode();
-                    PropEditor.Instance.QuitPropMode(true);
-                    DifficultyEditor.Instance.EnterDifficultyMode();
-                    EventEditor.Instance.QuitEventMode();
-                    break;
-                case 4:
-                    // In event setting mode
-                    WallEditor.Instance.QuitWallMode();
-                    PropEditor.Instance.QuitPropMode(true);
-                    DifficultyEditor.Instance.QuitDifficultyMode();
-                    EventEditor.Instance.EnterEventMode();
-                    break;
-                default:
-                    Debug.LogError("Mode error!");
-                    return;
-            }
+            SetButtonsAvailability(true);
+            
+            // Enter the previous mode
+            SwitchMode(_mode, true);
         }
-        
+
         // Operations after the close button of the No Pacboy warning panel is clicked
         private void OnInvalidTilesPanelCloseButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             invalidTilesWarningPanel.SetActive(false);
 
             // Enable all the buttons
-            quitButton.interactable = true;
-            saveButton.interactable = true;
-            propModeButton.interactable = true;
-            wallModeButton.interactable = true;
-            difficultyModeButton.interactable = true;
-            eventModeButton.interactable = true;
-            
+            SetButtonsAvailability(true);
+
             // Set invalid tiles display status
             TileChecker.Instance.invalidTilesDisplaying = true;
 
             // Automatically go to Edit Walls mode
             // Update the prompt
             modePromptText.SetText("Editing:\nWalls");
+            
+            // Mode switching
+            SwitchMode(MapEditorMode.Wall, false); // Do not reset the selected tile
+        }
+        
+        /**
+         * Switch to any Map Editor mode, including default (initialise).
+         */
+        private void SwitchMode(MapEditorMode mode, bool resetSelectedTile) {
+            _mode = mode;
 
-            // Mode setting
-            PropEditor.Instance.QuitPropMode(false); // Note: the param should be false here
-            DifficultyEditor.Instance.QuitDifficultyMode();
-            EventEditor.Instance.QuitEventMode();
-            WallEditor.Instance.EnterWallMode();
+            if (mode == MapEditorMode.None) {
+                // Default mode - initialise all UIs
+                // Reset buttons
+                SetButtonStatus(wallModeButton, false);
+                SetButtonStatus(propModeButton, false);
+                SetButtonStatus(difficultyModeButton, false);
+                SetButtonStatus(eventModeButton, false);
 
-            _mode = 1;
+                // Quit all modes
+                WallEditor.Instance.SetWallMode(false);
+                PropEditor.Instance.SetPropMode(false, resetSelectedTile);
+                DifficultyEditor.Instance.SetDifficultyMode(false);
+                EventEditor.Instance.SetEventMode(false);
 
-            // Buttons color update
-            SetButtonStatus(propModeButton, false);
-            SetButtonStatus(difficultyModeButton, false);
-            SetButtonStatus(eventModeButton, false);
-            SetButtonStatus(wallModeButton, true);
-
-            // Update the setting panel
-            propModeSettingPanel.SetActive(false);
-            difficultySettingPanel.SetActive(false);
-            eventSettingPanel.SetActive(false);
-            wallModeSettingPanel.SetActive(true);
+                // Quit all setting panels
+                wallModeSettingPanel.SetActive(false);
+                propModeSettingPanel.SetActive(false);
+                difficultySettingPanel.SetActive(false);
+                eventSettingPanel.SetActive(false);
+            } else {
+                // Enter a specific mode
+                // Button status setting
+                foreach (var buttonKvp in _buttons) {
+                    SetButtonStatus(buttonKvp.Value, buttonKvp.Key == mode);
+                }
+                
+                // Mode setting
+                WallEditor.Instance.SetWallMode(mode == MapEditorMode.Wall);
+                PropEditor.Instance.SetPropMode(mode == MapEditorMode.Prop, resetSelectedTile);
+                DifficultyEditor.Instance.SetDifficultyMode(mode == MapEditorMode.Difficulty);
+                EventEditor.Instance.SetEventMode(mode == MapEditorMode.Event);
+                
+                // Panel setting
+                foreach (var panelKvp in _panels) {
+                    panelKvp.Value.SetActive(panelKvp.Key == mode);
+                }
+            }
         }
 
-        // Set the color of a button
+        /**
+         * Set the status (selected colour / normal colour) of a button
+         */
         private void SetButtonStatus(Button button, bool selected) {
             if (selected) {
                 var colors = button.colors;
@@ -479,7 +385,25 @@ namespace MapEditor {
             }
         }
 
-        // Set the action listeners of all the buttons
+        /**
+         * Initialises the map editor UI.
+         */ 
+        private void InitUI(string mapName) {
+            // Map Name setting
+            _mapName = mapName;
+            mapNameText.text = mapName;
+
+            // Reset the prompt
+            modePromptText.SetText("Click to select what you need to edit!");
+
+            // Go to default mode
+            SwitchMode(MapEditorMode.None, true);
+        }
+        
+
+        /**
+         * Set the action listeners of all the buttons.
+         */
         private void SetButtonActionListener() {
             quitButton.onClick.AddListener(OnQuitButtonClick);
             saveButton.onClick.AddListener(OnSaveAndQuitButtonClick);
@@ -491,35 +415,17 @@ namespace MapEditor {
             invalidTilesPanelCloseButton.onClick.AddListener(OnInvalidTilesPanelCloseButtonClick);
         }
 
-        // Initialises the map editor UI. 
-        private void InitUI(string mapName) {
-            // Map Name setting
-            _mapName = mapName;
-            mapNameText.text = mapName;
-
-            // Reset the prompt
-            modePromptText.SetText("Click to select what you need to edit!");
-
-            // Clear of all the modes
-            WallEditor.Instance.QuitWallMode();
-            PropEditor.Instance.QuitPropMode(true);
-            DifficultyEditor.Instance.QuitDifficultyMode();
-            EventEditor.Instance.QuitEventMode();
-
-            // Mode index reset (in none of the modes)
-            _mode = 0;
-
-            // Reset the color of both buttons
-            SetButtonStatus(wallModeButton, false);
-            SetButtonStatus(propModeButton, false);
-            SetButtonStatus(difficultyModeButton, false);
-            SetButtonStatus(eventModeButton, false);
-
-            // Reset both setting panels
-            wallModeSettingPanel.SetActive(false);
-            propModeSettingPanel.SetActive(false);
-            difficultySettingPanel.SetActive(false);
-            eventSettingPanel.SetActive(false);
+        /**
+         * Enables/Disables all buttons.
+         * Used when a panel with higher level is opened/closed.
+         */
+        private void SetButtonsAvailability(bool setEnabled) {
+            quitButton.interactable = setEnabled;
+            saveButton.interactable = setEnabled;
+            propModeButton.interactable = setEnabled;
+            wallModeButton.interactable = setEnabled;
+            difficultyModeButton.interactable = setEnabled;
+            eventModeButton.interactable = setEnabled;
         }
     }
 }

@@ -118,20 +118,8 @@ namespace MapEditor {
             UpdateAllUI();
         }
 
-        // Enters the prop editing mode. Used in MapEditor class.
-        public void EnterPropMode() {
-            _propMode = true;
-            _tileSelected = false;
-
-            propEditPanel.SetActive(false);
-            tileNotSelectedPrompt.SetActive(true);
-            // PropsButtonInit();
-
-            InitAllFixedPlacementButtons(); // General init for spawn buttons
-        }
-
         /**
-         * Quits the prop editing mode. Used in MapEditor class.
+         * Enters/Quits the prop editing mode. Used in MapEditor class.
          * PARAM resetSelectedTile:
          *
          * - true (in most cases):
@@ -140,20 +128,34 @@ namespace MapEditor {
          * - false (only used when showing invalid tile effect):
          * Do not do so. This is because this could override the invalid "red" effect
          * if the last selected tile happens to be invalid.
+         *
          */
-        public void QuitPropMode(bool resetSelectedTile) {
-            _propMode = false;
+        public void SetPropMode(bool enter, bool resetSelectedTile) {
+            if (enter) {
+                // Enter
+                _propMode = true;
+                _tileSelected = false;
 
-            // Change the material of the last tile back to the normal one
-            // ONLY DO SO if resetSelectedTile is true 
-            if (resetSelectedTile && _lastSelectedTile != null) {
-                var renderer = _lastSelectedTile.GetComponent<Renderer>();
-                if (renderer != null) renderer.material = tileNormalMaterial;
+                propEditPanel.SetActive(false);
+                tileNotSelectedPrompt.SetActive(true);
+                // PropsButtonInit();
+
+                InitAllFixedPlacementButtons(); // General init for spawn buttons
+            } else {
+                // Quit
+                _propMode = false;
+
+                // Change the material of the last tile back to the normal one
+                // ONLY DO SO if resetSelectedTile is true 
+                if (resetSelectedTile && _lastSelectedTile != null) {
+                    var renderer = _lastSelectedTile.GetComponent<Renderer>();
+                    if (renderer != null) renderer.material = tileNormalMaterial;
+                }
+
+                // PropsButtonInit();
+
+                InitAllFixedPlacementButtons(); // General init for spawn buttons
             }
-
-            // PropsButtonInit();
-
-            InitAllFixedPlacementButtons(); // General init for spawn buttons
         }
 
         // START FUNCTION
@@ -184,7 +186,7 @@ namespace MapEditor {
                     Debug.Log("Warning: Clicked but not found a tile!");
                     return;
                 }
-                
+
                 // Play click sound
                 SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
@@ -267,7 +269,7 @@ namespace MapEditor {
                 Debug.LogError($"Prefab for {propType} is missing!");
                 return;
             }
-            
+
             // All valid
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
@@ -291,7 +293,7 @@ namespace MapEditor {
                 Debug.LogError("No prop to remove on selected tile or tile not selected.");
                 return;
             }
-            
+
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
@@ -313,7 +315,7 @@ namespace MapEditor {
          */
         private void AdjustTotalPropCount(PropType propType, int delta) {
             if (!_propDefinitionsDict.TryGetValue(propType, out PropUIDefinition def)) return;
-            
+
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 

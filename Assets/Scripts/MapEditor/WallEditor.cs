@@ -128,22 +128,23 @@ namespace MapEditor {
             }
         }
 
-        // Enters the wall editing mode. Used in MapEditor class.
-        public void EnterWallMode() {
-            _wallMode = true;
-            _previousMeshRenderer = null;
-        }
+        // Enters/Quits the wall editing mode. Used in MapEditor class.
+        public void SetWallMode(bool enter) {
+            if (enter) {
+                // Enter
+                _wallMode = true;
+                _previousMeshRenderer = null;
+            } else {
+                // Quit
+                _wallMode = false;
 
-        // Quits the prop editing mode. Used in MapEditor class.
-        public void QuitWallMode() {
-            _wallMode = false;
+                // Set tile material to normal
+                TileChecker.Instance.ClearTileDisplay();
 
-            // Set tile material to normal
-            TileChecker.Instance.ClearTileDisplay();
-
-            // Set the material of the previous selected wall
-            if (_previousMeshRenderer != null) {
-                _previousMeshRenderer.material = _previousStatus ? normalMaterial : missingMaterial;
+                // Set the material of the previous selected wall
+                if (_previousMeshRenderer != null) {
+                    _previousMeshRenderer.material = _previousStatus ? normalMaterial : missingMaterial;
+                }
             }
         }
 

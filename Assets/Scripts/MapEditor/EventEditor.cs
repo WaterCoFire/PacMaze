@@ -57,24 +57,21 @@ namespace MapEditor {
         }
 
         /**
-         * Enters the event setting mode.
+         * Enters/Quits the event setting mode.
          * Used by Map Editor when user clicks the event setting mode.
          */
-        public void EnterEventMode() {
-            // Update UI based on the event status level
-            if (_eventEnabled) {
-                OnEventEnabledButtonClick();
-            } else {
-                OnEventDisabledButtonClick();
+        public void SetEventMode(bool enter) {
+            if (enter) {
+                // Enter
+                // Update UI based on the event status level
+                if (_eventEnabled) {
+                    OnEventEnabledButtonClick();
+                } else {
+                    OnEventDisabledButtonClick();
+                }
             }
+            // Quit: No logic
         }
-
-        /**
-         * Quit the event setting mode.
-         * Used by Map Editor when user quits the map editor or enters other setting modes.
-         * NO LOGIC HERE
-         */
-        public void QuitEventMode() { }
 
         /**
          * Sets the color of a button.

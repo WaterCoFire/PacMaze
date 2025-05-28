@@ -33,7 +33,6 @@ namespace HomePage {
 
         // Button Colours
         // Normal color 8C79FF
-        // Highlight color 634AFC
         // Selected color E4FF49
         private readonly Color _normalColor = new(140f / 255f, 121f / 255f, 255f / 255f);
         private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);

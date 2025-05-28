@@ -42,7 +42,7 @@ namespace MapEditor {
         private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
 
         private DifficultyType _difficultySet;
-        
+
         public static DifficultyEditor Instance { get; private set; }
 
         // AWAKE FUNCTION
@@ -74,30 +74,26 @@ namespace MapEditor {
         }
 
         /**
-         * Enters the difficulty setting mode.
-         * Used by Map Editor when user clicks the difficulty setting mode.
+         * Enters/Quits the difficulty setting mode.
          */
-        public void EnterDifficultyMode() {
-            // Update UI based on the difficulty level
-            switch (_difficultySet) {
-                case DifficultyType.Easy:
-                    OnEasyButtonClick();
-                    break;
-                case DifficultyType.Normal:
-                    OnNormalButtonClick();
-                    break;
-                case DifficultyType.Hard:
-                    OnHardButtonClick();
-                    break;
+        public void SetDifficultyMode(bool enter) {
+            if (enter) {
+                // Enter
+                // Update UI based on the difficulty level
+                switch (_difficultySet) {
+                    case DifficultyType.Easy:
+                        OnEasyButtonClick();
+                        break;
+                    case DifficultyType.Normal:
+                        OnNormalButtonClick();
+                        break;
+                    case DifficultyType.Hard:
+                        OnHardButtonClick();
+                        break;
+                }
             }
+            // Quit: No logic
         }
-
-        /**
-         * Quit the difficulty setting mode.
-         * Used by Map Editor when user quits the map editor or enters other setting modes.
-         * NO LOGIC HERE
-         */
-        public void QuitDifficultyMode() { }
 
         /**
          * Sets the color of a button.
@@ -124,7 +120,7 @@ namespace MapEditor {
         private void OnEasyButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // UI update
             SetButtonStatus(easyButton, true);
             SetButtonStatus(normalButton, false);
@@ -142,7 +138,7 @@ namespace MapEditor {
         private void OnNormalButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // UI update
             SetButtonStatus(easyButton, false);
             SetButtonStatus(normalButton, true);
@@ -160,7 +156,7 @@ namespace MapEditor {
         private void OnHardButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // UI update
             SetButtonStatus(easyButton, false);
             SetButtonStatus(normalButton, false);
