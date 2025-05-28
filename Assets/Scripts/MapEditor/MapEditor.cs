@@ -294,13 +294,13 @@ namespace MapEditor {
 
         // Save & Quit button operation
         private void OnSaveAndQuitButtonClick() {
-            // Play click sound
-            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
             // Check if the condition is met
             // 1 - PACBOY SPAWN POINT IS SET
             if (!PropEditor.Instance.CheckCondition()) {
                 // If Pacboy spawn point not set
+                // Play warning sound
+                SoundManager.Instance.PlaySoundOnce(SoundType.Warning);
+                
                 // Show relevant warning
                 noPacboySpawnWarningPanel.SetActive(true);
 
@@ -351,6 +351,10 @@ namespace MapEditor {
                 eventModeButton.interactable = false;
                 return;
             }
+            
+            // The map is valid
+            // Play click sound
+            SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
             InitUI(_mapName); // Reset this UI as it is being closed
 
