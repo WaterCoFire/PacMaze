@@ -16,6 +16,7 @@ namespace MapEditor {
         /* Buttons */
         public Button quitButton; // Directly quit, no saving
         public Button saveButton; // Save map and quit
+        public Button helpButton; // Open help TODO help
 
         public Button wallModeButton; // Editing wall mode
         public Button propModeButton; // Editing prop mode
