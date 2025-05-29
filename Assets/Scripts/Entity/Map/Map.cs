@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace Entity.Map {
+﻿namespace Entity.Map {
     public class Map {
         // Basic information
-        public readonly String Name;
+        public readonly string Name;
         public readonly DifficultyType Difficulty;
         public readonly bool EventEnabled;
 
