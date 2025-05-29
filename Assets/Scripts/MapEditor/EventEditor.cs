@@ -13,9 +13,11 @@ namespace MapEditor {
      * - Air Walls (Walls become invisible)
      */
     public class EventEditor : MonoBehaviour {
+        /* Buttons */
         public Button enableEventButton;
         public Button disableEventButton;
 
+        // Current event status
         private bool _eventEnabled;
 
         // BUTTON COLORS
@@ -26,6 +28,7 @@ namespace MapEditor {
         public GameObject eventEnabledPrompt;
         public GameObject eventDisabledPrompt;
         
+        // Singleton instance
         public static EventEditor Instance { get; private set; }
 
         // AWAKE FUNCTION

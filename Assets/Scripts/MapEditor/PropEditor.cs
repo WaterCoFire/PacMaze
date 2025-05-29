@@ -90,6 +90,12 @@ namespace MapEditor {
             // Initialise the Dictionary<PropType, PropUIDefinition>
             InitPropDefinitionsDict();
         }
+        
+        // START FUNCTION
+        private void Start() {
+            // Set button action listeners
+            SetButtonActionListener();
+        }
 
         /**
          * Sets the prop data. Used in MapEditor class.
@@ -156,11 +162,6 @@ namespace MapEditor {
 
                 InitAllFixedPlacementButtons(); // General init for spawn buttons
             }
-        }
-
-        // START FUNCTION
-        private void Start() {
-            SetButtonActionListener();
         }
 
         // UPDATE FUNCTION

@@ -16,7 +16,6 @@ namespace MapEditor {
         /* Buttons */
         public Button quitButton; // Directly quit, no saving
         public Button saveButton; // Save map and quit
-        public Button helpButton; // Open help TODO help
 
         public Button wallModeButton; // Editing wall mode
         public Button propModeButton; // Editing prop mode
@@ -62,6 +61,15 @@ namespace MapEditor {
         // Dictionaries mapping Map Editor mode to buttons/setting panels
         private Dictionary<MapEditorMode, Button> _buttons;
         private Dictionary<MapEditorMode, GameObject> _panels;
+        
+        // Singleton instance
+        public static MapEditor Instance { get; private set; }
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            // Set singleton instance
+            Instance = this;
+        }
 
         // START FUNCTION
         private void Start() {
@@ -92,6 +100,12 @@ namespace MapEditor {
 
             SetButtonActionListener();
             LoadMap(); // Load the map to be edited
+            
+            // Check if the player have used Map Editor before
+            // If not, display the help page automatically
+            if (PlayerPrefs.GetInt("UsedMapEditorBefore", 0) != 1) {
+                MapEditorHelpPage.Instance.ShowHelpPage();
+            }
         }
 
         /**
@@ -324,7 +338,7 @@ namespace MapEditor {
         /**
          * Switch to any Map Editor mode, including default (initialise).
          */
-        private void SwitchMode(MapEditorMode mode, bool resetSelectedTile) {
+        public void SwitchMode(MapEditorMode mode, bool resetSelectedTile) {
             _mode = mode;
 
             if (mode == MapEditorMode.None) {
@@ -415,13 +429,21 @@ namespace MapEditor {
          * Enables/Disables all buttons.
          * Used when a panel with higher level is opened/closed.
          */
-        private void SetButtonsAvailability(bool setEnabled) {
+        public void SetButtonsAvailability(bool setEnabled) {
             quitButton.interactable = setEnabled;
             saveButton.interactable = setEnabled;
             propModeButton.interactable = setEnabled;
             wallModeButton.interactable = setEnabled;
             difficultyModeButton.interactable = setEnabled;
             eventModeButton.interactable = setEnabled;
+        }
+
+        /**
+         * Gets the current Map Editor mode.
+         * Used by help page for returning to the previous mode when closing the help page.
+         */
+        public MapEditorMode GetMode() {
+            return _mode;
         }
     }
 }

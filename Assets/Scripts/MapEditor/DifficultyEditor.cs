@@ -41,8 +41,10 @@ namespace MapEditor {
         private readonly Color _normalColor = new(140f / 255f, 121f / 255f, 255f / 255f);
         private readonly Color _selectedColor = new(228f / 255f, 255f / 255f, 73f / 255f);
 
+        // Current difficulty
         private DifficultyType _difficultySet;
 
+        // Singleton instance
         public static DifficultyEditor Instance { get; private set; }
 
         // AWAKE FUNCTION

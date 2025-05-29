@@ -13,6 +13,7 @@ namespace MapEditor {
         private MeshRenderer _previousMeshRenderer;
         private bool _previousStatus;
 
+        // Current status of horizontal walls and vertical walls
         private readonly bool[,] _horizontalWallStatus = new bool[10, 11];
         private readonly bool[,] _verticalWallStatus = new bool[11, 10];
         
@@ -27,11 +28,13 @@ namespace MapEditor {
         public Material missingMaterial; // Missing wall default material
         public Material ghostMaterial; // Missing wall highlight material
 
+        // Wall GameObject arrays
         private GameObject[,] _horizontalWalls;
         private GameObject[,] _verticalWalls;
 
         private bool _wallMode;
 
+        // Dictionary for looking up a wall by GameObject
         private readonly Dictionary<GameObject, (bool isHorizontal, int row, int column)> _wallLookup = new();
 
         // Singleton instance
