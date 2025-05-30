@@ -9693,7 +9693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783b62220025460f900ce1387adc7a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausePage: {fileID: 435468621}
   backToTutorialButton: {fileID: 1693800587}
   quitButton: {fileID: 700113749}
 --- !u!1001 &438753528
@@ -34339,8 +34338,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -503.29437, y: 381}
-  m_SizeDelta: {x: 817.9489, y: 44.5187}
+  m_AnchoredPosition: {x: -503.29437, y: 253.53394}
+  m_SizeDelta: {x: 817.9489, y: 299.4509}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1649337547
 MonoBehaviour:
@@ -36865,7 +36864,7 @@ MonoBehaviour:
   startTips:
   - Welcome to PacMaze,<br>where you can enjoy Pacboy's adventure!
   - Pacboy loves dots!<br>So whenever you see them, go eat them all!
-  - Eat the dots!
+  - 'Go eat the dots!<br><br>Move: W/A/S/D<br>Open Map: M<br>Switch View: V'
   powerPelletTips:
   - Wow, a Power Pellet!
   - Eat it and Ghostrons will be scared!
@@ -36875,7 +36874,7 @@ MonoBehaviour:
   - Look what we have!<br>A Fast Wheel and a Slow Wheel.
   - Both of them gives you a speed effect for a while, but...<br>maybe you want the
     correct one!
-  - Pick up the Fast Wheel!
+  - Pick up the Fast Wheel!<br>(The one that looks "friendly")
   niceBombUseTips:
   - And here we have a Nice Bomb!
   - Pick it up and you become Ghostrons' nightmare!
