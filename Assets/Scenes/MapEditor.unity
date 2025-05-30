@@ -22104,7 +22104,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -1144}
+  m_AnchoredPosition: {x: 200, y: -1186}
   m_SizeDelta: {x: 356, y: 17.3062}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &924852594
@@ -33431,7 +33431,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -933}
+  m_AnchoredPosition: {x: 200, y: -973.5}
   m_SizeDelta: {x: 356, y: 17.3062}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1282664662
@@ -50231,8 +50231,12 @@ MonoBehaviour:
     starts.
 
 
-    The total number of Pacboy Spawn Point cannot be adjusted (one
-    only) and must set fixed.'
+    For example: 3 Power Pellets in total and 1 fixed Power Pellet
+    means 2 random ones.
+
+
+    The total number of Pacboy Spawn Point cannot be adjusted
+    (one only) and must set fixed.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
