@@ -35,12 +35,15 @@ namespace HomePage {
 
         // AWAKE FUNCTION
         private void Awake() {
-            /* For test purpose only - "Something before" manual setting */
+            /* For test purpose only */
             // Played PacMaze before
             PlayerPrefs.SetInt("PlayedBefore", 0);
             
             // Used Map Editor before
             PlayerPrefs.SetInt("UsedMapEditorBefore", 0);
+            
+            // Home page location
+            PlayerPrefs.SetInt("MainPageAt", 0);
         }
 
         // START FUNCTION
