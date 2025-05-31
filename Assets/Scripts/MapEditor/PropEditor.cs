@@ -144,8 +144,6 @@ namespace MapEditor {
 
                 propEditPanel.SetActive(false);
                 tileNotSelectedPrompt.SetActive(true);
-                // PropsButtonInit();
-
                 InitAllFixedPlacementButtons(); // General init for spawn buttons
             } else {
                 // Quit
@@ -157,8 +155,6 @@ namespace MapEditor {
                     var renderer = _lastSelectedTile.GetComponent<Renderer>();
                     if (renderer != null) renderer.material = tileNormalMaterial;
                 }
-
-                // PropsButtonInit();
 
                 InitAllFixedPlacementButtons(); // General init for spawn buttons
             }
@@ -374,14 +370,6 @@ namespace MapEditor {
 
             // Update Fixed Place Button interactable state
             if (def.fixedPlaceButton != null) {
-                // if (_tileSelected ||
-                //     !_propObjectOnTiles.TryGetValue(_selectedTileVector3, out GameObject propToRemove) ||
-                //     propToRemove == null) {
-                //     // Not interactable if 
-                //     Debug.LogError("No prop to remove on selected tile or tile not selected.");
-                //     return;
-                // }
-
                 if (def.isUniquePlacement) {
                     // For Pacboy Spawn Point (only a total of one allowed)
                     def.fixedPlaceButton.interactable = _fixedPropCounts[propType] < 1;
