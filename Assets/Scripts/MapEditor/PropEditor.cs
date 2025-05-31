@@ -394,7 +394,8 @@ namespace MapEditor {
                         def.fixedPlaceButton.interactable = false;
                     } else {
                         // Otherwise, if the prop total number is currently bigger than fixed number, make it interactable
-                        def.fixedPlaceButton.interactable = _fixedPropCounts[propType] < _totalPropCounts[propType];}
+                        def.fixedPlaceButton.interactable = _fixedPropCounts[propType] < _totalPropCounts[propType];
+                    }
                 }
             }
         }

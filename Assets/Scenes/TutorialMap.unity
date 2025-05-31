@@ -36866,8 +36866,10 @@ MonoBehaviour:
   - Pacboy loves dots!<br>So whenever you see them, go eat them all!
   - 'Go eat the dots!<br><br>Move: W/A/S/D<br>Open Map: M<br>Switch View: V'
   powerPelletTips:
-  - Wow, a Power Pellet!
-  - Eat it and Ghostrons will be scared!
+  - Wow, a Power Pellet and a Ghostron!
+  - Ghostron will stop at nothing to capture you for its dinner.<br>But luckily,
+    Power Pellet is something they are really terrified of!
+  - When Pacboy eats a Power Pellet,<br>Ghostrons will be scared!
   - When a Ghostron is scared,<br>go catch it bravely and incapacitate it!
   - Eat the Power Pellet<br>and go get the scared Ghostron!
   wheelsTips:
