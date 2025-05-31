@@ -90,7 +90,7 @@ namespace MapEditor {
             // Initialise the Dictionary<PropType, PropUIDefinition>
             InitPropDefinitionsDict();
         }
-        
+
         // START FUNCTION
         private void Start() {
             // Set button action listeners
@@ -374,12 +374,27 @@ namespace MapEditor {
 
             // Update Fixed Place Button interactable state
             if (def.fixedPlaceButton != null) {
+                // if (_tileSelected ||
+                //     !_propObjectOnTiles.TryGetValue(_selectedTileVector3, out GameObject propToRemove) ||
+                //     propToRemove == null) {
+                //     // Not interactable if 
+                //     Debug.LogError("No prop to remove on selected tile or tile not selected.");
+                //     return;
+                // }
+
                 if (def.isUniquePlacement) {
-                    // For Pacboy Spawn Point (only a total of one allowed):
+                    // For Pacboy Spawn Point (only a total of one allowed)
                     def.fixedPlaceButton.interactable = _fixedPropCounts[propType] < 1;
                 } else {
                     // For all other props
-                    def.fixedPlaceButton.interactable = _fixedPropCounts[propType] < _totalPropCounts[propType];
+                    if (_tileSelected &&
+                        _propObjectOnTiles.TryGetValue(_selectedTileVector3, out GameObject propToRemove) &&
+                        propToRemove != null) {
+                        // If the current tile is occupied, the button should be not interactable
+                        def.fixedPlaceButton.interactable = false;
+                    } else {
+                        // Otherwise, if the prop total number is currently bigger than fixed number, make it interactable
+                        def.fixedPlaceButton.interactable = _fixedPropCounts[propType] < _totalPropCounts[propType];}
                 }
             }
         }
