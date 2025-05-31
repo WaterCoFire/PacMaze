@@ -38,10 +38,10 @@ namespace HomePage {
             /* For test purpose only */
             // Played PacMaze before
             PlayerPrefs.SetInt("PlayedBefore", 0);
-            
+
             // Used Map Editor before
             PlayerPrefs.SetInt("UsedMapEditorBefore", 0);
-            
+
             // Home page location
             PlayerPrefs.SetInt("MainPageAt", 0);
         }
@@ -50,7 +50,7 @@ namespace HomePage {
         private void Start() {
             Debug.Log("HomePage START");
             SetButtonActionListener(); // Set button action listeners
-            
+
             // Play background music
             SoundManager.Instance.PlayBackgroundMusic(false);
 
@@ -96,7 +96,7 @@ namespace HomePage {
         private void OnPlayButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Close this home page
             homePage.SetActive(false);
 
@@ -121,7 +121,7 @@ namespace HomePage {
         private void OnEditMapsButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 2);
 
@@ -136,7 +136,7 @@ namespace HomePage {
         private void OnPacpediaButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Close this home page
             homePage.SetActive(false);
 
@@ -148,7 +148,7 @@ namespace HomePage {
         private void OnSettingButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Close this home page
             homePage.SetActive(false);
 
@@ -158,18 +158,26 @@ namespace HomePage {
         }
 
         // Quit game button
-        private void OnQuitButtonClick() { }
+        private void OnQuitButtonClick() {
+#if UNITY_EDITOR
+            // In Unity Editor, stop running the game
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            // In the built version (.exe), quit the application
+            Application.Quit();
+#endif
+        }
 
         // Tutorial prompt window - Enter tutorial button
         private void OnEnterTutorialButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Update played status
             PlayerPrefs.SetInt("PlayedBefore", 1);
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 1);
-            
+
             // Close the tutorial prompt window
             tutorialPromptWindow.SetActive(false);
 
@@ -181,12 +189,12 @@ namespace HomePage {
         private void OnSkipButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Update played status
             PlayerPrefs.SetInt("PlayedBefore", 1);
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 1);
-            
+
             // Close the tutorial prompt window
             tutorialPromptWindow.SetActive(false);
 
