@@ -20,7 +20,7 @@ namespace PlayMap {
         private readonly float _ghostronScaredSpeed = 1.0f;
 
         // Chasing speeds of Ghostrons, by difficulty
-        private readonly float _ghostronEasyChaseSpeed = 3.5f;
+        private readonly float _ghostronEasyChaseSpeed = 3.2f;
         private readonly float _ghostronNormalChaseSpeed = 4.5f;
         private readonly float _ghostronHardChaseSpeed = 6f;
 

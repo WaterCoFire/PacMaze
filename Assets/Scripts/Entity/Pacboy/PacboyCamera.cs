@@ -29,7 +29,7 @@ namespace Entity.Pacboy {
         private readonly Vector3 _firstPersonOffset = new(0, 0.722f, 0.366f);
 
         // The rotation speed and transition (FPV <> TPV) speed of the camera
-        private readonly float _cameraRotationSpeed = 2f;
+        private readonly float _cameraRotationSpeed = 1.5f;
         private readonly float _cameraTransitionSpeed = 10f;
 
         // Horizontal and vertical rotation angles of the camera
