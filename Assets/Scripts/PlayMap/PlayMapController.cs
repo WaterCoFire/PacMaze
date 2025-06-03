@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
+using Entity.Map.Utility;
 using Entity.Pacboy;
 using Newtonsoft.Json;
 using PlayMap.UI;
@@ -102,10 +103,11 @@ namespace PlayMap {
                 return;
             }
 
-            // Read the file
-            string json = File.ReadAllText(path);
+            // Decrypt the map file and obtain the JSON data
+            byte[] encryptedBytes = File.ReadAllBytes(path);
+            string json = AesHelper.DecryptWithIv(encryptedBytes);
 
-            // Parse the json data and store in the wrapper
+            // Parse the JSON data and store in the wrapper
             MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
 
             // Difficulty setting

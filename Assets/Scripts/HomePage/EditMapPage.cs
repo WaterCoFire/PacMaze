@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using Entity.Map;
+using Entity.Map.Utility;
 using Sound;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -17,10 +18,10 @@ namespace HomePage {
         // Buttons at the top
         public Button backButton;
         public Button createNewMapButton;
-        
+
         // This edit map page
         public GameObject editMapPage;
-        
+
         // Home page
         public GameObject homePage;
 
@@ -64,7 +65,7 @@ namespace HomePage {
             foreach (Transform child in editMapScrollRect.content.transform) {
                 Destroy(child.gameObject);
             }
-            
+
             editMapScrollRect.verticalNormalizedPosition = 0f;
 
             // Clear the list
@@ -147,7 +148,7 @@ namespace HomePage {
                                 Debug.LogError("Difficulty error while reading files");
                                 return;
                         }
-                        
+
                         text.text = mapInfo.Difficulty.ToString();
                     }
                 }
@@ -163,7 +164,7 @@ namespace HomePage {
                         button.onClick.AddListener(() => {
                             // Play click sound
                             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-                            
+
                             // Get the file name and delete this map file
                             string path = Path.Combine(_saveDirectory,
                                 $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.json");
@@ -183,7 +184,7 @@ namespace HomePage {
                         button.onClick.AddListener(() => {
                             // Play click sound
                             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-                            
+
                             _renamedMapOldInfo = mapInfo;
                             ShowRenameWindow(mapInfo.Name); // Show rename map name window
                         });
@@ -194,7 +195,7 @@ namespace HomePage {
                         button.onClick.AddListener(() => {
                             // Play click sound
                             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-                            
+
                             // Go to Map Editor scene
                             PlayerPrefs.SetString("EditMapFileToLoad",
                                 mapInfo.Name + "_" + mapInfo.GhostronNum + "_" + (int)mapInfo.Difficulty);
@@ -270,8 +271,9 @@ namespace HomePage {
             }
 
             try {
-                // Read all the text in the default map file json
-                string json = File.ReadAllText(defaultMapPath);
+                // Decrypt the default map file and get the JSON data
+                byte[] encryptedBytes = File.ReadAllBytes(defaultMapPath);
+                string json = AesHelper.DecryptWithIv(encryptedBytes);
 
                 // Replace the default name with the new one
                 string newMapJson = Regex.Replace(
@@ -280,8 +282,9 @@ namespace HomePage {
                     $"\"name\": \"{newMapName}\""
                 );
 
-                // And write it to the new map file
-                File.WriteAllText(targetMapPath, newMapJson);
+                // Encrypt the JSON data and write it to the new map file
+                byte[] newMapEncryptedBytes = AesHelper.EncryptWithRandomIv(newMapJson);
+                File.WriteAllBytes(targetMapPath, newMapEncryptedBytes);
             } catch (IOException e) {
                 Debug.LogError($"Create map error: {e.Message}");
                 return;
@@ -299,13 +302,13 @@ namespace HomePage {
         private void OnBackButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 0);
-            
+
             // Disable this page
             editMapPage.SetActive(false);
-            
+
             // Enable the home page
             homePage.SetActive(true);
         }
@@ -314,7 +317,7 @@ namespace HomePage {
         private void OnCreateNewMapButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Display create map window
             gameObject.GetComponent<EditMapCreateWindow>().ShowCreateWindow();
         }

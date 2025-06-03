@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using Entity.Map;
+using Entity.Map.Utility;
 using Entity.Prop;
 using TMPro;
 using UnityEngine;
@@ -131,11 +132,16 @@ namespace MapEditor {
             // Delete the origin file
             File.Delete(originMapFile);
 
-            // Save to a new file in .json
+            // Serialise the map data to JSON
             string json = JsonUtility.ToJson(new MapJsonWrapper(map), true);
-            File.WriteAllText(
+            
+            // Encryption
+            byte[] encryptedBytes = AesHelper.EncryptWithRandomIv(json);
+            
+            // Write data to a new file
+            File.WriteAllBytes(
                 Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + (int)difficulty + ".json"),
-                json);
+                encryptedBytes);
         }
 
         /**
@@ -161,7 +167,10 @@ namespace MapEditor {
 
             // Read the file
             if (!string.IsNullOrEmpty(mapFileName) && File.Exists(path)) {
-                string json = File.ReadAllText(path);
+                // Decrypt file back to JSON and then de-serialise the data
+                byte[] encryptedBytes = File.ReadAllBytes(path);
+                string json = AesHelper.DecryptWithIv(encryptedBytes);
+                
                 MapJsonWrapper wrapper = JsonConvert.DeserializeObject<MapJsonWrapper>(json);
 
                 // Initialise UI (set names etc.)
