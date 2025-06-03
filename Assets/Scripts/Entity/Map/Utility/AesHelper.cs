@@ -9,12 +9,14 @@ namespace Entity.Map.Utility {
      */
     public static class AesHelper {
         // 32-byte Key (256-bit)
-        private static readonly string Key = "PacMazeGameByWaterCoFireAESKey32";
+        // This Key is fixed. The thing that changes is the IV.
+        private const string Key = "PacMazeGameByWaterCoFireAESKey32";
 
         /**
          * Encrypts the plain text.
          * A random Initialisation Vector (IV) will be generated
          * and the IV will be written to the beginning of the cipher text.
+         * This function is written by ChatGPT
          */
         public static byte[] EncryptWithRandomIv(string plainText) {
             using (Aes aes = Aes.Create()) {
@@ -39,6 +41,7 @@ namespace Entity.Map.Utility {
         /**
          * Decrypts the cipher text.
          * Read the IV from the first 16 bytes and then decrypt the cipher text.
+         * This function is written by ChatGPT
          */
         public static string DecryptWithIv(byte[] encryptedData) {
             using (Aes aes = Aes.Create()) {
@@ -48,9 +51,9 @@ namespace Entity.Map.Utility {
                 Array.Copy(encryptedData, 0, iv, 0, iv.Length);
                 aes.IV = iv;
 
-                using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                using (var decrypter = aes.CreateDecryptor(aes.Key, aes.IV))
                 using (var ms = new MemoryStream(encryptedData, iv.Length, encryptedData.Length - iv.Length))
-                using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                using (var cs = new CryptoStream(ms, decrypter, CryptoStreamMode.Read))
                 using (var sr = new StreamReader(cs)) {
                     return sr.ReadToEnd();
                 }
