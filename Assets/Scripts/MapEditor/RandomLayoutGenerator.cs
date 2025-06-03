@@ -5,11 +5,29 @@ using UnityEngine;
 using Random = System.Random;
 
 namespace MapEditor {
+    /**
+     * Responsible for random wall generation.
+     * This is a improved version of the Braid Algorithm and Distribution Algorithm by Ioannidis (2016).
+     * (DistributionGenerator is responsible for generating a neighbour distribution matrix)
+     *
+     * The paper can be found at
+     * https://pergamos.lib.uoa.gr/uoa/dl/object/1324569/file.pdf (First Accessed: 6 May 2025)
+     * The algorithms are also discussed in the appendix in Assignment 1 techniques report.
+     */
     public class RandomLayoutGenerator : MonoBehaviour {
+        // All tile coordinates
         private List<(int, int)> _allTiles;
+        
+        // The preferred neighbour lists of each tile
         private Dictionary<(int, int), List<(int, int)>> _preferredNeighbours;
+        
+        // The current neighbour counts of all tiles
         private Dictionary<(int, int), int> _currentNeighbourCounts;
+        
+        // The distributed neighbour numbers of all tiles
         private Dictionary<(int, int), int> _distributedNeighbourNums;
+        
+        // Status of all horizontal/vertical walls (present/absent)
         private bool[,] _horizontalWallStatus;
         private bool[,] _verticalWallStatus;
 
@@ -33,6 +51,10 @@ namespace MapEditor {
             Instance = this;
         }
 
+        /**
+         * Called by WallEditor to generate a new random wall layout.
+         * Returns a new WallData.
+         */
         public WallData GenerateWallLayout() {
             // Initialise all tiles list
             _allTiles = new List<(int, int)>();
@@ -66,6 +88,9 @@ namespace MapEditor {
             return new WallData(_horizontalWallStatus, _verticalWallStatus);
         }
 
+        /**
+         * Handles all 3-neighbour (distributed neighbour num) tiles.
+         */
         private void HandleThreeNeighbourTiles() {
             // Find all the 3-neighbour tiles first
             List<(int, int)> allThreeNeighbourTiles = new List<(int, int)>();
@@ -132,6 +157,10 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Handles all 2-neighbour (distributed neighbour num) tiles.
+         * Tiles in the central area (3x3) are excluded.
+         */
         private void HandleNonCentreTwoNeighbourTiles() {
             // Find all the 2-neighbour tiles that is not in the centre first
             List<(int, int)> allNonCentreTwoNeighbourTiles = new List<(int, int)>();
@@ -231,6 +260,9 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Handles all unprocessed tiles in the central area.
+         */
         private void HandleUnprocessedCentreTiles() {
             // Find all the unprocessed centre tiles first
             // This means all 2-neighbour and 4-neighbour tiles in it
@@ -277,6 +309,9 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Returns the list of all adjacent tiles (neighbour or not) of the given tile.
+         */
         private List<(int, int)> GetAdjacentTiles((int, int) tile) {
             List<(int, int)> adjacentTiles = new List<(int, int)>();
 
@@ -342,6 +377,9 @@ namespace MapEditor {
             return adjacentTiles;
         }
 
+        /**
+         * Disconnect two tiles (by building the wall between them).
+         */
         private void Disconnect((int, int) tileA, (int, int) tileB) {
             if (tileA.Item1 == tileB.Item1) {
                 // Case: Both tile have the save x-coordinate
@@ -388,6 +426,9 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Connects two tiles (by breaking the wall between them).
+         */
         private void Connect((int, int) tileA, (int, int) tileB) {
             if (tileA.Item1 == tileB.Item1) {
                 // Case: Both tile have the save x-coordinate
@@ -434,6 +475,9 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * A BFS scheme for map connectivity check.
+         */
         private bool Flood() {
             // Creating an 11x11 array of access states
             bool[,] visited = new bool[11, 11];
@@ -496,6 +540,10 @@ namespace MapEditor {
             return true;
         }
 
+        /**
+         * Initialise the current neighbour counts for all tiles.
+         * (Corner - 2, Edge - 3, Middle - 4)
+         */
         private void InitCurrentNeighbourCounts() {
             _currentNeighbourCounts = new Dictionary<(int, int), int>();
 
@@ -521,6 +569,11 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Initialise the preferred neighbours list for each tile.
+         * (Tiles in the central 3x3 area are ignored)
+         * The preferred neighbours information is only used if the tile is 2-neighbour.
+         */
         private void InitPreferredNeighbours() {
             _preferredNeighbours = new Dictionary<(int, int), List<(int, int)>>();
 
@@ -594,6 +647,9 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Shuffles any list.
+         */
         private void Shuffle<T>(List<T> list) {
             int n = list.Count;
             while (n > 1) {
@@ -603,6 +659,7 @@ namespace MapEditor {
             }
         }
 
+        // FOR DEBUG USE ONLY
         private void DisplayDistribution() {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
 

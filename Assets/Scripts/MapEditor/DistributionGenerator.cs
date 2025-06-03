@@ -2,16 +2,30 @@
 using System.Collections.Generic;
 
 namespace MapEditor {
+    /**
+     * Responsible for generating neighbour distribution matrix during random wall generation.
+     * This is a improved version of the Distribution Algorithm by Ioannidis (2016).
+     *
+     * The paper can be found at
+     * https://pergamos.lib.uoa.gr/uoa/dl/object/1324569/file.pdf (First Accessed: 6 May 2025)
+     * The algorithms are also discussed in the appendix in Assignment 1 techniques report.
+     */
     public class DistributionGenerator {
+        // The distributed neighbour numbers of all tiles
         private static Dictionary<(int, int), int> _distributedNeighbourNums;
-        private static readonly Random Random = new();
 
         /* Probabilities */
         private const int OutermostTileThreeNeighbourProbability = 10;
         private const int ThreeNeighbourPropagationProbability = 50; // original 50
         private const int ThreeNeighbourMaxProbability = 60; // original 75
         private const int ThreeNeighbourProbabilityDecayRate = 8; // original 12
+        
+        private static readonly Random Random = new();
 
+        /**
+         * Generates a new neighbour distribution matrix.
+         * Called by RandomLayoutGenerator when generating a new wall layout.
+         */
         public static Dictionary<(int, int), int> GenerateDistributedNeighbourNums() {
             // return TestInitDistributedNums();
             // Initialise the distributed neighbour nums list
@@ -35,6 +49,13 @@ namespace MapEditor {
             return _distributedNeighbourNums;
         }
 
+        /**
+         * Determine the distributed neighbour numbers of outermost ring tiles.
+         * 
+         * For satisfying Pattern 1:
+         * The outermost ring should have a fairly small number of tiles with 3 neighbours
+         * and the vast majority of tiles should have only 2 neighbours.
+         */
         private static void DetermineOutermostRingTiles() {
             // Find all the tiles in the outermost ring first
             List<(int, int)> outerTiles = new List<(int, int)>();
@@ -70,6 +91,10 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Returns the weighted 3-neighbour probability of a tile.
+         * Used by DetermineInnerTiles().
+         */
         private static double WeightedThreeNeighbourProb((int, int) tile) {
             // Calculate the Manhattan distance
             int distance = Math.Max(Math.Abs(tile.Item1 - 5), Math.Abs(tile.Item2 - 5));
@@ -79,6 +104,17 @@ namespace MapEditor {
                 Math.Max(10, ThreeNeighbourMaxProbability - ThreeNeighbourProbabilityDecayRate * distance));
         }
 
+        /**
+         * Determine the distributed neighbour numbers of inner tiles.
+         *
+         * For satisfying Pattern 2 and Pattern 3.
+         * Pattern 2:
+         * Overall, the probability of occurrence of a tile with 3 neighbours increases
+         * as its distance from the centre point decreases.
+         * Pattern 3:
+         * A tile with 3 neighbours is more likely to be adjacent to another tile with
+         * 3 neighbours at the same time. There are only a few such tiles that appear alone. 
+         */
         private static void DetermineInnerTiles() {
             for (int x = 1; x <= 9; x++) {
                 for (int y = 1; y <= 9; y++) {
@@ -121,6 +157,12 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Randomly sets two adjacent centre tiles (in central 3x3 area) to be 4-neighbour.
+         *
+         * For satisfying Pattern 4:
+         * Only the centre part will have 2 adjacent tiles with 4 neighbours.
+         */
         private static void PlaceAdjacentFourNeighbourTilesInCentre() {
             // Find all the centre tiles first
             List<(int, int)> centreTiles = new List<(int, int)>();
@@ -198,6 +240,9 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Shuffles any list.
+         */
         private static void Shuffle<T>(List<T> list) {
             int n = list.Count;
             while (n > 1) {
@@ -205,72 +250,6 @@ namespace MapEditor {
                 int k = Random.Next(n + 1);
                 (list[n], list[k]) = (list[k], list[n]);
             }
-        }
-
-        private static Dictionary<(int, int), int> TestInitDistributedNums() {
-            Dictionary<(int, int), int> _testDistribution = new Dictionary<(int, int), int>();
-
-            for (int x = 0; x < 11; x++) {
-                for (int y = 0; y < 11; y++) {
-                    _testDistribution.Add((x, y), 2);
-                }
-            }
-
-            _testDistribution[(0, 4)] = 3;
-            _testDistribution[(0, 9)] = 3;
-
-            _testDistribution[(1, 8)] = 3;
-
-            _testDistribution[(2, 2)] = 3;
-            _testDistribution[(2, 4)] = 3;
-            _testDistribution[(2, 7)] = 3;
-            _testDistribution[(2, 8)] = 3;
-
-            _testDistribution[(3, 2)] = 3;
-            _testDistribution[(3, 3)] = 3;
-            _testDistribution[(3, 5)] = 3;
-            _testDistribution[(3, 6)] = 3;
-            _testDistribution[(3, 8)] = 3;
-
-            _testDistribution[(4, 1)] = 3;
-            _testDistribution[(4, 2)] = 3;
-            _testDistribution[(4, 3)] = 3;
-            _testDistribution[(4, 4)] = 3;
-            _testDistribution[(4, 5)] = 3;
-            _testDistribution[(4, 8)] = 3;
-
-            _testDistribution[(5, 1)] = 3;
-            _testDistribution[(5, 2)] = 3;
-            _testDistribution[(5, 3)] = 3;
-            _testDistribution[(5, 4)] = 4;
-            _testDistribution[(5, 5)] = 4;
-            _testDistribution[(5, 6)] = 3;
-            _testDistribution[(5, 7)] = 3;
-
-            _testDistribution[(6, 2)] = 3;
-            _testDistribution[(6, 3)] = 3;
-            _testDistribution[(6, 6)] = 3;
-            _testDistribution[(6, 8)] = 3;
-
-            _testDistribution[(7, 2)] = 3;
-            _testDistribution[(7, 3)] = 3;
-            _testDistribution[(7, 4)] = 3;
-            _testDistribution[(7, 5)] = 3;
-            _testDistribution[(7, 6)] = 3;
-            _testDistribution[(7, 8)] = 3;
-
-            _testDistribution[(8, 4)] = 3;
-            _testDistribution[(8, 6)] = 3;
-            _testDistribution[(8, 8)] = 3;
-            _testDistribution[(8, 9)] = 3;
-
-            _testDistribution[(9, 3)] = 3;
-            _testDistribution[(9, 4)] = 3;
-            _testDistribution[(9, 10)] = 3;
-
-            _testDistribution[(10, 3)] = 3;
-
-            return _testDistribution;
         }
     }
 }
