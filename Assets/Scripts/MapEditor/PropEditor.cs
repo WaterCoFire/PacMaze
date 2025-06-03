@@ -52,7 +52,7 @@ namespace MapEditor {
         public Button removeButton;
 
         /* All prop operation UI elements are designed in Prop UI Definitions */
-        // Define UI elements and settings for each prop type
+        // The list of definitions of UI elements and settings for each prop type
         public List<PropUIDefinition> propUIDefinitions;
 
         // Mapping from PropType to PropUIDefinition

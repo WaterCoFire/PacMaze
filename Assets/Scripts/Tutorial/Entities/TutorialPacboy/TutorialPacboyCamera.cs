@@ -12,9 +12,9 @@ namespace Tutorial.Entities.TutorialPacboy {
         private GameObject _mapPanel;
 
         // Key code for camera operation (B/V/M by default, not changeable in tutorial)
-        private KeyCode _turnBackKeyCode = KeyCode.B;
-        private KeyCode _switchViewKeyCode = KeyCode.V;
-        private KeyCode _openMapKeyCode = KeyCode.M;
+        private const KeyCode TurnBackKeyCode = KeyCode.B;
+        private const KeyCode SwitchViewKeyCode = KeyCode.V;
+        private const KeyCode OpenMapKeyCode = KeyCode.M;
 
         // Status indicating if the Pacboy camera is controllable
         private bool _controllable;
@@ -103,7 +103,7 @@ namespace Tutorial.Entities.TutorialPacboy {
             }
 
             // Switch between FPV and TPV
-            if (Input.GetKeyDown(_switchViewKeyCode)) {
+            if (Input.GetKeyDown(SwitchViewKeyCode)) {
                 _inThirdPersonView = !_inThirdPersonView;
                 _pacboyMovement.SetViewMode(_inThirdPersonView);
 
@@ -119,14 +119,14 @@ namespace Tutorial.Entities.TutorialPacboy {
 
             // Quick turn back
             // Only works in FIRST PERSON VIEW
-            if (Input.GetKeyDown(_turnBackKeyCode) && !_inThirdPersonView) {
+            if (Input.GetKeyDown(TurnBackKeyCode) && !_inThirdPersonView) {
                 // Instantly turn the camera around
                 _yaw += 180f;
             }
 
             // Map logic
             // Open/Close the map
-            if (Input.GetKeyDown(_openMapKeyCode)) {
+            if (Input.GetKeyDown(OpenMapKeyCode)) {
                 SetMapView(!_mapPanel.activeSelf);
             }
         }

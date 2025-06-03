@@ -22673,25 +22673,35 @@ MonoBehaviour:
   settingPage: {fileID: 1763797190}
   previousPage: {fileID: 313228169}
   backButton: {fileID: 369236445}
-  moveForwardKeyText: {fileID: 2126036305}
-  moveBackWardKeyText: {fileID: 2046720635}
-  moveLeftwardKeyText: {fileID: 247042596}
-  moveRightwardKeyText: {fileID: 266192398}
-  turnBackKeyText: {fileID: 2098181070}
-  switchViewKeyText: {fileID: 1337963363}
-  openMapKeyText: {fileID: 635483403}
-  useNiceBombKeyText: {fileID: 379985899}
-  deployNiceBombKeyText: {fileID: 866431819}
-  moveForwardSettingButton: {fileID: 551257823}
-  moveBackwardSettingButton: {fileID: 999606189}
-  moveLeftwardSettingButton: {fileID: 1874187392}
-  moveRightwardSettingButton: {fileID: 80288297}
-  turnBackSettingButton: {fileID: 707968383}
-  switchViewSettingButton: {fileID: 1867975553}
-  openMapSettingButton: {fileID: 60795846}
-  useNiceBombSettingButton: {fileID: 9361996}
-  deployNiceBombSettingButton: {fileID: 1522387068}
   promptText: {fileID: 1717080597}
+  settingUIDefinitions:
+  - keyName: ForwardKeyCode
+    keyText: {fileID: 2126036305}
+    settingButton: {fileID: 551257823}
+  - keyName: BackwardKeyCode
+    keyText: {fileID: 2046720635}
+    settingButton: {fileID: 999606189}
+  - keyName: LeftwardKeyCode
+    keyText: {fileID: 247042596}
+    settingButton: {fileID: 1874187392}
+  - keyName: RightwardKeyCode
+    keyText: {fileID: 266192398}
+    settingButton: {fileID: 80288297}
+  - keyName: TurnBackKeyCode
+    keyText: {fileID: 2098181070}
+    settingButton: {fileID: 707968383}
+  - keyName: SwitchViewKeyCode
+    keyText: {fileID: 1337963363}
+    settingButton: {fileID: 1867975553}
+  - keyName: OpenMapKeyCode
+    keyText: {fileID: 635483403}
+    settingButton: {fileID: 60795846}
+  - keyName: UseNiceBombKeyCode
+    keyText: {fileID: 379985899}
+    settingButton: {fileID: 9361996}
+  - keyName: DeployNiceBombKeyCode
+    keyText: {fileID: 866431819}
+    settingButton: {fileID: 1522387068}
 --- !u!1 &1782769145
 GameObject:
   m_ObjectHideFlags: 0
