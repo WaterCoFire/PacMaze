@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Entity.Prop;
 using UnityEngine;
 
-namespace Entity.Map {
+namespace Entity.Map.Utility {
     [Serializable]
     public class MapJsonWrapper {
         public string name;
