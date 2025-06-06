@@ -66,6 +66,6 @@ Specifically:
 - **UI button click:** "Video game retro click"
 - **Error Warning:** "Wrong electricity buzz"
 
-### Licences:
+### Licences
 - Models & UI Elements: https://unity.com/legal/as-terms (Standard EULA of Unity Asset Store)
 - Musics & Sound Effects: https://mixkit.co/license/ (Mixkit License of Mixkit)
