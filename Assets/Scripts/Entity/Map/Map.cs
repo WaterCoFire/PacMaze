@@ -10,7 +10,7 @@
         public WallData WallData;
 
         // High score information
-        public int HighScore;
+        public readonly int HighScore;
 
         /**
          * Constructor, used when creating a new map.

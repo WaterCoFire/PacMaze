@@ -154,6 +154,9 @@ namespace PlayMap {
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 PauseGame();
             }
+            
+            /* FOR TEST ONLY */
+            // if (Input.GetKeyDown(KeyCode.P)) Win();
         }
 
 
@@ -216,7 +219,7 @@ namespace PlayMap {
                 string updatedJson = Regex.Replace(
                     json,
                     "\"highScore\"\\s*:\\s*\\d+",
-                    $"\"highScore\": {_highScore}"
+                    $"\"highScore\": {_currentScore}"
                 );
 
                 // Encrypt data and update the file
@@ -243,6 +246,8 @@ namespace PlayMap {
 
             // Display lose page
             GamePlayUI.Instance.DisplayLosePage();
+            
+            Debug.Log("HIGH SCORE " + _highScore);
         }
 
         /**
