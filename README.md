@@ -4,7 +4,7 @@ Games Programming
 
 ## Resources Used
 
-### Models
+### Models & UI Elements
 
 **1. Chomp Man - 3D Game Kit & Tutorial**
 
@@ -30,9 +30,7 @@ The Ghostron models used in this game are derived from this resource.
 
 https://assetstore.unity.com/packages/3d/characters/robots/robot-sphere-136226
 
-### UI Elements
-
-**1. Free Pixel Font - Thaleah**
+**4. Free Pixel Font - Thaleah**
 
 Author: Tiny Worlds
 
@@ -40,7 +38,7 @@ The fonts used in this game are derived from this resource.
 
 https://assetstore.unity.com/packages/2d/fonts/free-pixel-font-thaleah-140059
 
-**2. Simple Free Pixel art styled UI pack**
+**5. Simple Free Pixel art styled UI pack**
 
 Author: Jakub Varga
 
@@ -67,3 +65,7 @@ Specifically:
 - **Event triggered:** "Player Boost Recharging"
 - **UI button click:** "Video game retro click"
 - **Error Warning:** "Wrong electricity buzz"
+
+### Licences:
+- Models & UI Elements: https://unity.com/legal/as-terms (Standard EULA of Unity Asset Store)
+- Musics & Sound Effects: https://mixkit.co/license/ (Mixkit License of Mixkit)
