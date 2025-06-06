@@ -95,13 +95,20 @@ namespace PlayMap {
                 // Directly return if no event
                 return;
             }
-            
+
             Debug.Log("Event rand number: " + eventRand + ", getting an event.");
 
             // Event should happen
             // Play event triggered sound
             SoundManager.Instance.PlaySoundOnce(SoundType.EventTriggered);
-            
+
+            // Params init
+            _eventTimer = 0f;
+            _eventInProcess = true;
+            GamePlayUI.Instance.NewInfo("Random Event!", Color.yellow);
+
+            // Prompt the player
+
             // Probability of three events:
             // Super Bonus 50% (index: 1)
             // Crazy Party 40% (index: 2)
@@ -111,31 +118,19 @@ namespace PlayMap {
             if (typeRand <= 50) {
                 // Super Bonus
                 _currentEventIndex = 1;
-                _eventTimer = 0f;
-                _eventInProcess = true;
                 PlayMapController.Instance.SetSuperBonus(true);
-                
-                // Prompt the player
-                GamePlayUI.Instance.NewInfo("Super Bonus! Try getting more points!", Color.yellow);
+                GamePlayUI.Instance.NewInfo("Super Bonus - Try getting more points!", Color.yellow);
             } else if (typeRand <= 90) {
                 // Crazy Party
                 _currentEventIndex = 2;
-                _eventTimer = 0f;
-                _eventInProcess = true;
                 GhostronManager.Instance.SetCrazyParty(true);
                 PlayMapController.Instance.GetPacboy().GetComponent<PacboyMovement>().SetCrazyParty(true);
-                
-                // Prompt the player
-                GamePlayUI.Instance.NewInfo("Crazy Party! Enjoy the chaos!", Color.yellow);
+                GamePlayUI.Instance.NewInfo("Crazy Party - Enjoy the chaos!", Color.yellow);
             } else {
                 // Air Wall
                 _currentEventIndex = 3;
-                _eventTimer = 0f;
-                _eventInProcess = true;
                 PlayMapController.Instance.SetAirWall(true);
-                
-                // Prompt the player
-                GamePlayUI.Instance.NewInfo("Air Wall! Good luck finding your way!", Color.yellow);
+                GamePlayUI.Instance.NewInfo("Air Wall - Good luck finding your way!", Color.yellow);
             }
         }
 
