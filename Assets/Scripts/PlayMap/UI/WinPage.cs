@@ -49,7 +49,6 @@ namespace PlayMap.UI {
             // Get the game time, final score and history high score
             float gameTime = PlayMapController.Instance.GetTime();
             int gameScore = PlayMapController.Instance.GetScore();
-            int gameHighScore = PlayMapController.Instance.GetHighScore();
 
             // Format it into MM:SS
             int minutes = Mathf.FloorToInt(gameTime / 60f);

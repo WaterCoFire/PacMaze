@@ -399,13 +399,5 @@ namespace PlayMap {
 
             return _gameTimer;
         }
-
-        /**
-         * Returns the history high score of the current game.
-         * Used by the game over win page to judge if the final game score is a new high score.
-         */
-        public int GetHighScore() {
-            return _highScore;
-        }
     }
 }
