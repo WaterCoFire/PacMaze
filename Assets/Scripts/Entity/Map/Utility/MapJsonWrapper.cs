@@ -4,6 +4,10 @@ using Entity.Prop;
 using UnityEngine;
 
 namespace Entity.Map.Utility {
+    /**
+     * Wrapper for Map data.
+     * Used when serialising and de-serialising map data.
+     */
     [Serializable]
     public class MapJsonWrapper {
         public string name;
@@ -20,12 +24,15 @@ namespace Entity.Map.Utility {
         public List<bool> horizontalWallStatus;
         public List<bool> verticalWallStatus;
 
+        public int highScore;
+
         public MapJsonWrapper() { }
 
         public MapJsonWrapper(Map map) {
             name = map.Name;
             difficulty = map.Difficulty;
             eventEnabled = map.EventEnabled;
+            highScore = map.HighScore;
 
             propPositions = new List<Vector3>();
             propTypes = new List<PropType>();

@@ -189,10 +189,14 @@ namespace PlayMap.UI {
         /**
          * Displays the win page.
          * Called by PlayMapController when the player wins.
+         *
+         * PARAM
+         * - true: This is a new high score
+         * - false: otherwise
          */
-        public void DisplayWinPage() {
+        public void DisplayWinPage(bool newHighScore) {
             winPage.SetActive(true);
-            winPage.GetComponent<WinPage>().UpdateText();
+            winPage.GetComponent<WinPage>().UpdateText(newHighScore);
         }
 
         /**

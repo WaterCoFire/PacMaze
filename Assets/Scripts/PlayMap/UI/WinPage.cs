@@ -11,6 +11,7 @@ namespace PlayMap.UI {
     public class WinPage : MonoBehaviour {
         public Button homePageButton; // Return to home page button
         public TMP_Text winText; // Winning congratulation text
+        public GameObject newHighScorePrompt; // New high score prompt
 
         // START FUNCTION
         private void Start() {
@@ -36,10 +37,19 @@ namespace PlayMap.UI {
             gameObject.SetActive(false);
         }
 
-        public void UpdateText() {
-            // Get the game time
+        /**
+         * Update the congratulation text.
+         * Displays time, final score and new high score prompt (if applicable).
+         *
+         * PARAM
+         * - true: This is a new high score
+         * - false: otherwise
+         */
+        public void UpdateText(bool newHighScore) {
+            // Get the game time, final score and history high score
             float gameTime = PlayMapController.Instance.GetTime();
             int gameScore = PlayMapController.Instance.GetScore();
+            int gameHighScore = PlayMapController.Instance.GetHighScore();
 
             // Format it into MM:SS
             int minutes = Mathf.FloorToInt(gameTime / 60f);
@@ -48,7 +58,12 @@ namespace PlayMap.UI {
 
             // Text update
             string winPrompt =
-                $"Pacboy has successfully eaten all the dots in {finalTime}.\n\nThe maze is clean, your appetite is legendary, and the Ghostrons are off filing emotional damage claims.\n\nYour game score: {gameScore}\n";
+                $"Pacboy has successfully eaten all the dots in {finalTime}.\n\n" +
+                $"The maze is clean, your appetite is legendary, and the Ghostrons are off filing emotional damage claims." +
+                $"\n\nYour game score: {gameScore}\n";
+            
+            // Display/Hide new high score prompt
+            newHighScorePrompt.SetActive(newHighScore);
 
             winText.text = winPrompt;
         }

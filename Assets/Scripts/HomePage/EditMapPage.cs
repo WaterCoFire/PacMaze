@@ -231,7 +231,9 @@ namespace HomePage {
                 UpdateEditMapList(); // Update the data & UI
 
                 // Re-set the map name in the json file
-                string json = File.ReadAllText(newPath);
+                // Decrypt map data and get the JSON
+                byte[] encryptedBytes = File.ReadAllBytes(newPath);
+                string json = AesHelper.DecryptWithIv(encryptedBytes);
 
                 // Replace the old name with the new one
                 string updatedJson = Regex.Replace(
@@ -240,7 +242,11 @@ namespace HomePage {
                     $"\"name\": \"{newName}\""
                 );
 
-                File.WriteAllText(newPath, updatedJson);
+                // Encrypt data and update the file
+                byte[] bytes = AesHelper.EncryptWithRandomIv(updatedJson);
+
+                // Write data to a new file
+                File.WriteAllBytes(newPath, bytes);
 
                 Debug.Log($"Successfully updated 'name' field in {Path.GetFileName(newPath)} to '{newName}'");
             } else {

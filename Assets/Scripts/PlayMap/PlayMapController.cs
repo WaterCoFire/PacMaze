@@ -18,8 +18,11 @@ namespace PlayMap {
         private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)");
 
+        private string _mapPath; // The map file path
+
         private DifficultyType _difficulty; // Difficulty of the current game
         private int _currentScore; // Current game score
+        private int _highScore; // Map's history high score
 
         private bool _gamePlaying; // Whether the game is currently in progress or not
 
@@ -51,7 +54,7 @@ namespace PlayMap {
          */
         private void Start() {
             Debug.Log("MapController START");
-            
+
             // Get map file name
             string mapFileName = PlayerPrefs.GetString("PlayMapFileToLoad", null);
             if (mapFileName == null) {
@@ -59,20 +62,24 @@ namespace PlayMap {
                 return;
             }
 
-            InitMap(mapFileName); // Initialise the map
+            // Initialise the map file path
+            _mapPath = Path.Combine(_saveDirectory, mapFileName + ".json");
 
+            // Initialise params
             Time.timeScale = 1f; // Reset time scale
             _gameTimer = 0f; // Reset timer
-            _superBonus = false; // By default there is no Super Bonus
-            _airWall = false; // By default there is no Air Wall
+            _superBonus = false; // By default, there is no Super Bonus
+            _airWall = false; // By default, there is no Air Wall
             _gamePlaying = true;
             
+            InitMap(mapFileName); // Initialise the map
+
             // Play background music
             SoundManager.Instance.PlayBackgroundMusic(true);
 
             // Reset score
             _currentScore = 0;
-            
+
             // Prompt the player that the game begins
             GamePlayUI.Instance.NewInfo("Game Start! You got this!", Color.cyan);
         }
@@ -96,15 +103,14 @@ namespace PlayMap {
                 return;
             }
 
-            // Obtain the file path
-            string path = Path.Combine(_saveDirectory, mapFileName + ".json");
-            if (!File.Exists(path)) {
+            // Check the file path
+            if (!File.Exists(_mapPath)) {
                 Debug.LogError("Load map to play error: File not found!");
                 return;
             }
 
             // Decrypt the map file and obtain the JSON data
-            byte[] encryptedBytes = File.ReadAllBytes(path);
+            byte[] encryptedBytes = File.ReadAllBytes(_mapPath);
             string json = AesHelper.DecryptWithIv(encryptedBytes);
 
             // Parse the JSON data and store in the wrapper
@@ -112,6 +118,9 @@ namespace PlayMap {
 
             // Difficulty setting
             _difficulty = wrapper.difficulty;
+
+            // Map history high score setting
+            _highScore = wrapper.highScore;
 
             // Update difficulty in GhostronManager to for setting the behaviours of the Ghostrons
             GhostronManager.Instance.SetDifficulty(_difficulty);
@@ -157,7 +166,7 @@ namespace PlayMap {
             _pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
             _pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
-            Time.timeScale = 0f; // Stop the time scale
+            Time.timeScale = 0f; // Stop the timescale
             _gamePlaying = false;
 
             // Display the pause page
@@ -173,7 +182,7 @@ namespace PlayMap {
             _pacboy.GetComponent<PacboyCamera>().EnableCameraOperation();
             _pacboy.GetComponent<PacboyPropOperation>().EnablePropOperation();
 
-            Time.timeScale = 1f; // Resume the time scale
+            Time.timeScale = 1f; // Resume the timescale
             _gamePlaying = true;
 
             // Hide the pause page
@@ -192,10 +201,30 @@ namespace PlayMap {
             _pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
             _pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
-            Time.timeScale = 0f; // Stop the time scale
+            Time.timeScale = 0f; // Stop the timescale
 
             // Display win page
-            GamePlayUI.Instance.DisplayWinPage();
+            GamePlayUI.Instance.DisplayWinPage(_currentScore > _highScore);
+
+            // Update high score if the final score is higher than previous high score
+            if (_currentScore > _highScore) {
+                // Decrypt the map file and obtain the JSON data
+                byte[] encryptedBytes = File.ReadAllBytes(_mapPath);
+                string json = AesHelper.DecryptWithIv(encryptedBytes);
+                
+                // Update high score
+                string updatedJson = Regex.Replace(
+                    json,
+                    "\"highScore\"\\s*:\\s*\\d+",
+                    $"\"highScore\": {_highScore}"
+                );
+
+                // Encrypt data and update the file
+                byte[] bytes = AesHelper.EncryptWithRandomIv(updatedJson);
+
+                // Write data to the file
+                File.WriteAllBytes(_mapPath, bytes);
+            }
         }
 
         /**
@@ -210,30 +239,10 @@ namespace PlayMap {
             _pacboy.GetComponent<PacboyCamera>().DisableCameraOperation();
             _pacboy.GetComponent<PacboyPropOperation>().DisablePropOperation();
 
-            Time.timeScale = 0f; // Stop the time scale
+            Time.timeScale = 0f; // Stop the timescale
 
             // Display lose page
             GamePlayUI.Instance.DisplayLosePage();
-        }
-
-        /**
-         * Returns the difficulty of the current game.
-         */
-        public DifficultyType GetDifficulty() {
-            return _difficulty;
-        }
-
-        /**
-         * Returns the elapsed time of the current game.
-         * Used by the game over win page to display the time used.
-         */
-        public float GetTime() {
-            // Warning if game is in progress
-            if (_gamePlaying) {
-                Debug.LogWarning("Game is still in progress but there is an attempt to obtain the game time!");
-            }
-
-            return _gameTimer;
         }
 
         /**
@@ -267,7 +276,7 @@ namespace PlayMap {
                 // No Super Bonus - Normal
                 _currentScore += score;
             }
-        
+
             // UI update
             GamePlayUI.Instance.UpdateScoreText(_currentScore);
         }
@@ -286,23 +295,9 @@ namespace PlayMap {
             _currentScore -= score;
             // Cap the score to 0 if it is less than 0
             if (_currentScore < 0) _currentScore = 0;
-            
+
             // UI update
             GamePlayUI.Instance.UpdateScoreText(_currentScore);
-        }
-
-        /**
-         * Sets the Pacboy game object of the current game.
-         */
-        public void SetPacboy(GameObject pacboy) {
-            _pacboy = pacboy;
-        }
-
-        /**
-         * Gets the Pacboy game object.
-         */
-        public GameObject GetPacboy() {
-            return _pacboy;
         }
 
         /**
@@ -369,6 +364,48 @@ namespace PlayMap {
                     renderer.enabled = true;
                 }
             }
+        }
+
+        /**
+         * Sets the Pacboy game object of the current game.
+         */
+        public void SetPacboy(GameObject pacboy) {
+            _pacboy = pacboy;
+        }
+
+        /**
+         * Gets the Pacboy game object.
+         */
+        public GameObject GetPacboy() {
+            return _pacboy;
+        }
+
+        /**
+         * Returns the difficulty of the current game.
+         */
+        public DifficultyType GetDifficulty() {
+            return _difficulty;
+        }
+
+        /**
+         * Returns the elapsed time of the current game.
+         * Used by the game over win page to display the time used.
+         */
+        public float GetTime() {
+            // Warning if game is in progress
+            if (_gamePlaying) {
+                Debug.LogWarning("Game is still in progress but there is an attempt to obtain the game time!");
+            }
+
+            return _gameTimer;
+        }
+
+        /**
+         * Returns the history high score of the current game.
+         * Used by the game over win page to judge if the final game score is a new high score.
+         */
+        public int GetHighScore() {
+            return _highScore;
         }
     }
 }
