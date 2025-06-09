@@ -43,7 +43,7 @@ namespace HomePage {
             PlayerPrefs.SetInt("UsedMapEditorBefore", 0);
 
             // Home page location
-            PlayerPrefs.SetInt("MainPageAt", 0);
+            // PlayerPrefs.SetInt("MainPageAt", 0);
         }
 
         // START FUNCTION

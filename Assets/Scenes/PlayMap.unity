@@ -7079,7 +7079,34 @@ MonoBehaviour:
   previousPage: {fileID: 435468621}
   backButton: {fileID: 1669855899}
   promptText: {fileID: 563818385}
-  settingUIDefinitions: []
+  settingUIDefinitions:
+  - keyName: ForwardKeyCode
+    keyText: {fileID: 236649320}
+    settingButton: {fileID: 1762692409}
+  - keyName: BackwardKeyCode
+    keyText: {fileID: 840613607}
+    settingButton: {fileID: 1344431962}
+  - keyName: LeftwardKeyCode
+    keyText: {fileID: 2048067890}
+    settingButton: {fileID: 1097634481}
+  - keyName: RightwardKeyCode
+    keyText: {fileID: 1614512103}
+    settingButton: {fileID: 1010047434}
+  - keyName: TurnBackKeyCode
+    keyText: {fileID: 365159436}
+    settingButton: {fileID: 414270859}
+  - keyName: SwitchViewKeyCode
+    keyText: {fileID: 26316250}
+    settingButton: {fileID: 1811476147}
+  - keyName: OpenMapKeyCode
+    keyText: {fileID: 940283866}
+    settingButton: {fileID: 1281837148}
+  - keyName: UseNiceBombKeyCode
+    keyText: {fileID: 262972909}
+    settingButton: {fileID: 708564934}
+  - keyName: DeployNiceBombKeyCode
+    keyText: {fileID: 2086350127}
+    settingButton: {fileID: 241671202}
 --- !u!1001 &262710801
 PrefabInstance:
   m_ObjectHideFlags: 0
