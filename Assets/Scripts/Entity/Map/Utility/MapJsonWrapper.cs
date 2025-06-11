@@ -28,18 +28,21 @@ namespace Entity.Map.Utility {
 
         public MapJsonWrapper() { }
 
+        // Constructor
+        // Used when serialising Map data
         public MapJsonWrapper(Map map) {
+            // Basic info
             name = map.Name;
             difficulty = map.Difficulty;
             eventEnabled = map.EventEnabled;
             highScore = map.HighScore;
 
+            // Prop info
             propPositions = new List<Vector3>();
             propTypes = new List<PropType>();
             foreach (var kvp in map.PropData.PropOnTiles) {
-                // Add prop position and type information to Json
                 propPositions.Add(kvp.Key);
-                propTypes.Add(kvp.Value); // Use PropType to identify its type
+                propTypes.Add(kvp.Value);
             }
 
             fixedPropKeys = new List<PropType>(map.PropData.FixedPropCounts.Keys);
@@ -47,13 +50,14 @@ namespace Entity.Map.Utility {
             totalPropKeys = new List<PropType>(map.PropData.TotalPropCounts.Keys);
             totalPropValues = new List<int>(map.PropData.TotalPropCounts.Values);
 
+            // Wall info
             horizontalWallStatus = new List<bool>();
             for (int i = 0; i < 10; i++) {
                 foreach (var horizontalWall in map.WallData.HorizontalWallStatus) {
                     horizontalWallStatus.Add(horizontalWall);
                 }
             }
-            
+
             verticalWallStatus = new List<bool>();
             for (int i = 0; i < 11; i++) {
                 foreach (var verticalWall in map.WallData.VerticalWallStatus) {
@@ -61,8 +65,9 @@ namespace Entity.Map.Utility {
                 }
             }
         }
-
-        // Used to convert to the format required by PropData when deserializing
+        
+        /* De-serialising */
+        // Prop positions
         // Check the player preferences to judge if the prefabs for editor or the prefabs for map play should be obtained
         public Dictionary<Vector3, PropType> PropPositions() {
             var dict = new Dictionary<Vector3, PropType>();
@@ -91,6 +96,7 @@ namespace Entity.Map.Utility {
             }
         }
 
+        // Fixed prop counts
         public Dictionary<PropType, int> FixedPropCounts {
             get {
                 var dict = new Dictionary<PropType, int>();
@@ -102,6 +108,7 @@ namespace Entity.Map.Utility {
             }
         }
 
+        // Total prop counts
         public Dictionary<PropType, int> TotalPropCounts {
             get {
                 var dict = new Dictionary<PropType, int>();
@@ -113,41 +120,28 @@ namespace Entity.Map.Utility {
             }
         }
 
+        // Horizontal wall status
         public bool[,] HorizontalWallStatus {
             get {
                 bool[,] result = new bool[10, 11];
                 for (int column = 0; column < 11; column++) {
-                    result[0, column] = horizontalWallStatus[column];
-                    result[1, column] = horizontalWallStatus[column + 11];
-                    result[2, column] = horizontalWallStatus[column + 22];
-                    result[3, column] = horizontalWallStatus[column + 33];
-                    result[4, column] = horizontalWallStatus[column + 44];
-                    result[5, column] = horizontalWallStatus[column + 55];
-                    result[6, column] = horizontalWallStatus[column + 66];
-                    result[7, column] = horizontalWallStatus[column + 77];
-                    result[8, column] = horizontalWallStatus[column + 88];
-                    result[9, column] = horizontalWallStatus[column + 99];
+                    for (int row = 0; row < 10; row++) {
+                        result[row, column] = horizontalWallStatus[column + row * 11];
+                    }
                 }
 
                 return result;
             }
         }
 
+        // Vertical wall status
         public bool[,] VerticalWallStatus {
             get {
                 bool[,] result = new bool[11, 10];
                 for (int column = 0; column < 10; column++) {
-                    result[0, column] = verticalWallStatus[column];
-                    result[1, column] = verticalWallStatus[column + 10];
-                    result[2, column] = verticalWallStatus[column + 20];
-                    result[3, column] = verticalWallStatus[column + 30];
-                    result[4, column] = verticalWallStatus[column + 40];
-                    result[5, column] = verticalWallStatus[column + 50];
-                    result[6, column] = verticalWallStatus[column + 60];
-                    result[7, column] = verticalWallStatus[column + 70];
-                    result[8, column] = verticalWallStatus[column + 80];
-                    result[9, column] = verticalWallStatus[column + 90];
-                    result[10, column] = verticalWallStatus[column + 100];
+                    for (int row = 0; row < 11; row++) {
+                        result[row, column] = horizontalWallStatus[column + row * 10];
+                    }
                 }
 
                 return result;
