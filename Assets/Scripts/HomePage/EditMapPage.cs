@@ -222,6 +222,7 @@ namespace HomePage {
 
         /**
          * Renames the map.
+         * This code was written with the help of ChatGPT
          */
         public void RenameMap(string newName) {
             // Get file paths

@@ -16,7 +16,7 @@ namespace Entity.Map.Utility {
          * Encrypts the plain text.
          * A random Initialisation Vector (IV) will be generated
          * and the IV will be written to the beginning of the cipher text.
-         * This function is written by ChatGPT
+         * This code was written with the help of ChatGPT
          */
         public static byte[] EncryptWithRandomIv(string plainText) {
             using (Aes aes = Aes.Create()) {
@@ -41,7 +41,7 @@ namespace Entity.Map.Utility {
         /**
          * Decrypts the cipher text.
          * Read the IV from the first 16 bytes and then decrypt the cipher text.
-         * This function is written by ChatGPT
+         * This code was written with the help of ChatGPT
          */
         public static string DecryptWithIv(byte[] encryptedData) {
             using (Aes aes = Aes.Create()) {
