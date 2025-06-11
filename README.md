@@ -1,6 +1,17 @@
 # PacMaze
 
-Games Programming
+Welcome to PacMaze!
+
+Inspired by the  _Pac-Man_ game, while retaining many classic elements, PacMaze introduces a large number of original elements:
+- 3D Gaming
+- Switching between TPV and FPV
+- Map Editor for customising your ideal map, from difficulty to wall layout
+- Plenty of original props that grant various strategic abilities
+- Random events that add fun and unpredictability (free to choose to enable or not!)
+
+PacMaze is developed using Unity. (Unity Editor version: 2022.3.55f1c1)
+
+This repository is a complete Unity project. If your Windows PC has the correct version of Unity Editor installed, you should be able to open the project locally.
 
 ## Resources Used
 
