@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Entity.Ghostron.State.StateImpl {
     /**
-     * Stall state.
+     * Ghostron State - Stall state.
      * (Pacboy catches the scared Ghostron)
      */
     public class StallState : IGhostronState {

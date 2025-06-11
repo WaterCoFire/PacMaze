@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace HomePage {
+    /**
+     * Manages the "Rename Map" name setting window.
+     */
     public class EditMapRenameWindow : MonoBehaviour {
         public GameObject editMapViewWindow;
 
@@ -18,15 +21,22 @@ namespace HomePage {
 
         private string _originName;
 
+        // START FUNCTION
         private void Start() {
             SetButtonActionListener();
         }
 
+        /**
+         * Sets the action listeners for all buttons.
+         */
         private void SetButtonActionListener() {
             renameConfirmButton.onClick.AddListener(OnRenameConfirmButtonClick);
             renameCloseButton.onClick.AddListener(OnRenameCloseButtonClick);
         }
 
+        /**
+         * Initialises and displays the rename map window.
+         */
         public void ShowRenameWindow(string originName) {
             editMapViewWindow.SetActive(false);
             renameWindow.SetActive(true);
@@ -36,6 +46,8 @@ namespace HomePage {
             renameInputField.text = _originName;
         }
 
+        /* Button Action Listeners */
+        // Confirm button
         private void OnRenameConfirmButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
@@ -67,6 +79,7 @@ namespace HomePage {
             editMapViewWindow.SetActive(true);
         }
 
+        // Close button
         private void OnRenameCloseButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);

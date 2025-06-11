@@ -4,6 +4,14 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
+    /**
+     * Pink Ghostron - Personality: Cautious
+     *
+     * Only spawns if the number of Ghostrons set for the map is at least 4.
+     * 
+     * It likes to wander around the centre, because it thinks home feels safe.
+     * It is also not willing to chase, for it thinks that chasing means risk!
+     */
     public class PinkGhostron : Ghostron {
         // Wander interval of the pink Ghostron
         public override float WanderInterval {
@@ -62,11 +70,12 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Pink Ghostron:
-         * WHEN IN NORMAL WANDER
-         * Head towards to the center point.
+         * --- Normal Wander ---
+         * Head towards to the centre point.
          * If the pink Ghostron already arrives there, go to a random position.
-         * WHEN SCARED
-         * Head towards the center point (And not willing to leave)
+         * --- Scared Wander ---
+         * Head towards the centre point.
+         * This time it is not willing to leave.
          */
         public override Vector3 GenerateWanderingTarget() {
             // When scared

@@ -3,6 +3,14 @@ using PlayMap;
 using UnityEngine;
 
 namespace Entity.Ghostron.GhostronImpl {
+    /**
+     * Green Ghostron - Personality: Sensitive
+     *
+     * Only spawns if the number of Ghostrons set for the map is 5.
+     * 
+     * It likes to go to the general area of Pacboy when wandering.
+     * Maybe because it can sensitively detect the location of Pacboy's scent.
+     */
     public class GreenGhostron : Ghostron {
         // Wander interval of the green Ghostron
         public override float WanderInterval {
@@ -64,10 +72,10 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Green Ghostron:
-         * WHEN IN NORMAL WANDER
+         * --- Normal Wander ---
          * Go to the middle point of the four quadrants of the map that is the nearest to the Pacboy.
          * If the green Ghostron already arrives there, go to another random quadrant middle point.
-         * WHEN SCARED
+         * --- Scared Wander ---
          * Go to the point that is the furthest.
          */
         public override Vector3 GenerateWanderingTarget() {

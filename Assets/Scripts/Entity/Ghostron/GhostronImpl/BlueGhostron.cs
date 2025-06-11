@@ -3,6 +3,15 @@ using PlayMap;
 using UnityEngine;
 
 namespace Entity.Ghostron.GhostronImpl {
+    /**
+     * Blue Ghostron - Personality: Introverted
+     *
+     * Always spawns in each game.
+     * 
+     * It tries to stay away from Pacboy when wandering.
+     * It thinks it's only necessary to be proactive when there is work (chasing Pacboy)
+     * and it is best to keep a low profile at other times.
+     */
     public class BlueGhostron : Ghostron {
         // Wander interval of the blue Ghostron
         public override float WanderInterval {
@@ -64,7 +73,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Blue Ghostron:
-         * WHEN IN NORMAL WANDER & WHEN SCARED
+         * --- Normal Wander & Scared Wander ---
          * Go to the map corner which is the furthest away from the Pacboy.
          * If the blue Ghostron already arrives there, go to another random corner.
          */

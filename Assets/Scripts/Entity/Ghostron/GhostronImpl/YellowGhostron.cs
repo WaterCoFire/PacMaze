@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
+    /**
+     * Yellow Ghostron - Personality: Curious
+     *
+     * Only spawns if the number of Ghostrons set for the map is at least 3.
+     * 
+     * It likes to wander towards places where Pacboy has been before.
+     * It has keen judgement and vision, although they usually have a few seconds of delay.
+     * It believes that the meaning of life lies in "exploration".
+     */
     public class YellowGhostron : Ghostron {
         // Wander interval of the yellow Ghostron
         public override float WanderInterval {

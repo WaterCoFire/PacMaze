@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace HomePage {
     /**
-     * The home page.
+     * Manages the Home page.
      * Buttons: Play, Edit Maps, Setting, Quit Game
      */
     public class HomePage : MonoBehaviour {

@@ -2,7 +2,7 @@
 
 namespace Entity.Ghostron.State.StateImpl {
     /**
-     * Scared wander state.
+     * Ghostron State - Scared wander state.
      * (Pacboy eats a Power Pellet)
      */
     public class ScaredWanderState : IGhostronState {

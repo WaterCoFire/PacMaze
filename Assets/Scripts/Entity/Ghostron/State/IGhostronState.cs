@@ -1,6 +1,6 @@
 ﻿namespace Entity.Ghostron.State {
     /**
-     * The interface for all state classes.
+     * The interface for all Ghostron state classes.
      */
     public interface IGhostronState {
         void Enter(Ghostron ghostron);

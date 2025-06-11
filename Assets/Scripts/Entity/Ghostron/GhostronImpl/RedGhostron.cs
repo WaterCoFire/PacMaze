@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
+    /**
+     * Red Ghostron - Personality: Casual
+     *
+     * Always spawns in each game.
+     * 
+     * It likes to wander aimlessly, wherever it likes.
+     * It believes that there is no need to worry so much in life,
+     * just live as you please.
+     */
     public class RedGhostron : Ghostron {
         // Wander interval of the red Ghostron
         public override float WanderInterval {
@@ -58,7 +67,7 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Red Ghostron:
-         * WHEN IN NORMAL WANDER & WHEN SCARED
+         * --- Normal Wander & Scared Wander ---
          * Go to a random position.
          */
         public override Vector3 GenerateWanderingTarget() {

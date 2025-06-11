@@ -2,6 +2,9 @@
 using UnityEngine;
 
 namespace PlayMap {
+    /**
+     * Used for creating new Ghostrons.
+     */
     public class GhostronFactory : MonoBehaviour {
         public GameObject redGhostronPrefab;
         public GameObject blueGhostronPrefab;
@@ -20,6 +23,9 @@ namespace PlayMap {
             Instance = this;
         }
 
+        /**
+         * Get a Ghostron game object.
+         */
         public GameObject GetGhostron(GhostronType ghostronType) {
             switch (ghostronType) {
                 case GhostronType.Red:

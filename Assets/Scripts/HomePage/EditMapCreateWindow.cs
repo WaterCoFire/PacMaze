@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace HomePage {
+    /**
+     * Manages the "Create Map" name setting window.
+     */
     public class EditMapCreateWindow : MonoBehaviour {
         public GameObject editMapViewWindow;
 
@@ -16,15 +19,22 @@ namespace HomePage {
         public Button createCloseButton;
         public Button createConfirmButton;
 
+        // START FUNCTION
         private void Start() {
             SetButtonActionListener();
         }
 
+        /**
+         * Sets the action listeners for all buttons.
+         */
         private void SetButtonActionListener() {
             createConfirmButton.onClick.AddListener(OnCreateConfirmButtonClick);
             createCloseButton.onClick.AddListener(OnCreateCloseButtonClick);
         }
 
+        /**
+         * Initialises and displays the create map window.
+         */
         public void ShowCreateWindow() {
             editMapViewWindow.SetActive(false);
             createWindow.SetActive(true);
@@ -33,6 +43,8 @@ namespace HomePage {
             createInputField.text = "";
         }
 
+        /* Button Action Listeners */
+        // Confirm button
         private void OnCreateConfirmButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
@@ -64,6 +76,7 @@ namespace HomePage {
             editMapViewWindow.SetActive(true);
         }
 
+        // Close button
         private void OnCreateCloseButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);

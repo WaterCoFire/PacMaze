@@ -11,6 +11,9 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 namespace HomePage {
+    /**
+     * Manages the "Edit Maps" page.
+     */
     public class EditMapPage : MonoBehaviour {
         public ScrollRect editMapScrollRect;
         public GameObject mapInfoPrefab;
@@ -27,16 +30,19 @@ namespace HomePage {
 
         // Prompt for no map
         public GameObject noMapPrompt;
-
+        
+        // All map infos read
         private List<MapInfo> _mapInfos;
 
+        // Map data directory, and regex for matching file names
+        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.json$");
+        
+        /* UI Params */
         private float _cumulativeHeight;
         private readonly float _prefabHeight = 170f;
         private readonly float _padding = 1f;
-
-        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
-        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.json$");
-
+        
         private MapInfo _renamedMapOldInfo;
         private string _renamedMapNewName;
 
@@ -45,6 +51,7 @@ namespace HomePage {
         private readonly Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
         private readonly Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
 
+        // START FUNCTION
         private void Start() {
             Debug.Log("EditMapPage START");
 

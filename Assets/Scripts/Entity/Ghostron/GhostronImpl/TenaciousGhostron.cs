@@ -2,6 +2,11 @@
 using UnityEngine.AI;
 
 namespace Entity.Ghostron.GhostronImpl {
+    /**
+     * Special kind of Ghostron
+     * Only spawns when Pacboy eats a Bad Cherry
+     * Very powerful; not scared when Pacboy eats a Power Pellet
+     */
     public class TenaciousGhostron : Ghostron {
         // Wander interval of the Tenacious Ghostron
         public override float WanderInterval {
@@ -9,7 +14,7 @@ namespace Entity.Ghostron.GhostronImpl {
         }
 
         // Scared duration of the Tenacious Ghostron
-        // TENACIOUS GHOSTRON WILL NOT BE SCARED
+        // It is set to zero as Tenacious Ghostron won't be scared
         public override float ScaredDuration {
             get { return 0.0f; }
         }
@@ -30,7 +35,6 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Tenacious Ghostron:
-         * WHEN IN NORMAL WANDER & WHEN SCARED
          * Always go to the position that the Pacboy has been to.
          * As the wander interval is short for Tenacious Ghostron,
          * this is almost the current location of the Pacboy.

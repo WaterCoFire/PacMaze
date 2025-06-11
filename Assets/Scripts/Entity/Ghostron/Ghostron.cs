@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 namespace Entity.Ghostron {
     /**
-     * Manages the behaviour of the ghost.
+     * Manages the behaviour of Ghostron.
      */
     public abstract class Ghostron : MonoBehaviour {
         public GhostronStateMachine StateMachine { get; private set; }

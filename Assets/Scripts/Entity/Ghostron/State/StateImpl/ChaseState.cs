@@ -2,7 +2,7 @@
 
 namespace Entity.Ghostron.State.StateImpl {
     /**
-     * Chase state.
+     * Ghostron State - Chase state.
      */
     public class ChaseState : IGhostronState {
         public float ChaseSpeed;

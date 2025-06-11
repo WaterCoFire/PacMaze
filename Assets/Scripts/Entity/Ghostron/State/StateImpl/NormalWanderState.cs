@@ -2,7 +2,7 @@
 
 namespace Entity.Ghostron.State.StateImpl {
     /**
-     * Normal wander state.
+     * Ghostron State - Normal wander state.
      */
     public class NormalWanderState : IGhostronState {
         private Vector3 _wanderTarget;

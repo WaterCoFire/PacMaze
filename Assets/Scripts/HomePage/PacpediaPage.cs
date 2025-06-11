@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace HomePage {
     /**
-     * Pacpedia Page
+     * Manages the Pacpedia page.
      */
     public class PacpediaPage : MonoBehaviour {
         // This page and the home page

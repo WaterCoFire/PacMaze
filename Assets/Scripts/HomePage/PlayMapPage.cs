@@ -10,6 +10,9 @@ using TMPro;
 using UnityEngine.SceneManagement;
 
 namespace HomePage {
+    /**
+     * Manages the "Play" page.
+     */
     public class PlayMapPage : MonoBehaviour {
         public ScrollRect playMapScrollRect;
         public GameObject mapInfoPrefab;
@@ -26,20 +29,24 @@ namespace HomePage {
         // Prompt for no map
         public GameObject noMapPrompt;
 
+        // All map infos read
         private List<MapInfo> _mapInfos;
-
-        private float _cumulativeHeight;
-        private readonly float _prefabHeight = 170f;
-        private readonly float _padding = 1f;
-
+        
+        // Map data directory, and regex for matching file names
         private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.json$");
 
+        /* UI Params */
+        private float _cumulativeHeight;
+        private readonly float _prefabHeight = 170f;
+        private readonly float _padding = 1f;
+        
         // Map difficulty text color
         private readonly Color _easyTextColor = new Color(65f / 255f, 255f / 255f, 0f / 255f);
         private readonly Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
         private readonly Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
 
+        // START FUNCTION
         private void Start() {
             Debug.Log("PlayMapPage START");
 
