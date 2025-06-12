@@ -46,7 +46,7 @@ namespace MapEditor {
             Instance = this;
         }
 
-        // Start is called before the first frame update
+        // START FUNCTION
         void Start() {
             _wallMode = false;
 
@@ -103,6 +103,10 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Sets the prop data. Used in MapEditor class when initialising Map Editor.
+         * Information to be set: horizontalWallStatus, verticalWallStatus
+         */
         public void SetWallData(WallData wallData) {
             // Horizontal walls
             for (int row = 0; row < 10; row++) {

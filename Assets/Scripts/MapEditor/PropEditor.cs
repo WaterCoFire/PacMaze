@@ -8,25 +8,20 @@ using UnityEngine.UI;
 
 namespace MapEditor {
     /**
-     * Used for tile & prop edit.
+     * Used for prop editing mode in Map Editor.
      *
-     * PacMaze Game Props:
-     *
-     * BASIC
-     * - Ghostron Spawn Point
-     * - Pacboy Spawn Point
-     *
-     * GOOD ONES
+     * Props that can be edited:
      * - Power Pellet
      * - Fast Wheel
      * - Nice Bomb
-     *
-     * BAD ONES
      * - Slow Wheel
      * - Bad Cherry
-     *
-     * RANDOM
      * - Lucky Dice
+     * - Ghostron Spawn Point
+     * - Pacboy Spawn Point
+     * Note: Ghostron/Pacboy Spawn Points are regarded as special props
+     * for they can also be edited like normal props,
+     * like setting fixed positions, total number (only for Ghostron Spawn Point).
      */
     public class PropEditor : MonoBehaviour {
         private Vector3 _selectedTileVector3; // the selected tile's vector
@@ -97,7 +92,7 @@ namespace MapEditor {
         }
 
         /**
-         * Sets the prop data. Used in MapEditor class.
+         * Sets the prop data. Used in MapEditor class when initialising Map Editor.
          * Information to be set: propOnTiles, fixedPropCounts, totalPropCounts
          */
         public void SetPropData(PropData propData) {

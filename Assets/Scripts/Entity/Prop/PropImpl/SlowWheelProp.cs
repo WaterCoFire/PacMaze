@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
     /**
-     * SLOW WHEEL
+     * Slow Wheel
      * Pacboy becomes slower for 5 secs.
      */
     public class SlowWheelProp : Prop {

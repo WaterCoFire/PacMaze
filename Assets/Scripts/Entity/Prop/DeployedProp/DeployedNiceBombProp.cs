@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Entity.Prop.DeployedProp {
     /**
-     * DEPLOYED NICE BOMB
+     * Deployed Nice Bomb
      * Placed in the map when the player presses F (default) to deploy a nice bomb.
      * When hit by the Ghostron, two nearest Ghostrons will be killed.
      * (which means the one that hits the bomb and the other which is the nearest to that bomb)
@@ -30,7 +30,6 @@ namespace Entity.Prop.DeployedProp {
          * A Ghostron hits this Deployed Nice Bomb.
          */
         private void GhostronHit() {
-            Debug.Log("Ghostron hits the deployed bomb");
             int ghostronsKilled = 0; // Count of how many Ghostrons are killed, can be 1/2
 
             Vector3 bombPosition = gameObject.transform.position;

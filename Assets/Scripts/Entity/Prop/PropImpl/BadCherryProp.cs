@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
     /**
-     * BAD CHERRY
+     * Bad Cherry
      * Spawns a new Tenacious Ghostron.
      * (spawns at randomly position)
      */

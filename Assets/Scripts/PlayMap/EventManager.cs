@@ -95,8 +95,6 @@ namespace PlayMap {
                 return;
             }
 
-            Debug.Log("Event rand number: " + eventRand + ", getting an event.");
-
             // Event should happen
             // Play event triggered sound
             SoundManager.Instance.PlaySoundOnce(SoundType.EventTriggered);

@@ -3,9 +3,9 @@
     "BackwardKeyCode": "S",
     "LeftwardKeyCode": "A",
     "RightwardKeyCode": "D",
-    "TurnBackKeyCode": "B",
+    "TurnBackKeyCode": "Q",
     "SwitchViewKeyCode": "V",
     "OpenMapKeyCode": "M",
-    "UseNiceBombKeyCode": "U",
+    "UseNiceBombKeyCode": "E",
     "DeployNiceBombKeyCode": "F"
 }

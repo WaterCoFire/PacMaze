@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
     /**
-     * NICE BOMB
-     * Does nothing when the pacboy picks it
+     * Nice Bomb
+     * Does nothing when Pacboy picks it
      * Only effective on the player's second operation when a bomb is picked:
      * Press E (default) to directly kill the nearest Ghostron,
      * OR press F (default) to deploy the bomb down on the current tile.

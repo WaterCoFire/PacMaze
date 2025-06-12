@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
     /**
-     * LUCKY DICE
+     * Lucky Dice
      * When picked, gives the effect of one of the five other props.
      * Probabilities vary according to the game difficulty:
      * - EASY: 50% Fast Wheel, 25% Power Pellet, 25% Nice Bomb

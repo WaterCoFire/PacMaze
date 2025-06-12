@@ -90,6 +90,9 @@ namespace MapEditor {
             }
         }
 
+        /**
+         * Sets action listeners for all the buttons.
+         */
         private void SetButtonActionListener() {
             enableEventButton.onClick.AddListener(OnEventEnabledButtonClick);
             disableEventButton.onClick.AddListener(OnEventDisabledButtonClick);

@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Entity.Prop.PropImpl {
     /**
-     * POWER PELLET
+     * Power Pellet
      * Scares all Ghostrons.
-     * (Slows them down, and they are temporarily "frozen" when pacboy catches them)
+     * (Slows them down, and they are temporarily stalled when Pacboy catches them)
      */
     public class PowerPelletProp : Prop {
         // Override
