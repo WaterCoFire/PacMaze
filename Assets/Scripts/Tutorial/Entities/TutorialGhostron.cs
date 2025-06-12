@@ -32,13 +32,11 @@ namespace Tutorial.Entities {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("Ghostron START");
-
             // Check if the Ghostron has all necessary components
             if (gameObject.GetComponent<NavMeshAgent>() == null ||
                 gameObject.GetComponent<BoxCollider>() == null ||
                 gameObject.GetComponent<Animator>() == null) {
-                Debug.LogError("Ghostron start error: Essential components missing!");
+                Debug.LogError("TutorialGhostron start error: Essential components missing!");
                 return;
             }
 

@@ -17,16 +17,16 @@ namespace MapEditor {
     public class RandomLayoutGenerator : MonoBehaviour {
         // All tile coordinates
         private List<(int, int)> _allTiles;
-        
+
         // The preferred neighbour lists of each tile
         private Dictionary<(int, int), List<(int, int)>> _preferredNeighbours;
-        
+
         // The current neighbour counts of all tiles
         private Dictionary<(int, int), int> _currentNeighbourCounts;
-        
+
         // The distributed neighbour numbers of all tiles
         private Dictionary<(int, int), int> _distributedNeighbourNums;
-        
+
         // Status of all horizontal/vertical walls (present/absent)
         private bool[,] _horizontalWallStatus;
         private bool[,] _verticalWallStatus;
@@ -222,12 +222,12 @@ namespace MapEditor {
                             if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
                                 continue;
                             }
-                        
+
                             // Disconnect the two tile
                             Disconnect(twoNeighbourTile, adjacentTile);
                             _currentNeighbourCounts[twoNeighbourTile]--;
                             _currentNeighbourCounts[adjacentTile]--;
-                        
+
                             // Check the connectivity of the map
                             if (!Flood()) {
                                 // If this disconnection affects the connectivity, undo it
@@ -294,64 +294,15 @@ namespace MapEditor {
          * Returns the list of all adjacent tiles (neighbour or not) of the given tile.
          */
         private List<(int, int)> GetAdjacentTiles((int, int) tile) {
-            List<(int, int)> adjacentTiles = new List<(int, int)>();
+            var adjacentTiles = new List<(int, int)>();
 
-            if (tile.Item1 == 0) {
-                if (tile.Item2 == 0) {
-                    // Case: x = 0, y = 0
-                    // 2 adjacent directions: Down/Right
-                    adjacentTiles.Add((tile.Item1 + _dx[1], tile.Item2 + _dy[1]));
-                    adjacentTiles.Add((tile.Item1 + _dx[3], tile.Item2 + _dy[3]));
-                } else if (tile.Item2 == 10) {
-                    // Case: x = 0, y = 10
-                    // 2 adjacent directions: Down/Left
-                    adjacentTiles.Add((tile.Item1 + _dx[1], tile.Item2 + _dy[1]));
-                    adjacentTiles.Add((tile.Item1 + _dx[2], tile.Item2 + _dy[2]));
-                } else {
-                    // Case: x = 0, y = 1-9
-                    // 3 adjacent directions: Down/Left/Right
-                    adjacentTiles.Add((tile.Item1 + _dx[1], tile.Item2 + _dy[1]));
-                    adjacentTiles.Add((tile.Item1 + _dx[2], tile.Item2 + _dy[2]));
-                    adjacentTiles.Add((tile.Item1 + _dx[3], tile.Item2 + _dy[3]));
-                }
-            } else if (tile.Item1 == 10) {
-                if (tile.Item2 == 0) {
-                    // Case: x = 10, y = 0
-                    // 2 adjacent directions: Up/Right
-                    adjacentTiles.Add((tile.Item1 + _dx[0], tile.Item2 + _dy[0]));
-                    adjacentTiles.Add((tile.Item1 + _dx[3], tile.Item2 + _dy[3]));
-                } else if (tile.Item2 == 10) {
-                    // Case: x = 10, y = 10
-                    // 2 adjacent directions: Up/Left
-                    adjacentTiles.Add((tile.Item1 + _dx[0], tile.Item2 + _dy[0]));
-                    adjacentTiles.Add((tile.Item1 + _dx[2], tile.Item2 + _dy[2]));
-                } else {
-                    // Case: x = 10, y = 1-9
-                    // 3 adjacent directions: Up/Left/Right
-                    adjacentTiles.Add((tile.Item1 + _dx[0], tile.Item2 + _dy[0]));
-                    adjacentTiles.Add((tile.Item1 + _dx[2], tile.Item2 + _dy[2]));
-                    adjacentTiles.Add((tile.Item1 + _dx[3], tile.Item2 + _dy[3]));
-                }
-            } else {
-                if (tile.Item2 == 0) {
-                    // Case: x = 1-9, y = 0
-                    // 3 adjacent directions: Up/Down/Right
-                    adjacentTiles.Add((tile.Item1 + _dx[0], tile.Item2 + _dy[0]));
-                    adjacentTiles.Add((tile.Item1 + _dx[1], tile.Item2 + _dy[1]));
-                    adjacentTiles.Add((tile.Item1 + _dx[3], tile.Item2 + _dy[3]));
-                } else if (tile.Item2 == 10) {
-                    // Case: x = 1-9, y = 10
-                    // 3 adjacent directions: Up/Down/Left
-                    adjacentTiles.Add((tile.Item1 + _dx[0], tile.Item2 + _dy[0]));
-                    adjacentTiles.Add((tile.Item1 + _dx[1], tile.Item2 + _dy[1]));
-                    adjacentTiles.Add((tile.Item1 + _dx[2], tile.Item2 + _dy[2]));
-                } else {
-                    // Case: x = 1-9, y = 1-9
-                    // 4 adjacent directions: Up/Down/Left/Right
-                    adjacentTiles.Add((tile.Item1 + _dx[0], tile.Item2 + _dy[0]));
-                    adjacentTiles.Add((tile.Item1 + _dx[1], tile.Item2 + _dy[1]));
-                    adjacentTiles.Add((tile.Item1 + _dx[2], tile.Item2 + _dy[2]));
-                    adjacentTiles.Add((tile.Item1 + _dx[3], tile.Item2 + _dy[3]));
+            // All four directions
+            for (int i = 0; i < 4; i++) {
+                int newX = tile.Item1 + _dx[i];
+                int newY = tile.Item2 + _dy[i];
+
+                if (newX >= 0 && newX <= 10 && newY >= 0 && newY <= 10) {
+                    adjacentTiles.Add((newX, newY));
                 }
             }
 

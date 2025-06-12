@@ -18,7 +18,7 @@ namespace MapEditor {
      * --- Pattern 2 ---
      * Overall, the probability of occurrence of a tile with 3 neighbours increases
      * as its distance from the centre point decreases.
-     * 
+     *
      * --- Pattern 3 ---
      * A tile with 3 neighbours is more likely to be adjacent to another tile with
      * 3 neighbours at the same time. There are only a few such tiles that appear alone.
@@ -219,40 +219,21 @@ namespace MapEditor {
          * Called by DetermineOutermostRingTiles() to check the outermost tiles.
          * So this function is ONLY able to process outermost tiles.
          */
-        private static bool HasAdjacentThreeNeighbourTiles((int, int) tile) {
-            if (tile.Item1 == 0) {
-                if (tile.Item2 == 0) {
-                    // Case: x = 0, y = 0, check the tiles at: down/right
-                    return _distributedNeighbourNums[(tile.Item1 + 1, tile.Item2)] == 3 ||
-                           _distributedNeighbourNums[(tile.Item1, tile.Item2 + 1)] == 3;
-                } else if (tile.Item2 == 10) {
-                    // Case: x = 0, y = 10, check the tiles at: down/left
-                    return _distributedNeighbourNums[(tile.Item1 + 1, tile.Item2)] == 3 ||
-                           _distributedNeighbourNums[(tile.Item1, tile.Item2 - 1)] == 3;
-                } else {
-                    // Case: x = 0, y = 1-9, check the tiles at: left/right
-                    return _distributedNeighbourNums[(tile.Item1, tile.Item2 - 1)] == 3 ||
-                           _distributedNeighbourNums[(tile.Item1, tile.Item2 + 1)] == 3;
+        private static bool HasAdjacentThreeNeighbourTiles((int x, int y) tile) {
+            (int dx, int dy)[] offsets = { (0, 1), (0, -1), (1, 0), (-1, 0) };
+
+            foreach (var offset in offsets) {
+                int newX = tile.x + offset.dx;
+                int newY = tile.y + offset.dy;
+
+                if (newX >= 0 && newX <= 10 && newY >= 0 && newY <= 10) {
+                    if (_distributedNeighbourNums[(newX, newY)] == 3) {
+                        return true;
+                    }
                 }
-            } else if (tile.Item1 == 10) {
-                if (tile.Item2 == 0) {
-                    // Case: x = 10, y = 0, check the tiles at: up/right
-                    return _distributedNeighbourNums[(tile.Item1 - 1, tile.Item2)] == 3 ||
-                           _distributedNeighbourNums[(tile.Item1, tile.Item2 + 1)] == 3;
-                } else if (tile.Item2 == 10) {
-                    // Case: x = 10, y = 10, check the tiles at: up/left
-                    return _distributedNeighbourNums[(tile.Item1 - 1, tile.Item2)] == 3 ||
-                           _distributedNeighbourNums[(tile.Item1, tile.Item2 - 1)] == 3;
-                } else {
-                    // Case: x = 10, y = 1-9, check the tiles at: left/right
-                    return _distributedNeighbourNums[(tile.Item1, tile.Item2 - 1)] == 3 ||
-                           _distributedNeighbourNums[(tile.Item1, tile.Item2 + 1)] == 3;
-                }
-            } else {
-                // Case: x = 1-9, y = 0 or 10, check the tiles at: up/down
-                return _distributedNeighbourNums[(tile.Item1 - 1, tile.Item2)] == 3 ||
-                       _distributedNeighbourNums[(tile.Item1 + 1, tile.Item2)] == 3;
             }
+
+            return false;
         }
 
         /**

@@ -22,7 +22,6 @@ namespace PlayMap {
 
             // Find the Walls root game object
             GameObject wallsRoot = GameObject.Find("Walls");
-            Debug.Log(wallsRoot);
 
             // Load horizontal walls
             for (int row = 0; row < 10; row++) {

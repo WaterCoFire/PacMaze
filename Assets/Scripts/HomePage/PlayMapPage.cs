@@ -97,7 +97,6 @@ namespace HomePage {
                     DifficultyType difficulty = Enum.Parse<DifficultyType>(match.Groups[3].Value);
 
                     MapInfo mapInfo = new MapInfo(mapName, ghostrons, difficulty);
-                    Debug.Log("Play Matched: Map info " + mapName + ", " + ghostrons + ", " + difficulty);
                     _mapInfos.Add(mapInfo);
                 }
             }

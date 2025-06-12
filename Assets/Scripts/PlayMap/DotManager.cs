@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace PlayMap {
     /**
-     * Manages all the dots in the play map.
-     * The player wins when all the dots are eaten by Pacboy (disappear).
+     * Manages all the dots in the map.
+     * The player wins when all the dots are eaten by Pacboy.
      */
     public class DotManager : MonoBehaviour {
         // List of all the dot index
@@ -34,8 +34,8 @@ namespace PlayMap {
             // Interact with EventManager (potentially a random event)
             EventManager.Instance.DotEaten();
 
+            // All dots eaten
             if (_dots.Count == 0) {
-                Debug.Log("No dots left, player should win");
                 // Make the player win
                 PlayMapController.Instance.Win();
             }

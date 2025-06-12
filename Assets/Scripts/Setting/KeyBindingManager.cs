@@ -25,7 +25,6 @@ namespace Setting {
             // Transform to JSON and write to file
             string json = JsonUtility.ToJson(keyBindings, true);
             File.WriteAllText(FilePath, json);
-            Debug.Log("KeyBindings saved to " + FilePath);
         }
 
         /**
@@ -48,8 +47,6 @@ namespace Setting {
                 string value = (string)field.GetValue(keyBindings);
                 PlayerPrefs.SetString(keyName, value);
             }
-
-            Debug.Log("KeyBindings loaded from " + FilePath);
         }
     }
 }

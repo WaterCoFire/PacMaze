@@ -243,8 +243,6 @@ namespace PlayMap {
 
             // Display lose page
             GamePlayUI.Instance.DisplayLosePage();
-            
-            Debug.Log("HIGH SCORE " + _highScore);
         }
 
         /**

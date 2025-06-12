@@ -184,7 +184,6 @@ namespace MapEditor {
 
                 // Set event status
                 EventEditor.Instance.SetEventStatusData(wrapper.eventEnabled);
-                Debug.Log("All set");
             } else {
                 Debug.LogError("Load map error: File not found!");
             }

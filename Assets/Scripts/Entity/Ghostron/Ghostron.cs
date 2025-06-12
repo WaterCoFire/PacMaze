@@ -79,8 +79,6 @@ namespace Entity.Ghostron {
 
         // START FUNCTION
         void Start() {
-            Debug.Log("Ghostron START");
-
             // Check if the Ghostron has all necessary components
             if (gameObject.GetComponent<NavMeshAgent>() == null ||
                 gameObject.GetComponent<BoxCollider>() == null ||
@@ -159,7 +157,6 @@ namespace Entity.Ghostron {
          * Used in GhostronManager when initialising the map / adding new Ghostron due to bad cherry.
          */
         public void SetPacboy(GameObject setPacboy) {
-            Debug.Log("NEW GHOSTRON PACBOY SET");
             pacboy = setPacboy;
         }
 

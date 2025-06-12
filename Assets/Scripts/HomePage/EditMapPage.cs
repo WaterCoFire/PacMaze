@@ -103,7 +103,6 @@ namespace HomePage {
                     DifficultyType difficulty = Enum.Parse<DifficultyType>(match.Groups[3].Value);
 
                     MapInfo mapInfo = new MapInfo(mapName, ghostrons, difficulty);
-                    Debug.Log("Edit Matched: Map info " + mapName + ", " + ghostrons + ", " + difficulty);
                     _mapInfos.Add(mapInfo);
                 }
             }
@@ -179,8 +178,7 @@ namespace HomePage {
                                 Debug.LogError("Error occurred when trying to delete file!");
                             }
 
-                            Destroy(mapInfoObject);
-                            Debug.Log($"Deleted map: {mapInfo.Name}");
+                            Destroy(mapInfoObject); // Destroy the map info game object
 
                             UpdateEditMapList(); // Update then
                         });
@@ -232,7 +230,6 @@ namespace HomePage {
             if (File.Exists(oldPath)) {
                 // File operation
                 File.Move(oldPath, newPath);
-                Debug.Log($"Renamed {oldPath} -> {newPath}");
 
                 UpdateEditMapList(); // Update the data & UI
 
@@ -253,8 +250,6 @@ namespace HomePage {
 
                 // Write data to a new file
                 File.WriteAllBytes(newPath, bytes);
-
-                Debug.Log($"Successfully updated 'name' field in {Path.GetFileName(newPath)} to '{newName}'");
             } else {
                 Debug.LogError("Rename error: Old file no longer exists!");
             }
