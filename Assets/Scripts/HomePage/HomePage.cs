@@ -37,7 +37,7 @@ namespace HomePage {
         private void Awake() {
             /* For test purpose only */
             // Played PacMaze before
-            PlayerPrefs.SetInt("PlayedBefore", 0);
+            PlayerPrefs.SetInt("PlayedBefore", 1);
 
             // Used Map Editor before
             PlayerPrefs.SetInt("UsedMapEditorBefore", 0);

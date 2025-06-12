@@ -140,7 +140,7 @@ namespace Entity.Map.Utility {
                 bool[,] result = new bool[11, 10];
                 for (int column = 0; column < 10; column++) {
                     for (int row = 0; row < 11; row++) {
-                        result[row, column] = horizontalWallStatus[column + row * 10];
+                        result[row, column] = verticalWallStatus[column + row * 10];
                     }
                 }
 
