@@ -53,8 +53,6 @@ namespace HomePage {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("EditMapPage START");
-
             SetButtonActionListener();
 
             _mapInfos = new List<MapInfo>();

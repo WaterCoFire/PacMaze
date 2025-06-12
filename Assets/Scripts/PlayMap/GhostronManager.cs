@@ -37,14 +37,8 @@ namespace PlayMap {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("GhostronManager AWAKE");
             // Set singleton instance
             Instance = this;
-        }
-
-        // START FUNCTION
-        private void Start() {
-            Debug.Log("GhostronManager START");
         }
 
         /**

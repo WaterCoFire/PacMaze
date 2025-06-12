@@ -47,8 +47,6 @@ namespace Entity.Pacboy {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacboyCamera START");
-
             // Set the camera game and Pacboy movement object
             _camera = gameObject.GetComponentInChildren<Camera>();
             _pacboyMovement = gameObject.GetComponent<PacboyMovement>();
@@ -72,6 +70,7 @@ namespace Entity.Pacboy {
             _yaw = transform.eulerAngles.y;
         }
 
+        // Each Frame
         private void LateUpdate() {
             if (!_controllable) return;
 

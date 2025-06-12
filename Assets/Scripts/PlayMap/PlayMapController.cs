@@ -42,7 +42,6 @@ namespace PlayMap {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("PlayMapController AWAKE");
             // Set singleton instance
             Instance = this;
         }
@@ -53,8 +52,6 @@ namespace PlayMap {
          * and call InitMap() to initialise the map
          */
         private void Start() {
-            Debug.Log("MapController START");
-
             // Get map file name
             string mapFileName = PlayerPrefs.GetString("PlayMapFileToLoad", null);
             if (mapFileName == null) {

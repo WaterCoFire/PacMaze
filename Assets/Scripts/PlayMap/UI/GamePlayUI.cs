@@ -44,7 +44,6 @@ namespace PlayMap.UI {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("GamePlayUI AWAKE");
             // Set singleton instance
             Instance = this;
         }
@@ -52,8 +51,6 @@ namespace PlayMap.UI {
         // START FUNCTION
         // UI initialisation
         private void Start() {
-            Debug.Log("GamePlayUI START");
-
             // Reset score UI
             scoreText.text = "Score: 0";
             scoreText.color = Color.white;

@@ -27,8 +27,6 @@ namespace Setting {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("SettingPage START");
-
             _isListening = false;
 
             SetButtonActionListener(); // Set button action listeners

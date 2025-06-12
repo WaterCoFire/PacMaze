@@ -16,11 +16,6 @@ namespace Entity.Prop {
         // Action when the prop is picked by the pacboy
         public abstract void OnPicked(GameObject pacboy);
 
-        // START FUNCTION
-        private void Start() {
-            Debug.Log("Prop Abstract Class START");
-        }
-
         /**
          * Unity event: When the prop collides with a game object
          * Checks if the game object is pacboy

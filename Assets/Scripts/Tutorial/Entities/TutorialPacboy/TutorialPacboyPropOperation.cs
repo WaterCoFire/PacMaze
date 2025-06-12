@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Tutorial.Entities.TutorialPacboy {
     /**
-     * Manages the prop operation of the Pacboy in tutorial.
+     * Manages the prop operation of Pacboy in tutorial.
      */
     public class TutorialPacboyPropOperation : MonoBehaviour {
         // The game object prefab of the deployed nice bomb

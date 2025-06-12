@@ -48,8 +48,6 @@ namespace HomePage {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PlayMapPage START");
-
             SetButtonActionListener();
 
             _mapInfos = new List<MapInfo>();

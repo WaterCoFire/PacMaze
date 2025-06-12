@@ -2,7 +2,7 @@
 
 namespace Tutorial.Entities.TutorialPacboy {
     /**
-     * Manages the camera of the Pacboy in tutorial.
+     * Manages the camera of Pacboy in tutorial.
      */
     public class TutorialPacboyCamera : MonoBehaviour {
         // The camera game object
@@ -60,6 +60,7 @@ namespace Tutorial.Entities.TutorialPacboy {
             _yaw = transform.eulerAngles.y;
         }
 
+        // Late Update - Unity event
         private void LateUpdate() {
             if (!_controllable) return;
 

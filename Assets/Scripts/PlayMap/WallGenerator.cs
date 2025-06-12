@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace PlayMap {
+    /**
+     * Responsible for wall initialisation when game starts.
+     */
     public class WallGenerator : MonoBehaviour {
+        /* All horizontal and vertical wall game objects */
         public GameObject[,] HorizontalWalls;
         public GameObject[,] VerticalWalls;
 
-        public GameObject mapFloor;
+        public GameObject mapFloor; // The floor parent GameObject
         
         // START FUNCTION
         private void Start() {

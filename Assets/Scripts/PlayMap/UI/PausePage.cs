@@ -20,8 +20,6 @@ namespace PlayMap.UI {
         
         // START FUNCTION
         private void Start() {
-            Debug.Log("PausePage START");
-            
             // Set button action listeners
             AddButtonActionListener();
         }

@@ -6,6 +6,7 @@ namespace PlayMap {
      * Used for creating new Ghostrons.
      */
     public class GhostronFactory : MonoBehaviour {
+        /* All Ghostron GameObject prefabs */
         public GameObject redGhostronPrefab;
         public GameObject blueGhostronPrefab;
         public GameObject yellowGhostronPrefab;
@@ -18,7 +19,6 @@ namespace PlayMap {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("GhostronFactory AWAKE");
             // Set singleton instance
             Instance = this;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Entity.Dot {
     /**
-     * Manages the behaviour of the dot in game map.
+     * Manages the dot in game.
      */
     public class Dot : MonoBehaviour {
         // The index of this dot

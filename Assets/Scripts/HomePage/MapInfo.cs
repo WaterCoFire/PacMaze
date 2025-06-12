@@ -10,6 +10,7 @@ namespace HomePage {
         public readonly int GhostronNum;
         public readonly DifficultyType Difficulty;
 
+        // Constructor
         public MapInfo(string name, int ghostronNum, DifficultyType difficulty) {
             Name = name;
             GhostronNum = ghostronNum;

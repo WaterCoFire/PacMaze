@@ -74,8 +74,6 @@ namespace MapEditor {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("MapEditor START");
-
             // Play background music
             SoundManager.Instance.PlayBackgroundMusic(false);
 

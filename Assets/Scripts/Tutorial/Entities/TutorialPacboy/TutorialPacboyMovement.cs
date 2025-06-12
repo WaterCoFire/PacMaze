@@ -2,6 +2,9 @@
 using UnityEngine;
 
 namespace Tutorial.Entities.TutorialPacboy {
+    /**
+     * Manages the movement of Pacboy in tutorial.
+     */
     public class TutorialPacboyMovement : MonoBehaviour {
         // Move speed and rotate speed
         private float _pacboyMoveSpeed;

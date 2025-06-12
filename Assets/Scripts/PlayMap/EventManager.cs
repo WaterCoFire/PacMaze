@@ -26,14 +26,13 @@ namespace PlayMap {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("EventManager AWAKE");
             // Set singleton instance
             Instance = this;
         }
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("EventManager START");
+            // Initialise params
             _currentEventIndex = 0;
             _eventInProcess = false;
         }

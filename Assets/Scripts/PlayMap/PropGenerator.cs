@@ -6,8 +6,11 @@ using UnityEngine;
 using Random = System.Random;
 
 namespace PlayMap {
+    /**
+     * Responsible for prop initialisation when game starts.
+     */
     public class PropGenerator : MonoBehaviour {
-        // All prop models (except for Ghostrons)
+        // All prop model prefabs (except for Ghostrons)
         public GameObject pacboyPrefab;
         public GameObject powerPelletPrefab;
         public GameObject fastWheelPrefab;

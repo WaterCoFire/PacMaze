@@ -31,7 +31,7 @@ namespace Entity.Ghostron.State.StateImpl {
          * Update() event when in chase state.
          */
         public void Update(Ghostron ghostron) {
-            // Update speed, as an event could just started/ended
+            // Update speed, as an event could just start/end
             ChaseSpeed = ghostron.chaseSpeed;
             ghostron.agent.speed = ChaseSpeed;
             

@@ -39,8 +39,6 @@ namespace HomePage {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacpediaPage START");
-
             // Set button action listeners
             SetButtonActionListener();
 

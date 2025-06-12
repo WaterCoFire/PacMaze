@@ -45,8 +45,6 @@ namespace Entity.Pacboy {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("PacboyMovement START");
-
             // Get the keycode set for moving operations
             _forwardKeyCode = GetKeyCode("ForwardKeyCode", KeyCode.W);
             _backwardKeyCode = GetKeyCode("BackwardKeyCode", KeyCode.S);

@@ -48,7 +48,6 @@ namespace HomePage {
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("HomePage START");
             SetButtonActionListener(); // Set button action listeners
 
             // Play background music

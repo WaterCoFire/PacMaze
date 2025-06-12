@@ -42,7 +42,6 @@ namespace MapEditor {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("TileChecker AWAKE");
             // Set singleton instance
             Instance = this;
         }

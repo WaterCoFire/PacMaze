@@ -46,7 +46,6 @@ namespace MapEditor {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("RandomLayoutGenerator AWAKE");
             // Set singleton instance
             Instance = this;
         }
@@ -237,24 +236,6 @@ namespace MapEditor {
                                 _currentNeighbourCounts[adjacentTile]++;
                             }
                         }
-
-                        // // Ignore if this adjacent tile cannot lose any more neighbour
-                        // if (_currentNeighbourCounts[adjacentTile] <= _distributedNeighbourNums[adjacentTile]) {
-                        //     continue;
-                        // }
-                        //
-                        // // Disconnect the two tile
-                        // Disconnect(twoNeighbourTile, adjacentTile);
-                        // _currentNeighbourCounts[twoNeighbourTile]--;
-                        // _currentNeighbourCounts[adjacentTile]--;
-                        //
-                        // // Check the connectivity of the map
-                        // if (!Flood()) {
-                        //     // If this disconnection affects the connectivity, undo it
-                        //     Connect(twoNeighbourTile, adjacentTile);
-                        //     _currentNeighbourCounts[twoNeighbourTile]++;
-                        //     _currentNeighbourCounts[adjacentTile]++;
-                        // }
                     }
                 }
             }
@@ -480,7 +461,7 @@ namespace MapEditor {
          * This code was written with the help of ChatGPT
          */
         private bool Flood() {
-            // Creating an 11x11 array of access states
+            // Creating a 11x11 array of access states
             bool[,] visited = new bool[11, 11];
             int[,] distance = new int[11, 11]; // Record the shortest distance for each grid
 

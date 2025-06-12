@@ -20,14 +20,8 @@ namespace PlayMap {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("DotManager AWAKE");
             // Set singleton instance
             Instance = this;
-        }
-
-        // START FUNCTION
-        private void Start() {
-            Debug.Log("DotManager START");
         }
 
         // UPDATE FUNCTION

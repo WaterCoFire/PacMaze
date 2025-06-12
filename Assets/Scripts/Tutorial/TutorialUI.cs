@@ -45,15 +45,12 @@ namespace Tutorial {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("TutorialUI AWAKE");
             // Set singleton instance
             Instance = this;
         }
 
         // START FUNCTION
         private void Start() {
-            Debug.Log("TutorialUI START");
-
             // Initialise the tips list
             _allTips = new List<List<string>>();
             _allTips.Add(startTips);
