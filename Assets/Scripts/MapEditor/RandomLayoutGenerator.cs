@@ -7,7 +7,7 @@ using Random = System.Random;
 namespace MapEditor {
     /**
      * Responsible for random wall generation.
-     * This is a improved version of the Braid Algorithm and Distribution Algorithm by Ioannidis (2016).
+     * This is an improved version of the Braid Algorithm and Distribution Algorithm by Ioannidis (2016).
      * (DistributionGenerator is responsible for generating a neighbour distribution matrix)
      *
      * The paper can be found at
@@ -34,8 +34,8 @@ namespace MapEditor {
         private readonly Random _random = new();
 
         /* Probabilities */
-        private const int ThreeNeighbourTileDisconnectProbability = 10; // original 10
-        private const int NonIdealTwoNeighbourTileDisconnectProbability = 85; // original 75
+        private const int ThreeNeighbourTileDisconnectProbability = 10;
+        private const int NonIdealTwoNeighbourTileDisconnectProbability = 85;
 
         // Four directions: up, down, left, right
         private readonly int[] _dx = { -1, 1, 0, 0 };

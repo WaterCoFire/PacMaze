@@ -4,11 +4,27 @@ using System.Collections.Generic;
 namespace MapEditor {
     /**
      * Responsible for generating neighbour distribution matrix during random wall generation.
-     * This is a improved version of the Distribution Algorithm by Ioannidis (2016).
+     * This is an improved version of the Distribution Algorithm by Ioannidis (2016).
      *
      * The paper can be found at
      * https://pergamos.lib.uoa.gr/uoa/dl/object/1324569/file.pdf (First Accessed: 6 May 2025)
      * The algorithms are also discussed in the appendix in Assignment 1 techniques report.
+     *
+     * Based on the analysis, PacMaze maps need to have these four patterns to sure playability:
+     * --- Pattern 1 ---
+     * The outermost ring should have a fairly small number of tiles with 3 neighbours
+     * and the vast majority of tiles should have only 2 neighbours.
+     *
+     * --- Pattern 2 ---
+     * Overall, the probability of occurrence of a tile with 3 neighbours increases
+     * as its distance from the centre point decreases.
+     * 
+     * --- Pattern 3 ---
+     * A tile with 3 neighbours is more likely to be adjacent to another tile with
+     * 3 neighbours at the same time. There are only a few such tiles that appear alone.
+     *
+     * --- Pattern 4 ---
+     * Only the centre part will have 2 adjacent tiles with 4 neighbours.
      */
     public class DistributionGenerator {
         // The distributed neighbour numbers of all tiles
@@ -19,7 +35,7 @@ namespace MapEditor {
         private const int ThreeNeighbourPropagationProbability = 50;
         private const int ThreeNeighbourMaxProbability = 75;
         private const int ThreeNeighbourProbabilityDecayRate = 12;
-        
+
         private static readonly Random Random = new();
 
         /**
@@ -27,7 +43,6 @@ namespace MapEditor {
          * Called by RandomLayoutGenerator when generating a new wall layout.
          */
         public static Dictionary<(int, int), int> GenerateDistributedNeighbourNums() {
-            // return TestInitDistributedNums();
             // Initialise the distributed neighbour nums list
             _distributedNeighbourNums = new Dictionary<(int, int), int>();
             for (int x = 0; x < 11; x++) {
@@ -51,7 +66,7 @@ namespace MapEditor {
 
         /**
          * Determine the distributed neighbour numbers of outermost ring tiles.
-         * 
+         *
          * For satisfying Pattern 1:
          * The outermost ring should have a fairly small number of tiles with 3 neighbours
          * and the vast majority of tiles should have only 2 neighbours.
@@ -113,7 +128,7 @@ namespace MapEditor {
          * as its distance from the centre point decreases.
          * Pattern 3:
          * A tile with 3 neighbours is more likely to be adjacent to another tile with
-         * 3 neighbours at the same time. There are only a few such tiles that appear alone. 
+         * 3 neighbours at the same time. There are only a few such tiles that appear alone.
          */
         private static void DetermineInnerTiles() {
             for (int x = 1; x <= 9; x++) {
