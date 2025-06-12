@@ -2,6 +2,8 @@
 
 Welcome to PacMaze!
 
+![gameplay_1](https://github.com/user-attachments/assets/c2b903eb-1331-41e3-8d5d-cf8fc0f8279a)
+
 Inspired by the  _Pac-Man_ game, while retaining many classic elements, PacMaze introduces a large number of original elements:
 - 3D Gaming
 - Switching between TPV and FPV
@@ -12,6 +14,8 @@ Inspired by the  _Pac-Man_ game, while retaining many classic elements, PacMaze 
 PacMaze is developed using Unity. (Unity Editor version: 2022.3.55f1c1)
 
 This repository is a complete Unity project. If your Windows PC has the correct version of Unity Editor installed, you should be able to open the project locally.
+
+Made by WaterCoFire with love :)
 
 ## Resources Used
 
