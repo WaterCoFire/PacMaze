@@ -16,9 +16,9 @@ namespace MapEditor {
 
         /* Probabilities */
         private const int OutermostTileThreeNeighbourProbability = 10;
-        private const int ThreeNeighbourPropagationProbability = 50; // original 50
-        private const int ThreeNeighbourMaxProbability = 60; // original 75
-        private const int ThreeNeighbourProbabilityDecayRate = 8; // original 12
+        private const int ThreeNeighbourPropagationProbability = 50;
+        private const int ThreeNeighbourMaxProbability = 75;
+        private const int ThreeNeighbourProbabilityDecayRate = 12;
         
         private static readonly Random Random = new();
 
