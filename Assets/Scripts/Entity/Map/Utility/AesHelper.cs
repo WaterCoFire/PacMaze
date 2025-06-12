@@ -6,6 +6,7 @@ using System.Text;
 namespace Entity.Map.Utility {
     /**
      * Responsible for encrypting and decrypting map data.
+     * Prevents malicious players from tampering with map data!
      */
     public static class AesHelper {
         // 32-byte Key (256-bit)

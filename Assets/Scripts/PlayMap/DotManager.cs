@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PlayMap {
     /**
-     * Manages all the dots in the map.
+     * Manages all the dots during a game.
      * The player wins when all the dots are eaten by Pacboy.
      */
     public class DotManager : MonoBehaviour {

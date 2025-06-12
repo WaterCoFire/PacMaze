@@ -35,7 +35,7 @@ namespace HomePage {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("HomePage Awake");
+            Debug.Log("Hello World!");
             /* For test purpose only */
             // Played PacMaze before
             // PlayerPrefs.SetInt("PlayedBefore", 1);

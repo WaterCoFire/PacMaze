@@ -11,7 +11,8 @@ using UnityEngine;
 
 namespace PlayMap {
     /**
-     * Manages the map that the player plays in (controls the Pacboy).
+     * The central game logic controller during a game
+     * Directly manages the map, Pacboy, and other game logic scripts.
      */
     public class PlayMapController : MonoBehaviour {
         // Map data save directory

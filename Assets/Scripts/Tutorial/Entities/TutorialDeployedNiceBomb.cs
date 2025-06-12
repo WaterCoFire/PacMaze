@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Tutorial.Entities {
     /**
+     * For tutorial only
      * Deployed Nice Bomb in tutorial
      */
     public class TutorialDeployedNiceBomb : MonoBehaviour {

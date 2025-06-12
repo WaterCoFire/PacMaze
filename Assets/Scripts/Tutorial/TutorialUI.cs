@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace Tutorial {
     /**
+     * For tutorial only
      * Manages the UI in the tutorial level.
      */
     public class TutorialUI : MonoBehaviour {

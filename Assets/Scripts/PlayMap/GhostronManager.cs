@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace PlayMap {
     /**
-     * Manages all the Ghostrons in each game.
+     * Manages all the Ghostrons during a game.
      */
     public class GhostronManager : MonoBehaviour {
         // The list of all the active Ghostrons

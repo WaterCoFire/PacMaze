@@ -41,6 +41,7 @@ namespace Entity.Ghostron.State.StateImpl {
 
         /**
          * Update() event when in scared wander state.
+         * Called each frame.
          */
         public void Update(Ghostron ghostron) {
             // Update speed, as an event could just started/ended

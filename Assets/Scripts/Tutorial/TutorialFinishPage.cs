@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Tutorial {
     /**
+     * For tutorial only
      * Manages the finish page in tutorial.
      */
     public class TutorialFinishPage : MonoBehaviour {

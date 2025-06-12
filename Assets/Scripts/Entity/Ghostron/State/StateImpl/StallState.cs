@@ -39,6 +39,7 @@ namespace Entity.Ghostron.State.StateImpl {
 
         /**
          * Update() event when in stalling state.
+         * Called each frame.
          */
         public void Update(Ghostron ghostron) {
             AnimatorStateInfo stateInfo = ghostron.animator.GetCurrentAnimatorStateInfo(0);

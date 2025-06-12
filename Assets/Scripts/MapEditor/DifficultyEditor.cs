@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace MapEditor {
     /**
-     * DIFFICULTY SETTING
+     * Manages the difficulty setting mode in Map Editor.
      * Easy:
      * - Lucky Dice won't bring in any negative effect (Slow Wheel, Bad Cherry)
      *   (50% Fast Wheel, 25% Power Pellet, 25% Nice Bomb)

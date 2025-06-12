@@ -37,7 +37,7 @@ namespace Entity.Ghostron {
         }
 
         /**
-         * Update() function.
+         * Update() function, called each frame
          * Called by the Update() Unity event function in Ghostron script.
          * Calls the Update() in current state class to execute corresponding logic.
          */

@@ -3,12 +3,30 @@ using Entity.Map;
 using UnityEngine;
 
 namespace MapEditor {
+    /**
+     * Responsible for checking if the current wall layout of a map is valid or not.
+     * All PacMaze map must satisfy the following conditions:
+     *
+     * - Reachability
+     * Each tile on the map must be reachable.
+     *
+     * - Ease of Reachability
+     * The player's path from the centre of the map (i.e. tile x = 6, y = 6)
+     * to each tile must not be too long, and the shortest path length (from the centre)
+     * for all tiles should be less than or equal to 22 tiles.
+     *
+     * - No Dead Ends
+     * That is, there should not be a tile with no walls on only one side.
+     * This does not mean that all tiles should have more than two walls,
+     * given the existence of boundaries.
+     */
     public class TileChecker : MonoBehaviour {
-        // Materials
+        // Tile game objects
+        private GameObject[,] _allTileGameObjects;
+
+        // Tile materials
         public Material tileNormalMaterial;
         public Material tileErrorMaterial;
-
-        private GameObject[,] _allTileGameObjects;
 
         // Four directions: up, down, left, right
         private readonly int[] _dx = { -1, 1, 0, 0 };
@@ -29,13 +47,13 @@ namespace MapEditor {
         private void Start() {
             // By default, no invalid tiles are being displayed
             invalidTilesDisplaying = false;
-            
+
             // Initialise the tile game object arrays
             _allTileGameObjects = new GameObject[11, 11];
 
             // Find the Floor root game object
             GameObject floorRoot = GameObject.Find("Floor");
-            
+
             // Load tile game objects
             for (int column = 0; column < 11; column++) {
                 string tileColumnName = $"FloorColumn{column + 1}";

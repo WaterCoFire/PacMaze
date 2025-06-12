@@ -4,9 +4,10 @@ using UnityEngine.UI;
 
 namespace MapEditor {
     /**
-     * Event editor
-     * Sets whether the game events can be triggered
-     * A game event might be triggered everytime a dot is eaten by Pacboy
+     * Manages the event status setting mode in Map Editor.
+     * 
+     * This mode sets whether the game events can be triggered.
+     * A game event might be triggered everytime a dot is eaten by Pacboy.
      * POSSIBLE EVENTS
      * - Super Bonus (All scores awarded are doubled)
      * - Crazy Party (Pacboy and Ghostrons are way faster)

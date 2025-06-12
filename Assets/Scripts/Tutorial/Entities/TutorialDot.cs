@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Tutorial.Entities {
     /**
+     * For tutorial only
      * Dot in tutorial
      */
     public class TutorialDot : MonoBehaviour {

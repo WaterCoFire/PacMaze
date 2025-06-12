@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Tutorial.Entities {
     /**
+     * For tutorial only
      * Power Pellet in tutorial
      * Still implementing Prop abstract class, like the normal one
      */

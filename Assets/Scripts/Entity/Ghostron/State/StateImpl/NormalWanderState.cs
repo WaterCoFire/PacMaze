@@ -43,6 +43,7 @@ namespace Entity.Ghostron.State.StateImpl {
 
         /**
          * Update() event when in normal wander state.
+         * Called each frame.
          */
         public void Update(Ghostron ghostron) {
             // Get the animator state info

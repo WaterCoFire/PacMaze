@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Tutorial.Entities {
     /**
+     * For tutorial only
      * Fast Wheel in tutorial
      * Still implementing Prop abstract class, like the normal one
      */

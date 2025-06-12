@@ -16,7 +16,7 @@ namespace Entity.Pacboy {
         // Pacboy's normal speed
         private float _pacboyNormalMoveSpeed = 5.0f;
 
-        // Key code for moving (WASD by default, it can be customized in Setting)
+        // Key code for moving (WASD by default, it can be customised in Setting)
         private KeyCode _forwardKeyCode;
         private KeyCode _backwardKeyCode;
         private KeyCode _leftwardKeyCode;

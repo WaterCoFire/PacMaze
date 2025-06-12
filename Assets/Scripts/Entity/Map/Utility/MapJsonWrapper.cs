@@ -10,10 +10,14 @@ namespace Entity.Map.Utility {
      */
     [Serializable]
     public class MapJsonWrapper {
+        /* All serializable fields */
+        // Map name, difficulty, random event status
         public string name;
         public DifficultyType difficulty;
         public bool eventEnabled;
 
+        // Prop data
+        // Dictionary data structure is not serializable - therefore Lists are used here
         public List<Vector3> propPositions;
         public List<PropType> propTypes;
         public List<PropType> fixedPropKeys;
@@ -21,9 +25,12 @@ namespace Entity.Map.Utility {
         public List<PropType> totalPropKeys;
         public List<int> totalPropValues;
 
+        // Wall data
+        // 2-dimensional array data structure is also not serializable - therefore Lists are also used here
         public List<bool> horizontalWallStatus;
         public List<bool> verticalWallStatus;
 
+        // Map high score
         public int highScore;
 
         public MapJsonWrapper() { }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Tutorial.Entities.TutorialPacboy {
     /**
+     * For tutorial only
      * Manages the movement of Pacboy in tutorial.
      */
     public class TutorialPacboyMovement : MonoBehaviour {

@@ -6,6 +6,10 @@ using Tutorial.Entities.TutorialPacboy;
 using UnityEngine;
 
 namespace Tutorial {
+    /**
+     * For tutorial only
+     * Controls the tutorial game logic
+     */
     public class TutorialController : MonoBehaviour {
         // Checkpoints (Display corresponding tips when Pacboy is close to one)
         public List<GameObject> checkpoints; // All the checkpoints

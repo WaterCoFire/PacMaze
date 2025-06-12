@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Tutorial.Entities {
     /**
+     * For tutorial only
      * Nice Bomb in tutorial
      * Still implementing Prop abstract class, like the normal one
      */

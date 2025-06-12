@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace MapEditor {
     /**
-     * Used for prop editing mode in Map Editor.
+     * Manages the prop editing mode in Map Editor.
      *
      * Props that can be edited:
      * - Power Pellet

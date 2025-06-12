@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 
 namespace HomePage {
     /**
-     * Manages the "Play" page.
+     * Manages the Play Maps page.
      */
     public class PlayMapPage : MonoBehaviour {
         public ScrollRect playMapScrollRect;

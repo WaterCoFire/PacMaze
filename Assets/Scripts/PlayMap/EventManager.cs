@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 namespace PlayMap {
     /**
      * Event Manager
+     * Manages randoms events during a game.
+     * 
      * In PacMaze there could be three types of events:
      * - Super Bonus (All scores awarded are doubled)
      * - Crazy Party (Pacboy and Ghostrons are way faster)

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace MapEditor {
     /**
-     * Manages the wall editor.
+     * Manages the wall editing mode in Map Editor.
      */
     public class WallEditor : MonoBehaviour {
         private MeshRenderer _previousMeshRenderer;

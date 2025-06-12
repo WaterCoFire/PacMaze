@@ -29,6 +29,7 @@ namespace Entity.Ghostron.State.StateImpl {
 
         /**
          * Update() event when in chase state.
+         * Called each frame.
          */
         public void Update(Ghostron ghostron) {
             // Update speed, as an event could just start/end

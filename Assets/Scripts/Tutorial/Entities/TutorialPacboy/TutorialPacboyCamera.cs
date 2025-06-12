@@ -2,6 +2,7 @@
 
 namespace Tutorial.Entities.TutorialPacboy {
     /**
+     * For tutorial only
      * Manages the camera of Pacboy in tutorial.
      */
     public class TutorialPacboyCamera : MonoBehaviour {

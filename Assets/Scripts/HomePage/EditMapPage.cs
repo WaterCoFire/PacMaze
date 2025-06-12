@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace HomePage {
     /**
-     * Manages the "Edit Maps" page.
+     * Manages the Edit Maps page.
      */
     public class EditMapPage : MonoBehaviour {
         public ScrollRect editMapScrollRect;

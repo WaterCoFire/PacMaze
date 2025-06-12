@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace MapEditor {
     /**
-     * Manages the help page in Map Editor
+     * Manages the help page in Map Editor.
      * Automatically displays when it is the first time player uses Map Editor
      * Also displays when the player clicks the Help Button in Map Editor
      */

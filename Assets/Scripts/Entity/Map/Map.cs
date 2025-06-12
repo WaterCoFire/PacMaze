@@ -1,4 +1,14 @@
 ﻿namespace Entity.Map {
+    /**
+     * Map class
+     * Information stored:
+     * - Name
+     * - Difficulty
+     * - Random event status
+     * - Data about props
+     * - Data about walls
+     * - High score
+     */
     public class Map {
         // Basic information
         public readonly string Name;

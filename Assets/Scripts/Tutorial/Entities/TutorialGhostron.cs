@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 namespace Tutorial.Entities {
     /**
+     * For tutorial only
      * Ghostron in tutorial
      * Note: Not using FSM mechanism as Ghostrons in tutorial have much easier behaviours
      */
