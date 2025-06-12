@@ -338,6 +338,7 @@ namespace PlayMap {
         /**
          * Sets the status of Air Wall.
          * Called by EventManager when the Air Wall should be on/off.
+         * This code was written with the help of ChatGPT
          */
         public void SetAirWall(bool on) {
             if (on) {

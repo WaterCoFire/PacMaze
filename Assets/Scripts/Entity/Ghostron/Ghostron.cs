@@ -176,6 +176,7 @@ namespace Entity.Ghostron {
 
         /**
          * Change the "skin" of the Ghostron to purple (scared).
+         * This code was written with the help of ChatGPT
          */
         public void SetScaredMaterial() {
             // Check if both materials are properly set
@@ -210,6 +211,7 @@ namespace Entity.Ghostron {
 
         /**
          * Change the "skin" of the Ghostron back to the original one.
+         * This code was written with the help of ChatGPT
          */
         public void SetOriginalMaterial() {
             // Check if both materials are properly set

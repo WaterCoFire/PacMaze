@@ -93,6 +93,7 @@ namespace HomePage {
         
         /**
          * Checks if the name input is valid or not.
+         * This code was written with the help of ChatGPT
          */
         private bool CheckNameValidity(string nameInput) {
             // Check name length: too long

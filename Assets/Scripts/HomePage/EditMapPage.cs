@@ -265,6 +265,7 @@ namespace HomePage {
         /**
          * Creates a new map.
          * Called by the confirm button in create window.
+         * This code was written with the help of ChatGPT
          */
         public void CreateMap(string newMapName) {
             // Create new map file

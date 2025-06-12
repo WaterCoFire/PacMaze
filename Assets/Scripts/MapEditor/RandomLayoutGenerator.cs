@@ -477,6 +477,7 @@ namespace MapEditor {
 
         /**
          * A BFS scheme for map connectivity check.
+         * This code was written with the help of ChatGPT
          */
         private bool Flood() {
             // Creating an 11x11 array of access states

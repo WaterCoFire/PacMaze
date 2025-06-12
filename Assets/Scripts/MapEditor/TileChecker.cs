@@ -66,6 +66,7 @@ namespace MapEditor {
          * Returns:
          * The list of all invalid tiles.
          * If all tiles are valid, the list is null.
+         * This code was written with the help of ChatGPT
          */
         public bool CheckTileLegality(WallData wallData) {
             // Creating a 11x11 array of access states

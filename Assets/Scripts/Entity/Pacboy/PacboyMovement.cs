@@ -94,6 +94,7 @@ namespace Entity.Pacboy {
          * Handles player movement with wall collision detection and sliding logic.
          * Prevents moving into walls while allowing smooth sliding along them.
          * In TPV, also rotates Pacboy to face the movement direction.
+         * This code was written with the help of ChatGPT
          */
         private void Move() {
             float h = 0f, v = 0f;
@@ -186,6 +187,8 @@ namespace Entity.Pacboy {
          * halfExtents - Half dimensions of the player's collider (shrunk slightly)
          * distance - Distance Pacboy wants to move in this frame
          * wallHit - The original wall hit data, used to calculate angles
+         * 
+         * This code was written with the help of ChatGPT
          */
         private bool IsDangerousSlide(Vector3 origin, Vector3 direction, Vector3 halfExtents, float distance,
             RaycastHit wallHit) {
