@@ -51,7 +51,6 @@ namespace Tutorial.Entities.TutorialPacboy {
             _camera.transform.localPosition = _currentOffset;
             _pacboyMovement.SetViewMode(true);
 
-            _controllable = true;
             _inThirdPersonView = true;
 
             // By default, the map is not displayed
@@ -59,6 +58,8 @@ namespace Tutorial.Entities.TutorialPacboy {
             _mapPanel.SetActive(false);
 
             _yaw = transform.eulerAngles.y;
+            
+            EnableCameraOperation(); // Enable Pacboy camera operation when tutorial starts
         }
 
         // Late Update - Unity event

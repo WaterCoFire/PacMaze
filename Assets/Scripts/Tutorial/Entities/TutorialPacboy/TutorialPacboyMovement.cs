@@ -40,16 +40,13 @@ namespace Tutorial.Entities.TutorialPacboy {
 
         // START FUNCTION
         private void Start() {
-            Cursor.lockState = CursorLockMode.Locked; // Lock mouse
-            Cursor.visible = false;
-
             // Get slightly reduced box size for collision tolerance
             _boxHalfExtents = GetComponent<BoxCollider>().bounds.extents * 0.9f;
 
             // Set to normal speed
             _pacboyMoveSpeed = _pacboyNormalMoveSpeed;
 
-            _controllable = true;
+            EnableMovement(); // Enable Pacboy movement when tutorial starts
         }
 
 

@@ -51,16 +51,10 @@ namespace Entity.Pacboy {
             _camera = gameObject.GetComponentInChildren<Camera>();
             _pacboyMovement = gameObject.GetComponent<PacboyMovement>();
 
-            // Get the keycode set for look back & switch view operations
-            _turnBackKeyCode = GetKeyCode("TurnBackKeyCode", KeyCode.Q);
-            _switchViewKeyCode = GetKeyCode("SwitchViewKeyCode", KeyCode.V);
-            _openMapKeyCode = GetKeyCode("OpenMapKeyCode", KeyCode.M);
-
             _currentOffset = _thirdPersonOffset;
             _camera.transform.localPosition = _currentOffset;
             _pacboyMovement.SetViewMode(true);
 
-            _controllable = true;
             _inThirdPersonView = true;
             
             // By default, the map is not displayed
@@ -68,6 +62,8 @@ namespace Entity.Pacboy {
             _mapPanel.SetActive(false);
 
             _yaw = transform.eulerAngles.y;
+            
+            EnableCameraOperation(); // Enable Pacboy camera operation when game starts
         }
 
         // Each Frame

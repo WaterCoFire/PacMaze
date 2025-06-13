@@ -25,7 +25,8 @@ namespace Tutorial.Entities.TutorialPacboy {
         private void Start() {
             // Initialisation
             _niceBombs = 0;
-            _controllable = true;
+            
+            EnablePropOperation(); // Enable Pacboy prop operation when tutorial starts
         }
 
         // UPDATE FUNCTION

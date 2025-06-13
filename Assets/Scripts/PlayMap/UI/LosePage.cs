@@ -27,7 +27,7 @@ namespace PlayMap.UI {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
             
-            // Back to play map view
+            // Back to Play Maps page
             SceneManager.LoadScene("HomePage");
             
             // Close this page

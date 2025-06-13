@@ -69,7 +69,7 @@ namespace PlayMap.UI {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
             
-            // Quit the game
+            // Quit the game, back to Play Map page
             SceneManager.LoadScene("HomePage");
         }
     }

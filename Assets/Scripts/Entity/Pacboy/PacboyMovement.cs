@@ -23,7 +23,7 @@ namespace Entity.Pacboy {
         private KeyCode _rightwardKeyCode;
 
         // Whether the Pacboy is controllable
-        // Should be false: when e.g. game paused, game ended
+        // Should be false: when e.g., game paused, game ended
         private bool _controllable;
 
         // Whether the player is in Third Person View
@@ -45,15 +45,6 @@ namespace Entity.Pacboy {
 
         // START FUNCTION
         private void Start() {
-            // Get the keycode set for moving operations
-            _forwardKeyCode = GetKeyCode("ForwardKeyCode", KeyCode.W);
-            _backwardKeyCode = GetKeyCode("BackwardKeyCode", KeyCode.S);
-            _leftwardKeyCode = GetKeyCode("LeftwardKeyCode", KeyCode.A);
-            _rightwardKeyCode = GetKeyCode("RightwardKeyCode", KeyCode.D);
-
-            Cursor.lockState = CursorLockMode.Locked; // Lock mouse
-            Cursor.visible = false;
-
             // Get slightly reduced box size for collision tolerance
             _boxHalfExtents = GetComponent<BoxCollider>().bounds.extents * 0.9f;
 
@@ -61,7 +52,8 @@ namespace Entity.Pacboy {
             _pacboyMoveSpeed = _pacboyNormalMoveSpeed;
 
             _crazyParty = false; // No Crazy Party event by default
-            _controllable = true;
+            
+            EnableMovement(); // Enable Pacboy movement when game starts
         }
 
 

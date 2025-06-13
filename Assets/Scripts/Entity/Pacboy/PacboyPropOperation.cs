@@ -33,10 +33,9 @@ namespace Entity.Pacboy {
         private void Start() {
             // Initialisation
             _niceBombs = 0;
-            _controllable = true;
             _cooldownTimer = 0f;
             
-            UpdateKeyCodes(); // Update key binding information
+            EnablePropOperation(); // Enable Pacboy prop operation when game starts
         }
 
         // UPDATE FUNCTION
