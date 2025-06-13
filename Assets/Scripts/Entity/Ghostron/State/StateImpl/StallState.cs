@@ -8,8 +8,8 @@ namespace Entity.Ghostron.State.StateImpl {
      */
     public class StallState : IGhostronState {
         // Normal animation speed of Ghostron
-        // Ghostron will display closing/opening animation at this speed
-        private readonly float _normalAnimationSpeed = 0.6f;
+        // It will display closing/opening animation at this speed
+        private const float NormalAnimationSpeed = 0.6f;
 
         private bool _closed; // Ghostron has totally stalled, ready to re-open
 
@@ -26,7 +26,7 @@ namespace Entity.Ghostron.State.StateImpl {
 
             // Corresponding animation
             // Ghostron "closes" itself
-            ghostron.animator.speed = _normalAnimationSpeed;
+            ghostron.animator.speed = NormalAnimationSpeed;
             ghostron.animator.SetBool("Open_Anim", false);
             ghostron.animator.SetBool("Walk_Anim", false);
 

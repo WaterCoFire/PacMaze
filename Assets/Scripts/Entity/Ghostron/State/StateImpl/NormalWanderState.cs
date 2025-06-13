@@ -5,16 +5,16 @@ namespace Entity.Ghostron.State.StateImpl {
      * Ghostron State - Normal wander state.
      */
     public class NormalWanderState : IGhostronState {
-        private Vector3 _wanderTarget;
-        public float WanderInterval;
-        public float NormalWanderSpeed;
-        public float DetectionRadius;
-        public float MinimumWanderDuration; // The Ghostron must wander for at least this time for every wander
+        private Vector3 _wanderTarget; // Wander destination
+        private float _wanderInterval;
+        private float _normalWanderSpeed;
+        private float _detectionRadius;
+        private float _minimumWanderDuration; // The Ghostron must wander for at least this time for every wander
         private float _timer;
-        private bool _chaseAllowed;
+        private bool _chaseAllowed; // Currently, chasing can be started or not
         
         // Animation speed when the Ghostron is in normal wander state
-        private readonly float _normalAnimationSpeed = 0.6f;
+        private const float NormalAnimationSpeed = 0.6f;
 
         /**
          * Action when entering normal wander state.
@@ -24,18 +24,18 @@ namespace Entity.Ghostron.State.StateImpl {
             
             // Set params
             ghostron.isScared = false;
-            WanderInterval = ghostron.WanderInterval;
-            NormalWanderSpeed = ghostron.normalWanderSpeed;
-            DetectionRadius = ghostron.detectionRadius;
-            MinimumWanderDuration = ghostron.MinimumWanderDuration;
+            _wanderInterval = ghostron.WanderInterval;
+            _normalWanderSpeed = ghostron.normalWanderSpeed;
+            _detectionRadius = ghostron.detectionRadius;
+            _minimumWanderDuration = ghostron.MinimumWanderDuration;
             _chaseAllowed = false;
             
             // Set normal material
             ghostron.SetOriginalMaterial();
 
             // Set Ghostron animator and agent speed
-            ghostron.animator.speed = _normalAnimationSpeed;
-            ghostron.agent.speed = NormalWanderSpeed;
+            ghostron.animator.speed = NormalAnimationSpeed;
+            ghostron.agent.speed = _normalWanderSpeed;
             
             // Set a new wandering destination
             _wanderTarget = ghostron.GenerateWanderingTarget();
@@ -54,8 +54,8 @@ namespace Entity.Ghostron.State.StateImpl {
             if (!stateInfo.IsName("anim_Walk_Loop")) return;
             
             // Update speed, as an event could just started/ended
-            NormalWanderSpeed = ghostron.normalWanderSpeed;
-            ghostron.agent.speed = NormalWanderSpeed;
+            _normalWanderSpeed = ghostron.normalWanderSpeed;
+            ghostron.agent.speed = _normalWanderSpeed;
             
             // Move the Ghostron towards its wandering target
             ghostron.MoveTo(_wanderTarget);
@@ -65,7 +65,7 @@ namespace Entity.Ghostron.State.StateImpl {
 
             // Check if the Ghostron should enter chase state (to start chasing)
             // Only chases Pacboy if the Ghostron is close enough & has reached minimum chasing duration (judged by _chaseAllowed)
-            if (distance <= DetectionRadius && _chaseAllowed) {
+            if (distance <= _detectionRadius && _chaseAllowed) {
                 // Enter chase state
                 ghostron.StateMachine.ChangeState(new ChaseState());
                 return;
@@ -75,14 +75,14 @@ namespace Entity.Ghostron.State.StateImpl {
             _timer += Time.deltaTime;
             
             // If the timer reaches the minimum limit, allow chasing to happen
-            if (_timer > MinimumWanderDuration) {
+            if (_timer > _minimumWanderDuration) {
                 _chaseAllowed = true;
             }
             
             // Re-select a wandering target if:
             // - The Ghostron already reaches its reaching destination
             // - Wandering interval time reached
-            if (!ghostron.agent.hasPath || ghostron.agent.remainingDistance < 0.5f || _timer >= WanderInterval) {
+            if (!ghostron.agent.hasPath || ghostron.agent.remainingDistance < 0.5f || _timer >= _wanderInterval) {
                 // Set a new wandering destination
                 _wanderTarget = ghostron.GenerateWanderingTarget();
                 ghostron.MoveTo(_wanderTarget);

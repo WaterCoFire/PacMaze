@@ -5,12 +5,12 @@ namespace Entity.Ghostron.State.StateImpl {
      * Ghostron State - Chase state.
      */
     public class ChaseState : IGhostronState {
-        public float ChaseSpeed;
-        public float MaximalChaseDuration; // When the chasing Ghostron hits this time, it should begin wandering
+        private float _chaseSpeed;
+        private float _maximalChaseDuration; // When the chasing Ghostron hits this time, it should begin wandering
         private float _timer;
 
         // Animation speed when the Ghostron is in chase state
-        private readonly float _chaseAnimationSpeed = 1f;
+        private const float ChaseAnimationSpeed = 1f;
 
         /**
          * Action when entering chase state.
@@ -19,12 +19,12 @@ namespace Entity.Ghostron.State.StateImpl {
             _timer = 0f; // Reset timer
 
             // Set params
-            MaximalChaseDuration = ghostron.MaximalChaseDuration;
-            ChaseSpeed = ghostron.chaseSpeed;
+            _maximalChaseDuration = ghostron.MaximalChaseDuration;
+            _chaseSpeed = ghostron.chaseSpeed;
 
             // Set Ghostron animator and agent speed
-            ghostron.animator.speed = _chaseAnimationSpeed;
-            ghostron.agent.speed = ChaseSpeed;
+            ghostron.animator.speed = ChaseAnimationSpeed;
+            ghostron.agent.speed = _chaseSpeed;
         }
 
         /**
@@ -33,8 +33,8 @@ namespace Entity.Ghostron.State.StateImpl {
          */
         public void Update(Ghostron ghostron) {
             // Update speed, as an event could just start/end
-            ChaseSpeed = ghostron.chaseSpeed;
-            ghostron.agent.speed = ChaseSpeed;
+            _chaseSpeed = ghostron.chaseSpeed;
+            ghostron.agent.speed = _chaseSpeed;
             
             // Set the chase target (real time position of the Pacboy)
             ghostron.MoveTo(ghostron.pacboy.transform.position);
@@ -44,7 +44,7 @@ namespace Entity.Ghostron.State.StateImpl {
             
             // If chasing time reaches the maximum chasing duration
             // Stop the chase and enter normal wander state
-            if (_timer >= MaximalChaseDuration) {
+            if (_timer >= _maximalChaseDuration) {
                 // Enter normal wander state
                 ghostron.StateMachine.ChangeState(new NormalWanderState());
             }
