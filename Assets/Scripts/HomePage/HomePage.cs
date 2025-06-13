@@ -173,7 +173,7 @@ namespace HomePage {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
-            // Update played status
+            // Update "Played before" status
             PlayerPrefs.SetInt("PlayedBefore", 1);
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 1);
@@ -190,7 +190,7 @@ namespace HomePage {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
-            // Update played status
+            // Update "Played before" status
             PlayerPrefs.SetInt("PlayedBefore", 1);
             // Set the UI location information
             PlayerPrefs.SetInt("MainPageAt", 1);

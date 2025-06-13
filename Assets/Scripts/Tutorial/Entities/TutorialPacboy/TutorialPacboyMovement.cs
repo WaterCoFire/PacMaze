@@ -9,10 +9,10 @@ namespace Tutorial.Entities.TutorialPacboy {
     public class TutorialPacboyMovement : MonoBehaviour {
         // Move speed and rotate speed
         private float _pacboyMoveSpeed;
-        private readonly float _pacboyRotateSpeed = 5.0f;
+        private const float PacboyRotateSpeed = 5.0f;
 
         // Pacboy's normal speed
-        private float _pacboyNormalMoveSpeed = 5.0f;
+        private const float PacboyNormalMoveSpeed = 5.0f;
 
         // Key code for moving (WASD by default, not changeable in tutorial)
         private const KeyCode ForwardKeyCode = KeyCode.W;
@@ -44,7 +44,7 @@ namespace Tutorial.Entities.TutorialPacboy {
             _boxHalfExtents = GetComponent<BoxCollider>().bounds.extents * 0.9f;
 
             // Set to normal speed
-            _pacboyMoveSpeed = _pacboyNormalMoveSpeed;
+            _pacboyMoveSpeed = PacboyNormalMoveSpeed;
 
             EnableMovement(); // Enable Pacboy movement when tutorial starts
         }
@@ -64,7 +64,7 @@ namespace Tutorial.Entities.TutorialPacboy {
                 if (_speedBuffTimer >= _speedBuffDuration) {
                     // Buff time is over
                     // Set the speed back to normal speed
-                    _pacboyMoveSpeed = _pacboyNormalMoveSpeed;
+                    _pacboyMoveSpeed = PacboyNormalMoveSpeed;
 
                     // Reset timer and status
                     _speedBuffTimer = 0f;
@@ -152,7 +152,7 @@ namespace Tutorial.Entities.TutorialPacboy {
                 if (moveDir.sqrMagnitude > 0.01f) {
                     Quaternion targetRotation = Quaternion.LookRotation(moveDir, Vector3.up);
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
-                        _pacboyRotateSpeed * Time.deltaTime);
+                        PacboyRotateSpeed * Time.deltaTime);
                 }
             }
         }

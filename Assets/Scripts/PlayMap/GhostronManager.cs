@@ -14,20 +14,20 @@ namespace PlayMap {
         private readonly List<GameObject> _ghostrons = new();
 
         // Normal wandering speed of Ghostrons
-        private readonly float _ghostronNormalSpeed = 2.0f;
+        private const float GhostronNormalSpeed = 2.0f;
 
         // Scared speed of Ghostrons (when Pacboy eats a power pellet)
-        private readonly float _ghostronScaredSpeed = 1.0f;
+        private const float GhostronScaredSpeed = 1.0f;
 
         // Chasing speeds of Ghostrons, by difficulty
-        private readonly float _ghostronEasyChaseSpeed = 3.2f;
-        private readonly float _ghostronNormalChaseSpeed = 4.5f;
-        private readonly float _ghostronHardChaseSpeed = 6f;
+        private const float GhostronEasyChaseSpeed = 3.2f;
+        private const float GhostronNormalChaseSpeed = 4.5f;
+        private const float GhostronHardChaseSpeed = 6f;
 
         // Detection radius of Ghostrons, by difficulty
-        private readonly float _ghostronEasyDetectionRadius = 10.0f;
-        private readonly float _ghostronNormalDetectionRadius = 20.0f;
-        private readonly float _ghostronHardDetectionRadius = 25.0f;
+        private const float GhostronEasyDetectionRadius = 10.0f;
+        private const float GhostronNormalDetectionRadius = 20.0f;
+        private const float GhostronHardDetectionRadius = 25.0f;
 
         // Difficulty of the current game
         private DifficultyType _difficulty;
@@ -66,21 +66,21 @@ namespace PlayMap {
             switch (_difficulty) {
                 case DifficultyType.Easy:
                     // EASY
-                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
-                        _ghostronEasyChaseSpeed,
-                        _ghostronEasyDetectionRadius);
+                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(GhostronNormalSpeed, GhostronScaredSpeed,
+                        GhostronEasyChaseSpeed,
+                        GhostronEasyDetectionRadius);
                     break;
                 case DifficultyType.Normal:
                     // NORMAL
-                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
-                        _ghostronNormalChaseSpeed,
-                        _ghostronNormalDetectionRadius);
+                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(GhostronNormalSpeed, GhostronScaredSpeed,
+                        GhostronNormalChaseSpeed,
+                        GhostronNormalDetectionRadius);
                     break;
                 case DifficultyType.Hard:
                     // HARD
-                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(_ghostronNormalSpeed, _ghostronScaredSpeed,
-                        _ghostronHardChaseSpeed,
-                        _ghostronHardDetectionRadius);
+                    newGhostron.GetComponent<Ghostron>().SetGhostronParams(GhostronNormalSpeed, GhostronScaredSpeed,
+                        GhostronHardChaseSpeed,
+                        GhostronHardDetectionRadius);
                     break;
                 default:
                     // INVALID DIFFICULTY - PROMPT ERROR

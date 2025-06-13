@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using Sound;
 using Tutorial.Entities;
 using Tutorial.Entities.TutorialPacboy;

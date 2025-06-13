@@ -58,8 +58,8 @@ namespace PlayMap.UI {
             // Text update
             string winPrompt =
                 $"Pacboy has successfully eaten all the dots in {finalTime}.\n\n" +
-                $"The maze is clean, your appetite is legendary, and the Ghostrons are off filing emotional damage claims." +
-                $"\n\nYour game score: {gameScore}\n";
+                "The maze is clean, your appetite is legendary, and the Ghostrons are off filing emotional damage claims.\n\n" +
+                $"Your game score: {gameScore}\n";
             
             // Display/Hide new high score prompt
             newHighScorePrompt.SetActive(newHighScore);

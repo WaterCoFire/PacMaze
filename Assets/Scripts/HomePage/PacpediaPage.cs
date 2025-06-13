@@ -174,7 +174,7 @@ namespace HomePage {
             
             // Go to tutorial
             pacpediaPage.SetActive(false);
-            // Update played status
+            // Update "Played before" status
             PlayerPrefs.SetInt("PlayedBefore", 1);
             // Load tutorial scene
             SceneManager.LoadScene("TutorialMap");

@@ -30,7 +30,7 @@ namespace MapEditor {
         // The distributed neighbour numbers of all tiles
         private static Dictionary<(int, int), int> _distributedNeighbourNums;
 
-        /* Probabilities */
+        /* Probability Parameters */
         private const int OutermostTileThreeNeighbourProbability = 10;
         private const int ThreeNeighbourPropagationProbability = 50;
         private const int ThreeNeighbourMaxProbability = 75;

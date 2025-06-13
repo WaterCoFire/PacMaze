@@ -2,6 +2,7 @@
 using Sound;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace HomePage {
@@ -9,7 +10,8 @@ namespace HomePage {
      * Manages the "Rename Map" name setting window.
      */
     public class EditMapRenameWindow : MonoBehaviour {
-        public GameObject editMapViewWindow;
+        // The Edit Maps page
+        public GameObject editMapPage;
 
         // Rename map window UI elements
         public GameObject renameWindow;
@@ -38,7 +40,7 @@ namespace HomePage {
          * Initialises and displays the rename map window.
          */
         public void ShowRenameWindow(string originName) {
-            editMapViewWindow.SetActive(false);
+            editMapPage.SetActive(false);
             renameWindow.SetActive(true);
             renameWarningPrompt.SetActive(false);
 
@@ -51,16 +53,16 @@ namespace HomePage {
         private void OnRenameConfirmButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Get the name
             string newNameInput = renameInputField.text;
-            
+
             // Check name validity
             if (!CheckNameValidity(newNameInput)) {
                 // If the name is invalid
                 // Play warning sound
                 SoundManager.Instance.PlaySoundOnce(SoundType.Warning);
-                
+
                 // Display warning prompt
                 renameWarningPrompt.SetActive(true);
                 return;
@@ -69,21 +71,21 @@ namespace HomePage {
             // Transform to upper letters
             newNameInput = newNameInput.ToUpper();
 
-            editMapViewWindow.GetComponent<EditMapPage>().RenameMap(newNameInput);
+            editMapPage.GetComponent<EditMapPage>().RenameMap(newNameInput);
 
             // Close rename window
             renameWindow.SetActive(false);
             renameWarningPrompt.SetActive(false);
 
             // Enable the map view window
-            editMapViewWindow.SetActive(true);
+            editMapPage.SetActive(true);
         }
 
         // Close button
         private void OnRenameCloseButtonClick() {
             // Play click sound
             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
-            
+
             // Disable the warning prompt
             renameWarningPrompt.SetActive(false);
 
@@ -91,7 +93,7 @@ namespace HomePage {
             renameWindow.SetActive(false);
 
             // Enable the map view window
-            editMapViewWindow.SetActive(true);
+            editMapPage.SetActive(true);
         }
 
         /**
@@ -104,7 +106,7 @@ namespace HomePage {
                 warningText.text = "Pacboy feels pressure because that's too long!";
                 return false;
             }
-            
+
             // Check name length: too short
             if (nameInput.Length < 1) {
                 warningText.text = "Pacboy feels empty, just like this name!";
@@ -122,7 +124,7 @@ namespace HomePage {
                 warningText.text = "Pacboy is scared because it sees some unusual characters!";
                 return false;
             }
-            
+
             // Name does not change at all
             if (nameInput == _originName) {
                 warningText.text = "Pacboy is sad because nothing has changed at all!";
@@ -130,7 +132,7 @@ namespace HomePage {
             }
 
             // Name conflict
-            if (editMapViewWindow.GetComponent<EditMapPage>().CheckNameConflict(nameInput.ToUpper())) {
+            if (editMapPage.GetComponent<EditMapPage>().CheckNameConflict(nameInput.ToUpper())) {
                 warningText.text = "Pacboy is confused because there is another map named this!";
                 return false;
             }

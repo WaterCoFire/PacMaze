@@ -15,8 +15,9 @@ namespace HomePage {
      * Manages the Edit Maps page.
      */
     public class EditMapPage : MonoBehaviour {
+        // Scroll Rect for displaying all map infos
         public ScrollRect editMapScrollRect;
-        public GameObject mapInfoPrefab;
+        public GameObject mapInfoPrefab; // Prefab for each map info
 
         // Buttons at the top
         public Button backButton;

@@ -14,8 +14,9 @@ namespace HomePage {
      * Manages the Play Maps page.
      */
     public class PlayMapPage : MonoBehaviour {
+        // Scroll Rect for displaying all map infos
         public ScrollRect playMapScrollRect;
-        public GameObject mapInfoPrefab;
+        public GameObject mapInfoPrefab; // Prefab for each map info
 
         // Buttons at the top
         public Button backButton;

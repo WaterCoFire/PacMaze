@@ -33,7 +33,7 @@ namespace MapEditor {
 
         private readonly Random _random = new();
 
-        /* Probabilities */
+        /* Probability Parameters */
         private const int ThreeNeighbourTileDisconnectProbability = 10;
         private const int NonIdealTwoNeighbourTileDisconnectProbability = 85;
 

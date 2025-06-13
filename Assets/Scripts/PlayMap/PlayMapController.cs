@@ -48,7 +48,7 @@ namespace PlayMap {
         }
 
         /**
-         * THE START FUNCTION
+         * START FUNCTION
          * Get the file name of the map to be played
          * and call InitMap() to initialise the map
          */

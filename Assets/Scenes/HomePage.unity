@@ -20165,7 +20165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db49733db98743bb83c7ee899d0ed9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editMapViewWindow: {fileID: 1622098650}
+  editMapPage: {fileID: 1622098650}
   renameWindow: {fileID: 1209083750}
   renameInputField: {fileID: 393734526}
   renameWarningPrompt: {fileID: 660374742}
@@ -20184,7 +20184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d340ca2a205248609ea1c77c5b461745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  editMapViewWindow: {fileID: 1622098650}
+  editMapPage: {fileID: 1622098650}
   createWindow: {fileID: 1103224689}
   createInputField: {fileID: 1413247517}
   createWarningPrompt: {fileID: 859709763}

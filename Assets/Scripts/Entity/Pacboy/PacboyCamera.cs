@@ -55,7 +55,7 @@ namespace Entity.Pacboy {
             _camera.transform.localPosition = _currentOffset;
             _pacboyMovement.SetViewMode(true);
 
-            _inThirdPersonView = true;
+            _inThirdPersonView = true; // TPV by default
             
             // By default, the map is not displayed
             _mapPanel = GameObject.Find("MapPanel");

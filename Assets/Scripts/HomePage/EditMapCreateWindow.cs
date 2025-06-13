@@ -9,7 +9,8 @@ namespace HomePage {
      * Manages the "Create Map" name setting window.
      */
     public class EditMapCreateWindow : MonoBehaviour {
-        public GameObject editMapViewWindow;
+        // The Edit Maps page
+        public GameObject editMapPage;
 
         // Create map window UI elements
         public GameObject createWindow;
@@ -36,7 +37,7 @@ namespace HomePage {
          * Initialises and displays the create map window.
          */
         public void ShowCreateWindow() {
-            editMapViewWindow.SetActive(false);
+            editMapPage.SetActive(false);
             createWindow.SetActive(true);
             createWarningPrompt.SetActive(false);
 
@@ -66,14 +67,14 @@ namespace HomePage {
             // Transform to upper letters
             newNameInput = newNameInput.ToUpper();
             
-            editMapViewWindow.GetComponent<EditMapPage>().CreateMap(newNameInput);
+            editMapPage.GetComponent<EditMapPage>().CreateMap(newNameInput);
             
             // Close create window
             createWindow.SetActive(false);
             createWarningPrompt.SetActive(false);
             
             // Enable the map view window
-            editMapViewWindow.SetActive(true);
+            editMapPage.SetActive(true);
         }
 
         // Close button
@@ -88,7 +89,7 @@ namespace HomePage {
             createWindow.SetActive(false);
 
             // Enable the map view window
-            editMapViewWindow.SetActive(true);
+            editMapPage.SetActive(true);
         }
         
         /**
@@ -121,7 +122,7 @@ namespace HomePage {
             }
             
             // Name conflict
-            if (editMapViewWindow.GetComponent<EditMapPage>().CheckNameConflict(nameInput.ToUpper())) {
+            if (editMapPage.GetComponent<EditMapPage>().CheckNameConflict(nameInput.ToUpper())) {
                 warningText.text = "Pacboy is confused because there is another map named this!";
                 return false;
             }

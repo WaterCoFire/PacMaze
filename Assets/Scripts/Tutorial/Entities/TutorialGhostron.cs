@@ -151,7 +151,7 @@ namespace Tutorial.Entities {
         /**
          * Change the "skin" of the Ghostron back to the original one.
          */
-        public void SetOriginalMaterial() {
+        private void SetOriginalMaterial() {
             // Check if both materials are properly set
             if (scaredMaterial == null || originalMaterial == null) {
                 Debug.LogError("Error: Original/Scared material not properly set!");
