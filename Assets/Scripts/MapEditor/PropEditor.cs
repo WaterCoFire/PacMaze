@@ -202,8 +202,6 @@ namespace MapEditor {
 
                     // Update the last selected tile
                     _lastSelectedTile = currentTile;
-
-                    Debug.Log($"Tile Selected: {_selectedTileVector3}");
                 }
 
                 // UI update:

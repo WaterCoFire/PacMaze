@@ -174,6 +174,7 @@ namespace Entity.Pacboy {
             // Update KeyCode
             _turnBackKeyCode = GetKeyCode("TurnBackKeyCode", KeyCode.Q);
             _switchViewKeyCode = GetKeyCode("SwitchViewKeyCode", KeyCode.V);
+            _openMapKeyCode = GetKeyCode("OpenMapKeyCode", KeyCode.M);
             
             _controllable = true;
         }

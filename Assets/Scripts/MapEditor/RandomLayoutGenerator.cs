@@ -74,7 +74,8 @@ namespace MapEditor {
             // Randomly generate distributed neighbour nums
             _distributedNeighbourNums = DistributionGenerator.GenerateDistributedNeighbourNums();
 
-            DisplayDistribution();
+            /* The line below is for TEST ONLY */
+            // DisplayDistribution();
 
             // Shuffle the tiles list
             Shuffle(_allTiles);
@@ -592,7 +593,10 @@ namespace MapEditor {
             }
         }
 
-        // FOR DEBUG USE ONLY
+        /**
+         * TEST ONLY
+         * Displays the generated distribution matrix in Unity Editor console.
+         */
         private void DisplayDistribution() {
             System.Text.StringBuilder sb = new System.Text.StringBuilder();
 

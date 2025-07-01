@@ -16,14 +16,12 @@ namespace MapEditor {
      * - Lucky Dice would bring any effect
      *   (20% Power Pellet, 20% Fast Wheel, 20% Nice Bomb, 20% Slow Wheel, 20% Bad Cherry)
      * - Ghostrons move at normal speed when chasing
-     * - A Ghostron would chase Pacboy if it is NOT FAR from Pacboy
      * - Ghostrons are not hard to deal with
      *
      * Hard:
      * - Lucky Dice would more likely bring a negative effect
      *   (20% Fast Wheel, 15% Power Pellet, 15% Nice Bomb, 25% Slow Wheel, 25% Bad Cherry)
      * - Ghostrons move faster when chasing
-     * - Ghostrons wouldn't stop chasing Pacboy unless it is FAR ENOUGH from Pacboy
      * - Ghostrons are very hard to deal with
      */
     public class DifficultyEditor : MonoBehaviour {

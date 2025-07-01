@@ -26,7 +26,7 @@ namespace Entity.Ghostron {
         public float chaseSpeed;
 
         // Detection Radius
-        // Pacboy will be chased when it is within this distance from a Ghostron
+        // Pacboy will never be chased if it is not within this distance from a Ghostron
         // This distance varies according to difficulty
         // Specific numbers are set in GhostronManager
         public float detectionRadius;

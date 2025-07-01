@@ -106,7 +106,6 @@ namespace Setting {
          */
         private void SetKeyCode(string keyName, KeyCode newKeyCode) {
             // Get the corresponding key and set the key code
-            Debug.Log("Setting successful: key " + keyName + ", code: " + newKeyCode);
             PlayerPrefs.SetString(keyName, newKeyCode.ToString());
 
             promptText.text = "";
