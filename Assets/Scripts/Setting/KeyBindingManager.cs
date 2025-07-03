@@ -8,7 +8,7 @@ namespace Setting {
      */
     public class KeyBindingManager {
         // Data file path
-        private static readonly string FilePath = Path.Combine(Application.dataPath, "Data", "key_pref.json");
+        private static readonly string FilePath = Path.Combine(Application.persistentDataPath, "Data", "key_pref.json");
 
         /**
          * Saves key binding information to the file.

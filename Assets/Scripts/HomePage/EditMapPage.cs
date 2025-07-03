@@ -36,7 +36,7 @@ namespace HomePage {
         private List<MapInfo> _mapInfos;
 
         // Map data directory, and regex for matching file names
-        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private string _saveDirectory;
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.json$");
         
         /* UI Params */
@@ -52,6 +52,12 @@ namespace HomePage {
         private readonly Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
         private readonly Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
 
+        // AWAKE FUNCTION
+        private void Awake() {
+            // Set directory location
+            _saveDirectory = Path.Combine(Application.persistentDataPath, "Data", "Maps");
+        }
+        
         // START FUNCTION
         private void Start() {
             SetButtonActionListener();
@@ -165,16 +171,24 @@ namespace HomePage {
 
                     if (objName == "DeleteButton") {
                         // DELETE THIS MAP OPERATION
-                        // Delete this map (.json file)
+                        // Delete this map (.json file) along with its .meta file
                         button.onClick.AddListener(() => {
                             // Play click sound
                             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
-                            // Get the file name and delete this map file
+                            // Get the file name and meta file name and delete
                             string path = Path.Combine(_saveDirectory,
                                 $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.json");
                             if (File.Exists(path)) {
                                 File.Delete(path);
+                            } else {
+                                Debug.LogError("Error occurred when trying to delete file!");
+                            }
+                            
+                            string metaPath = Path.Combine(_saveDirectory,
+                                $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.json.meta");
+                            if (File.Exists(metaPath)) {
+                                File.Delete(metaPath);
                             } else {
                                 Debug.LogError("Error occurred when trying to delete file!");
                             }

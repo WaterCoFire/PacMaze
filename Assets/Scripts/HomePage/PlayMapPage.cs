@@ -34,7 +34,7 @@ namespace HomePage {
         private List<MapInfo> _mapInfos;
         
         // Map data directory, and regex for matching file names
-        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private string _saveDirectory;
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.json$");
 
         /* UI Params */
@@ -46,6 +46,12 @@ namespace HomePage {
         private readonly Color _easyTextColor = new Color(65f / 255f, 255f / 255f, 0f / 255f);
         private readonly Color _normalTextColor = new Color(255f / 255f, 255f / 255f, 0f / 255f);
         private readonly Color _hardTextColor = new Color(255f / 255f, 37f / 255f, 0f / 255f);
+
+        // AWAKE FUNCTION
+        private void Awake() {
+            // Set directory location
+            _saveDirectory = Path.Combine(Application.persistentDataPath, "Data", "Maps");
+        }
 
         // START FUNCTION
         private void Start() {

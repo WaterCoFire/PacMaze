@@ -56,7 +56,7 @@ namespace MapEditor {
         private string _mapName;
 
         // Map data save directory
-        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private string _saveDirectory;
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)");
         
         // Dictionaries mapping Map Editor mode to buttons/setting panels
@@ -68,6 +68,9 @@ namespace MapEditor {
 
         // AWAKE FUNCTION
         private void Awake() {
+            // Set directory location
+            _saveDirectory = Path.Combine(Application.persistentDataPath, "Data", "Maps");
+            
             // Set singleton instance
             Instance = this;
         }

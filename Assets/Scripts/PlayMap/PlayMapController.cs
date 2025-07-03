@@ -16,7 +16,7 @@ namespace PlayMap {
      */
     public class PlayMapController : MonoBehaviour {
         // Map data save directory
-        private readonly string _saveDirectory = Path.Combine(Application.dataPath, "Data", "Maps");
+        private string _saveDirectory;
         private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)");
 
         private string _mapPath; // The map file path
@@ -43,6 +43,9 @@ namespace PlayMap {
 
         // AWAKE FUNCTION
         private void Awake() {
+            // Set directory location
+            _saveDirectory = Path.Combine(Application.persistentDataPath, "Data", "Maps");
+            
             // Set singleton instance
             Instance = this;
         }

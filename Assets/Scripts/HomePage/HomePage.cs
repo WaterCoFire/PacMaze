@@ -35,15 +35,15 @@ namespace HomePage {
 
         // AWAKE FUNCTION
         private void Awake() {
-            Debug.Log("Hello World!");
+            Debug.Log("Hello World! File directory path: " + Application.persistentDataPath);
             /* For test purpose only */
-            // Played PacMaze before
-            // PlayerPrefs.SetInt("PlayedBefore", 1);
-
-            // Used Map Editor before
+            // // Played PacMaze before
+            // PlayerPrefs.SetInt("PlayedBefore", 0);
+            //
+            // // Used Map Editor before
             // PlayerPrefs.SetInt("UsedMapEditorBefore", 0);
-
-            // Home page location
+            //
+            // // Home page location
             // PlayerPrefs.SetInt("MainPageAt", 0);
         }
 
