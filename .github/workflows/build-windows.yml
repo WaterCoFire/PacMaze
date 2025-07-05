@@ -20,7 +20,7 @@ jobs:
     - name: Activate Unity
       uses: game-ci/unity-activate@v2
       with:
-        unityVersion: 2022.3.6f1
+        unityVersion: 2022.3.55f1c1
         # Secret: UNITY_LICENSE
         license: ${{ secrets.UNITY_LICENSE }}
 
@@ -28,7 +28,7 @@ jobs:
     - name: Build project for Windows
       uses: game-ci/unity-builder@v2
       with:
-        unityVersion: 2022.3.6f1
+        unityVersion: 2022.3.55f1c1
         targetPlatform: StandaloneWindows64
 
     # Step 4: Pack to zip (default output /build/StandaloneWindows64)
@@ -40,7 +40,7 @@ jobs:
     # Step 5: Get current time
     - name: Get current time
       id: get_time
-      run: echo "date=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPU
+      run: echo "date=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
 
     # Step 6: Release build result to GitHub Releases page (correspond to this tag)
     - name: Upload release to GitHub
@@ -50,7 +50,7 @@ jobs:
         tag_name: ${{ github.ref_name }}
         body: |
           PacMaze version ${{ github.ref_name }} release now available!
-          Release date: ${{ steps.get_date.outputs.date }}
+          Release date: ${{ steps.get_time.outputs.date }}
           
           Feel free to report any bugs or suggestions via the GitHub Issues page!
         files: build-output/PacMaze-Windows-${{ github.ref_name }}.zip
