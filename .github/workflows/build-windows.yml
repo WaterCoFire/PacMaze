@@ -1,0 +1,56 @@
+name: Build Windows Game
+
+# This workflow is triggered when tagging
+on:
+  push:
+    tags:
+      - 'v.*'
+
+jobs:
+  buildWindows:
+    name: Build for Windows
+    runs-on: ubuntu-latest  # Use Ubuntu runner
+
+    steps:
+    # Step 1: Checkout the repo
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Step 2: Set Unity activation environment
+    - name: Activate Unity
+      uses: game-ci/unity-activate@v2
+      with:
+        unityVersion: 2022.3.6f1
+        # Secret: UNITY_LICENSE
+        license: ${{ secrets.UNITY_LICENSE }}
+
+    # Step 3: Start building Windows game package
+    - name: Build project for Windows
+      uses: game-ci/unity-builder@v2
+      with:
+        unityVersion: 2022.3.6f1
+        targetPlatform: StandaloneWindows64
+
+    # Step 4: Pack to zip (default output /build/StandaloneWindows64)
+    - name: Zip build output
+      run: |
+        mkdir -p build-output
+        zip -r build-output/PacMaze-Windows-${{ github.ref_name }}.zip build/StandaloneWindows64
+
+    # Step 5: Get current time
+    - name: Get current time
+      id: get_time
+      run: echo "date=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPU
+
+    # Step 6: Release build result to GitHub Releases page (correspond to this tag)
+    - name: Upload release to GitHub
+      uses: softprops/action-gh-release@v2
+      with:
+        name: PacMaze ${{ github.ref_name }}
+        tag_name: ${{ github.ref_name }}
+        body: |
+          PacMaze version ${{ github.ref_name }} release now available!
+          Release date: ${{ steps.get_date.outputs.date }}
+          
+          Feel free to report any bugs or suggestions via the GitHub Issues page!
+        files: build-output/PacMaze-Windows-${{ github.ref_name }}.zip
