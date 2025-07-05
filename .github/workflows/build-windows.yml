@@ -1,6 +1,6 @@
 name: Build Windows Game
 
-# This workflow is triggered when tagging
+# This workflow is triggered when pushing a tag (starts with v)
 on:
   push:
     tags:
