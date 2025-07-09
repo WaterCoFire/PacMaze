@@ -13,7 +13,7 @@ Inspired by the  _Pac-Man_ game, while retaining many classic elements, PacMaze 
 
 PacMaze is developed using Unity. (Unity Editor version: 2022.3.55f1c1)
 
-This repository is a complete Unity project. If your Windows PC has the correct version of Unity Editor installed, you should be able to open the project locally.
+This repository is a complete Unity project. If your PC has the correct version of Unity Editor installed, you should be able to open the project locally.
 
 Made by WaterCoFire with love :)
 
