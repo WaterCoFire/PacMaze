@@ -64,7 +64,7 @@ namespace PlayMap {
             }
 
             // Initialise the map file path
-            _mapPath = Path.Combine(_saveDirectory, mapFileName + ".json");
+            _mapPath = Path.Combine(_saveDirectory, mapFileName + ".pacmaze-map");
 
             // Initialise params
             Time.timeScale = 1f; // Reset time scale

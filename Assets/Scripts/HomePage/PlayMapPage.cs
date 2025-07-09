@@ -35,7 +35,7 @@ namespace HomePage {
         
         // Map data directory, and regex for matching file names
         private string _saveDirectory;
-        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.json$");
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.pacmaze-map");
 
         /* UI Params */
         private float _cumulativeHeight;
@@ -87,7 +87,7 @@ namespace HomePage {
             }
 
             // Read all the files in the directory
-            string[] files = Directory.GetFiles(_saveDirectory, "*.json");
+            string[] files = Directory.GetFiles(_saveDirectory, "*.pacmaze-map");
 
             // The format of the file
             // MAP NAME + GHOSTRONS (NUM) + DIFFICULTY (NUM)

@@ -31,19 +31,19 @@ namespace HomePage {
 
         // Prompt for no map
         public GameObject noMapPrompt;
-        
+
         // All map infos read
         private List<MapInfo> _mapInfos;
 
         // Map data directory, and regex for matching file names
         private string _saveDirectory;
-        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.json$");
-        
+        private readonly Regex _regex = new(@"^([^_]+)_(\d+)_(\d+)\.pacmaze-map$");
+
         /* UI Params */
         private float _cumulativeHeight;
         private readonly float _prefabHeight = 170f;
         private readonly float _padding = 1f;
-        
+
         private MapInfo _renamedMapOldInfo;
         private string _renamedMapNewName;
 
@@ -57,7 +57,7 @@ namespace HomePage {
             // Set directory location
             _saveDirectory = Path.Combine(Application.persistentDataPath, "Data", "Maps");
         }
-        
+
         // START FUNCTION
         private void Start() {
             SetButtonActionListener();
@@ -93,7 +93,7 @@ namespace HomePage {
             }
 
             // Read all the files in the directory
-            string[] files = Directory.GetFiles(_saveDirectory, "*.json");
+            string[] files = Directory.GetFiles(_saveDirectory, "*.pacmaze-map");
 
             // The format of the file
             // MAP NAME + GHOSTRONS (NUM) + DIFFICULTY (NUM)
@@ -171,26 +171,24 @@ namespace HomePage {
 
                     if (objName == "DeleteButton") {
                         // DELETE THIS MAP OPERATION
-                        // Delete this map (.json file) along with its .meta file
+                        // Delete this map (.pacmaze-map file) along with its .meta file
                         button.onClick.AddListener(() => {
                             // Play click sound
                             SoundManager.Instance.PlaySoundOnce(SoundType.Click);
 
                             // Get the file name and meta file name and delete
                             string path = Path.Combine(_saveDirectory,
-                                $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.json");
+                                $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.pacmaze-map");
                             if (File.Exists(path)) {
                                 File.Delete(path);
                             } else {
                                 Debug.LogError("Error occurred when trying to delete file!");
                             }
-                            
+
                             string metaPath = Path.Combine(_saveDirectory,
-                                $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.json.meta");
+                                $"{mapInfo.Name}_{mapInfo.GhostronNum}_{(int)mapInfo.Difficulty}.pacmaze-map.meta");
                             if (File.Exists(metaPath)) {
                                 File.Delete(metaPath);
-                            } else {
-                                Debug.LogError("Error occurred when trying to delete file!");
                             }
 
                             Destroy(mapInfoObject); // Destroy the map info game object
@@ -238,9 +236,9 @@ namespace HomePage {
         public void RenameMap(string newName) {
             // Get file paths
             string oldPath = Path.Combine(_saveDirectory,
-                $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostronNum}_{(int)_renamedMapOldInfo.Difficulty}.json");
+                $"{_renamedMapOldInfo.Name}_{_renamedMapOldInfo.GhostronNum}_{(int)_renamedMapOldInfo.Difficulty}.pacmaze-map");
             string newPath = Path.Combine(_saveDirectory,
-                $"{newName}_{_renamedMapOldInfo.GhostronNum}_{(int)_renamedMapOldInfo.Difficulty}.json");
+                $"{newName}_{_renamedMapOldInfo.GhostronNum}_{(int)_renamedMapOldInfo.Difficulty}.pacmaze-map");
 
             if (File.Exists(oldPath)) {
                 // File operation
@@ -248,7 +246,7 @@ namespace HomePage {
 
                 UpdateEditMapList(); // Update the data & UI
 
-                // Re-set the map name in the json file
+                // Re-set the map name in the file
                 // Decrypt map data and get the JSON
                 byte[] encryptedBytes = File.ReadAllBytes(newPath);
                 string json = AesHelper.DecryptWithIv(encryptedBytes);
@@ -283,10 +281,10 @@ namespace HomePage {
             string mapFileName = newMapName + "_5_0";
 
             // Default map path
-            string defaultMapPath = _saveDirectory + "/Default/DEFAULT_MAP.json";
+            string defaultMapPath = _saveDirectory + "/Default/DEFAULT_MAP.pacmaze-map";
 
             // Path of the map to be created
-            string targetMapPath = _saveDirectory + "/" + mapFileName + ".json";
+            string targetMapPath = _saveDirectory + "/" + mapFileName + ".pacmaze-map";
 
             if (!File.Exists(defaultMapPath)) {
                 Debug.LogError("Default map file does not exist!");

@@ -111,7 +111,7 @@ namespace MapEditor {
         }
 
         /**
-         * Saves the map data to .json file.
+         * Saves the map data to .pacmaze-map file.
          */
         private void SaveMapToFile() {
             WallData wallData = WallEditor.Instance.GetWallData();
@@ -125,7 +125,7 @@ namespace MapEditor {
             int totalGhostrons = propData.TotalPropCounts[PropType.Ghostron];
 
             // Find the origin file to delete it
-            string originMapFile = _saveDirectory + "/" + PlayerPrefs.GetString("EditMapFileToLoad") + ".json";
+            string originMapFile = _saveDirectory + "/" + PlayerPrefs.GetString("EditMapFileToLoad") + ".pacmaze-map";
             if (!File.Exists(originMapFile)) {
                 Debug.LogError("Map Editor save error: Origin map file not found!");
             }
@@ -141,7 +141,7 @@ namespace MapEditor {
             
             // Write data to a new file
             File.WriteAllBytes(
-                Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + (int)difficulty + ".json"),
+                Path.Combine(_saveDirectory, _mapName + "_" + totalGhostrons + "_" + (int)difficulty + ".pacmaze-map"),
                 encryptedBytes);
         }
 
@@ -164,7 +164,7 @@ namespace MapEditor {
             DifficultyEditor.Instance.SetDifficultyData(Enum.Parse<DifficultyType>(match.Groups[3].Value));
 
             // Obtain the file path
-            string path = Path.Combine(_saveDirectory, mapFileName + ".json");
+            string path = Path.Combine(_saveDirectory, mapFileName + ".pacmaze-map");
 
             // Read the file
             if (!string.IsNullOrEmpty(mapFileName) && File.Exists(path)) {
