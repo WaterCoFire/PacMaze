@@ -15,7 +15,7 @@ PacMaze is developed using Unity. (Unity Editor version: 2022.3.55f1c1)
 
 This repository is a complete Unity project. If your PC has the correct version of Unity Editor installed, you should be able to open the project locally.
 
-You can also learn more about this exciting game at ```watercofire.com/go/#/pacmaze```.
+You can also learn more about this exciting game at ```watercofire.com/pacmaze```.
 
 Made by WaterCoFire with love :)
 
