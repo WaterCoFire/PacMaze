@@ -67,9 +67,9 @@ namespace Entity.Ghostron.GhostronImpl {
          * OVERRIDE
          * Generates a position, used for getting a target when wandering.
          * Yellow Ghostron:
-         * WHEN IN NORMAL WANDER
+         * --- Normal Wander ---
          * Always go to the position that the Pacboy has been to.
-         * WHEN SCARED
+         * --- Scared Wander ---
          * Go to a random position.
          */
         public override Vector3 GenerateWanderingTarget() {
